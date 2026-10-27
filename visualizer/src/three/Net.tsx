@@ -30,8 +30,9 @@ function Antenna({ x, format }: { x: number; format: Format }) {
 
 // Net plane at Z = 0, sized by the active format: body spans pole to pole,
 // solid top tape, posts at the ends, antennas above the sidelines.
-export function Net() {
-  const format = useStore((s) => FORMATS[s.format])
+export function Net({ courtFormat }: { courtFormat?: Format } = {}) {
+  const storedFormat = useStore((s) => FORMATS[s.format])
+  const format = courtFormat ?? storedFormat
   const width = format.poleX * 2
   const antennaX = format.courtWidth / 2
   return (

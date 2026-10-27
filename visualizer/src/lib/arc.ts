@@ -1,6 +1,7 @@
 import * as THREE from 'three'
-import { CONTACT_HEIGHT } from './constants'
-import type { SetState, Vec3 } from './types'
+import { arcControl } from './trajectory.ts'
+import { CONTACT_HEIGHT } from './constants.ts'
+import type { SetState, Vec3 } from './types.ts'
 
 // The set arc is a quadratic Bezier whose apex sits ON the curve (at t = 0.5).
 // To keep every set realistic, the apex is constrained:
@@ -34,9 +35,8 @@ export function controlPoints(s: SetState): [THREE.Vector3, THREE.Vector3, THREE
   const av = apexPoint(s)
   const p0 = new THREE.Vector3(p0v.x, p0v.y, p0v.z)
   const p2 = new THREE.Vector3(s.dest.x, s.dest.y, s.dest.z)
-  const apex = new THREE.Vector3(av.x, av.y, av.z)
-  // control = 2*apex - 0.5*(p0 + p2)
-  const control = apex.clone().multiplyScalar(2).addScaledVector(p0, -0.5).addScaledVector(p2, -0.5)
+  const c = arcControl(p0v, s.dest, av.y)
+  const control = new THREE.Vector3(c.x, c.y, c.z)
   return [p0, control, p2]
 }
 

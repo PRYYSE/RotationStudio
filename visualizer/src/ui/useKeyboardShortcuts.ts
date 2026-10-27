@@ -34,6 +34,9 @@ export function useKeyboardShortcuts() {
       }
     }
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      useStore.getState().setPlaying(false)
+    }
   }, [])
 }

@@ -1,0 +1,5791 @@
+{
+  "schemaVersion": 1,
+  "status": "TRAINING DEMO / UNAPPROVED",
+  "netHeight": 2.43,
+  "scenarios": [
+    {
+      "rotation": 1,
+      "serve": "they",
+      "duration": 15,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "They serve from beyond the far endline. Read the flight."
+        },
+        {
+          "label": "Pass",
+          "time": 4,
+          "section": "Receive",
+          "cue": "Georgia makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 5,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 8,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Logan approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 10,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 13,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 6.8,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 6.8,
+            "role": "set"
+          },
+          {
+            "time": 8,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 5.8
+              }
+            ]
+          },
+          {
+            "time": 10,
+            "x": 1.7,
+            "z": 4.8,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 3,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 0,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 10,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 5,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 0,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "georgia",
+        "time": 4
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 8
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 2.5,
+            "z": -10,
+            "y": 2.2
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 3.6
+        },
+        {
+          "kind": "pass",
+          "start": 4,
+          "end": 8,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 8,
+          "end": 9,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 9,
+          "end": 10,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 10.5,
+          "end": 13,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    },
+    {
+      "rotation": 1,
+      "serve": "us",
+      "duration": 17,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "Our P1 serves beyond the near endline. Move into demo defense."
+        },
+        {
+          "label": "Defense",
+          "time": 4,
+          "section": "Defend",
+          "cue": "Defend their return first. Harry waits for the first defensive contact."
+        },
+        {
+          "label": "Pass",
+          "time": 6,
+          "section": "Receive",
+          "cue": "Georgia makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 7,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 10,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Logan approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 12,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 15,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 3,
+            "z": 6.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 3,
+            "z": 6.5,
+            "role": "set"
+          },
+          {
+            "time": 10,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 5.5
+              }
+            ]
+          },
+          {
+            "time": 12,
+            "x": 1.7,
+            "z": 4.8,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 12,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 7,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "georgia",
+        "time": 6
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 10
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 3,
+            "z": 10,
+            "y": 2.2
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 4
+        },
+        {
+          "kind": "return",
+          "start": 4,
+          "end": 6,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 4.2
+        },
+        {
+          "kind": "pass",
+          "start": 6,
+          "end": 10,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 10,
+          "end": 11,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 11,
+          "end": 12,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 12.5,
+          "end": 15,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    },
+    {
+      "rotation": 2,
+      "serve": "they",
+      "duration": 15,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "They serve from beyond the far endline. Read the flight."
+        },
+        {
+          "label": "Pass",
+          "time": 4,
+          "section": "Receive",
+          "cue": "Jaz makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 5,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 8,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Georgia approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 10,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 13,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 6.8,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 0,
+            "z": 6.8,
+            "role": "set"
+          },
+          {
+            "time": 8,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 5.8
+              }
+            ]
+          },
+          {
+            "time": 10,
+            "x": 1.7,
+            "z": 4.8,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 3,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 3,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 0,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 10,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 5,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "jaz",
+        "time": 4
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 8
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 2.5,
+            "z": -10,
+            "y": 2.2
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 3.6
+        },
+        {
+          "kind": "pass",
+          "start": 4,
+          "end": 8,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 8,
+          "end": 9,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 9,
+          "end": 10,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 10.5,
+          "end": 13,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    },
+    {
+      "rotation": 2,
+      "serve": "us",
+      "duration": 17,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "Our P1 serves beyond the near endline. Move into demo defense."
+        },
+        {
+          "label": "Defense",
+          "time": 4,
+          "section": "Defend",
+          "cue": "Defend their return first. Harry waits for the first defensive contact."
+        },
+        {
+          "label": "Pass",
+          "time": 6,
+          "section": "Receive",
+          "cue": "Jaz makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 7,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 10,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Georgia approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 12,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 15,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 0,
+            "z": 6.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 0,
+            "z": 6.5,
+            "role": "set"
+          },
+          {
+            "time": 10,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 5.5
+              }
+            ]
+          },
+          {
+            "time": 12,
+            "x": 1.7,
+            "z": 4.8,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 12,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 7,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "jaz",
+        "time": 6
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 10
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 3,
+            "z": 10,
+            "y": 2.2
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 4
+        },
+        {
+          "kind": "return",
+          "start": 4,
+          "end": 6,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 4.2
+        },
+        {
+          "kind": "pass",
+          "start": 6,
+          "end": 10,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 10,
+          "end": 11,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 11,
+          "end": 12,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 12.5,
+          "end": 15,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    },
+    {
+      "rotation": 3,
+      "serve": "they",
+      "duration": 15,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "They serve from beyond the far endline. Read the flight."
+        },
+        {
+          "label": "Pass",
+          "time": 4,
+          "section": "Receive",
+          "cue": "Caleb makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 5,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 8,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Jaz approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 10,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 13,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 6.8,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": -3,
+            "z": 6.8,
+            "role": "set"
+          },
+          {
+            "time": 8,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 5.8
+              }
+            ]
+          },
+          {
+            "time": 10,
+            "x": 1.7,
+            "z": 4.8,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 5,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 3,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 3,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 0,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 10,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "caleb",
+        "time": 4
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 8
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 2.5,
+            "z": -10,
+            "y": 2.2
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 3.6
+        },
+        {
+          "kind": "pass",
+          "start": 4,
+          "end": 8,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 8,
+          "end": 9,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 9,
+          "end": 10,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 10.5,
+          "end": 13,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    },
+    {
+      "rotation": 3,
+      "serve": "us",
+      "duration": 17,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "Our P1 serves beyond the near endline. Move into demo defense."
+        },
+        {
+          "label": "Defense",
+          "time": 4,
+          "section": "Defend",
+          "cue": "Defend their return first. Harry waits for the first defensive contact."
+        },
+        {
+          "label": "Pass",
+          "time": 6,
+          "section": "Receive",
+          "cue": "Caleb makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 7,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 10,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Jaz approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 12,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 15,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -3,
+            "z": 6.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": -3,
+            "z": 6.5,
+            "role": "set"
+          },
+          {
+            "time": 10,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 5.5
+              }
+            ]
+          },
+          {
+            "time": 12,
+            "x": 1.7,
+            "z": 4.8,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 7,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 12,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "caleb",
+        "time": 6
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 10
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 3,
+            "z": 10,
+            "y": 2.2
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 4
+        },
+        {
+          "kind": "return",
+          "start": 4,
+          "end": 6,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 4.2
+        },
+        {
+          "kind": "pass",
+          "start": 6,
+          "end": 10,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 10,
+          "end": 11,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 11,
+          "end": 12,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 12.5,
+          "end": 15,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    },
+    {
+      "rotation": 4,
+      "serve": "they",
+      "duration": 15,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "They serve from beyond the far endline. Read the flight."
+        },
+        {
+          "label": "Pass",
+          "time": 4,
+          "section": "Receive",
+          "cue": "Caleb makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 5,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 8,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Jaz approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 10,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 13,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 2,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": -3,
+            "z": 2,
+            "role": "set"
+          },
+          {
+            "time": 8,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 2.5
+              }
+            ]
+          },
+          {
+            "time": 10,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 5,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 0,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 3,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 3,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "caleb",
+        "time": 4
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 8
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 2.5,
+            "z": -10,
+            "y": 2.2
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 3.6
+        },
+        {
+          "kind": "pass",
+          "start": 4,
+          "end": 8,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 8,
+          "end": 9,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 9,
+          "end": 10,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 10.5,
+          "end": 13,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    },
+    {
+      "rotation": 4,
+      "serve": "us",
+      "duration": 17,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "Our P1 serves beyond the near endline. Move into demo defense."
+        },
+        {
+          "label": "Defense",
+          "time": 4,
+          "section": "Defend",
+          "cue": "Defend their return first. Harry waits for the first defensive contact."
+        },
+        {
+          "label": "Pass",
+          "time": 6,
+          "section": "Receive",
+          "cue": "Caleb makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 7,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 10,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Jaz approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 12,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 15,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "set"
+          },
+          {
+            "time": 10,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 2.5
+              }
+            ]
+          },
+          {
+            "time": 12,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 7,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 12,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "caleb",
+        "time": 6
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 10
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 3,
+            "z": 10,
+            "y": 2.2
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 4
+        },
+        {
+          "kind": "return",
+          "start": 4,
+          "end": 6,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 4.2
+        },
+        {
+          "kind": "pass",
+          "start": 6,
+          "end": 10,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 10,
+          "end": 11,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 11,
+          "end": 12,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 12.5,
+          "end": 15,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    },
+    {
+      "rotation": 5,
+      "serve": "they",
+      "duration": 15,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "They serve from beyond the far endline. Read the flight."
+        },
+        {
+          "label": "Pass",
+          "time": 4,
+          "section": "Receive",
+          "cue": "Trent makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 5,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 8,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Caleb approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 10,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 13,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 2,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 0,
+            "z": 2,
+            "role": "set"
+          },
+          {
+            "time": 8,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 2.5
+              }
+            ]
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 10,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 5,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 0,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 3,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 3,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "trent",
+        "time": 4
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 8
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 2.5,
+            "z": -10,
+            "y": 2.2
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 3.6
+        },
+        {
+          "kind": "pass",
+          "start": 4,
+          "end": 8,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 8,
+          "end": 9,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 9,
+          "end": 10,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 10.5,
+          "end": 13,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    },
+    {
+      "rotation": 5,
+      "serve": "us",
+      "duration": 17,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "Our P1 serves beyond the near endline. Move into demo defense."
+        },
+        {
+          "label": "Defense",
+          "time": 4,
+          "section": "Defend",
+          "cue": "Defend their return first. Harry waits for the first defensive contact."
+        },
+        {
+          "label": "Pass",
+          "time": 6,
+          "section": "Receive",
+          "cue": "Trent makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 7,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 10,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Caleb approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 12,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 15,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 0,
+            "z": 1.3,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 0,
+            "z": 1.3,
+            "role": "set"
+          },
+          {
+            "time": 10,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 2.5
+              }
+            ]
+          },
+          {
+            "time": 12,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 12,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 7,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "trent",
+        "time": 6
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 10
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 3,
+            "z": 10,
+            "y": 2.2
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 4
+        },
+        {
+          "kind": "return",
+          "start": 4,
+          "end": 6,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 4.2
+        },
+        {
+          "kind": "pass",
+          "start": 6,
+          "end": 10,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 10,
+          "end": 11,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 11,
+          "end": 12,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 12.5,
+          "end": 15,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    },
+    {
+      "rotation": 6,
+      "serve": "they",
+      "duration": 15,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "They serve from beyond the far endline. Read the flight."
+        },
+        {
+          "label": "Pass",
+          "time": 4,
+          "section": "Receive",
+          "cue": "Logan makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 5,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 8,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Trent approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 10,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 13,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 2,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 2,
+            "role": "set"
+          },
+          {
+            "time": 8,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 2.5
+              }
+            ]
+          },
+          {
+            "time": 10,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 0,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 10,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 5,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 0,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 5,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 8,
+            "x": 3,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 13,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "logan",
+        "time": 4
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 8
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 2.5,
+            "z": -10,
+            "y": 2.2
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 3.6
+        },
+        {
+          "kind": "pass",
+          "start": 4,
+          "end": 8,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 8,
+          "end": 9,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 9,
+          "end": 10,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 10.5,
+          "end": 13,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    },
+    {
+      "rotation": 6,
+      "serve": "us",
+      "duration": 17,
+      "phases": [
+        {
+          "label": "Start",
+          "time": 0,
+          "section": "Receive",
+          "cue": "Freeze here: demo service-contact order. P labels stay fixed for this rally."
+        },
+        {
+          "label": "Serve",
+          "time": 2,
+          "section": "Receive",
+          "cue": "Our P1 serves beyond the near endline. Move into demo defense."
+        },
+        {
+          "label": "Defense",
+          "time": 4,
+          "section": "Defend",
+          "cue": "Defend their return first. Harry waits for the first defensive contact."
+        },
+        {
+          "label": "Pass",
+          "time": 6,
+          "section": "Receive",
+          "cue": "Logan makes first contact. Send a high pass to PASS HERE."
+        },
+        {
+          "label": "Setter runs",
+          "time": 7,
+          "section": "Receive",
+          "cue": "Harry follows the full marked run to PASS HERE. Setting at net is allowed from back row."
+        },
+        {
+          "label": "Attack",
+          "time": 10,
+          "section": "Attack",
+          "cue": "Harry takes second contact; Trent approaches as a front-row demo hitter."
+        },
+        {
+          "label": "Defense",
+          "time": 12,
+          "section": "Defend",
+          "cue": "Only front-row players block. Help players cover short and deep demo lanes."
+        },
+        {
+          "label": "Recover",
+          "time": 15,
+          "section": "Defend",
+          "cue": "Recover to demo coverage; rotation identity stays unchanged until the next point."
+        }
+      ],
+      "tracks": {
+        "harry": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "set"
+          },
+          {
+            "time": 10,
+            "x": 1,
+            "z": 1.2,
+            "role": "set",
+            "via": [
+              {
+                "x": 2,
+                "z": 2.5
+              }
+            ]
+          },
+          {
+            "time": 12,
+            "x": 2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "caleb": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 0,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 2.5,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 0,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "trent": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 2,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": -3,
+            "z": 2.6,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -3.2,
+            "z": 1.5,
+            "role": "attack",
+            "aboveNet": true,
+            "takeoffZ": 1.5
+          },
+          {
+            "time": 12,
+            "x": -2.8,
+            "z": 1.3,
+            "role": "block"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 2,
+            "role": "recover"
+          }
+        ],
+        "logan": [
+          {
+            "time": 0,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": -3,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "pass"
+          },
+          {
+            "time": 7,
+            "x": -1.8,
+            "z": 5.8,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": -2.5,
+            "z": 6,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": -3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": -3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "georgia": [
+          {
+            "time": 0,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 2,
+            "x": 0,
+            "z": 6.8,
+            "role": "start"
+          },
+          {
+            "time": 4,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 0,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 0,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 0,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 0,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ],
+        "jaz": [
+          {
+            "time": 0,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 2,
+            "x": 3,
+            "z": 10,
+            "role": "serve"
+          },
+          {
+            "time": 4,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 6,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 7,
+            "x": 3,
+            "z": 7.5,
+            "role": "help"
+          },
+          {
+            "time": 10,
+            "x": 3,
+            "z": 7,
+            "role": "help"
+          },
+          {
+            "time": 12,
+            "x": 3,
+            "z": 6.5,
+            "role": "defend"
+          },
+          {
+            "time": 15,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          },
+          {
+            "time": 17,
+            "x": 3,
+            "z": 6.8,
+            "role": "recover"
+          }
+        ]
+      },
+      "setterTarget": {
+        "x": 1,
+        "z": 1.2
+      },
+      "firstContact": {
+        "player": "logan",
+        "time": 6
+      },
+      "secondContact": {
+        "player": "harry",
+        "time": 10
+      },
+      "ball": [
+        {
+          "kind": "serve",
+          "start": 2,
+          "end": 4,
+          "from": {
+            "x": 3,
+            "z": 10,
+            "y": 2.2
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 4
+        },
+        {
+          "kind": "return",
+          "start": 4,
+          "end": 6,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "height": 4.2
+        },
+        {
+          "kind": "pass",
+          "start": 6,
+          "end": 10,
+          "from": {
+            "x": -1.8,
+            "z": 5.8,
+            "y": 1
+          },
+          "to": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "height": 4.8
+        },
+        {
+          "kind": "set",
+          "start": 10,
+          "end": 11,
+          "from": {
+            "x": 1,
+            "z": 1.2,
+            "y": 2.2
+          },
+          "to": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "height": 4
+        },
+        {
+          "kind": "attack",
+          "start": 11,
+          "end": 12,
+          "from": {
+            "x": -3.2,
+            "z": 1.5,
+            "y": 2.8
+          },
+          "to": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "height": 3
+        },
+        {
+          "kind": "return",
+          "start": 12.5,
+          "end": 15,
+          "from": {
+            "x": 0,
+            "z": -6,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1,
+            "z": 6
+          },
+          "height": 4
+        }
+      ]
+    }
+  ]
+}

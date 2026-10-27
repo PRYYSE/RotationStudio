@@ -1,0 +1,80 @@
+.studio-app { height: 100dvh; width: 100%; position: relative; }
+.studio-header { position: absolute; z-index: 20; top: max(12px, env(safe-area-inset-top)); left: 18px; right: 18px; display: flex; align-items: center; justify-content: space-between; gap: 8px; pointer-events: none; }
+.studio-brand { font-size: 14px; font-weight: 600; letter-spacing: -.03em; }
+.studio-modes { display: flex; padding: 3px; pointer-events: auto; }
+.studio-modes button, .rotations button { min-height: 44px; border-radius: 30px; padding: 6px 13px; font-size: 12px; font-weight: 500; color: #c7d6eb; white-space: nowrap; transition: background-color .15s, color .15s; }
+.studio-modes button:hover, .rotations button:hover { color: #fff; background: #29384e; }
+.studio-modes button[aria-pressed=true], .rotations button[aria-pressed=true] { color: #eaf5ff; background: #214e7c; }
+.rotations { position: relative; height: 100%; }
+.rotation-canvas { position: absolute; inset: 0; touch-action: none; }
+.rotation-top { position: absolute; z-index: 10; top: 76px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
+.rotation-top > * { pointer-events: auto; }
+.rotation-phases { padding: 3px; display: flex; }
+.rotation-selectors { padding: 5px; border-radius: 22px; }
+.rotation-row { display: flex; align-items: center; gap: 3px; flex-wrap: wrap; }
+.rotation-numbers { flex-wrap: nowrap; }
+.rotation-numbers button { min-width: 44px; padding: 6px 12px; }
+.serve-row { justify-content: center; }
+.demo-tag { color: #ffd878; font-size: 9px; font-weight: 600; letter-spacing: .08em; padding: 6px 10px; }
+.rotation-bottom { position: absolute; z-index: 10; bottom: max(8px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: min(760px, calc(100% - 24px)); pointer-events: none; }
+.rotation-bottom > * { pointer-events: auto; }
+.rotation-cue { margin: 0 auto 12px; text-align: center; max-width: 600px; font-size: 12px; color: #c2d0e6; text-shadow: 0 2px 8px #000; }
+.rotation-cue strong { display: block; color: #fafcff; font-size: 15px; margin-bottom: 4px; }
+.rotation-timeline { padding: 8px 12px 4px; border-radius: 22px; }
+.rotation-markers { display: flex; justify-content: space-between; gap: 2px; overflow-x: auto; scrollbar-width: thin; }
+.rotation-markers button { font-size: 10px; min-height: 44px; padding: 4px 9px; }
+.rotation-play-row { display: flex; align-items: center; gap: 5px; }
+.rotation-play-row .rotation-play { background: #75c5ff; color: #07101d; min-width: 60px; }
+.rotation-play-row input { flex: 1; min-width: 40px; height: 44px; accent-color: #75c5ff; }
+.rotation-play-row output { font-size: 11px; min-width: 37px; text-align: center; font-variant-numeric: tabular-nums; }
+.rotation-play-row select { min-height: 44px; background: transparent; border: 0; font-size: 12px; width: 58px; color: #e0efff; }
+.rotations option { background: #182436; }
+.rotation-footer { display: flex; justify-content: space-between; align-items: center; gap: 3px; }
+.rotation-footer > span { font-size: 9px; letter-spacing: .05em; color: #b8c8de; }
+.rotation-footer button { font-size: 11px; padding: 5px 9px; }
+.demo-disclaimer { text-align: center; color: #d8bd7e; font-size: 10px; margin: 6px 0 0; }
+.rotation-settings { width: min(540px, 100%); margin: 0 auto 8px; padding: 8px 12px; border-radius: 22px; }
+.settings-heading { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+.settings-scroll { max-height: min(30dvh, 280px); overflow-y: auto; overscroll-behavior: contain; }
+.options-row label { min-height: 44px; display: flex; align-items: center; gap: 6px; font-size: 12px; margin-right: 10px; }
+.options-row input { accent-color: #75c5ff; width: 18px; height: 18px; }
+.rotation-editor p { color: #bdcee3; font-size: 11px; line-height: 1.6; margin: 6px 0; }
+.editor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.editor-grid label { display: flex; flex-direction: column; font-size: 11px; gap: 4px; color: #c7d6eb; }
+.editor-grid input, .editor-grid select { min-height: 44px; width: 100%; min-width: 0; border: 1px solid #405674; background: #101c2e; border-radius: 8px; padding: 6px; color: #fff; }
+.rotation-errors { padding: 6px 10px; border-left: 2px solid #ffa781; }
+.rotation-errors p { color: #ffc4a8; }
+.rotation-loading { position: absolute; inset: 80px 20px 20px; display: grid; place-content: center; color: #d2e5ff; white-space: pre-line; overflow: auto; }
+.rotation-loading button { margin: 12px; padding: 12px; border: 1px solid #47638a; border-radius: 10px; }
+.athlete-label { display: block; background: #0a1528de; color: #eff7ff; border: 1px solid #456080; border-radius: 6px; padding: 3px 7px; font-size: 11px; font-weight: 500; text-align: center; }
+.athlete-label small { display: block; color: #a9c5e6; font-size: 9px; }
+.athlete-label.selected { border-color: #fff; }
+.pass-target { white-space: nowrap; color: #ffe49b; background: #241d0def; border: 1px solid #c7a450; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; }
+.receiver-cue, .server-cue { white-space: nowrap; color: #ffe7a1; background: #15171ce0; padding: 3px 5px; font-size: 9px; border-radius: 4px; }
+.server-cue { color: #c8d7ed; }
+.share-feedback { font-size: 11px; color: #d5e8ff; display: flex; align-items: center; justify-content: space-between; overflow-wrap: anywhere; }
+@media (min-width: 900px) {
+  .rotation-top { top: 16px; }
+  .rotation-selectors { position: fixed; left: calc(-50vw + 24px); top: 64px; }
+}
+@media (max-width: 600px) {
+  .studio-header { left: 12px; right: 12px; }
+  .studio-brand { font-size: 12px; }
+  .studio-modes button { font-size: 11px; padding: 6px 10px; }
+  .rotation-top { top: 68px; gap: 6px; width: calc(100% - 24px); }
+  .rotation-selectors { padding: 3px; }
+  .rotation-numbers button { padding: 6px 10px; }
+  .rotation-cue { font-size: 10px; margin-bottom: 8px; }
+  .rotation-cue strong { font-size: 13px; margin-bottom: 3px; }
+  .rotation-timeline { padding: 3px 7px 0; border-radius: 18px; }
+  .rotation-markers { gap: 0; }
+  .rotation-markers button { font-size: 9px; padding: 3px 8px; }
+  .rotation-footer > span { font-size: 8px; letter-spacing: 0; }
+  .demo-disclaimer { font-size: 9px; }
+  .athlete-label { font-size: 9px; padding: 2px 4px; }
+  .athlete-label small { font-size: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rotations button, .studio-modes button { transition: none; }
+}
+.rotations button:disabled { opacity: .5; cursor: default; }

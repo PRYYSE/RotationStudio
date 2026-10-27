@@ -3,11 +3,12 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Interactive 3D volleyball visualizer (SetOptics)",
+  "description": "Rotation Studio: 3D volleyball training demos and set trajectories",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --experimental-strip-types --experimental-test-isolation=none --test src/lib/*.test.mjs src/state/*.test.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.0.6",

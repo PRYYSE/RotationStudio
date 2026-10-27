@@ -1,14 +1,15 @@
 import { Line } from '@react-three/drei'
 import { BRAND } from '../lib/constants'
-import { FORMATS } from '../lib/formats'
+import { FORMATS, type Format } from '../lib/formats'
 import { useStore } from '../state/store'
 
 // The full court (both halves), sized by the active format and always
 // visible: boundary, attack lines on both sides, and the center line under
 // the net. The camera stage and the surrounding StageBox are constant; the
 // court scales within them.
-export function Court() {
-  const format = useStore((s) => FORMATS[s.format])
+export function Court({ courtFormat }: { courtFormat?: Format } = {}) {
+  const storedFormat = useStore((s) => FORMATS[s.format])
+  const format = courtFormat ?? storedFormat
   const xMax = format.courtWidth / 2
   const xMin = -xMax
   const zMax = format.halfDepth
