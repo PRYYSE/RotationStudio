@@ -1,9 +1,8 @@
-<p align="center">
-  <img src="assets/logo.png#gh-light-mode-only" alt="SetOptics" width="200" />
-  <img src="assets/logo-white.png#gh-dark-mode-only" alt="SetOptics" width="200" />
-</p>
+# Rotation Studio — a fork of SetOptics
 
-# SetOptics
+This is an independently named adaptation of the Apache-2.0 open-source [dawsonpar/SetOptics](https://github.com/dawsonpar/SetOptics) project, preserving its source and history. The original visualizer/ set-trajectory editor remains available as Set arcs. The added six-player Rotation Studio lives in the same React/Three.js application. Public demo plans are not approved match tactics. SetOptics is a trademark of its original author; no endorsement is implied.
+
+# Upstream SetOptics information
 
 Volleyball rally detection for any agent harness (Claude Code, Cursor, Codex,
 Aider, plain Python). Point it at a video, get back the time ranges where the

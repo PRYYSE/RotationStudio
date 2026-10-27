@@ -13,19 +13,21 @@ export type BallAssets = {
   trail: string // motion-trail tint that suits the ball's palette
 }
 
+const publicAsset = (name: string) => `${import.meta.env.BASE_URL}${name}`
+
 export const BALLS: Record<BallKey, BallAssets> = {
   molten: {
     key: 'molten',
     label: 'Molten V5M5000',
-    albedo: '/textures/balls/molten_albedo.webp',
-    normal: '/textures/balls/molten_normal.webp',
+    albedo: publicAsset('textures/balls/molten_albedo.webp'),
+    normal: publicAsset('textures/balls/molten_normal.webp'),
     trail: '#f3f1ea',
   },
   mikasa: {
     key: 'mikasa',
     label: 'Mikasa V200W',
-    albedo: '/textures/balls/mikasa_albedo.webp',
-    normal: '/textures/balls/mikasa_normal.webp',
+    albedo: publicAsset('textures/balls/mikasa_albedo.webp'),
+    normal: publicAsset('textures/balls/mikasa_normal.webp'),
     trail: '#ffd24a',
   },
 }

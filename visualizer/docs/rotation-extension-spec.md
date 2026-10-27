@@ -1,6 +1,6 @@
 # Fork adaptation: indoor six-player rotation studio
 
-Status: app implementation specification, not approved volleyball tactics. This is an extension to the existing public SetOptics code; do not build a new separate app. Source: dawsonpar/SetOptics Apache-2.0; fork: PRYYSE/SetOptics. The original hosted rotation video is visual-reference-only; its code is NOT part of the public repo. Existing visualizer source lives in this directory.
+Status: app implementation specification, not approved volleyball tactics. This is an extension to the existing public SetOptics code; do not build a new separate app. Source: dawsonpar/SetOptics Apache-2.0; fork: PRYYSE/RotationStudio (renamed authentic GitHub fork of dawsonpar/SetOptics). The original hosted rotation video is visual-reference-only; its code is NOT part of the public repo. Existing visualizer source lives in this directory.
 
 ## Product job
 A player opens a shared link on a phone, selects R1 through R6 and serve ownership (opponents serving vs us serving), and sees six named athletes on the real 3D indoor court. Play or scrub a timed sequence to understand exactly where to start, where to move when the ball is served, who receives, WHERE THE PASS SHOULD GO, the back-row setter's path to the net, who attacks, who covers short and deep, and how everyone resets. The experience must look and behave like the user's filmed dark 3D SetOptics rotation studio, not like a flat tactical diagram.

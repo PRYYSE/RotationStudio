@@ -101,3 +101,11 @@ rsync -a dist/ /path/to/reviewed-document-root/
 ```
 
 This is a documented future command, not an executed deployment. Host at the document root: the original Set arcs texture URLs remain root-relative. Serve plan JSON with revalidation/no-cache so shared views receive published edits. No backend, accounts or cloud services are required.
+
+## Public viewer publishing (GitHub Pages)
+
+The genuine fork publishes the `visualizer/` app through `.github/workflows/publish-rotation-studio.yml` on pushes to `main`. Build and tests must pass first. No login is required to view the site; friends cannot change the published plan. The GitHub Pages URL is `https://pryyse.github.io/RotationStudio/`.
+
+For ChatGPT-authored rotations, edit ONLY `visualizer/public/plans/team.json` and/or `visualizer/public/plans/rotations.json` on `main`; GitHub Actions validates and rebuilds the public site automatically. Approved status must be explicit and matching in both JSON documents, and does not replace tactical or match validation.
+
+Local production build for the same base path: `npm run build -- --base=/RotationStudio/`. This base path also applies to the retained original Set arcs ball textures.
