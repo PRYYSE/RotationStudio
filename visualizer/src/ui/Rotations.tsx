@@ -35,8 +35,10 @@ export function Rotations() {
     {s.loading ? 'Loading training demo…' : <><p role="alert">{s.error}</p><button onClick={load}>Retry plans</button></>}
   </div>
   const phase = phaseAt(scenario, s.time)
+  const status = bundle.plans.status
+  const demo = status === 'TRAINING DEMO / UNAPPROVED'
   const jump = (time: number) => { s.seek(time); useRotations.setState({ editTime: time }) }
-  return <main className="rotations" aria-label="Rotation training demo">
+  return <main className="rotations" aria-label="Rotation studio">
     <div className="rotation-canvas"><RotationScene /></div>
     <div className="rotation-top">
       <nav className="rotation-phases glass" aria-label="Tactical phase">
@@ -48,7 +50,7 @@ export function Rotations() {
         </nav>
         <div className="rotation-row serve-row" role="group" aria-label="Serve ownership">
           <button aria-pressed={s.serve === 'they'} onClick={() => s.choose(s.rotation, 'they')}>They serve</button><button aria-pressed={s.serve === 'us'} onClick={() => s.choose(s.rotation, 'us')}>Us serve</button>
-          <span className="demo-tag">DEMO ONLY</span>
+          <span className="demo-tag">{demo ? 'DEMO ONLY' : status}</span>
         </div>
       </div>
     </div>
@@ -75,7 +77,7 @@ export function Rotations() {
           <output aria-label="Timeline time">{s.time.toFixed(1)}s</output>
           <select aria-label="Rotation playback speed" value={s.rate} onChange={(e) => useRotations.setState({ rate: Number(e.target.value) })}>{[0.25, 0.5, 1, 1.5, 2].map((rate) => <option key={rate} value={rate}>{rate}×</option>)}</select>
         </div>
-        <div className="rotation-footer"><span>{s.draft ? 'LOCAL DRAFT · not shared' : 'TRAINING DEMO / UNAPPROVED'}</span><div>
+        <div className="rotation-footer"><span>{s.draft ? 'LOCAL DRAFT · not shared' : status}</span><div>
           <button onClick={async () => {
             const url = rotationLink(window.location.href, s.rotation, s.serve, s.time)
             try { await navigator.clipboard.writeText(url); setShare('Published view link copied. Draft edits are excluded.') }
@@ -84,7 +86,7 @@ export function Rotations() {
         </div></div>
         {share && <div className="share-feedback" role="status">{share}<button aria-label="Dismiss share message" onClick={() => setShare('')}>×</button></div>}
       </div>
-      <p className="demo-disclaimer">Demonstration movements - not approved match positions.</p>
+      <p className="demo-disclaimer">{demo ? 'DEMO · Demonstration movements — not approved match positions.' : s.draft || status === 'DRAFT' ? 'Draft — not approved match positions.' : 'Coach-approved plan · structural checks are not referee certification.'}</p>
     </div>
   </main>
 }

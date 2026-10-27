@@ -15,16 +15,16 @@ test('published JSON validates all 12 unique rotation and serve combinations', (
 })
 for (const serve of ['they', 'us']) test(`service contact catches x order and z pair violations when ${serve} serve`, () => {
   const index = serve === 'they' ? 0 : 1
-  rejects((b) => { const s = b.plans.scenarios[index]; s.tracks.logan[0].x = s.tracks.trent[0].x }, /Logan \(P4\) must be left of Trent \(P3\)/)
-  rejects((b) => { const s = b.plans.scenarios[index]; s.tracks.georgia[0].z = s.tracks.logan[0].z }, /Georgia \(P5\) must be behind Logan \(P4\)/)
+  rejects((b) => { const s = b.plans.scenarios[index]; s.tracks.logan[1].x = s.tracks.trent[1].x }, /Logan \(P4\) must be left of Trent \(P3\)/)
+  rejects((b) => { const s = b.plans.scenarios[index]; s.tracks.georgia[1].z = s.tracks.logan[1].z }, /Georgia \(P5\) must be behind Logan \(P4\)/)
   // Both adjacent pairs in each row and all three corresponding front/back pairs.
   for (const [left, right] of [[4, 3], [3, 2], [5, 6], [6, 1]]) rejects((b) => {
     const s = b.plans.scenarios[index], order = rotationOrder(b.team.initialOrder, 0)
-    s.tracks[order[left - 1]][0].x = s.tracks[order[right - 1]][0].x
+    s.tracks[order[left - 1]][1].x = s.tracks[order[right - 1]][1].x
   }, /must be left of/)
   for (const [back, front] of [[5, 4], [6, 3], [1, 2]]) rejects((b) => {
     const s = b.plans.scenarios[index], order = b.team.initialOrder
-    s.tracks[order[back - 1]][0].z = s.tracks[order[front - 1]][0].z
+    s.tracks[order[back - 1]][1].z = s.tracks[order[front - 1]][1].z
   }, /must be behind/)
 })
 test('service contact accepts front players deeper than 3m and enforces endlines and held spots', () => {
@@ -32,8 +32,8 @@ test('service contact accepts front players deeper than 3m and enforces endlines
   const s = b.plans.scenarios[0]
   for (const id of ['caleb', 'trent', 'logan']) for (const k of s.tracks[id].filter((k) => k.time <= 2)) k.z = 4
   assert.deepEqual(validateBundle(b), [])
-  rejects((b) => b.plans.scenarios[1].tracks.harry[0].z = 9, /beyond the 9m endline/)
-  rejects((b) => b.plans.scenarios[0].tracks.harry[0].z = 9, /inside the court/)
+  rejects((b) => b.plans.scenarios[1].tracks.harry[1].z = 9, /beyond the 9m endline/)
+  rejects((b) => b.plans.scenarios[0].tracks.harry[1].z = 9, /inside the court/)
   rejects((b) => b.plans.scenarios[0].tracks.harry[1].x = 2, /hold service-contact spots/)
   rejects((b) => b.plans.scenarios[1].ball[0].from.x = 1, /originate from the P1 server/)
 })
@@ -85,7 +85,7 @@ test('unknown JSON is rejected safely for versions, identities, fields, enums an
   for (const v of [null, [], 1, 'text', {}, { team: null, plans: {} }]) assert.match(validateBundle(v).join(), /Expected an object/)
   const cases = [
     [(b) => b.team.schemaVersion = 2, /Unsupported schemaVersion/],
-    [(b) => b.plans.status = 'APPROVED', /requires status/],
+    [(b) => b.plans.status = 'APPROVED', /matching status/],
     [(b) => b.team.players[0] = null, /stable id/],
     [(b) => b.team.players[0].id = 'caleb', /unique/],
     [(b) => b.team.initialOrder[0] = 'unknown', /initialOrder/],
@@ -139,5 +139,27 @@ test('malformed nested JSON never executes object coercions or crashes the valid
     const errors = validateBundle(b)
     assert.ok(errors.length > 0)
     assert.equal(typeof errors[0], 'string')
+  }
+})
+
+test('service ordering samples actual contact and rejects interpolated pre-service movement', () => {
+  const b = fixture(), s = b.plans.scenarios[0]
+  // No moved keyframe before contact: interpolation toward a later frame already moves Logan.
+  s.tracks.logan = s.tracks.logan.filter((k) => k.time !== s.ball[0].start)
+  s.tracks.logan[1].x = 4
+  assert.match(validateBundle(b).join('\n'), /hold service-contact spots/)
+  assert.match(validateBundle(b).join('\n'), /Logan \(P4\) must be left/)
+})
+test('pre-service waypoint excursions are rejected even when contact returns to start', () => {
+  rejects((b) => { const s = b.plans.scenarios[0]; s.tracks.logan[1].via = [{ x: 0, z: 3 }] }, /hold service-contact spots/)
+})
+test('JSON-only draft and approved publication still requires structural validation', async () => {
+  for (const status of ['DRAFT', 'APPROVED']) {
+    const b = fixture(); b.team.status = status; b.plans.status = status
+    assert.deepEqual(parseBundle(exportBundle(b)), b)
+    const loaded = await loadBundle('/', async (url) => ({ ok: true, json: async () => url.endsWith('team.json') ? b.team : b.plans }))
+    assert.equal(loaded.plans.status, status)
+    b.plans.scenarios[0].ball[1].from.x = 0
+    assert.throws(() => exportBundle(b), /pass must connect/)
   }
 })

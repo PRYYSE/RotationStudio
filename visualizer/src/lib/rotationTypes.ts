@@ -3,9 +3,10 @@ export type Point = Spot & { y: number }
 export type ServeOwner = 'they' | 'us'
 export type RotationView = 'front' | 'side' | 'orbit' | 'top'
 export type Role = 'start' | 'serve' | 'receive' | 'pass' | 'set' | 'attack' | 'block' | 'help' | 'defend' | 'recover'
+export type PlanStatus = 'TRAINING DEMO / UNAPPROVED' | 'DRAFT' | 'APPROVED'
 export type Team = {
   schemaVersion: 1
-  status: 'TRAINING DEMO / UNAPPROVED'
+  status: PlanStatus
   players: { id: string; name: string; setter: boolean; color: string }[]
   initialOrder: string[] // P1, P2, P3, P4, P5, P6
 }
@@ -39,7 +40,7 @@ export type Scenario = {
 }
 export type Plans = {
   schemaVersion: 1
-  status: 'TRAINING DEMO / UNAPPROVED'
+  status: PlanStatus
   netHeight: number
   scenarios: Scenario[]
 }

@@ -12,7 +12,7 @@ import { ballAt, sampleArc, sampleTrack } from '../lib/rotationModel'
 import { FORMATS } from '../lib/formats'
 import { BRAND } from '../lib/constants'
 
-function Target({ x, z }: { x: number; z: number }) {
+function Target({ x, z, label }: { x: number; z: number; label: boolean }) {
   const dragging = useRef(false)
   const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
   const down = (e: ThreeEvent<PointerEvent>) => {
@@ -37,7 +37,7 @@ function Target({ x, z }: { x: number; z: number }) {
     <mesh rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[0.4, 0.53, 40]} /><meshBasicMaterial color="#ffd878" side={THREE.DoubleSide} /></mesh>
     <Line points={[[-0.7, 0, 0], [0.7, 0, 0]]} color="#ffd878" lineWidth={2} />
     <Line points={[[0, 0, -0.7], [0, 0, 0.7]]} color="#ffd878" lineWidth={2} />
-    <Html center position={[0, 0.35, -0.4]} style={{ pointerEvents: 'none' }}><span className="pass-target">PASS HERE</span></Html>
+    {label && <Html center position={[0, 0.35, -0.7]} style={{ pointerEvents: 'none' }}><span className="pass-target">PASS HERE</span></Html>}
   </group>
 }
 function MovingBall() {
@@ -56,6 +56,9 @@ function Players() {
   const bundle = useRotations(activeBundle)!
   const scenario = useRotations(activeScenario)!
   const trails = useRotations((s) => s.trails)
+  const time = useRotations((s) => s.time)
+  const editor = useRotations((s) => s.editor)
+  const touching = Math.abs(time - scenario.firstContact.time) <= 0.55
   const first = sampleTrack(scenario.tracks[scenario.firstContact.player], scenario.firstContact.time)
   return <>
     {bundle.team.players.map((player) => <RotationPlayer key={player.id} player={player} track={scenario.tracks[player.id]} team={bundle.team} rotation={scenario.rotation} />)}
@@ -71,10 +74,10 @@ function Players() {
         })}
       </group>
     })}
-    <Target {...scenario.setterTarget} />
-    <Html center position={[first.x, 0.4, first.z + 0.6]} style={{ pointerEvents: 'none' }}>
+    <Target {...scenario.setterTarget} label={!touching && (editor || (time >= scenario.ball[0].start && time <= scenario.secondContact.time + 0.4))} />
+    {touching && <Html center position={[first.x, 2.5, first.z]} style={{ pointerEvents: 'none' }}>
       <span className="receiver-cue">1st touch · {bundle.team.players.find((p) => p.id === scenario.firstContact.player)?.name}</span>
-    </Html>
+    </Html>}
     {trails && scenario.ball.map((b, i) => <Line key={i} points={Array.from({ length: 50 }, (_, j) => { const p = sampleArc(b, j / 49); return new THREE.Vector3(p.x, p.y, p.z) })}
       color={b.kind === 'pass' ? '#ffd878' : BRAND.accent} lineWidth={b.kind === 'pass' ? 2 : 1} transparent opacity={0.35} />)}
     {scenario.serve === 'they' && <group position={[scenario.ball[0].from.x, 0, scenario.ball[0].from.z]}>

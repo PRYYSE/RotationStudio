@@ -2,7 +2,7 @@
 
 A source-preserving extension of the public [SetOptics visualizer](https://github.com/dawsonpar/SetOptics), licensed under the repository's Apache-2.0 [LICENSE](../LICENSE). Rotation Studio is a fork adaptation, with original branding and no implied endorsement. No hosted SetOptics rotation code is included.
 
-**TRAINING DEMO / UNAPPROVED. Demonstration movements - not approved match positions.** All twelve scenarios use arbitrary sample coordinates and timing to demonstrate the application. The service order, receive lanes, attacks and defensive assignments need owner/coach authoring and verification before use in a match. Structural validators do not establish tactical correctness.
+**Bundled example: TRAINING DEMO / UNAPPROVED. Demonstration movements - not approved match positions.** All twelve bundled scenarios use arbitrary sample coordinates and timing to demonstrate the application. The service order, receive lanes, attacks and defensive assignments need owner/coach authoring and verification before use in a match. Structural validators do not establish tactical correctness.
 
 ## Run and check
 
@@ -18,7 +18,7 @@ npm run dev -- --host 127.0.0.1
 
 Open `http://127.0.0.1:5188/`. Rotations is the default. **Set arcs** retains the original 9-man / indoor 6s format selector, presets, draggable set handles, collections and playback. Legacy `?s=...` links still open Set arcs; `?mode=sets` selects it directly.
 
-In Rotations, choose R1–R6 and serve ownership. Receive / Attack / Defend jump to timeline events; these are independent of camera view. Play/Pause, Restart, scrub and speed are always in the lower bar. Space plays/pauses outside controls. Shift+1/2/3/4 selects Front/Side/Orbit/Top. Orbit accepts touch orbit and pinch zoom; fixed cameras accept zoom. Settings opens a bounded, scrolling sheet with cameras, names, paths and Coach draft. Names include fixed P1–P6 and front/back eligibility, even after moving.
+In Rotations, choose R1–R6 and serve ownership. Receive / Attack / Defend jump to timeline events; these are independent of camera view. Play/Pause, Restart, scrub and speed are always in the lower bar. Space plays/pauses outside controls. Shift+1/2/3/4 selects Front/Side/Orbit/Top. Orbit accepts touch orbit and pinch zoom; fixed cameras accept zoom. Settings opens a bounded, scrolling sheet with cameras, names, paths and Coach draft. Paths default off; enable them explicitly in Settings. On phones the court has a dedicated viewport between the compact top controls and playback. Names sit below avatars; the first-touch cue appears only within 0.55s of contact, temporarily replacing the PASS HERE label. Names include fixed P1–P6 and front/back eligibility, even after moving.
 
 **Share view** copies only the published rotation, serve owner and playhead, e.g. `?mode=rotations&r=2&serve=us&t=7.00`. It never contains a draft. Friends open published JSON without enabling editing. Local drafts are memory-only until exported; refreshing discards them.
 
@@ -26,14 +26,14 @@ In Rotations, choose R1–R6 and serve ownership. Receive / Attack / Defend jump
 
 The application fetches and validates these Vite public assets at runtime:
 
-- [`public/plans/team.json`](public/plans/team.json): schema version, demo status, six stable athlete IDs/names/colors, primary setter tag and one explicit `initialOrder` in **P1,P2,P3,P4,P5,P6** order.
-- [`public/plans/rotations.json`](public/plans/rotations.json): schema version, demo status, net height and twelve fully explicit timelines (six rotations × `they`/`us` serve).
+- [`public/plans/team.json`](public/plans/team.json): schema version, publication status, six stable athlete IDs/names/colors, primary setter tag and one explicit `initialOrder` in **P1,P2,P3,P4,P5,P6** order.
+- [`public/plans/rotations.json`](public/plans/rotations.json): schema version, publication status, net height and twelve fully explicit timelines (six rotations × `they`/`us` serve).
 
-Both files require `schemaVersion: 1` and `status: "TRAINING DEMO / UNAPPROVED"`. This first slice deliberately has no match-approved status. Unknown versions and invalid imports fail with readable diagnostics.
+Both files require `schemaVersion: 1` and the same `status`: `"TRAINING DEMO / UNAPPROVED"`, `"DRAFT"`, or `"APPROVED"`. Status is an explicit author/coach declaration, never assigned by validation. The bundled example remains DEMO with persistent warnings. To publish a reviewed plan later, edit both JSON statuses to `"APPROVED"` along with the authored plan; no application edits are needed. DRAFT and APPROVED plans must pass the same structural checks as DEMO. No deployment is authorized by editing status. Unknown versions and invalid imports fail with readable diagnostics.
 
 The arbitrary R1 demo order is P1 Harry, P2 Caleb, P3 Trent, P4 Logan, P5 Georgia, P6 Jaz. Each side-out shifts the P1..P6 array left by one: P2 becomes P1, P1 becomes P6. Six turns restore the original order. Identity/eligibility uses this transform throughout the rally; it is never inferred from animated depth.
 
-Units are metres and seconds. X increases left-to-right from our baseline looking at the net. The net is Z=0; our half is Z=0..9 and their half Z=-9..0, with X=-4.5..4.5. P4/P3/P2 are front-left/middle/right, P5/P6/P1 back-left/middle/right. `x,z` are service-contact floor reference points for the structural ordering checks, not a naive front/back division at the attack line. The human meshes are illustrative rather than a foot-contact simulation.
+Units are metres and seconds. X increases left-to-right from our baseline looking at the net. The net is Z=0; our half is Z=0..9 and their half Z=-9..0, with X=-4.5..4.5. P4/P3/P2 are front-left/middle/right, P5/P6/P1 back-left/middle/right. `x,z` are avatar-centre floor reference points for the structural ordering checks, not a naive front/back division at the attack line. These strict centre-order checks are conservative and can reject positions that a referee would allow based on feet. They do not implement the exact foot rule or certify legality. The human meshes are illustrative rather than a foot-contact simulation.
 
 Each scenario contains:
 
@@ -48,7 +48,7 @@ Each scenario contains:
 
 `role` is start, serve, receive, pass, set, attack, block, help, defend or recover. `facing` is radians about Y. Optional `via` points on an arrival frame describe its incoming path; interpolation follows distance-weighted segments with smooth easing. Paths are continuous but waypoint corners are not a physical motion simulation. Roles change at keyframe timestamps. Above-net attacks must explicitly include `aboveNet` and `takeoffZ`; back-row takeoff inside 3m is rejected. Moving a front-row athlete deep never changes eligibility. Back-row setting near the net is allowed; back-row blocking is rejected.
 
-Hold all service-contact positions until the first serve flight (at least one second). Both scenarios enforce relative ordering in each row, corresponding back/front depth and our P1 server outside the endline. The pass segment must link the named first contact to the target at the second-contact time. Consecutive flights share endpoints, with holds permitted between segments. If Harry receives first, explicitly author Caleb or Georgia (or another named athlete) at the second-contact target. No automatic tactic selection or fallback setter is inferred.
+Hold all service-contact positions until the first serve flight (at least one second). The validator samples actual service contact at `ball[0].start`, including interpolation and incoming waypoints, and rejects movement beginning before it. Under the requested TTGVA convention both teams must be in rotation; our six-athlete model enforces ordering for our team under **both serve owners**. Opponents are represented only by a server cue, so their six-player order is not validated. Both serve-owner scenarios enforce relative ordering in each row, corresponding back/front depth and our P1 server outside the endline. The pass segment must link the named first contact to the target at the second-contact time. Consecutive flights share endpoints, with holds permitted between segments. If Harry receives first, explicitly author Caleb or Georgia (or another named athlete) at the second-contact target. No automatic tactic selection or fallback setter is inferred.
 
 Edit the public files directly with a JSON editor, then run:
 
@@ -64,10 +64,10 @@ Changing only valid JSON updates the loaded positions, cues and flights; no appl
 
 1. Open Settings → Coach draft. The camera changes to Top and playback pauses.
 2. Choose a keyframe and athlete. Drag a human on the floor, or edit X/Z in metres. Scrubbing while editing snaps to authored keyframes; leave Coach draft to play continuously.
-3. Select PASS HERE to drag/edit the target. Its pass landing, set origin and linked setter contact frame move together. Other player/flight edits remain explicit and can produce diagnostics until resolved.
-4. Reset draft restores published files. Export JSON requires a valid draft; Import JSON validates before replacing the current draft. Neither action writes public files or publishes anything.
+3. Select PASS HERE to drag/edit the target. Its pass landing, following flight origin and linked setter contact frame move together. Dragging the first-contact athlete at its contact keyframe moves the incoming flight endpoint and pass origin together. Dragging the second-contact athlete at its contact keyframe moves the target, pass landing and following flight origin. Connected endpoints remain linked across holds between flights; other edits can produce diagnostics until resolved.
+4. Reset draft restores published files. Export JSON requires a valid draft; Import JSON validates before replacing the current draft. Neither action writes public files or publishes anything. Editing an APPROVED plan downgrades the local copy to DRAFT; DEMO remains DEMO.
 
-Export produces a single `{team,plans}` bundle. To author the two source files from an exported bundle, save it outside the repository (example `/tmp/rotation-studio-demo.json`) and, from `visualizer/`, run:
+Export produces a single `{team,plans}` bundle. To author the two source files from an exported bundle, save it outside the repository (example `/tmp/rotation-studio-plan.json`) and, from `visualizer/`, run:
 
 ```bash
 node --experimental-strip-types --input-type=module <<'JS'

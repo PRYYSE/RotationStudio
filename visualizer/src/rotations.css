@@ -9,7 +9,8 @@
 .rotation-canvas { position: absolute; inset: 0; touch-action: none; }
 .rotation-top { position: absolute; z-index: 10; top: 76px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
 .rotation-top > * { pointer-events: auto; }
-.rotation-phases { padding: 3px; display: flex; }
+.rotation-phases { padding: 2px; display: flex; }
+.rotation-top button { min-height: 36px; padding: 4px 12px; }
 .rotation-selectors { padding: 5px; border-radius: 22px; }
 .rotation-row { display: flex; align-items: center; gap: 3px; flex-wrap: wrap; }
 .rotation-numbers { flex-wrap: nowrap; }
@@ -46,7 +47,7 @@
 .rotation-errors p { color: #ffc4a8; }
 .rotation-loading { position: absolute; inset: 80px 20px 20px; display: grid; place-content: center; color: #d2e5ff; white-space: pre-line; overflow: auto; }
 .rotation-loading button { margin: 12px; padding: 12px; border: 1px solid #47638a; border-radius: 10px; }
-.athlete-label { display: block; background: #0a1528de; color: #eff7ff; border: 1px solid #456080; border-radius: 6px; padding: 3px 7px; font-size: 11px; font-weight: 500; text-align: center; }
+.athlete-label { transform: translateY(26px); display: block; background: #0a1528de; color: #eff7ff; border: 1px solid #456080; border-radius: 6px; padding: 3px 7px; font-size: 11px; font-weight: 500; text-align: center; }
 .athlete-label small { display: block; color: #a9c5e6; font-size: 9px; }
 .athlete-label.selected { border-color: #fff; }
 .pass-target { white-space: nowrap; color: #ffe49b; background: #241d0def; border: 1px solid #c7a450; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; }
@@ -60,19 +61,24 @@
 @media (max-width: 600px) {
   .studio-header { left: 12px; right: 12px; }
   .studio-brand { font-size: 12px; }
-  .studio-modes button { font-size: 11px; padding: 6px 10px; }
-  .rotation-top { top: 68px; gap: 6px; width: calc(100% - 24px); }
+  .studio-modes button { min-height: 36px; font-size: 11px; padding: 4px 10px; }
+  .rotation-top { top: max(58px, calc(env(safe-area-inset-top) + 46px)); gap: 4px; width: calc(100% - 24px); }
+  /* Keep the court and athlete labels clear of both control stacks. */
+  .rotation-canvas { top: max(174px, calc(env(safe-area-inset-top) + 162px)); bottom: max(206px, calc(env(safe-area-inset-bottom) + 198px)); }
+  .rotation-top button { min-height: 32px; font-size: 11px; }
   .rotation-selectors { padding: 3px; }
-  .rotation-numbers button { padding: 6px 10px; }
+  .rotation-numbers button { min-width: 44px; padding: 3px 10px; }
+  .serve-row button { min-height: 32px; }
+  .demo-tag { padding: 4px 8px; }
   .rotation-cue { font-size: 10px; margin-bottom: 8px; }
   .rotation-cue strong { font-size: 13px; margin-bottom: 3px; }
   .rotation-timeline { padding: 3px 7px 0; border-radius: 18px; }
   .rotation-markers { gap: 0; }
   .rotation-markers button { font-size: 9px; padding: 3px 8px; }
-  .rotation-footer > span { font-size: 8px; letter-spacing: 0; }
-  .demo-disclaimer { font-size: 9px; }
-  .athlete-label { font-size: 9px; padding: 2px 4px; }
-  .athlete-label small { font-size: 8px; }
+  .rotation-footer > span { font-size: 9px; letter-spacing: 0; }
+  .demo-disclaimer { font-size: 10px; line-height: 1.35; font-weight: 600; }
+  .athlete-label { font-size: 11px; padding: 2px 5px; }
+  .athlete-label small { font-size: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .rotations button, .studio-modes button { transition: none; }

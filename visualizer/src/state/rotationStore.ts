@@ -17,7 +17,7 @@ export const activeBundle = (s: State) => s.draft ?? s.published
 export const activeScenario = (s: State) => activeBundle(s)?.plans.scenarios.find((p) => p.rotation === s.rotation && p.serve === s.serve)
 export const useRotations = create<State>((set, get) => ({
   published: null, draft: null, error: '', loading: true,
-  ...link, playing: false, rate: 1, view: 'orbit', labels: true, trails: true,
+  ...link, playing: false, rate: 1, view: 'orbit', labels: true, trails: false,
   editor: false, selected: 'harry', editTime: 0,
   setBundle: (published) => {
     const scenario = published.plans.scenarios.find((p) => p.rotation === get().rotation && p.serve === get().serve)!
@@ -46,20 +46,33 @@ export const useRotations = create<State>((set, get) => ({
     if (!s.editor || !current || !Number.isFinite(spot.x) || !Number.isFinite(spot.z)) return
     const draft = structuredClone(current)
     const scenario = draft.plans.scenarios.find((p) => p.rotation === s.rotation && p.serve === s.serve)!
+    // Local changes cannot inherit a published approval; demo edits remain demos.
+    if (draft.team.status === 'APPROVED') draft.team.status = draft.plans.status = 'DRAFT'
+    const passIndex = scenario.ball.findIndex((b) => b.kind === 'pass')
+    const moveContact = (side: 'from' | 'to') => {
+      if (passIndex < 0) return
+      Object.assign(scenario.ball[passIndex][side], spot)
+      // Neighbours stay connected even when the ball holds between flights.
+      const neighbour = scenario.ball[passIndex + (side === 'from' ? -1 : 1)]
+      if (neighbour) Object.assign(neighbour[side === 'from' ? 'to' : 'from'], spot)
+    }
+    const moveTarget = () => {
+      scenario.setterTarget = { ...spot }
+      moveContact('to')
+    }
     if (s.selected === 'target') {
       const old = scenario.setterTarget
-      scenario.setterTarget = spot
-      // Keep explicitly linked contact endpoints and the setter's contact frame coherent.
-      for (const b of scenario.ball) {
-        if (b.kind === 'pass') Object.assign(b.to, spot)
-        if (b.kind === 'set') Object.assign(b.from, spot)
-      }
+      moveTarget()
       const frame = scenario.tracks[scenario.secondContact.player].find((k) => k.time === scenario.secondContact.time)
       if (frame && frame.x === old.x && frame.z === old.z) Object.assign(frame, spot)
     } else {
       const frame = scenario.tracks[s.selected]?.find((k) => k.time === s.editTime)
       if (!frame) return
       Object.assign(frame, spot)
+      if (s.selected === scenario.firstContact.player && s.editTime === scenario.firstContact.time) {
+        moveContact('from')
+      }
+      if (s.selected === scenario.secondContact.player && s.editTime === scenario.secondContact.time) moveTarget()
     }
     set({ draft, playing: false, error: '' })
   },

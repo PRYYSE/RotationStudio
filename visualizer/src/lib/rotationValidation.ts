@@ -12,7 +12,9 @@ const at = (v: unknown, duration: number): v is number => finite(v) && v >= 0 &&
 
 export function serviceDiagnostics(team: Team, scenario: Scenario): string[] {
   const order = rotationOrder(team.initialOrder, scenario.rotation - 1)
-  const p = (n: number) => scenario.tracks[order[n - 1]][0]
+  // Conservative avatar-centre model, not a referee's foot-contact ruling.
+  // Apply ordering for our modelled team under BOTH serve owners (TTGVA).
+  const p = (n: number) => sampleTrack(scenario.tracks[order[n - 1]], scenario.ball[0].start)
   const name = (n: number) => team.players.find((v) => v.id === order[n - 1])!.name
   const errors: string[] = []
   for (const row of [[4, 3, 2], [5, 6, 1]]) {
@@ -36,7 +38,7 @@ export function validateBundle(value: unknown): string[] {
   if (!object(value) || !object(value.team) || !object(value.plans)) return ['Expected an object with team and plans.']
   const { team, plans } = value
   if (team.schemaVersion !== 1 || plans.schemaVersion !== 1) errors.push('Unsupported schemaVersion. Both files require version 1.')
-  if (team.status !== DEMO || plans.status !== DEMO) errors.push(`This release requires status "${DEMO}" in both files.`)
+  if (!oneOf(team.status, [DEMO, 'DRAFT', 'APPROVED']) || team.status !== plans.status) errors.push(`Both files require matching status: "${DEMO}", "DRAFT" or "APPROVED".`)
   if (!Array.isArray(team.players) || team.players.length !== 6) return [...errors, 'team.players must contain exactly six athletes.']
   const ids: string[] = []
   for (const p of team.players) {
@@ -116,10 +118,12 @@ export function validateBundle(value: unknown): string[] {
     if (serve.from.z * (s.serve === 'us' ? 1 : -1) <= 9 || serve.to.z * (s.serve === 'us' ? -1 : 1) <= 0) error('serve must travel from behind the correct endline to the opposite half.')
     for (const [id, track] of Object.entries(s.tracks)) {
       const start = track[0]
-      if (track.some((k) => k.time <= serve.start && (Math.hypot(k.x - start.x, k.z - start.z) > 0.01 || k.via?.some((v) => Math.hypot(v.x - start.x, v.z - start.z) > 0.01)))) error(id + ': hold service-contact spots until service flight begins.')
+      // Easing starts in the preceding interval, even if its arrival frame is after service.
+      // Inspect the entire incoming path to catch an excursion that returns to its start.
+      if (track.some((k, i) => i > 0 && track[i - 1].time < serve.start && [k, ...(k.via ?? [])].some((v) => Math.hypot(v.x - start.x, v.z - start.z) > 0.01))) error(id + ': hold service-contact spots until service flight begins.')
     }
     if (s.serve === 'us') {
-      const server = s.tracks[rotationOrder(typedTeam.initialOrder, s.rotation - 1)[0]][0]
+      const server = sampleTrack(s.tracks[rotationOrder(typedTeam.initialOrder, s.rotation - 1)[0]], serve.start)
       if (Math.hypot(serve.from.x - server.x, serve.from.z - server.z) > 0.5) error('our serve must originate from the P1 server.')
     }
     const first = sampleTrack(s.tracks[s.firstContact.player], s.firstContact.time)

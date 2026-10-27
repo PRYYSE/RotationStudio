@@ -1,5 +1,15 @@
 # Rotation Studio: first slice and QA record
 
+## Bounded repair follow-up (28 October 2026)
+
+The supplied actual 390×844 screenshot exposed oversized controls, labels covering avatars, steep/skewed framing and permanent path/contact overlays. This repair compacts the rotation controls, reserves a mobile court viewport between controls, straightens the portrait camera, moves larger player labels below human models, defaults paths off and limits the first-touch cue to ±0.55s around contact. PASS HERE text yields during that window; its floor marker remains. Original Set arcs stays separate. Rendered mobile/desktop/touch acceptance remains with the owner; no browser setup or automated visual QA was performed in this repair.
+
+Service ordering now samples `ball[0].start`; pre-service interpolated movement and waypoint excursions are rejected. Checks use conservative avatar centres rather than referee-exact feet. TTGVA ordering applies for either serve owner; the opposing six-player order is outside this one-team model. Both JSON files can explicitly declare matching DEMO, DRAFT or APPROVED statuses, subject to identical structural validation. Validation never grants approval. Local edits to approved plans become drafts; bundled public JSON remains unchanged and DEMO.
+
+First- and second-contact keyframe edits link their adjacent ball endpoints, including holds between flights; setter contact edits also move the target. Regression tests cover the repaired validator, JSON status loading/export, contact dragging and approval downgrade. `npm test`: 31 passed, 0 failed; `npm run build`: TypeScript and Vite passed with the existing >500kB chunk warning. No dependencies, Python, services, commits, pushes or deployment were added.
+
+The remainder below is the historical first-slice record; the follow-up above supersedes its demo-only status limitation and initial-coordinate service checks.
+
 Date: 28 October 2026 (Australia/Adelaide). Branch: `feature/volleyball-rotations`. Baseline: `00c9064b844a244f5e9715ced8f33bf81c20d916`.
 
 Status: **implemented training-demo slice; technical checks pass; real-browser and designer acceptance pending**. No deployment and no claim of approved formations. All new app code/data lives in the existing visualizer; the detector and annotation subsystems are untouched.
@@ -42,7 +52,7 @@ Tests are colocated in `src/lib/rotationModel.test.mjs`, `src/lib/rotationValida
 | “versioned editable tactical JSON” | `load and export roundtrip preserves a JSON-only authored change without application edits`; `coach edits clone data, snap to keyframes, pause and reset without public writes`; `validated draft import resets playback and invalid import preserves the previous draft` |
 | “validators” | Both deliberate service-order tests; `unknown JSON is rejected safely for versions, identities, fields, enums and numeric bounds`; `loading failures and invalid imports produce readable errors`; `export rejects invalid drafts instead of producing a misleading valid-looking download` |
 | “tests” | `npm test`: 25/25, exit 0. Includes `play pause resume speed seek reverse and end restart are deterministic` and `changing rotation or serve clears animation and editor time without changing published plans` |
-| “clear DEMO-only label” / “Do not invent match-approved tactics” | Persistent DEMO ONLY / TRAINING DEMO / UNAPPROVED and exact disclaimer in `Rotations.tsx`; validator rejects an approved status; source JSON has only unapproved demo status |
+| “clear DEMO-only label” / “Do not invent match-approved tactics” | Persistent DEMO ONLY / TRAINING DEMO / UNAPPROVED and exact disclaimer in `Rotations.tsx`; at the time, validator rejected an approved status; source JSON has only unapproved demo status |
 | Fixed front-row identity even in deep defense | `front-row eligibility survives retreat to defensive middle-back` |
 | Named fallback setter | `Harry first touch is allowed with an explicitly authored Caleb fallback setter` |
 | Friends links exclude local data | `rotation links clamp malformed inputs and contain only the published view` |

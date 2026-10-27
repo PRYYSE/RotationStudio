@@ -64,3 +64,41 @@ test('validated draft import resets playback and invalid import preserves the pr
   assert.equal(activeScenario(get()).tracks.jaz.at(-1).x, 1.7)
   assert.deepEqual(get().published, original)
 })
+
+test('first-contact dragging keeps incoming flight and pass origin connected for export', async () => {
+  const { validateBundle } = await import('../lib/rotationValidation.ts')
+  const get = useRotations.getState
+  const published = structuredClone(original)
+  published.plans.scenarios[0].ball[0].end -= 0.2 // Hold at the receiver before passing.
+  get().setBundle(published)
+  const before = activeScenario(get())
+  useRotations.setState({ editor: true, selected: before.firstContact.player, editTime: before.firstContact.time })
+  get().edit({ x: -2, z: 6 })
+  const s = activeScenario(get()), pass = s.ball.find((b) => b.kind === 'pass')
+  assert.deepEqual(pass.from, { x: -2, y: 1, z: 6 })
+  assert.deepEqual(s.ball[0].to, pass.from)
+  assert.deepEqual(validateBundle(activeBundle(get())), [])
+  assert.deepEqual(get().published, published)
+})
+test('setter contact dragging keeps target and both ball endpoints linked', async () => {
+  const { validateBundle } = await import('../lib/rotationValidation.ts')
+  const get = useRotations.getState
+  const published = structuredClone(original)
+  published.plans.scenarios[0].ball[2].start += 0.2 // Hold at second contact before setting.
+  get().setBundle(published)
+  const before = activeScenario(get())
+  useRotations.setState({ editor: true, selected: before.secondContact.player, editTime: before.secondContact.time })
+  get().edit({ x: 1.3, z: 1.4 })
+  const s = activeScenario(get())
+  assert.deepEqual(s.setterTarget, { x: 1.3, z: 1.4 })
+  assert.deepEqual(s.ball[1].to, s.ball[2].from)
+  assert.equal(s.ball[1].to.x, 1.3)
+  assert.deepEqual(validateBundle(activeBundle(get())), [])
+})
+test('local edits never retain approved status', () => {
+  const get = useRotations.getState, b = structuredClone(original)
+  b.team.status = b.plans.status = 'APPROVED'; get().setBundle(b)
+  useRotations.setState({ editor: true, selected: 'target' }); get().edit({ x: 1.3, z: 1.4 })
+  assert.equal(activeBundle(get()).plans.status, 'DRAFT')
+  assert.equal(get().published.plans.status, 'APPROVED')
+})

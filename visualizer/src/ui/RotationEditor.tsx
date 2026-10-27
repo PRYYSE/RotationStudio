@@ -13,12 +13,12 @@ export function RotationEditor() {
   const download = () => {
     if (errors.length) { setMessage('Fix validation errors before exporting.'); return }
     const url = URL.createObjectURL(new Blob([exportBundle(bundle)], { type: 'application/json' }))
-    const a = document.createElement('a'); a.href = url; a.download = 'rotation-studio-demo.json'; a.click()
+    const a = document.createElement('a'); a.href = url; a.download = 'rotation-studio-plan.json'; a.click()
     setTimeout(() => URL.revokeObjectURL(url), 1000)
     setMessage('Exported local draft. Public files are unchanged.')
   }
   return <div className="rotation-editor">
-    <p>Coach draft · local only. Drag in Top view, or edit metres below. Export requires a valid plan.</p>
+    <p>Coach draft · local only. Drag in Top view, or edit metres below. Contact-frame edits keep ball endpoints linked. Export requires a valid plan.</p>
     <div className="editor-grid">
       <label>Athlete / target<select value={s.selected} onChange={(e) => useRotations.setState({ selected: e.target.value })}>
         {bundle.team.players.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}<option value="target">PASS HERE target</option>
@@ -31,7 +31,7 @@ export function RotationEditor() {
       }} /></label>)}
     </div>
     {!point && <p>No authored frame at this time for this athlete. Select another keyframe.</p>}
-    <div className="rotation-row"><button onClick={download}>Export JSON</button><button onClick={() => input.current?.click()}>Import JSON</button><button onClick={() => { s.resetDraft(); setMessage('Published demo restored.') }}>Reset draft</button></div>
+    <div className="rotation-row"><button onClick={download}>Export JSON</button><button onClick={() => input.current?.click()}>Import JSON</button><button onClick={() => { s.resetDraft(); setMessage('Published plan restored.') }}>Reset draft</button></div>
     <input ref={input} type="file" accept=".json,application/json" hidden aria-label="Import tactical JSON" onChange={async (e) => {
       const file = e.target.files?.[0]; if (!file) return
       try {

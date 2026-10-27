@@ -74,7 +74,7 @@ export function RotationPlayer({ player, track, team, rotation }: { player: Play
       <mesh position={[0, -0.27, 0]} castShadow><capsuleGeometry args={[0.09, 0.4, 4, 8]} /><meshStandardMaterial color={skin} /></mesh>
       <mesh position={[0, -0.58, -0.04]} castShadow><boxGeometry args={[0.2, 0.13, 0.32]} /><meshStandardMaterial color="#f0f3ff" /></mesh>
     </group>)}
-    {labels && <Html center position={[0, 2.2, 0]} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
+    {labels && <Html center position={[0, 0.05, 0]} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
       <span className={`athlete-label ${selected ? 'selected' : ''}`}>{player.name}{player.setter ? ' · S' : ''}<small>P{position} · {isFront(position) ? 'front' : 'back'}</small></span>
     </Html>}
   </group>

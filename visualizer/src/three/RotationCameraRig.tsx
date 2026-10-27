@@ -25,10 +25,12 @@ export function RotationCameraRig() {
     const aspect = size.width / size.height
     const tan = Math.tan(42 * Math.PI / 360)
     // Reserve chrome space, especially the lower timeline on portrait phones.
-    const portrait = aspect < 0.8
-    const halfW = portrait && (view === 'orbit' || view === 'top') ? 5.4 : f.halfW
-    const distance = Math.max(f.halfH / tan, halfW / (tan * aspect)) * 1.05
-    destination.current.copy(target.current).addScaledVector((portrait && view === 'orbit' ? new THREE.Vector3(0.12, 2, 0.7) : new THREE.Vector3(...f.dir)).normalize(), distance)
+    const portrait = size.width < 600
+    const halfW = portrait && (view === 'orbit' || view === 'front') ? 6.2 : f.halfW
+    const halfH = portrait && (view === 'orbit' || view === 'front') ? 9.5 : f.halfH
+    if (portrait && view === 'orbit') target.current.set(0, 0.6, 2.5)
+    const distance = Math.max(halfH / tan, halfW / (tan * aspect)) * 1.05
+    destination.current.copy(target.current).addScaledVector((portrait && view === 'orbit' ? new THREE.Vector3(0, 1.25, 1) : new THREE.Vector3(...f.dir)).normalize(), distance)
     transitioning.current = true
   }, [view, size])
   useFrame((_, dt) => {
