@@ -13,6 +13,17 @@ INITIAL=["harry","georgia","logan","trent","jaz","caleb"]  # P1..P6
 TEAM["initialOrder"]=INITIAL
 PEOPLE=["harry","caleb","trent","logan","georgia","jaz"]
 FEMALE={"jaz","georgia"}
+# Relative coaching preferences only (1=limited, 5=strong). Not measured
+# running speeds or official skill ratings. Explicit team data, editable later.
+SKILLS={
+ "harry":{"receive":3,"mobility":4,"setting":5,"attack":2},
+ "caleb":{"receive":5,"mobility":5,"setting":4,"attack":4},
+ "trent":{"receive":3,"mobility":2,"setting":2,"attack":4},
+ "logan":{"receive":1,"mobility":3,"setting":1,"attack":4},
+ "georgia":{"receive":3,"mobility":3,"setting":3,"attack":3},
+ "jaz":{"receive":2,"mobility":1,"setting":1,"attack":2},
+}
+for athlete in TEAM["players"]:athlete["skills"]=SKILLS[athlete["id"]]
 COURT={
  1:{4:(-1.25,1.55),3:(-.25,2.20),2:(2.80,1.85),5:(-2.95,6.90),6:(.20,6.50),1:(1.55,2.65)},
  2:{4:(-2.95,2.65),3:(-.25,1.70),2:(2.80,1.90),5:(-2.70,6.50),6:(.35,2.80),1:(2.65,6.90)},

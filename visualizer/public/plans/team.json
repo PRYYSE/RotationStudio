@@ -6,37 +6,73 @@
       "id": "harry",
       "name": "Harry",
       "setter": true,
-      "color": "#75c5ff"
+      "color": "#75c5ff",
+      "skills": {
+        "receive": 3,
+        "mobility": 4,
+        "setting": 5,
+        "attack": 2
+      }
     },
     {
       "id": "caleb",
       "name": "Caleb",
       "setter": false,
-      "color": "#769bff"
+      "color": "#769bff",
+      "skills": {
+        "receive": 5,
+        "mobility": 5,
+        "setting": 4,
+        "attack": 4
+      }
     },
     {
       "id": "trent",
       "name": "Trent",
       "setter": false,
-      "color": "#92d5ca"
+      "color": "#92d5ca",
+      "skills": {
+        "receive": 3,
+        "mobility": 2,
+        "setting": 2,
+        "attack": 4
+      }
     },
     {
       "id": "logan",
       "name": "Logan",
       "setter": false,
-      "color": "#dcaef7"
+      "color": "#dcaef7",
+      "skills": {
+        "receive": 1,
+        "mobility": 3,
+        "setting": 1,
+        "attack": 4
+      }
     },
     {
       "id": "georgia",
       "name": "Georgia",
       "setter": false,
-      "color": "#ffbc8f"
+      "color": "#ffbc8f",
+      "skills": {
+        "receive": 3,
+        "mobility": 3,
+        "setting": 3,
+        "attack": 3
+      }
     },
     {
       "id": "jaz",
       "name": "Jaz",
       "setter": false,
-      "color": "#ffd878"
+      "color": "#ffd878",
+      "skills": {
+        "receive": 2,
+        "mobility": 1,
+        "setting": 1,
+        "attack": 2
+      }
     }
   ],
   "initialOrder": [

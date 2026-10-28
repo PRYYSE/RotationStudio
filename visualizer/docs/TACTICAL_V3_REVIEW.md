@@ -41,4 +41,3 @@ The tool is an explanatory training simulator, NOT a claim it predicts a rally. 
 
 ### Acceptance boundary
 Implement only this small conditional first-ball teaching tool and protect historical modes. No cloud backend, user accounts, new framework, auto-publishing, changing the approved actual player coaching policy, or generic motion cosmetics. On feasibility failure, clearly communicate rather than fake an optimal movement. Do not publish or set status APPROVED; wait for Normal Chat to inspect resulting model and visuals.
-
