@@ -232,7 +232,11 @@ def create(r,serve,side="left",harry_touch=False):
             keyframe(tr,T["ready"],defense[id],now_role(id,"ready"))
             first=firstSpot if id==firstId else defense[id]
             keyframe(tr,T["first"],first,now_role(id,"first"))
-            atSet=target if id==setter else (interp(first,OFFENSE[r][id],.75) if id in OFFENSE[r] else first)
+            # After our dig, back-row helpers start towards attack coverage
+            # early instead of making Jaz/other limited movers dash in <1s.
+            atSet=(target if id==setter else
+                   (interp(first,OFFENSE[r][id],.75) if id in OFFENSE[r] else
+                    (interp(first,attack_support(id),.70) if rowpos[id] in (1,5,6) and id!=firstId else first)))
             if id=="harry" and harry_touch:atSet=interp(firstSpot,defense["harry"],.35)
             setVia=[(1.25,4.25),(1.15,2.5)] if r==1 and id=="harry" and not harry_touch else None
             if r==3 and id=="harry" and not harry_touch:setVia=[(-1.15,3.65),(.15,2.45)]

@@ -64,8 +64,10 @@
 .server-cue { color: #c8d7ed; }
 .share-feedback { font-size: 11px; color: #d5e8ff; display: flex; align-items: center; justify-content: space-between; overflow-wrap: anywhere; }
 @media (min-width: 900px) {
-  .rotation-top { top: 16px; }
-  .rotation-selectors { position: fixed; left: calc(-50vw + 24px); top: 64px; }
+  /* Desktop stage: center phase tabs, anchor rotation controls to the viewport.
+     An ancestor transform made the old fixed-left calculation clip offscreen. */
+  .rotation-top { top: 16px; left: 0; right: 0; transform: none; }
+  .rotation-selectors { position: absolute; left: 24px; top: 48px; }
 }
 @media (max-width: 600px) {
   .studio-header { left: 12px; right: 12px; }
@@ -81,7 +83,10 @@
   .demo-tag { padding: 4px 8px; }
   .rotation-cue { font-size: 10px; margin-bottom: 8px; }
   .rotation-cue strong { font-size: 13px; margin-bottom: 3px; }
-  .receive-instruction { display: none; }
+  /* Coloured receiving lanes stay visible; hide duplicate names over athletes.
+     The expanded settings sheet provides the full named lane legend. */
+  .receive-area-name { display: none; }
+  .receive-instruction { display: block; font-size: 9px; }
   .rotation-timeline { padding: 3px 7px 0; border-radius: 18px; }
   .rotation-markers { gap: 0; }
   .rotation-markers button { font-size: 9px; padding: 3px 8px; }

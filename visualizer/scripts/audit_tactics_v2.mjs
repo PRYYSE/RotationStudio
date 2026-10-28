@@ -5,10 +5,11 @@ const team=JSON.parse(fs.readFileSync('../public/plans/team.json'));
 const plan=JSON.parse(fs.readFileSync('../public/plans/rotations.json'));
 const ids=team.players.map(p=>p.id);
 let flags=0;
+const errs=validateBundle({team,plans:plan});
+console.log('FULL V2 SCHEMA (48 timelines)',errs.length,errs.slice(0,3));
+flags+=errs.length;
 for(const key of ['base','right','harry','harryRight']){
  const scenarios=plan.scenarios.map(s=>key==='base'?s:s.alternates[key]);
- const errs=validateBundle({team,plans:{...plan,scenarios}});
- console.log('SCHEMA',key,errs.length,errs.slice(0,3));if(errs.length)flags+=errs.length;
  for(const s of scenarios){
   let min=[100,'','',0], max=[0,'',0];
   for(let n=0;n<Math.floor(s.duration*17);n++){

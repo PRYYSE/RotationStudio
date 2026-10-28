@@ -1,6 +1,6 @@
 # Rotation Studio — a fork of SetOptics
 
-This is an independently named adaptation of the Apache-2.0 open-source [dawsonpar/SetOptics](https://github.com/dawsonpar/SetOptics) project, preserving its source and history. The original visualizer/ set-trajectory editor remains available as Set arcs. The added six-player Rotation Studio lives in the same React/Three.js application. Public demo plans are not approved match tactics. SetOptics is a trademark of its original author; no endorsement is implied.
+This is an independently named adaptation of the Apache-2.0 open-source [dawsonpar/SetOptics](https://github.com/dawsonpar/SetOptics) project, preserving its source and history. The original visualizer/ set-trajectory editor remains available as Set arcs. The added six-player Rotation Studio lives in the same React/Three.js application. The public tactical DRAFT is not yet approved for match use. SetOptics is a trademark of its original author; no endorsement is implied.
 
 # Upstream SetOptics information
 

@@ -60,6 +60,43 @@ npm run preview -- --host 127.0.0.1
 
 Changing only valid JSON updates the loaded positions, cues and flights; no application edits are needed. Vite copies both files into `dist/plans/`. A changed `initialOrder` may require corresponding edits to starts, roles and contacts in all affected timelines; tests reject incompatible plans.
 
+## Tactical V2 controls and data authority (28 October 2026)
+
+**The published positions are still a tactical DRAFT, not an approved match formation.**
+The real tactical JSON now contains **12 base scenarios plus 36 complete alternatives**
+for R1–R6, either serve owner, opponent attack from our left or right, and normal
+versus Harry-first-contact examples. The fallback option names the actual second
+setter for each relevant scenario; R3 can show Trent emergency-setting because
+Harry cannot necessarily return from deep defence in time.
+
+Open **Settings** → **Their attack** (Our left / Our right) and **First contact**
+(Normal / Harry first). The player movements, pass arcs, setter paths and
+defending shifts are authored tracks stored in JSON—not automatic tactical
+guesses. Share links retain the variant. Old links default to left/normal.
+
+During **They serve** near first contact, coloured receive areas display broad,
+supporting and compact player responsibilities. On a phone the names are in
+**Settings**' receive-area legend rather than duplicated over the athletes.
+The areas are intentionally overlapping; players still call MINE. These
+receive overlays are hidden for **Us serve**, when the same six defensive
+responsibilities follow a different sequence (serve → defend → dig → set → hit).
+
+For controlled tactical authoring, update
+`visualizer/scripts/author_tactics_v2.py` (the ChatGPT-owned V2 geometry and
+possession script), then run from the repository root:
+
+```bash
+python3 visualizer/scripts/author_tactics_v2.py
+cd visualizer/scripts && node --experimental-strip-types audit_tactics_v2.mjs
+cd .. && npm test && npm run build -- --base=/RotationStudio/
+```
+
+The script writes the two public plan files; the structural validator checks
+all **48** authored variants, and the movement audit samples player separation
+and speeds. The checks do not establish practical fitness, foot-position
+rulings or player ability to execute it without practice. Keep `DRAFT` until
+the team has reviewed the actual court placements.
+
 ## Local coach drafts
 
 1. Open Settings → Coach draft. The camera changes to Top and playback pauses.
