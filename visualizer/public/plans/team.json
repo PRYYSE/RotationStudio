@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "TRAINING DEMO / UNAPPROVED",
+  "status": "DRAFT",
   "players": [
     {
       "id": "harry",
@@ -41,10 +41,10 @@
   ],
   "initialOrder": [
     "harry",
-    "caleb",
-    "trent",
-    "logan",
     "georgia",
-    "jaz"
+    "logan",
+    "trent",
+    "jaz",
+    "caleb"
   ]
 }
