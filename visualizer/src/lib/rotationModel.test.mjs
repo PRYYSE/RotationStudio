@@ -83,8 +83,8 @@ test('all authored scenarios show a held start, first contact, setter run and fi
   }
 })
 test('rotation links clamp malformed inputs and contain only the published view', () => {
-  assert.deepEqual(readRotationLink('?r=6&serve=us&t=4.2'), { rotation: 6, serve: 'us', time: 4.2 })
-  for (const query of ['?r=20&t=NaN', '?r=1.5&t=-2', '?r=Infinity&t=Infinity']) assert.deepEqual(readRotationLink(query), { rotation: 1, serve: 'they', time: 0 })
+  assert.deepEqual(readRotationLink('?r=6&serve=us&t=4.2'), { rotation: 6, serve: 'us', time: 4.2, opponentAttack: 'left', firstTouch: 'normal' })
+  for (const query of ['?r=20&t=NaN', '?r=1.5&t=-2', '?r=Infinity&t=Infinity']) assert.deepEqual(readRotationLink(query), { rotation: 1, serve: 'they', time: 0, opponentAttack: 'left', firstTouch: 'normal' })
   const url = rotationLink('https://example.org/studio/?s=old&draft=secret#old', 3, 'us', 4.234)
   assert.equal(url, 'https://example.org/studio/?mode=rotations&r=3&serve=us&t=4.23')
 })

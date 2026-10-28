@@ -19,6 +19,7 @@ export function RotationEditor() {
   }
   return <div className="rotation-editor">
     <p>Coach draft · local only. Drag in Top view, or edit metres below. Contact-frame edits keep ball endpoints linked. Export requires a valid plan.</p>
+    {scenario.tactics && <p>Editing R{s.rotation} · {s.serve === 'they' ? 'They' : 'Us'} serve · Our {s.opponentAttack} · {s.firstTouch === 'harry' ? 'Harry first' : 'Normal first contact'}.</p>}
     <div className="editor-grid">
       <label>Athlete / target<select value={s.selected} onChange={(e) => useRotations.setState({ selected: e.target.value })}>
         {bundle.team.players.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}<option value="target">PASS HERE target</option>

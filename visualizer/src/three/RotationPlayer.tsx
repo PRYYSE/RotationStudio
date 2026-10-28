@@ -14,9 +14,19 @@ export function RotationPlayer({ player, track, team, rotation }: { player: Play
   const leftLeg = useRef<THREE.Group>(null), rightLeg = useRef<THREE.Group>(null)
   const [hovered, setHovered] = useState(false)
   const labels = useRotations((s) => s.labels)
+  const view = useRotations((s) => s.view)
   const selected = useRotations((s) => s.editor && s.selected === player.id)
   const dragging = useRef(false)
   const position = positionOf(team, rotation, player.id)
+  // A legal overlap-safe stack can place adjacent athletes only ~1m apart.
+  // Offset nameplates from bodies (not player positions) to keep the six
+  // identities readable in top-down/mobile views without changing tactics.
+  const labelOffset: Record<number, [number, number, number]> = {
+    1: [0.65, 0.07, 0.62], 2: [0.72, 0.07, 0.42],
+    3: [0, 0.07, 1.15], 4: [-0.72, 0.07, 0.42],
+    5: [-0.70, 0.07, 0.65], 6: [0, 0.07, 0.95],
+  }
+  const labelPosition = view === 'front' || view === 'side' ? [0, 0.05, 0] : labelOffset[position]
   useFrame(() => {
     const s = useRotations.getState()
     const p = sampleTrack(track, s.time)
@@ -74,7 +84,7 @@ export function RotationPlayer({ player, track, team, rotation }: { player: Play
       <mesh position={[0, -0.27, 0]} castShadow><capsuleGeometry args={[0.09, 0.4, 4, 8]} /><meshStandardMaterial color={skin} /></mesh>
       <mesh position={[0, -0.58, -0.04]} castShadow><boxGeometry args={[0.2, 0.13, 0.32]} /><meshStandardMaterial color="#f0f3ff" /></mesh>
     </group>)}
-    {labels && <Html center position={[0, 0.05, 0]} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
+    {labels && <Html center position={labelPosition as [number, number, number]} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
       <span className={`athlete-label ${selected ? 'selected' : ''}`}>{player.name}{player.setter ? ' · S' : ''}<small>P{position} · {isFront(position) ? 'front' : 'back'}</small></span>
     </Html>}
   </group>

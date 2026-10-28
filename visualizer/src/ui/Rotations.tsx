@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { RotationScene } from '../three/RotationScene'
 import { activeBundle, activeScenario, useRotations } from '../state/rotationStore'
 import { loadBundle } from '../lib/rotationValidation'
-import { phaseAt, rotationLink } from '../lib/rotationModel'
+import { phaseAt, rotationLink, showReceiveAreas } from '../lib/rotationModel'
 import { RotationEditor } from './RotationEditor'
 import type { RotationView } from '../lib/rotationTypes'
 
@@ -37,6 +37,8 @@ export function Rotations() {
   const phase = phaseAt(scenario, s.time)
   const status = bundle.plans.status
   const demo = status === 'TRAINING DEMO / UNAPPROVED'
+  const receiving = showReceiveAreas(scenario, s.time, s.receiveAreas)
+  const hasAlternates = !!bundle.plans.scenarios.find((p) => p.rotation === s.rotation && p.serve === s.serve)?.alternates
   const jump = (time: number) => { s.seek(time); useRotations.setState({ editTime: time }) }
   return <main className="rotations" aria-label="Rotation studio">
     <div className="rotation-canvas"><RotationScene /></div>
@@ -55,16 +57,37 @@ export function Rotations() {
       </div>
     </div>
     <div className="rotation-bottom">
-      <div className="rotation-cue"><strong>{phase.label}</strong><span>{phase.cue}</span></div>
+      <div className="rotation-cue"><strong>{phase.label}</strong><span>{phase.cue}</span>
+        {s.firstTouch === 'harry' && scenario.tactics && <span className="rotation-coach-note">{scenario.tactics.coachNote}</span>}
+        {receiving && <span className="receive-instruction">Named areas = receive coverage · Overlap? Call MINE.</span>}
+      </div>
       {settings && <section className="rotation-settings glass" aria-label="Rotation settings">
         <div className="settings-heading"><strong>View & draft</strong><button aria-label="Close settings" onClick={() => setSettings(false)}>Close</button></div>
         <div className="settings-scroll">
+          {hasAlternates && <>
+            <div className="rotation-row tactics-row" role="group" aria-label="Their attack"><span>Their attack:</span>
+              <button aria-pressed={s.opponentAttack === 'left'} onClick={() => s.chooseTactics('left', s.firstTouch)}>Our left</button>
+              <button aria-pressed={s.opponentAttack === 'right'} onClick={() => s.chooseTactics('right', s.firstTouch)}>Our right</button>
+            </div>
+            <div className="rotation-row tactics-row" role="group" aria-label="First contact"><span>First contact:</span>
+              <button aria-pressed={s.firstTouch === 'normal'} onClick={() => s.chooseTactics(s.opponentAttack, 'normal')}>Normal</button>
+              <button aria-pressed={s.firstTouch === 'harry'} onClick={() => s.chooseTactics(s.opponentAttack, 'harry')}>Harry first</button>
+            </div>
+          </>}
           <nav className="rotation-row" aria-label="Camera view">{(['front', 'side', 'orbit', 'top'] as RotationView[]).map((view) => <button key={view} aria-pressed={s.view === view} onClick={() => useRotations.setState({ view })}>{view[0].toUpperCase() + view.slice(1)}</button>)}</nav>
           <div className="rotation-row options-row">
             <label><input type="checkbox" checked={s.labels} onChange={(e) => useRotations.setState({ labels: e.target.checked })} /> Names</label>
             <label><input type="checkbox" checked={s.trails} onChange={(e) => useRotations.setState({ trails: e.target.checked })} /> Paths</label>
+            {scenario.tactics && <label><input type="checkbox" checked={s.receiveAreas} onChange={(e) => useRotations.setState({ receiveAreas: e.target.checked })} /> Receive areas</label>}
             <label><input type="checkbox" checked={s.editor} onChange={(e) => { s.seek(s.editTime); useRotations.setState({ editor: e.target.checked, view: e.target.checked ? 'top' : s.view }) }} /> Coach draft</label>
           </div>
+          {s.receiveAreas && !!scenario.tactics?.receiveZones.length && <div className="receive-legend" aria-label="Receive area legend">
+            <p>Their serve only, through first contact. Overlapping lanes: call MINE.</p>
+            {scenario.tactics.receiveZones.map((zone) => {
+              const player = bundle.team.players.find((p) => p.id === zone.player)!
+              return <span key={zone.player}><i style={{ backgroundColor: player.color }} />{player.name} · {zone.duty} · {zone.label}</span>
+            })}
+          </div>}
           {s.editor && <RotationEditor />}
         </div>
       </section>}
@@ -79,7 +102,7 @@ export function Rotations() {
         </div>
         <div className="rotation-footer"><span>{s.draft ? 'LOCAL DRAFT · not shared' : status}</span><div>
           <button onClick={async () => {
-            const url = rotationLink(window.location.href, s.rotation, s.serve, s.time)
+            const url = rotationLink(window.location.href, s.rotation, s.serve, s.time, s.opponentAttack, s.firstTouch)
             try { await navigator.clipboard.writeText(url); setShare('Published view link copied. Draft edits are excluded.') }
             catch { setShare(url) }
           }}>Share view</button><button aria-expanded={settings} onClick={() => setSettings(!settings)}>Settings</button>

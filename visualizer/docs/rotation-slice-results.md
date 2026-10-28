@@ -1,5 +1,73 @@
 # Rotation Studio: first slice and QA record
 
+## Focused tactical V2 integration (28 October 2026)
+
+Branch: `feature/tactical-v2`. This section supersedes earlier demo-only data
+descriptions below. Public team and plan status remains **DRAFT**, with the
+not-approved warning retained. Changes are confined to `visualizer`; Set arcs
+source/mode, authored JSON coordinates, frozen fixtures, and
+`scripts/author_tactics_v2.py` are unchanged. No packages, commit, push, main-branch
+change, or hosting/deployment action.
+
+Settings now selects the full authored base/right/harry/harryRight scenario for
+either serve owner. Switching pauses, preserves the current time when phase
+timings match, maps phase progress when they differ, and snaps draft editing to
+the selected trajectory's frames. Scene remounting clears transient drag state.
+Share links use optional `attack=right` and `first=harry`; absent/invalid values
+default to left/normal. Links continue to exclude local edits.
+
+Coach edits resolve the same selection inside the cloned draft bundle. First
+contact, backup-setter contact, and PASS HERE retain adjacent ball endpoints;
+base/sibling variants and public data remain untouched. Validated JSON import and
+export preserve all 48 trajectories. The existing 2,000,000-byte upload limit
+accommodates the complete pretty-printed bundle. R3's next setter is read from
+the authored `nextSetter` metadata (Trent), with no tactical override.
+
+Receive areas use exact authored centres/radii and player colours: subdued floor
+ellipses, small player names, a settings legend, and a desktop instruction. The
+Receive areas checkbox defaults on. Areas appear only for They serve, in early
+Receive through first contact; they disappear immediately after it and never
+appear for Us serve or later digs. R5 retains Caleb/Georgia's broad overlapping
+lanes and Logan/Jaz's compact areas. Harry-first displays its authored coach note.
+
+Validation traverses every full variant with variant-labelled errors, including
+service-contact ordering/held starts, fixed front/back eligibility, track bounds,
+continuous ball endpoints/times, receiver/target contact linkage, tactical enums,
+backup/next-setter IDs, and positive bounded zones. Variants must share all six
+base starting coordinates and cannot nest alternates. The authored zone extending
+5 cm past a sideline is accepted with a 5 cm edge tolerance (plus numeric epsilon);
+centres remain within court bounds. Structural checks do not approve tactics or
+replace referee-exact foot/contact rulings.
+
+Focused verification: **`npm test`: 44 passed, 0 failed, 0 skipped**.
+**`npm run build -- --base=/RotationStudio/`: TypeScript and Vite passed**;
+the existing >500 kB bundle-size warning remains. `git diff --check` passed.
+Public `rotations.json` SHA-256 remains
+`a9be82bf33eb04cdb0a38193496986ed0626c63aa21c7833870a42ccc38f6094`.
+
+| Requirement | Evidence (exact test name or source/check) |
+| --- | --- |
+| “ALL 48 combinations” | `all 48 authored selections retain legal service spots, contacts, blocking and R3 next setter`; `every base and alternate is validated, including a corrupted final harryRight trajectory` |
+| “targeted negative test corrupting an alternate” | `alternate validation rejects service, eligibility, continuity and contact corruption`; `optional V2 metadata validates enums, backup IDs, zone IDs, radii and court bounds safely` |
+| “Preserve old frozen-demo fixture tests” | Existing fixture-based suite retained; `frozen legacy demo still accepts optional standalone tactics without needing alternates` |
+| “Both modes work with THEY serve and US serve” | `tactical switches select all 48 full authored scenarios, pause and preserve timeline without stale roles` |
+| “choose phase/timeline stable when reasonable” | `tactical switches remap phase progress and snap draft editing to the new authored frames` |
+| “Share URL must encode selection and restore it on open” | `selection links roundtrip all four choices for both serve owners and default old or invalid links`; `selection restored before loading clamps against the selected trajectory and legacy demos stay usable` |
+| “Coach draft must edit the currently SELECTED alternative” | `selected alternate draft edits keep receiver, backup setter and PASS HERE endpoints linked without touching siblings` (all four choices, both serve owners; also import rejection/reset/roundtrip) |
+| “Import/export correctly roundtrip all alternates” | `V2 import export roundtrips all full alternatives below the existing 2MB limit` |
+| “OUR serve must not show receive-zone ellipses” | `receive areas appear only through their early first contact, with R5 overlapping primary and narrow compact lanes` (also verifies checkbox and immediately-after-contact boundaries) |
+| “Show one-line coachNote when Harry-first option selected and preserve DRAFT not-approved warning” | `Rotations.tsx` reads selected tactics note; existing warning retained; public DRAFT assertions in `all 48 authored selections retain legal service spots, contacts, blocking and R3 next setter` |
+| “Run npm test and npm run build -- --base=/RotationStudio/” | Both commands exited 0; 44 tests passed; production build passed |
+
+No browser setup or rendered visual/touch acceptance was attempted in this
+sandbox, as requested. Normal Chat owns external browser QA: check named ellipse
+and avatar-label spacing at desktop/phone widths (especially R5), settings sheet
+scrolling, Harry notes, all four choices under both serve owners, fresh share-link
+opening, and selected-variant dragging/export/import. Unit tests establish data,
+selection, visibility gating and linkage; they do not establish visual legibility,
+WebGL appearance, or hands-on tactical approval. The historical browser failures
+below describe earlier work, not new attempts in this integration.
+
 ## Bounded repair follow-up (28 October 2026)
 
 The supplied actual 390×844 screenshot exposed oversized controls, labels covering avatars, steep/skewed framing and permanent path/contact overlays. This repair compacts the rotation controls, reserves a mobile court viewport between controls, straightens the portrait camera, moves larger player labels below human models, defaults paths off and limits the first-touch cue to ±0.55s around contact. PASS HERE text yields during that window; its floor marker remains. Original Set arcs stays separate. Rendered mobile/desktop/touch acceptance remains with the owner; no browser setup or automated visual QA was performed in this repair.

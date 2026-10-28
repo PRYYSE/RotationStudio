@@ -1,6 +1,25 @@
 export type Spot = { x: number; z: number }
 export type Point = Spot & { y: number }
 export type ServeOwner = 'they' | 'us'
+export type OpponentAttack = 'left' | 'right'
+export type FirstTouch = 'normal' | 'harry'
+export type AlternateKey = 'right' | 'harry' | 'harryRight'
+export type ReceiveZone = {
+  player: string
+  center: Spot
+  radiusX: number
+  radiusZ: number
+  duty: 'primary' | 'assist' | 'compact'
+  label: string
+}
+export type Tactics = {
+  opponentAttack: OpponentAttack
+  firstTouch: FirstTouch
+  fallbackSetter: string
+  nextSetter: string
+  receiveZones: ReceiveZone[]
+  coachNote: string
+}
 export type RotationView = 'front' | 'side' | 'orbit' | 'top'
 export type Role = 'start' | 'serve' | 'receive' | 'pass' | 'set' | 'attack' | 'block' | 'help' | 'defend' | 'recover'
 export type PlanStatus = 'TRAINING DEMO / UNAPPROVED' | 'DRAFT' | 'APPROVED'
@@ -37,6 +56,8 @@ export type Scenario = {
   firstContact: { player: string; time: number }
   secondContact: { player: string; time: number }
   ball: BallSegment[]
+  tactics?: Tactics
+  alternates?: Record<AlternateKey, Omit<Scenario, 'alternates'>>
 }
 export type Plans = {
   schemaVersion: 1

@@ -54,17 +54,71 @@ export function validateBundle(value: unknown): string[] {
   if (errors.length) return errors
   const typedTeam = team as unknown as Team
   const seen = new Set<string>()
-  for (const raw of plans.scenarios) {
+  const entries: { raw: unknown; variant: string; base?: Record<string, unknown> }[] = []
+  for (const base of plans.scenarios) {
+    entries.push({ raw: base, variant: 'base' })
+    if (!object(base) || base.alternates === undefined) continue
+    const tag = `R${finite(base.rotation) ? base.rotation : '?'} / ${oneOf(base.serve, ['they', 'us']) ? base.serve : '?'}: alternates`
+    if (!object(base.alternates) || Object.keys(base.alternates).length !== 3 ||
+      ['right', 'harry', 'harryRight'].some((key) => !object((base.alternates as Record<string, unknown>)[key]))) {
+      errors.push(`${tag} must contain full right, harry and harryRight scenarios.`)
+    }
+    if (!object(base.tactics)) errors.push(`${tag} require base tactics metadata.`)
+    if (object(base.alternates)) for (const [variant, raw] of Object.entries(base.alternates)) {
+      entries.push({ raw, variant, base })
+    }
+  }
+  for (const { raw, variant, base } of entries) {
     const before = errors.length
     if (!object(raw)) { errors.push('Each scenario must be an object.'); continue }
     if (!finite(raw.rotation) || !Number.isInteger(raw.rotation) || raw.rotation < 1 || raw.rotation > 6 || !oneOf(raw.serve, ['they', 'us'])) {
       errors.push('Scenario: invalid rotation or serve owner.'); continue
     }
-    const tag = `R${raw.rotation} / ${raw.serve}`
+    const tag = `R${raw.rotation} / ${raw.serve} / ${variant}`
     const error = (message: string) => errors.push(`${tag}: ${message}`)
     const key = `${raw.rotation}/${raw.serve}`
-    if (seen.has(key)) error('duplicate scenario.')
-    seen.add(key)
+    if (!base) {
+      if (seen.has(key)) error('duplicate scenario.')
+      seen.add(key)
+    } else {
+      if (raw.rotation !== base.rotation || raw.serve !== base.serve) error('alternate must match base rotation and serve owner.')
+      if (raw.alternates !== undefined) error('alternate cannot contain nested alternates.')
+      if (!object(raw.tactics)) error('alternate requires tactics metadata.')
+    }
+    if (raw.tactics !== undefined) {
+      const t = raw.tactics
+      if (!object(t)) error('tactics must be an object.')
+      else {
+        const expectedAttack = variant === 'right' || variant === 'harryRight' ? 'right' : 'left'
+        const expectedTouch = variant === 'harry' || variant === 'harryRight' ? 'harry' : 'normal'
+        if (!oneOf(t.opponentAttack, ['left', 'right']) || t.opponentAttack !== expectedAttack) error('tactics.opponentAttack must match the authored variant (left/right).')
+        if (!oneOf(t.firstTouch, ['normal', 'harry']) || t.firstTouch !== expectedTouch) error('tactics.firstTouch must match the authored variant (normal/harry).')
+        for (const id of ['fallbackSetter', 'nextSetter']) {
+          if (typeof t[id] !== 'string' || !ids.includes(t[id] as string)) error(`tactics.${id} must name an athlete.`)
+        }
+        if (t.fallbackSetter === typedTeam.players.find((p) => p.setter)?.id) error('fallbackSetter must be a local backup, not the primary setter.')
+        if (typeof t.coachNote !== 'string' || !t.coachNote.trim() || t.coachNote.length > 500) error('tactics.coachNote needs 1–500 characters.')
+        if (!Array.isArray(t.receiveZones) || t.receiveZones.length > 6) error('tactics.receiveZones must be an array of up to six areas.')
+        else {
+          const zonePlayers = new Set<string>()
+          for (const z of t.receiveZones) {
+            // Authored area edges may overhang a sideline by 5cm. Keep that
+            // small visual tolerance; centres must remain inside the court.
+            if (!object(z) || typeof z.player !== 'string' || !ids.includes(z.player) || zonePlayers.has(z.player) ||
+              !spot(z.center) || z.center.z > 9 || !finite(z.radiusX) || z.radiusX <= 0 || z.radiusX > 4.5 ||
+              !finite(z.radiusZ) || z.radiusZ <= 0 || z.radiusZ > 9 ||
+              Math.abs(z.center.x) + z.radiusX > 4.55 + 1e-9 || z.center.z - z.radiusZ < -0.01 || z.center.z + z.radiusZ > 9.01 ||
+              !oneOf(z.duty, ['primary', 'assist', 'compact']) || typeof z.label !== 'string' || !z.label.trim() || z.label.length > 80) {
+              error('invalid receive zone: athlete, center/bounds, positive radii, duty or label.'); continue
+            }
+            zonePlayers.add(z.player)
+          }
+        }
+        if (t.firstTouch === 'harry' && object(raw.firstContact) && object(raw.secondContact) &&
+          (raw.firstContact.player !== 'harry' || raw.secondContact.player !== t.fallbackSetter)) error('Harry-first contacts must name Harry then the authored fallbackSetter.')
+        if (t.firstTouch === 'normal' && object(raw.firstContact) && raw.firstContact.player === 'harry') error('Normal first contact cannot name Harry; use an authored Harry-first alternate.')
+      }
+    }
     if (!finite(raw.duration) || raw.duration < 1 || raw.duration > 120) { error('duration must be 1–120 seconds.'); continue }
     const duration = raw.duration
     if (!spot(raw.setterTarget) || Number((raw.setterTarget as Record<string, unknown>)?.z) >= 3) error('setterTarget must be on our court, within 3m of net.')
@@ -94,6 +148,10 @@ export function validateBundle(value: unknown): string[] {
         }
       }
       if ((track[0] as Keyframe)?.time !== 0 || (track[track.length - 1] as Keyframe)?.time !== duration) error(`${id}: track must span 0..duration.`)
+      if (base && object(base.tracks) && Array.isArray(base.tracks[id])) {
+        const start = (base.tracks[id] as unknown[])[0], alternate = track[0]
+        if (!object(start) || !object(alternate) || start.x !== alternate.x || start.z !== alternate.z) error(`${id}: alternate must share the same starting coordinates as base.`)
+      }
     }
     for (const key of ['firstContact', 'secondContact']) {
       const contact = raw[key]
@@ -131,6 +189,14 @@ export function validateBundle(value: unknown): string[] {
     for (let i = 1; i < s.ball.length; i++) {
       const a = s.ball[i - 1].to, b = s.ball[i].from
       if (Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z) > 0.01) error('consecutive ball segments must share endpoints (no teleports).')
+    }
+    if (s.tactics) for (const later of s.ball.filter((b) => b.kind === 'pass').slice(1)) {
+      const receiver = Object.values(s.tracks).some((track) => {
+        const p = sampleTrack(track, later.start)
+        return Math.hypot(p.x - later.from.x, p.z - later.from.z) <= 0.4
+      })
+      const setter = sampleTrack(s.tracks[s.tactics.nextSetter], later.end)
+      if (!receiver || Math.hypot(setter.x - later.to.x, setter.z - later.to.z) > 0.4) error('next pass must connect an authored receiver to nextSetter at contact times.')
     }
     errors.push(...serviceDiagnostics(typedTeam, s).map((e) => `${tag}: ${e}`))
   }

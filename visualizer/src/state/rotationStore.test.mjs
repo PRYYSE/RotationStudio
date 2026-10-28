@@ -5,7 +5,7 @@ globalThis.window = { location: { search: '' } }
 const { useRotations, activeBundle, activeScenario } = await import('./rotationStore.ts')
 const original = { team: JSON.parse(readFileSync(new URL('../../tests/fixtures/demo-team.json', import.meta.url))), plans: JSON.parse(readFileSync(new URL('../../tests/fixtures/demo-rotations.json', import.meta.url))) }
 beforeEach(() => {
-  useRotations.setState({ published: null, draft: null, error: '', loading: true, rotation: 1, serve: 'they', time: 0, playing: false, rate: 1, view: 'orbit', labels: true, trails: true, editor: false, selected: 'harry', editTime: 0 })
+  useRotations.setState({ published: null, draft: null, error: '', loading: true, rotation: 1, serve: 'they', time: 0, playing: false, rate: 1, view: 'orbit', labels: true, trails: true, editor: false, selected: 'harry', editTime: 0, opponentAttack: 'left', firstTouch: 'normal', receiveAreas: true })
   useRotations.getState().setBundle(structuredClone(original))
 })
 test('play pause resume speed seek reverse and end restart are deterministic', () => {
@@ -101,4 +101,111 @@ test('local edits never retain approved status', () => {
   useRotations.setState({ editor: true, selected: 'target' }); get().edit({ x: 1.3, z: 1.4 })
   assert.equal(activeBundle(get()).plans.status, 'DRAFT')
   assert.equal(get().published.plans.status, 'APPROVED')
+})
+
+const tactical = { team: JSON.parse(readFileSync(new URL('../../public/plans/team.json', import.meta.url))), plans: JSON.parse(readFileSync(new URL('../../public/plans/rotations.json', import.meta.url))) }
+const combinations = [['base', 'left', 'normal'], ['right', 'right', 'normal'], ['harry', 'left', 'harry'], ['harryRight', 'right', 'harry']]
+
+test('tactical switches select all 48 full authored scenarios, pause and preserve timeline without stale roles', async () => {
+  const { sampleTrack, phaseAt } = await import('../lib/rotationModel.ts')
+  const get = useRotations.getState
+  get().setBundle(structuredClone(tactical))
+  for (const base of tactical.plans.scenarios) {
+    get().choose(base.rotation, base.serve)
+    assert.equal(get().time, 0)
+    for (const [key, attack, touch] of combinations) {
+      get().seek(5.1); get().toggle()
+      get().chooseTactics(attack, touch)
+      const expected = key === 'base' ? base : base.alternates[key]
+      assert.deepEqual(activeScenario(get()), expected)
+      assert.equal(get().playing, false)
+      assert.equal(get().time, 5.1)
+      assert.equal(get().editTime, 5.1)
+      assert.equal(phaseAt(activeScenario(get()), get().time).label, phaseAt(expected, 5.1).label)
+      get().seek(0)
+      for (const id of tactical.team.initialOrder) assert.equal(sampleTrack(activeScenario(get()).tracks[id], get().time).role, 'start')
+    }
+  }
+  assert.deepEqual(get().published, tactical)
+})
+
+test('selection restored before loading clamps against the selected trajectory and legacy demos stay usable', () => {
+  const get = useRotations.getState
+  useRotations.setState({ rotation: 3, serve: 'us', opponentAttack: 'right', firstTouch: 'harry', time: 999 })
+  get().setBundle(structuredClone(tactical))
+  assert.deepEqual(activeScenario(get()), tactical.plans.scenarios[5].alternates.harryRight)
+  assert.equal(get().time, activeScenario(get()).duration)
+  assert.equal(activeScenario(get()).tactics.nextSetter, 'trent')
+  get().setBundle(structuredClone(original))
+  assert.deepEqual(activeScenario(get()), original.plans.scenarios[5])
+  get().chooseTactics('left', 'normal')
+  assert.deepEqual(activeScenario(get()), original.plans.scenarios[5])
+})
+
+test('tactical switches remap phase progress and snap draft editing to the new authored frames', () => {
+  const get = useRotations.getState, bundle = structuredClone(tactical)
+  // A valid timing difference in an imported alternative: labels, not a raw
+  // stale second count, anchor the selected timeline phase.
+  const alternate = bundle.plans.scenarios[0].alternates.right
+  alternate.phases.find((p) => p.label === 'Second contact').time = 4.6
+  get().setBundle(bundle)
+  get().seek(4.7)
+  get().chooseTactics('right', 'normal')
+  assert.ok(Math.abs(get().time - 4.8) < 1e-9)
+  useRotations.setState({ editor: true, editTime: 0 })
+  get().chooseTactics('left', 'harry')
+  assert.equal(get().time, 4.5); assert.equal(get().editTime, 4.5)
+  assert.equal(get().playing, false)
+})
+
+test('selected alternate draft edits keep receiver, backup setter and PASS HERE endpoints linked without touching siblings', async () => {
+  const { validateBundle, exportBundle, parseBundle } = await import('../lib/rotationValidation.ts')
+  const get = useRotations.getState
+  for (const serve of ['they', 'us']) for (const [key, attack, touch] of combinations) {
+    useRotations.setState({ draft: null, editor: false })
+    get().setBundle(structuredClone(tactical))
+    get().choose(3, serve); get().chooseTactics(attack, touch)
+    const before = activeScenario(get())
+    useRotations.setState({ editor: true, selected: before.firstContact.player, editTime: before.firstContact.time })
+    const first = before.tracks[before.firstContact.player].find((k) => k.time === before.firstContact.time)
+    get().edit({ x: first.x + 0.1, z: first.z })
+    let s = activeScenario(get()), pass = s.ball.find((b) => b.kind === 'pass')
+    assert.equal(pass.from.x, first.x + 0.1)
+    assert.deepEqual(s.ball[s.ball.indexOf(pass) - 1].to, pass.from)
+    useRotations.setState({ selected: s.secondContact.player, editTime: s.secondContact.time })
+    get().edit({ x: 1.6, z: 1.1 })
+    s = activeScenario(get()); pass = s.ball.find((b) => b.kind === 'pass')
+    assert.deepEqual(s.setterTarget, { x: 1.6, z: 1.1 })
+    assert.deepEqual(pass.to, s.ball[s.ball.indexOf(pass) + 1].from)
+    useRotations.setState({ selected: 'target' })
+    get().edit({ x: 1.65, z: 1.15 })
+    s = activeScenario(get()); pass = s.ball.find((b) => b.kind === 'pass')
+    assert.deepEqual(s.setterTarget, { x: 1.65, z: 1.15 })
+    assert.equal(pass.to.x, 1.65); assert.equal(pass.to.z, 1.15)
+    assert.deepEqual(pass.to, s.ball[s.ball.indexOf(pass) + 1].from)
+    const setter = s.tracks[s.secondContact.player].find((k) => k.time === s.secondContact.time)
+    assert.equal(setter.x, 1.65); assert.equal(setter.z, 1.15)
+    assert.equal(s.tactics.nextSetter, 'trent')
+    assert.deepEqual(validateBundle(activeBundle(get())), [])
+    assert.deepEqual(get().published, tactical)
+    const draft = activeBundle(get()), baseIndex = tactical.plans.scenarios.findIndex((p) => p.rotation === 3 && p.serve === serve)
+    const unchanged = structuredClone(draft)
+    if (key === 'base') {
+      assert.deepEqual(draft.plans.scenarios[baseIndex].alternates, tactical.plans.scenarios[baseIndex].alternates)
+      unchanged.plans.scenarios[baseIndex] = structuredClone(tactical.plans.scenarios[baseIndex])
+    } else unchanged.plans.scenarios[baseIndex].alternates[key] = structuredClone(tactical.plans.scenarios[baseIndex].alternates[key])
+    assert.deepEqual(unchanged, tactical)
+    const roundtrip = parseBundle(exportBundle(draft))
+    get().importDraft(roundtrip)
+    assert.equal(get().time, 0); assert.equal(get().editTime, 0); assert.equal(get().playing, false)
+    assert.deepEqual(activeScenario(get()), s)
+    const invalid = structuredClone(roundtrip)
+    invalid.plans.scenarios[11].alternates.harryRight.tactics.nextSetter = 'nobody'
+    get().importDraft(invalid)
+    assert.match(get().error, /nextSetter/)
+    assert.deepEqual(activeBundle(get()), roundtrip)
+    get().resetDraft()
+    assert.deepEqual(activeBundle(get()), tactical)
+    assert.deepEqual(activeScenario(get()), key === 'base' ? tactical.plans.scenarios[baseIndex] : tactical.plans.scenarios[baseIndex].alternates[key])
+  }
 })

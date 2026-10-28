@@ -8,7 +8,7 @@ import { StageBox } from './StageBox'
 import { RotationCameraRig } from './RotationCameraRig'
 import { RotationPlayer } from './RotationPlayer'
 import { activeBundle, activeScenario, useRotations } from '../state/rotationStore'
-import { ballAt, sampleArc, sampleTrack } from '../lib/rotationModel'
+import { ballAt, sampleArc, sampleTrack, showReceiveAreas } from '../lib/rotationModel'
 import { FORMATS } from '../lib/formats'
 import { BRAND } from '../lib/constants'
 
@@ -58,9 +58,26 @@ function Players() {
   const trails = useRotations((s) => s.trails)
   const time = useRotations((s) => s.time)
   const editor = useRotations((s) => s.editor)
+  const receiveAreas = useRotations((s) => s.receiveAreas)
   const touching = Math.abs(time - scenario.firstContact.time) <= 0.55
   const first = sampleTrack(scenario.tracks[scenario.firstContact.player], scenario.firstContact.time)
   return <>
+    {showReceiveAreas(scenario, time, receiveAreas) && scenario.tactics?.receiveZones.map((zone) => {
+      const player = bundle.team.players.find((p) => p.id === zone.player)!
+      const points = Array.from({ length: 65 }, (_, i) => {
+        const angle = i / 64 * Math.PI * 2
+        return new THREE.Vector3(Math.cos(angle) * zone.radiusX, 0, Math.sin(angle) * zone.radiusZ)
+      })
+      return <group key={zone.player} position={[zone.center.x, 0.045, zone.center.z]}>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} scale={[zone.radiusX, zone.radiusZ, 1]} raycast={() => null}>
+          <circleGeometry args={[1, 64]} /><meshBasicMaterial color={player.color} transparent opacity={zone.duty === 'primary' ? 0.12 : 0.07} depthWrite={false} side={THREE.DoubleSide} />
+        </mesh>
+        <Line points={points} color={player.color} lineWidth={1} transparent opacity={0.4} raycast={() => null} />
+        <Html center position={[0, 0.08, -zone.radiusZ * 0.7]} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
+          <span className="receive-area-name" style={{ borderColor: player.color }}>{player.name}</span>
+        </Html>
+      </group>
+    })}
     {bundle.team.players.map((player) => <RotationPlayer key={player.id} player={player} track={scenario.tracks[player.id]} team={bundle.team} rotation={scenario.rotation} />)}
     {trails && bundle.team.players.map((p) => {
       const points = Array.from({ length: 100 }, (_, i) => { const v = sampleTrack(scenario.tracks[p.id], i / 99 * scenario.duration); return new THREE.Vector3(v.x, 0.08, v.z) })
@@ -90,6 +107,7 @@ function Players() {
 }
 export const RotationScene = memo(function RotationScene() {
   const netHeight = useRotations((s) => activeBundle(s)!.plans.netHeight)
+  const scenarioKey = useRotations((s) => `${s.rotation}/${s.serve}/${s.opponentAttack}/${s.firstTouch}`)
   return <Canvas shadows dpr={[1, 1.7]} camera={{ position: [12, 30, 25], fov: 42, near: 0.1, far: 150 }} gl={{ antialias: true }}>
     <color attach="background" args={[BRAND.bg]} />
     <fog attach="fog" args={[BRAND.bg, 45, 100]} />
@@ -97,7 +115,7 @@ export const RotationScene = memo(function RotationScene() {
     <hemisphereLight args={['#b8d8ff', '#090a12', 0.8]} />
     <directionalLight position={[7, 13, 9]} intensity={1.8} castShadow shadow-mapSize={[1024, 1024]} shadow-camera-left={-12} shadow-camera-right={12} shadow-camera-top={12} shadow-camera-bottom={-12} />
     <StageBox /><Court courtFormat={FORMATS.indoor6s} /><Net courtFormat={{ ...FORMATS.indoor6s, netHeight }} />
-    <Players />
+    <Players key={scenarioKey} />
     <ContactShadows position={[0, 0.02, 0]} scale={28} resolution={512} blur={2.4} opacity={0.35} far={5} />
     <RotationCameraRig />
   </Canvas>

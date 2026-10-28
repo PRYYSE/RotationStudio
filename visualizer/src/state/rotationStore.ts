@@ -1,29 +1,50 @@
 import { create } from 'zustand'
-import type { Bundle, RotationView, ServeOwner, Spot } from '../lib/rotationTypes.ts'
-import { readRotationLink } from '../lib/rotationModel.ts'
+import type { Bundle, RotationView, ServeOwner, Spot, OpponentAttack, FirstTouch } from '../lib/rotationTypes.ts'
+import { phaseAt, readRotationLink, selectScenario } from '../lib/rotationModel.ts'
 import { validateBundle } from '../lib/rotationValidation.ts'
 
 const link = readRotationLink(window.location.search)
 type State = {
   published: Bundle | null; draft: Bundle | null; error: string; loading: boolean
   rotation: number; serve: ServeOwner; time: number; playing: boolean; rate: number
+  opponentAttack: OpponentAttack; firstTouch: FirstTouch; receiveAreas: boolean
   view: RotationView; labels: boolean; trails: boolean; editor: boolean; selected: string; editTime: number
   setBundle: (bundle: Bundle) => void
   choose: (rotation: number, serve: ServeOwner) => void
+  chooseTactics: (opponentAttack: OpponentAttack, firstTouch: FirstTouch) => void
   seek: (time: number) => void; toggle: () => void; tick: (dt: number) => void
   edit: (spot: Spot) => void; importDraft: (bundle: Bundle) => void; resetDraft: () => void
 }
 export const activeBundle = (s: State) => s.draft ?? s.published
-export const activeScenario = (s: State) => activeBundle(s)?.plans.scenarios.find((p) => p.rotation === s.rotation && p.serve === s.serve)
+export const activeScenario = (s: State) => {
+  const base = activeBundle(s)?.plans.scenarios.find((p) => p.rotation === s.rotation && p.serve === s.serve)
+  return base && selectScenario(base, s.opponentAttack, s.firstTouch)
+}
 export const useRotations = create<State>((set, get) => ({
   published: null, draft: null, error: '', loading: true,
-  ...link, playing: false, rate: 1, view: 'orbit', labels: true, trails: false,
+  ...link, playing: false, rate: 1, view: 'orbit', labels: true, trails: false, receiveAreas: true,
   editor: false, selected: 'harry', editTime: 0,
   setBundle: (published) => {
-    const scenario = published.plans.scenarios.find((p) => p.rotation === get().rotation && p.serve === get().serve)!
+    const scenario = activeScenario({ ...get(), published })!
     set({ published, loading: false, error: '', time: Math.min(get().time, scenario.duration) })
   },
   choose: (rotation, serve) => set({ rotation, serve, time: 0, playing: false, editTime: 0, error: '' }),
+  chooseTactics: (opponentAttack, firstTouch) => {
+    const s = get(), before = activeScenario(s)
+    const after = activeScenario({ ...s, opponentAttack, firstTouch })
+    let time = Math.min(s.time, after?.duration ?? 0)
+    if (before && after) {
+      const phase = phaseAt(before, s.time)
+      const next = after.phases.find((p) => p.label === phase.label)
+      const end = next && (after.phases[after.phases.indexOf(next) + 1]?.time ?? after.duration)
+      if (next && end !== undefined && next.time !== phase.time) time = Math.min(next.time + s.time - phase.time, end)
+      if (s.editor) {
+        const times = Object.values(after.tracks).flatMap((track) => track.map((k) => k.time))
+        time = times.reduce((best, t) => Math.abs(t - time) < Math.abs(best - time) ? t : best, times[0])
+      }
+    }
+    set({ opponentAttack, firstTouch, time, editTime: time, playing: false, error: '' })
+  },
   seek: (requested) => {
     const s = get(), scenario = activeScenario(s)
     let time = Math.max(0, Math.min(requested, scenario?.duration ?? 0))
@@ -45,7 +66,7 @@ export const useRotations = create<State>((set, get) => ({
     const s = get(), current = activeBundle(s)
     if (!s.editor || !current || !Number.isFinite(spot.x) || !Number.isFinite(spot.z)) return
     const draft = structuredClone(current)
-    const scenario = draft.plans.scenarios.find((p) => p.rotation === s.rotation && p.serve === s.serve)!
+    const scenario = activeScenario({ ...s, draft })!
     // Local changes cannot inherit a published approval; demo edits remain demos.
     if (draft.team.status === 'APPROVED') draft.team.status = draft.plans.status = 'DRAFT'
     const passIndex = scenario.ball.findIndex((b) => b.kind === 'pass')

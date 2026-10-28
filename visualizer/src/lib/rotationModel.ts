@@ -1,4 +1,4 @@
-import type { BallSegment, Point, Scenario, Spot, Team, Keyframe } from './rotationTypes.ts'
+import type { BallSegment, Point, Scenario, Spot, Team, Keyframe, OpponentAttack, FirstTouch } from './rotationTypes.ts'
 import { arcControl } from './trajectory.ts'
 
 export function rotationOrder(initial: string[], turns: number): string[] {
@@ -45,17 +45,31 @@ export function ballAt(scenario: Scenario, time: number): Point {
 export function phaseAt(scenario: Scenario, time: number) {
   return [...scenario.phases].reverse().find((p) => p.time <= time) ?? scenario.phases[0]
 }
+export function selectScenario(base: Scenario, opponentAttack: OpponentAttack, firstTouch: FirstTouch): Scenario {
+  const key = firstTouch === 'harry' ? (opponentAttack === 'right' ? 'harryRight' : 'harry') : opponentAttack === 'right' ? 'right' : null
+  // Legacy demos have no variants. Never synthesize tracks or contacts.
+  return key ? base.alternates?.[key] ?? base : base
+}
+export function showReceiveAreas(scenario: Scenario, time: number, enabled: boolean) {
+  return enabled && scenario.serve === 'they' && time <= scenario.firstContact.time &&
+    phaseAt(scenario, time).section === 'Receive' && !!scenario.tactics?.receiveZones.length
+}
 export function readRotationLink(search: string) {
   const p = new URLSearchParams(search)
   const rotation = Number(p.get('r'))
   const time = Number(p.get('t'))
   return { rotation: Number.isInteger(rotation) && rotation >= 1 && rotation <= 6 ? rotation : 1,
     serve: p.get('serve') === 'us' ? 'us' as const : 'they' as const,
+    opponentAttack: p.get('attack') === 'right' ? 'right' as const : 'left' as const,
+    firstTouch: p.get('first') === 'harry' ? 'harry' as const : 'normal' as const,
     time: Number.isFinite(time) ? Math.max(0, time) : 0 }
 }
-export function rotationLink(base: string, rotation: number, serve: string, time: number) {
+export function rotationLink(base: string, rotation: number, serve: string, time: number, opponentAttack: OpponentAttack = 'left', firstTouch: FirstTouch = 'normal') {
   const url = new URL(base)
   url.search = new URLSearchParams({ mode: 'rotations', r: String(rotation), serve, t: time.toFixed(2) }).toString()
+  // Default selections keep the original link shape.
+  if (opponentAttack !== 'left') url.searchParams.set('attack', opponentAttack)
+  if (firstTouch !== 'normal') url.searchParams.set('first', firstTouch)
   url.hash = ''
   return url.toString()
 }
