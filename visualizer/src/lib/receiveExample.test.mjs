@@ -132,7 +132,7 @@ test('all accepted continuations screen below 4m/s with at least .56m centre spa
 })
 
 test('forced unreachable, uncovered auto and forbidden Harry overrides return no animation', () => {
-  for (const sample of [{ x: 3, z: 8, receiver: 'logan' }, { x: 3, z: 8, receiver: 'auto' }, { x: 0, z: 5.8, receiver: 'harry' }, { x: 0, z: 5.8, receiver: 'unknown' }, { x: 1, z: 5.8, receiver: 'auto' }]) {
+  for (const sample of [{ x: 3, z: 8, receiver: 'logan' }, { x: 3, z: 3.5, receiver: 'auto' }, { x: 0, z: 5.8, receiver: 'harry' }, { x: 0, z: 5.8, receiver: 'unknown' }, { x: 1, z: 5.8, receiver: 'auto' }]) {
     const result = receiveExample(bundle.team, authored(1), sample)
     assert.equal(result.ok, false); assert.equal('scenario' in result, false)
     assert.match(result.message, /^No feasible first touch at this sample\./)
@@ -181,7 +181,7 @@ test('named receivers stay named and coaching preferences rank close feasible ch
   assert.equal(receiveExample(team, source, sample).receiver, 'jaz')
   assert.deepEqual(source, original)
   for (const p of team.players) Object.assign(p.skills, { receive: 5, mobility: 5 })
-  assert.equal(receiveExample(team, authored(1), { x: 3, z: 8, receiver: 'auto' }).ok, false)
+  assert.equal(receiveExample(team, authored(1), { x: -3, z: 8, receiver: 'logan' }).ok, false)
 })
 
 test('teaching examples cannot be exported or imported as plans, even with approved status', () => {

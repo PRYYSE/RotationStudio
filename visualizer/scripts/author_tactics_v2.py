@@ -25,12 +25,12 @@ SKILLS={
 }
 for athlete in TEAM["players"]:athlete["skills"]=SKILLS[athlete["id"]]
 COURT={
- 1:{4:(-1.25,1.55),3:(-.25,2.20),2:(2.80,1.85),5:(-2.95,6.90),6:(.20,6.50),1:(1.55,2.65)},
- 2:{4:(-2.95,2.65),3:(-.25,1.70),2:(2.80,1.90),5:(-2.70,6.50),6:(.35,2.80),1:(2.65,6.90)},
- 3:{4:(-2.85,2.40),3:(.05,2.25),2:(.90,1.55),5:(-1.25,3.25),6:(-.15,6.80),1:(2.85,7.00)},
- 4:{4:(-.75,1.55),3:(-.10,3.00),2:(2.75,2.05),5:(-2.85,6.70),6:(.05,6.85),1:(2.80,6.80)},
- 5:{4:(-2.75,3.65),3:(.50,1.55),2:(2.75,4.30),5:(-3.00,7.35),6:(0,6.60),1:(3.05,7.25)},
- 6:{4:(-2.80,1.75),3:(.30,2.25),2:(1.55,1.65),5:(-2.80,6.65),6:(0,7.10),1:(2.70,6.65)},
+ 1:{4:(-1.85,1.50),3:(-.25,2.80),2:(2.80,1.85),5:(-2.95,6.90),6:(.90,6.70),1:(1.55,2.65)},
+ 2:{4:(-2.95,2.65),3:(-.25,1.70),2:(2.80,1.90),5:(-1.95,6.50),6:(.35,2.80),1:(1.95,6.90)},
+ 3:{4:(-2.85,2.40),3:(.55,2.25),2:(1.65,1.75),5:(-1.25,3.25),6:(-.85,6.90),1:(2.85,7.00)},
+ 4:{4:(-1.20,1.55),3:(-.60,3.00),2:(2.75,2.05),5:(-2.85,6.70),6:(.05,6.85),1:(2.80,6.80)},
+ 5:{4:(-2.20,4.20),3:(.50,1.55),2:(2.20,4.30),5:(-3.00,7.35),6:(0,6.60),1:(3.05,7.25)},
+ 6:{4:(-2.80,1.75),3:(1.05,2.30),2:(1.95,1.65),5:(-2.80,6.65),6:(0,7.10),1:(2.70,6.65)},
 }
 TARGET={1:(1.55,1.05),2:(.95,1.05),3:(1.35,.90),4:(.35,1.05),5:(.95,1.05),6:(1.15,1.05)}
 OFFENSE={
@@ -45,16 +45,16 @@ BLOCKERS={1:("logan","trent"),2:("trent","logan"),3:("caleb","trent"),4:("caleb"
 # The front-side hitter drops a step into a short-ball lane, not 2-3m
 # sideways into a literal "short middle". Front row eligibility remains fixed.
 SHORT={
- 1:("georgia",(2.55,3.35)),2:("jaz",(-2.55,3.40)),3:("jaz",(2.35,3.35)),
+ 1:("georgia",(2.55,3.35)),2:("jaz",(-2.15,3.40)),3:("jaz",(2.35,3.35)),
  4:("jaz",(2.55,3.35)),5:("georgia",(-2.45,3.35)),6:("georgia",(2.45,3.35)),
 }
 # Two deep defenders anchor the backline; back-row Harry is a shallow
 # defender / second-contact outlet rather than sprinting to z=7 and back.
 DEEP={
- 1:{"jaz":(-2.95,6.95),"caleb":(.40,6.70),"harry":(2.85,4.85)},
- 2:{"caleb":(-2.85,6.85),"harry":(.15,4.40),"georgia":(2.85,6.85)},
- 3:{"harry":(-.80,4.35),"georgia":(-.15,6.90),"logan":(2.90,7.05)},
- 4:{"georgia":(-2.85,6.85),"logan":(.05,6.85),"trent":(2.85,6.85)},
+ 1:{"jaz":(-2.95,6.95),"caleb":(.95,6.75),"harry":(2.85,4.85)},
+ 2:{"caleb":(-2.00,6.85),"harry":(.15,4.40),"georgia":(2.00,6.85)},
+ 3:{"harry":(-.80,4.35),"georgia":(-.90,6.90),"logan":(2.90,7.05)},
+ 4:{"georgia":(-2.85,6.10),"logan":(.05,6.85),"trent":(2.85,6.85)},
  5:{"logan":(-3.05,7.15),"trent":(.00,6.70),"jaz":(3.05,7.15)},
  6:{"trent":(-2.85,6.80),"jaz":(.00,7.05),"caleb":(2.75,6.75)},
 }
@@ -76,7 +76,7 @@ ZONES={
  3:[("georgia",(-.65,6.55,2.45,2.15,"Centre + deep left","primary")),("caleb",(-2.75,4.15,1.35,1.7,"Left + short left","primary")),("logan",(3.05,7.35,1.05,1.3,"Narrow deep right","compact")),("jaz",(1.15,4.35,1.0,1.1,"Short centre-right","compact"))],
  4:[("georgia",(-2.6,6.45,1.95,2.1,"Deep left","primary")),("caleb",(-.55,4.2,2.25,2.1,"Middle + short left","primary")),("trent",(2.75,6.75,1.35,1.55,"Deep right","assist")),("logan",(.25,7.45,1.0,1.1,"Small deep middle","compact"))],
  5:[("caleb",(1.8,5.65,2.65,2.55,"Right + middle","primary")),("georgia",(-2.2,5.50,2.05,2.25,"Left + middle","primary")),("trent",(.0,6.65,1.25,1.55,"Small deep centre","assist")),("logan",(-3.35,8.1,.85,.9,"Deep-left corner","compact")),("jaz",(3.3,8.1,.85,.9,"Deep-right corner","compact"))],
- 6:[("caleb",(1.75,6.1,2.6,2.3,"Right + middle","primary")),("trent",(-2.75,6.35,1.65,2.0,"Deep left","assist")),("jaz",(.05,7.40,1.0,1.2,"Compact deep middle","compact")),("georgia",(.30,4.2,1.15,1.4,"Short centre","assist"))],
+ 6:[("caleb",(1.75,6.1,2.6,2.3,"Right + middle","primary")),("trent",(-2.75,6.35,1.65,2.0,"Deep left","assist")),("jaz",(.05,7.40,1.0,1.2,"Compact deep middle","compact")),("georgia",(1.00,3.7,1.60,1.50,"Short centre / right","assist"))],
 }
 FIRST={1:"caleb",2:"caleb",3:"georgia",4:"georgia",5:"caleb",6:"caleb"}
 RECEIVE_PT={1:(.30,6.20),2:(-2.60,6.35),3:(-.40,6.55),4:(-2.65,6.35),5:(2.35,5.25),6:(2.35,6.25)}
@@ -276,7 +276,7 @@ def create(r,serve,side="left",harry_touch=False):
         atHit=target if id==setter else (OFFENSE[r][id] if id in OFFENSE[r] and id!=setter else attack_support(id))
         if id=="harry" and harry_touch:
             atHit=defense["harry"]
-            if r==4:atHit=(.10,2.25) if side=="left" else (2.15,2.45)
+            if r==4:atHit=(.10,2.25)
             if r==5:atHit=(-1.05,2.10)
             if r==6:atHit=(.05,1.75)
         # Crossing routes are staged during release, not detours at attack contact.

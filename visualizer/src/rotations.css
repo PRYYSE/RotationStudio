@@ -64,6 +64,8 @@
 .server-cue { color: #c8d7ed; }
 .share-feedback { font-size: 11px; color: #d5e8ff; display: flex; align-items: center; justify-content: space-between; overflow-wrap: anywhere; }
 @media (min-width: 900px) {
+  /* Keep real-court positions inside the available stage, not behind the timeline. */
+  .rotation-canvas { top: 58px; bottom: 215px; }
   /* Desktop stage: center phase tabs, anchor rotation controls to the viewport.
      An ancestor transform made the old fixed-left calculation clip offscreen. */
   .rotation-top { top: 16px; left: 0; right: 0; transform: none; }
