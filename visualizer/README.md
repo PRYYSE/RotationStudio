@@ -2,7 +2,7 @@
 
 A source-preserving extension of the public [SetOptics visualizer](https://github.com/dawsonpar/SetOptics), licensed under the repository's Apache-2.0 [LICENSE](../LICENSE). Rotation Studio is a fork adaptation, with original branding and no implied endorsement. No hosted SetOptics rotation code is included.
 
-**Bundled example: TRAINING DEMO / UNAPPROVED. Demonstration movements - not approved match positions.** All twelve bundled scenarios use arbitrary sample coordinates and timing to demonstrate the application. The service order, receive lanes, attacks and defensive assignments need owner/coach authoring and verification before use in a match. Structural validators do not establish tactical correctness.
+**Published plan: DRAFT / NOT APPROVED FOR MATCH USE (28 October 2026).** Normal Chat authored all twelve TTGVA C Grade scenarios from this team's player assessments and local rotation rules. They are concrete coaching proposals, not arbitrary demonstration moves and **not verified on court**. The independently frozen old demo data is in tests/fixtures/; app tests no longer assert that public tactical coordinates match the old sample. Structural validation does not establish practical tactical suitability.
 
 ## Run and check
 
@@ -29,9 +29,9 @@ The application fetches and validates these Vite public assets at runtime:
 - [`public/plans/team.json`](public/plans/team.json): schema version, publication status, six stable athlete IDs/names/colors, primary setter tag and one explicit `initialOrder` in **P1,P2,P3,P4,P5,P6** order.
 - [`public/plans/rotations.json`](public/plans/rotations.json): schema version, publication status, net height and twelve fully explicit timelines (six rotations × `they`/`us` serve).
 
-Both files require `schemaVersion: 1` and the same `status`: `"TRAINING DEMO / UNAPPROVED"`, `"DRAFT"`, or `"APPROVED"`. Status is an explicit author/coach declaration, never assigned by validation. The bundled example remains DEMO with persistent warnings. To publish a reviewed plan later, edit both JSON statuses to `"APPROVED"` along with the authored plan; no application edits are needed. DRAFT and APPROVED plans must pass the same structural checks as DEMO. No deployment is authorized by editing status. Unknown versions and invalid imports fail with readable diagnostics.
+Both files require `schemaVersion: 1` and the same `status`: `"TRAINING DEMO / UNAPPROVED"`, `"DRAFT"`, or `"APPROVED"`. Status is an explicit author/coach declaration, never assigned by validation. The currently published team plan is DRAFT, with persistent warnings. The earlier DEMO fixture is retained only for tests. To publish a reviewed plan later, edit both JSON statuses to `"APPROVED"` along with the authored plan; no application edits are needed. DRAFT and APPROVED plans must pass the same structural checks as DEMO. No deployment is authorized by editing status. Unknown versions and invalid imports fail with readable diagnostics.
 
-The arbitrary R1 demo order is P1 Harry, P2 Caleb, P3 Trent, P4 Logan, P5 Georgia, P6 Jaz. Each side-out shifts the P1..P6 array left by one: P2 becomes P1, P1 becomes P6. Six turns restore the original order. Identity/eligibility uses this transform throughout the rally; it is never inferred from animated depth.
+The current tactical DRAFT R1 order is P1 Harry, P2 Georgia, P3 Logan, P4 Trent, P5 Jaz, P6 Caleb. Each side-out shifts the P1..P6 array left by one: P2 becomes P1, P1 becomes P6. Six turns restore the original order. Identity/eligibility uses this transform throughout the rally; it is never inferred from animated depth.
 
 Units are metres and seconds. X increases left-to-right from our baseline looking at the net. The net is Z=0; our half is Z=0..9 and their half Z=-9..0, with X=-4.5..4.5. P4/P3/P2 are front-left/middle/right, P5/P6/P1 back-left/middle/right. `x,z` are avatar-centre floor reference points for the structural ordering checks, not a naive front/back division at the attack line. These strict centre-order checks are conservative and can reject positions that a referee would allow based on feet. They do not implement the exact foot rule or certify legality. The human meshes are illustrative rather than a foot-contact simulation.
 
@@ -81,9 +81,9 @@ npm test
 npm run build
 ```
 
-## Prepare static hosting later
+## Local preview and deployment boundary
 
-No deployment is part of this change. Functional browser QA and designer review remain required; see the [implementation/QA record](docs/rotation-slice-results.md).
+The interactive DRAFT is deployed on GitHub Pages, but it has **not** been approved or tested at a live match. Earlier build-slice QA is in [the implementation/QA record](docs/rotation-slice-results.md). The commands below allow independent local production preview.
 
 For a later, separately authorized root-path static host, the exact build and local production check are:
 
@@ -100,7 +100,7 @@ Inspect `http://127.0.0.1:4173/`. Upload **the contents** of `visualizer/dist/`,
 rsync -a dist/ /path/to/reviewed-document-root/
 ```
 
-This is a documented future command, not an executed deployment. Host at the document root: the original Set arcs texture URLs remain root-relative. Serve plan JSON with revalidation/no-cache so shared views receive published edits. No backend, accounts or cloud services are required.
+This is an optional alternative filesystem-host command, not the current publishing method. The live GitHub Pages deployment uses the correct /RotationStudio/ base path for the original Set arcs textures. Serve plan JSON with revalidation/no-cache so shared views receive published edits. No backend, accounts or cloud services are required.
 
 ## Public viewer publishing (GitHub Pages)
 
