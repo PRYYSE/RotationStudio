@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "status": "TRAINING DEMO / UNAPPROVED",
+  "players": [
+    {
+      "id": "harry",
+      "name": "Harry",
+      "setter": true,
+      "color": "#75c5ff"
+    },
+    {
+      "id": "caleb",
+      "name": "Caleb",
+      "setter": false,
+      "color": "#769bff"
+    },
+    {
+      "id": "trent",
+      "name": "Trent",
+      "setter": false,
+      "color": "#92d5ca"
+    },
+    {
+      "id": "logan",
+      "name": "Logan",
+      "setter": false,
+      "color": "#dcaef7"
+    },
+    {
+      "id": "georgia",
+      "name": "Georgia",
+      "setter": false,
+      "color": "#ffbc8f"
+    },
+    {
+      "id": "jaz",
+      "name": "Jaz",
+      "setter": false,
+      "color": "#ffd878"
+    }
+  ],
+  "initialOrder": [
+    "harry",
+    "caleb",
+    "trent",
+    "logan",
+    "georgia",
+    "jaz"
+  ]
+}

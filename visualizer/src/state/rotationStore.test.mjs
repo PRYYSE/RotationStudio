@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 globalThis.window = { location: { search: '' } }
 const { useRotations, activeBundle, activeScenario } = await import('./rotationStore.ts')
-const original = { team: JSON.parse(readFileSync(new URL('../../public/plans/team.json', import.meta.url))), plans: JSON.parse(readFileSync(new URL('../../public/plans/rotations.json', import.meta.url))) }
+const original = { team: JSON.parse(readFileSync(new URL('../../tests/fixtures/demo-team.json', import.meta.url))), plans: JSON.parse(readFileSync(new URL('../../tests/fixtures/demo-rotations.json', import.meta.url))) }
 beforeEach(() => {
   useRotations.setState({ published: null, draft: null, error: '', loading: true, rotation: 1, serve: 'they', time: 0, playing: false, rate: 1, view: 'orbit', labels: true, trails: true, editor: false, selected: 'harry', editTime: 0 })
   useRotations.getState().setBundle(structuredClone(original))

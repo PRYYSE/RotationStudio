@@ -3,11 +3,11 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { validateBundle, parseBundle, exportBundle, loadBundle } from './rotationValidation.ts'
 import { rotationOrder } from './rotationModel.ts'
-const original = { team: JSON.parse(readFileSync(new URL('../../public/plans/team.json', import.meta.url))), plans: JSON.parse(readFileSync(new URL('../../public/plans/rotations.json', import.meta.url))) }
+const original = { team: JSON.parse(readFileSync(new URL('../../tests/fixtures/demo-team.json', import.meta.url))), plans: JSON.parse(readFileSync(new URL('../../tests/fixtures/demo-rotations.json', import.meta.url))) }
 const fixture = () => structuredClone(original)
 const rejects = (mutate, pattern) => { const b = fixture(); mutate(b); assert.match(validateBundle(b).join('\n'), pattern) }
 
-test('published JSON validates all 12 unique rotation and serve combinations', () => {
+test('independent demo fixture validates all 12 unique rotation and serve combinations', () => {
   assert.deepEqual(validateBundle(original), [])
   assert.deepEqual(original.team.players.map((p) => p.name), ['Harry', 'Caleb', 'Trent', 'Logan', 'Georgia', 'Jaz'])
   assert.equal(original.team.players.find((p) => p.setter).id, 'harry')

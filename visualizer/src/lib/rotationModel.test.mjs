@@ -3,8 +3,8 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { rotationOrder, positionOf, isFront, sampleTrack, sampleArc, ballAt, phaseAt, readRotationLink, rotationLink } from './rotationModel.ts'
 import { curvePoints, pointAt, makeCurve } from './arc.ts'
-const team = JSON.parse(readFileSync(new URL('../../public/plans/team.json', import.meta.url)))
-const plans = JSON.parse(readFileSync(new URL('../../public/plans/rotations.json', import.meta.url)))
+const team = JSON.parse(readFileSync(new URL('../../tests/fixtures/demo-team.json', import.meta.url)))
+const plans = JSON.parse(readFileSync(new URL('../../tests/fixtures/demo-rotations.json', import.meta.url)))
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-9, `${actual} != ${expected}`)
 
 test('rotationOrder rotates clockwise through all six and returns to the initial identities', () => {
