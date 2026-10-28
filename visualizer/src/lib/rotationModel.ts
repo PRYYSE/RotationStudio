@@ -1,3 +1,4 @@
+import type { FirstBallExample } from './receiveExample.ts'
 import type { BallSegment, Point, Scenario, Spot, Team, Keyframe, OpponentAttack, FirstTouch } from './rotationTypes.ts'
 import { arcControl } from './trajectory.ts'
 
@@ -58,18 +59,27 @@ export function readRotationLink(search: string) {
   const p = new URLSearchParams(search)
   const rotation = Number(p.get('r'))
   const time = Number(p.get('t'))
+  const parts = p.get('sample')?.split(',')
+  const landing = parts?.every((v) => v.trim() !== '') ? parts.map(Number) : undefined
+  const receiver = p.get('receiver') ?? 'auto'
+  const example: FirstBallExample | null = landing?.length === 2 && [-3, 0, 3].includes(landing[0]) && [3.5, 5.8, 8].includes(landing[1]) && /^[a-z][a-z0-9-]{0,31}$/.test(receiver)
+    ? { x: landing[0], z: landing[1], receiver } : null
   return { rotation: Number.isInteger(rotation) && rotation >= 1 && rotation <= 6 ? rotation : 1,
     serve: p.get('serve') === 'us' ? 'us' as const : 'they' as const,
     opponentAttack: p.get('attack') === 'right' ? 'right' as const : 'left' as const,
     firstTouch: p.get('first') === 'harry' ? 'harry' as const : 'normal' as const,
-    time: Number.isFinite(time) ? Math.max(0, time) : 0 }
+    time: Number.isFinite(time) ? Math.max(0, time) : 0, ...(example ? { example } : {}) }
 }
-export function rotationLink(base: string, rotation: number, serve: string, time: number, opponentAttack: OpponentAttack = 'left', firstTouch: FirstTouch = 'normal') {
+export function rotationLink(base: string, rotation: number, serve: string, time: number, opponentAttack: OpponentAttack = 'left', firstTouch: FirstTouch = 'normal', example: FirstBallExample | null = null) {
   const url = new URL(base)
   url.search = new URLSearchParams({ mode: 'rotations', r: String(rotation), serve, t: time.toFixed(2) }).toString()
   // Default selections keep the original link shape.
   if (opponentAttack !== 'left') url.searchParams.set('attack', opponentAttack)
   if (firstTouch !== 'normal') url.searchParams.set('first', firstTouch)
+  if (example) {
+    url.searchParams.set('sample', [example.x, example.z].join(','))
+    if (example.receiver !== 'auto') url.searchParams.set('receiver', example.receiver)
+  }
   url.hash = ''
   return url.toString()
 }

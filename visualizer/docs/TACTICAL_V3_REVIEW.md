@@ -41,3 +41,11 @@ The tool is an explanatory training simulator, NOT a claim it predicts a rally. 
 
 ### Acceptance boundary
 Implement only this small conditional first-ball teaching tool and protect historical modes. No cloud backend, user accounts, new framework, auto-publishing, changing the approved actual player coaching policy, or generic motion cosmetics. On feasibility failure, clearly communicate rather than fake an optimal movement. Do not publish or set status APPROVED; wait for Normal Chat to inspect resulting model and visuals.
+
+## Optional adaptive engine implementation checkpoint (28 Oct 2026)
+- Codex implemented `src/lib/receiveExample.ts` and a compact Settings-only `FirstBallExamples` control. Nine sample ball locations (3x3 grid) select Auto/best-reachable or one named receiver for the selected base rotation, serve owner, attack side and Harry-first mode.
+- The model uses source-authored court start/defensive positions and the relative skills in team.json; it preserves the 48 full authored JSON timelines and derives temporary teaching examples without writing them back.
+- It adjusts first contact and connected ball flights, keeps Harry as second contact when someone else receives, uses the authored alternate backup when Harry receives, and chooses another eligible hitter when the expected hitter first-passes.
+- Impossible samples return an explicit warning and pause playback instead of fabricating a reach; draft editing resets examples. Generated examples cannot be imported/exported as approved tactical plans.
+- Software evidence: **60/60 automated tests pass** (16 new tests added to original 44), **432 sample combinations** covered, Vite production bundle builds, modelled movement and touch/net/eligibility tests pass. This is only a sample-training heuristic, not an actual live-rally optimiser. The 3x3 grid is representative, not continuous arbitrary court coverage.
+- **Browser and human tactical review not yet accepted** at this checkpoint, particularly phone Settings layout, readability during a first-ball sample, infeasible-case feedback and actual live-play validity.

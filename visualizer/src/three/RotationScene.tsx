@@ -93,7 +93,7 @@ function Players() {
     })}
     <Target {...scenario.setterTarget} label={!touching && (editor || (time >= scenario.ball[0].start && time <= scenario.secondContact.time + 0.4))} />
     {touching && <Html center position={[first.x, 2.5, first.z]} style={{ pointerEvents: 'none' }}>
-      <span className="receiver-cue">1st touch · {bundle.team.players.find((p) => p.id === scenario.firstContact.player)?.name}</span>
+      <span className="receiver-cue">{scenario.teachingOnly ? 'Sample 1st touch' : '1st touch'} · {bundle.team.players.find((p) => p.id === scenario.firstContact.player)?.name}</span>
     </Html>}
     {trails && scenario.ball.map((b, i) => <Line key={i} points={Array.from({ length: 50 }, (_, j) => { const p = sampleArc(b, j / 49); return new THREE.Vector3(p.x, p.y, p.z) })}
       color={b.kind === 'pass' ? '#ffd878' : BRAND.accent} lineWidth={b.kind === 'pass' ? 2 : 1} transparent opacity={0.35} />)}

@@ -5,7 +5,7 @@ globalThis.window = { location: { search: '' } }
 const { useRotations, activeBundle, activeScenario } = await import('./rotationStore.ts')
 const original = { team: JSON.parse(readFileSync(new URL('../../tests/fixtures/demo-team.json', import.meta.url))), plans: JSON.parse(readFileSync(new URL('../../tests/fixtures/demo-rotations.json', import.meta.url))) }
 beforeEach(() => {
-  useRotations.setState({ published: null, draft: null, error: '', loading: true, rotation: 1, serve: 'they', time: 0, playing: false, rate: 1, view: 'orbit', labels: true, trails: true, editor: false, selected: 'harry', editTime: 0, opponentAttack: 'left', firstTouch: 'normal', receiveAreas: true })
+  useRotations.setState({ example: null, exampleResult: null, exampleScenario: null, exampleNotice: '', published: null, draft: null, error: '', loading: true, rotation: 1, serve: 'they', time: 0, playing: false, rate: 1, view: 'orbit', labels: true, trails: true, editor: false, selected: 'harry', editTime: 0, opponentAttack: 'left', firstTouch: 'normal', receiveAreas: true })
   useRotations.getState().setBundle(structuredClone(original))
 })
 test('play pause resume speed seek reverse and end restart are deterministic', () => {
@@ -208,4 +208,101 @@ test('selected alternate draft edits keep receiver, backup setter and PASS HERE 
     assert.deepEqual(activeBundle(get()), tactical)
     assert.deepEqual(activeScenario(get()), key === 'base' ? tactical.plans.scenarios[baseIndex] : tactical.plans.scenarios[baseIndex].alternates[key])
   }
+})
+
+test('sample selection pauses at first contact, retains the last feasible illustration on failure and restores authored', () => {
+  const get = useRotations.getState
+  get().setBundle(structuredClone(tactical)); get().choose(5, 'they')
+  get().seek(6); get().toggle()
+  get().chooseExample({ x: -3, z: 3.5, receiver: 'georgia' })
+  const valid = activeScenario(get())
+  assert.equal(get().exampleResult.ok, true)
+  assert.equal(valid.firstContact.player, 'georgia')
+  assert.equal(get().exampleResult.hitter, 'caleb')
+  assert.equal(get().time, valid.firstContact.time); assert.equal(get().playing, false)
+  get().toggle(); get().tick(0.2)
+  assert.ok(get().time > valid.firstContact.time)
+  get().chooseExample({ x: 3, z: 8, receiver: 'georgia' })
+  assert.equal(get().exampleResult.ok, false)
+  assert.match(get().exampleResult.message, /No feasible first touch at this sample/)
+  assert.equal(activeScenario(get()), valid)
+  assert.equal(get().playing, false); assert.equal(get().time, valid.firstContact.time)
+  get().toggle(); get().tick(2)
+  assert.equal(get().playing, false); assert.equal(get().time, valid.firstContact.time)
+  get().chooseExample(null)
+  assert.equal(get().exampleResult, null); assert.equal(get().exampleScenario, null)
+  assert.deepEqual(activeScenario(get()), tactical.plans.scenarios.find((s) => s.rotation === 5 && s.serve === 'they'))
+  assert.deepEqual(get().published, tactical); assert.equal(get().draft, null)
+})
+
+test('sample variations derive from the new rotation serve side and first-touch policy without stale tracks', () => {
+  const get = useRotations.getState
+  get().setBundle(structuredClone(tactical)); get().choose(2, 'they')
+  get().chooseExample({ x: 0, z: 3.5, receiver: 'auto' })
+  for (const serve of ['they', 'us']) for (const side of ['left', 'right']) {
+    get().choose(2, serve); get().chooseTactics(side, 'harry')
+    const s = activeScenario(get())
+    assert.equal(get().exampleResult.ok, true)
+    assert.equal(s.rotation, 2); assert.equal(s.serve, serve)
+    assert.equal(s.tactics.opponentAttack, side); assert.equal(s.tactics.firstTouch, 'harry')
+    assert.equal(s.firstContact.player, 'harry'); assert.equal(s.secondContact.player, 'trent')
+    assert.equal(get().time, s.firstContact.time); assert.equal(get().playing, false)
+  }
+  get().choose(4, 'they')
+  assert.equal(get().exampleResult.ok, false)
+  assert.equal(activeScenario(get()).rotation, 4)
+  assert.equal(activeScenario(get()).teachingOnly, undefined)
+  assert.equal(get().exampleScenario, null)
+  assert.deepEqual(activeBundle(get()), tactical)
+})
+
+test('Coach draft clears and disables examples; imports and exports never persist runtime samples', async () => {
+  const { exportBundle } = await import('../lib/rotationValidation.ts')
+  const get = useRotations.getState
+  get().setBundle(structuredClone(tactical)); get().choose(5, 'they')
+  get().chooseExample({ x: -3, z: 3.5, receiver: 'georgia' })
+  const sample = activeScenario(get())
+  assert.equal(sample.teachingOnly, true)
+  assert.deepEqual(JSON.parse(exportBundle(activeBundle(get()))), tactical)
+  get().setEditor(true)
+  assert.equal(get().example, null); assert.equal(get().exampleScenario, null)
+  assert.match(get().exampleNotice, /cleared/)
+  assert.equal(activeScenario(get()).teachingOnly, undefined)
+  get().chooseExample({ x: -3, z: 3.5, receiver: 'georgia' })
+  assert.equal(get().example, null); assert.match(get().exampleNotice, /disabled/)
+  useRotations.setState({ selected: 'target' }); get().edit({ x: 1, z: 1 })
+  assert.equal(activeScenario(get()).teachingOnly, undefined)
+  const draft = get().draft
+  get().importDraft({ ...structuredClone(tactical), plans: { ...tactical.plans, scenarios: tactical.plans.scenarios.map((s) => s.rotation === 5 && s.serve === 'they' ? { ...sample, alternates: s.alternates } : s) } })
+  assert.match(get().error, /Teaching examples cannot be imported/)
+  assert.equal(get().draft, draft)
+  assert.deepEqual(get().published, tactical)
+})
+
+test('sample link restoration preserves view time and malformed links retain old defaults', async () => {
+  const { readRotationLink } = await import('../lib/rotationModel.ts')
+  const get = useRotations.getState
+  useRotations.setState(readRotationLink('?r=5&serve=they&sample=-3,3.5&receiver=georgia&t=4.2'))
+  get().setBundle(structuredClone(tactical))
+  assert.equal(get().exampleResult.ok, true); assert.equal(get().exampleResult.receiver, 'georgia')
+  assert.equal(get().time, 4.2)
+  get().chooseExample(null)
+  useRotations.setState(readRotationLink('?r=3&serve=us&sample=invalid'))
+  get().setBundle(structuredClone(tactical))
+  assert.equal(get().example, null); assert.equal(get().exampleResult, null)
+  assert.equal(activeScenario(get()).rotation, 3); assert.equal(activeScenario(get()).serve, 'us')
+})
+
+test('samples cannot bypass structural validation of an invalid local draft', () => {
+  const get = useRotations.getState
+  get().setBundle(structuredClone(tactical)); get().choose(5, 'they')
+  get().setEditor(true)
+  useRotations.setState({ selected: 'harry', editTime: 0 })
+  get().edit({ x: 0.6, z: 1.55 }) // Small pre-serve drift: movement screen passes, held-start validation fails.
+  get().setEditor(false)
+  get().chooseExample({ x: -3, z: 3.5, receiver: 'georgia' })
+  assert.equal(get().exampleResult.ok, false)
+  assert.match(get().exampleResult.message, /structural validation/)
+  assert.equal(get().exampleScenario, null)
+  assert.equal(activeScenario(get()).teachingOnly, undefined)
 })

@@ -4,6 +4,7 @@ import { activeBundle, activeScenario, useRotations } from '../state/rotationSto
 import { loadBundle } from '../lib/rotationValidation'
 import { phaseAt, rotationLink, showReceiveAreas } from '../lib/rotationModel'
 import { RotationEditor } from './RotationEditor'
+import { FirstBallExamples } from './FirstBallExamples'
 import type { RotationView } from '../lib/rotationTypes'
 
 export function Rotations() {
@@ -38,6 +39,7 @@ export function Rotations() {
   const status = bundle.plans.status
   const demo = status === 'TRAINING DEMO / UNAPPROVED'
   const receiving = showReceiveAreas(scenario, s.time, s.receiveAreas)
+  const unavailable = s.exampleResult?.ok === false
   const hasAlternates = !!bundle.plans.scenarios.find((p) => p.rotation === s.rotation && p.serve === s.serve)?.alternates
   const jump = (time: number) => { s.seek(time); useRotations.setState({ editTime: time }) }
   return <main className="rotations" aria-label="Rotation studio">
@@ -57,9 +59,13 @@ export function Rotations() {
       </div>
     </div>
     <div className="rotation-bottom">
-      <div className="rotation-cue"><strong>{phase.label}</strong><span>{phase.cue}</span>
-        {s.firstTouch === 'harry' && scenario.tactics && <span className="rotation-coach-note">{scenario.tactics.coachNote}</span>}
-        {receiving && <span className="receive-instruction">Named areas = receive coverage · Overlap? Call MINE.</span>}
+      <div className="rotation-cue">
+        {s.example && s.exampleResult && <span className="rotation-coach-note" role="status">{s.exampleResult.ok
+          ? `Teaching sample · ${s.exampleResult.message}`
+          : `${s.exampleResult.message} Showing ${s.exampleScenario ? 'previous valid example' : 'authored example'}; playback paused.`}</span>}
+        <strong>{unavailable ? 'Sample unavailable' : phase.label}</strong>{!unavailable && <span>{phase.cue}</span>}
+        {!unavailable && s.firstTouch === 'harry' && scenario.tactics && <span className="rotation-coach-note">{scenario.tactics.coachNote}</span>}
+        {!unavailable && receiving && <span className="receive-instruction">Named areas = receive coverage · Overlap? Call MINE.</span>}
       </div>
       {settings && <section className="rotation-settings glass" aria-label="Rotation settings">
         <div className="settings-heading"><strong>View & draft</strong><button aria-label="Close settings" onClick={() => setSettings(false)}>Close</button></div>
@@ -74,12 +80,14 @@ export function Rotations() {
               <button aria-pressed={s.firstTouch === 'harry'} onClick={() => s.chooseTactics(s.opponentAttack, 'harry')}>Harry first</button>
             </div>
           </>}
+          {hasAlternates && <FirstBallExamples />}
+          {s.exampleNotice && <p className="example-notice" role="status">{s.exampleNotice}</p>}
           <nav className="rotation-row" aria-label="Camera view">{(['front', 'side', 'orbit', 'top'] as RotationView[]).map((view) => <button key={view} aria-pressed={s.view === view} onClick={() => useRotations.setState({ view })}>{view[0].toUpperCase() + view.slice(1)}</button>)}</nav>
           <div className="rotation-row options-row">
             <label><input type="checkbox" checked={s.labels} onChange={(e) => useRotations.setState({ labels: e.target.checked })} /> Names</label>
             <label><input type="checkbox" checked={s.trails} onChange={(e) => useRotations.setState({ trails: e.target.checked })} /> Paths</label>
             {scenario.tactics && <label><input type="checkbox" checked={s.receiveAreas} onChange={(e) => useRotations.setState({ receiveAreas: e.target.checked })} /> Receive areas</label>}
-            <label><input type="checkbox" checked={s.editor} onChange={(e) => { s.seek(s.editTime); useRotations.setState({ editor: e.target.checked, view: e.target.checked ? 'top' : s.view }) }} /> Coach draft</label>
+            <label><input type="checkbox" checked={s.editor} onChange={(e) => s.setEditor(e.target.checked)} /> Coach draft</label>
           </div>
           {s.receiveAreas && !!scenario.tactics?.receiveZones.length && <div className="receive-legend" aria-label="Receive area legend">
             <p>Their serve only, through first contact. Overlapping lanes: call MINE.</p>
@@ -94,22 +102,22 @@ export function Rotations() {
       <div className="rotation-timeline glass">
         <div className="rotation-markers" aria-label="Timeline markers">{scenario.phases.map((p, i) => <button key={i} aria-label={`Seek ${p.label} at ${p.time}s`} aria-pressed={phase === p} onClick={() => jump(p.time)}>{p.label}</button>)}</div>
         <div className="rotation-play-row">
-          <button className="rotation-play" aria-label={s.playing ? 'Pause rotations' : 'Play rotations'} onClick={s.toggle} disabled={s.editor} title={s.editor ? "Leave Coach draft to play" : "Space to play / pause"}>{s.playing ? 'Pause' : 'Play'}</button>
+          <button className="rotation-play" aria-label={s.playing ? 'Pause rotations' : 'Play rotations'} onClick={s.toggle} disabled={s.editor || s.exampleResult?.ok === false} title={s.editor ? "Leave Coach draft to play" : s.exampleResult?.ok === false ? "Choose a feasible sample or Authored to play" : "Space to play / pause"}>{s.playing ? 'Pause' : 'Play'}</button>
           <button aria-label="Restart rotations" onClick={() => jump(0)}>↺</button>
           <input type="range" min="0" max={scenario.duration} step="0.01" value={s.time} aria-label="Scrub rotations" onChange={(e) => s.seek(Number(e.target.value))} />
           <output aria-label="Timeline time">{s.time.toFixed(1)}s</output>
           <select aria-label="Rotation playback speed" value={s.rate} onChange={(e) => useRotations.setState({ rate: Number(e.target.value) })}>{[0.25, 0.5, 1, 1.5, 2].map((rate) => <option key={rate} value={rate}>{rate}×</option>)}</select>
         </div>
-        <div className="rotation-footer"><span>{s.draft ? 'LOCAL DRAFT · not shared' : status}</span><div>
+        <div className="rotation-footer"><span>{s.example ? 'TEACHING SAMPLE · UNAPPROVED' : s.draft ? 'LOCAL DRAFT · not shared' : status}</span><div>
           <button onClick={async () => {
-            const url = rotationLink(window.location.href, s.rotation, s.serve, s.time, s.opponentAttack, s.firstTouch)
+            const url = rotationLink(window.location.href, s.rotation, s.serve, s.time, s.opponentAttack, s.firstTouch, s.example)
             try { await navigator.clipboard.writeText(url); setShare('Published view link copied. Draft edits are excluded.') }
             catch { setShare(url) }
           }}>Share view</button><button aria-expanded={settings} onClick={() => setSettings(!settings)}>Settings</button>
         </div></div>
         {share && <div className="share-feedback" role="status">{share}<button aria-label="Dismiss share message" onClick={() => setShare('')}>×</button></div>}
       </div>
-      <p className="demo-disclaimer">{demo ? 'DEMO · Demonstration movements — not approved match positions.' : s.draft || status === 'DRAFT' ? 'Draft — not approved match positions.' : 'Coach-approved plan · structural checks are not referee certification.'}</p>
+      <p className="demo-disclaimer">{s.example ? 'Teaching example — not approved match positions.' : demo ? 'DEMO · Demonstration movements — not approved match positions.' : s.draft || status === 'DRAFT' ? 'Draft — not approved match positions.' : 'Coach-approved plan · structural checks are not referee certification.'}</p>
     </div>
   </main>
 }

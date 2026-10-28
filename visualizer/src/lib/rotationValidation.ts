@@ -45,6 +45,10 @@ export function validateBundle(value: unknown): string[] {
     if (!object(p) || typeof p.id !== 'string' || !/^[a-z][a-z0-9-]{0,31}$/.test(p.id) || typeof p.name !== 'string' || !p.name.trim() || p.name.length > 40 || typeof p.setter !== 'boolean' || typeof p.color !== 'string' || !/^#[0-9a-f]{6}$/i.test(p.color)) {
       errors.push('Each athlete needs a stable id, name (1–40 characters), setter boolean and #rrggbb color.')
     } else ids.push(p.id)
+    if (object(p) && p.skills !== undefined && (!object(p.skills) || ['receive', 'mobility', 'setting', 'attack'].some((key) => {
+      const n = object(p.skills) ? p.skills[key] : undefined
+      return !finite(n) || !Number.isInteger(n) || n < 1 || n > 5
+    }))) errors.push('Athlete skills must be ordinal preferences from 1 to 5 (receive, mobility, setting, attack).')
   }
   if (new Set(ids).size !== 6) errors.push('Athlete IDs must be unique.')
   if (team.players.filter((p) => object(p) && p.setter === true).length !== 1) errors.push('Tag exactly one primary setter.')
@@ -202,15 +206,20 @@ export function validateBundle(value: unknown): string[] {
   }
   return errors
 }
+export function containsTeachingExamples(bundle: Bundle): boolean {
+  return bundle.plans.scenarios.some((s) => [s, ...Object.values(s.alternates ?? {})].some((v) => v.teachingOnly !== undefined))
+}
 export function parseBundle(text: string): Bundle {
   const value: unknown = JSON.parse(text)
   const errors = validateBundle(value)
   if (errors.length) throw new Error(errors.join('\n'))
+  if (containsTeachingExamples(value as Bundle)) throw new Error('Teaching examples cannot be imported as coach plans.')
   return value as Bundle
 }
 export function exportBundle(bundle: Bundle): string {
   const errors = validateBundle(bundle)
   if (errors.length) throw new Error(errors.join('\n'))
+  if (containsTeachingExamples(bundle)) throw new Error('Teaching examples cannot be exported as coach plans.')
   return JSON.stringify(bundle, null, 2) + '\n'
 }
 export async function loadBundle(base: string, fetcher: typeof fetch = fetch): Promise<Bundle> {

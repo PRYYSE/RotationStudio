@@ -26,7 +26,7 @@ export type PlanStatus = 'TRAINING DEMO / UNAPPROVED' | 'DRAFT' | 'APPROVED'
 export type Team = {
   schemaVersion: 1
   status: PlanStatus
-  players: { id: string; name: string; setter: boolean; color: string }[]
+  players: { id: string; name: string; setter: boolean; color: string; skills?: { receive: number; mobility: number; setting: number; attack: number } }[]
   initialOrder: string[] // P1, P2, P3, P4, P5, P6
 }
 export type Keyframe = Spot & {
@@ -47,6 +47,7 @@ export type BallSegment = {
   height: number // apex height in metres
 }
 export type Scenario = {
+  teachingOnly?: true // Runtime illustration; never a coach plan.
   rotation: number
   serve: ServeOwner
   duration: number
