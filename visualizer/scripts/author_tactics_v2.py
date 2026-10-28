@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ChatGPT-authored TTGVA C Grade tactical V2 (illustrative, NOT approved).
+"""ChatGPT-authored TTGVA C Grade tactical V3 (illustrative, NOT approved).
 Edit coordinate data below; generated public JSON is the runtime authority.
 """
 import copy, json, math
@@ -17,7 +17,7 @@ COURT={
  1:{4:(-1.25,1.55),3:(-.25,2.20),2:(2.80,1.85),5:(-2.95,6.90),6:(.20,6.50),1:(1.55,2.65)},
  2:{4:(-2.95,2.65),3:(-.25,1.70),2:(2.80,1.90),5:(-2.70,6.50),6:(.35,2.80),1:(2.65,6.90)},
  3:{4:(-2.85,2.40),3:(.05,2.25),2:(.90,1.55),5:(-1.25,3.25),6:(-.15,6.80),1:(2.85,7.00)},
- 4:{4:(-.75,1.55),3:(.35,3.25),2:(2.75,2.05),5:(-2.85,6.70),6:(.05,6.85),1:(2.80,6.80)},
+ 4:{4:(-.75,1.55),3:(-.10,3.00),2:(2.75,2.05),5:(-2.85,6.70),6:(.05,6.85),1:(2.80,6.80)},
  5:{4:(-2.75,3.65),3:(.50,1.55),2:(2.75,4.30),5:(-3.00,7.35),6:(0,6.60),1:(3.05,7.25)},
  6:{4:(-2.80,1.75),3:(.30,2.25),2:(1.55,1.65),5:(-2.80,6.65),6:(0,7.10),1:(2.70,6.65)},
 }
@@ -26,22 +26,37 @@ OFFENSE={
  1:{"logan":(-2.8,2.0),"trent":(-.15,1.35),"georgia":(2.80,2.3)},
  2:{"jaz":(-2.8,2.5),"trent":(.0,1.35),"logan":(2.8,1.9)},
  3:{"caleb":(-2.8,2.15),"trent":(.10,.70),"jaz":(2.65,2.40)},
- 4:{"caleb":(-2.75,2.25),"jaz":(2.75,2.45)},
+ 4:{"caleb":(-1.70,2.20),"jaz":(2.75,2.45)},
  5:{"georgia":(-2.75,2.35),"caleb":(2.75,2.25)},
  6:{"logan":(-2.8,2.10),"georgia":(2.70,2.40)},
 }
 BLOCKERS={1:("logan","trent"),2:("trent","logan"),3:("caleb","trent"),4:("caleb","harry"),5:("harry","caleb"),6:("logan","harry")}
+# The front-side hitter drops a step into a short-ball lane, not 2-3m
+# sideways into a literal "short middle". Front row eligibility remains fixed.
 SHORT={
- 1:("georgia",(2.20,3.90)),2:("jaz",(-2.20,4.05)),3:("jaz",(1.25,4.10)),
- 4:("jaz",(2.15,3.95)),5:("georgia",(-2.05,4.05)),6:("georgia",(.70,4.25)),
+ 1:("georgia",(2.55,3.35)),2:("jaz",(-2.55,3.40)),3:("jaz",(2.35,3.35)),
+ 4:("jaz",(2.55,3.35)),5:("georgia",(-2.45,3.35)),6:("georgia",(2.45,3.35)),
 }
+# Two deep defenders anchor the backline; back-row Harry is a shallow
+# defender / second-contact outlet rather than sprinting to z=7 and back.
 DEEP={
- 1:{"jaz":(-2.95,7.10),"caleb":(.10,7.00),"harry":(3.30,5.70)},
- 2:{"caleb":(-2.85,6.95),"harry":(.05,5.55),"georgia":(2.85,7.00)},
- 3:{"harry":(-1.20,4.80),"georgia":(-.15,7.00),"logan":(2.90,7.20)},
- 4:{"georgia":(-2.85,7.05),"logan":(.05,7.15),"trent":(2.85,7.00)},
- 5:{"logan":(-3.05,7.45),"trent":(.00,6.85),"jaz":(3.05,7.50)},
- 6:{"trent":(-2.85,6.85),"jaz":(.00,7.40),"caleb":(2.75,6.90)},
+ 1:{"jaz":(-2.95,6.95),"caleb":(.40,6.70),"harry":(2.85,4.85)},
+ 2:{"caleb":(-2.85,6.85),"harry":(.15,4.40),"georgia":(2.85,6.85)},
+ 3:{"harry":(-.80,4.35),"georgia":(-.15,6.90),"logan":(2.90,7.05)},
+ 4:{"georgia":(-2.85,6.85),"logan":(.05,6.85),"trent":(2.85,6.85)},
+ 5:{"logan":(-3.05,7.15),"trent":(.00,6.70),"jaz":(3.05,7.15)},
+ 6:{"trent":(-2.85,6.80),"jaz":(.00,7.05),"caleb":(2.75,6.75)},
+}
+# Opponent-attacker side is OUR left/right. An adjacent front player closes;
+# far-front player retains their lane instead of crossing the entire net.
+# Values list x for the existing [left blocker, right blocker] identities.
+BLOCK_X={
+ 1:{"left":(-2.45,-.30),"right":(-2.60,1.20)},
+ 2:{"left":(-1.45,2.50),"right":(.10,2.40)},
+ 3:{"left":(-2.40,.15),"right":(-2.55,1.35)},
+ 4:{"left":(-1.85,.10),"right":(-1.65,1.45)},
+ 5:{"left":(-.70,2.45),"right":(.60,2.40)},
+ 6:{"left":(-2.45,.75),"right":(-2.65,2.00)},
 }
 # Receive area coordinates (x,z, horizontal radius, depth radius, label, duty).
 ZONES={
@@ -66,26 +81,27 @@ def order(r):return INITIAL[r-1:]+INITIAL[:r-1]
 def start(r,serve):
     row=order(r); result={id:COURT[r][row.index(id)+1] for id in PEOPLE}
     if serve=="us":
-        result[row[0]]=(3.30,10.40)
-        if r==4:result["caleb"]=(.35,2.70)
+        result[row[0]]=(3.30,9.45)
+        if r==4:result["caleb"]=(-.10,2.35)
         if r==5:
             result["georgia"]=(-2.75,2.45)
             result["caleb"]=(2.75,2.60)
     return result
 def defshape(r,side):
-    # Side means where the opponents attack on OUR court: our left/right.
-    xshift=(-.30 if side=="left" else .30)
-    out={id:(max(-3.35,min(3.35,p[0]+xshift)),p[1]) for id,p in DEEP[r].items()}
-    woman,centre=SHORT[r]
-    shortShift=(-.35 if side=="left" else .35)
-    out[woman]=(max(-3.3,min(3.3,centre[0]+shortShift)),centre[1])
+    # Role-based ADJUST from base, not a switch to a rigid imaginary formation.
+    # Nearest defender shades line, central shades lightly, far defender tucks
+    # toward cross-court. This is <0.32m, not an across-court migration.
+    sign=-1 if side=="left" else 1
+    out={}
+    for id,(x,z) in DEEP[r].items():
+        shade=.12 if x*sign>1.20 else (.30 if x*sign < -1.20 else .18)
+        out[id]=(round(max(-3.35,min(3.35,x+sign*shade)),2),z)
+    woman,(x,z)=SHORT[r]
+    out[woman]=(x,z)
     left,right=BLOCKERS[r]
-    if side=="left":
-        out[left]=(-2.35,.85)
-        out[right]=(-.55,.85) if r in (1,2,3) else (-.25,.85)
-    else:
-        out[right]=(2.35,.85)
-        out[left]=(.45,.85) if r in (1,2,3) else (-1.25,.85)
+    lx,rx=BLOCK_X[r][side]
+    out[left]=(lx,.87 if side=="left" else 1.28)
+    out[right]=(rx,.87 if side=="right" else 1.28)
     assert set(out)==set(PEOPLE),(r,side,out)
     return out
 def near_opposition_side(side):return (-2.75,-2.0) if side=="left" else (2.75,-2.0)
@@ -105,12 +121,10 @@ def create(r,serve,side="left",harry_touch=False):
     T=new_times(serve,r)
     startpos=start(r,serve)
     defense=defshape(r,side)
-    if r==4 and harry_touch:
-        defense["harry"]=(-2.35,.85)
-        defense["caleb"]=(.60 if side=="left" else 1.80,.85)
-    if r==3 and side=="right":
-        defense["trent"]=(1.10,.85)
-        defense["caleb"]=(-1.75,.85)
+    # Harry-first R6: do not sprint across Georgia's setting and short-ball
+    # lane to imitate the normal right-block assignment. Stay middle and
+    # accept that this one transition may have a weak/no right block.
+    if r==6 and harry_touch:defense["harry"]=(.20,1.30)
     target=TARGET[r]
     nextSetter="trent" if r==3 else "harry"
     nextTarget=(.12,1.35) if r==3 else target
@@ -128,6 +142,7 @@ def create(r,serve,side="left",harry_touch=False):
     nextId=NEXT_DIGGER[r]
     nextSpot=defense[nextId]
     front=set(id for id in PEOPLE if rowpos[id] in (2,3,4))
+    closeBlock=BLOCKERS[r][0 if side=="left" else 1]
     assert set(OFFENSE[r])==front-{"harry"}
     receivers=[]
     for id,(x,z,rx,rz,label,duty) in ZONES[r]:
@@ -194,7 +209,7 @@ def create(r,serve,side="left",harry_touch=False):
         if phase=="hit":return "attack" if id in OFFENSE[r] and id!=setter else ("set" if id==setter else "help")
         if phase in ("ready","ready2","dig"):
             if phase=="dig" and id==nextId:return "pass"
-            return "block" if id in BLOCKERS[r] and rowpos[id] in (2,3,4) else "defend"
+            return "block" if id==closeBlock and rowpos[id] in (2,3,4) else "defend"
         if phase=="reset":return "set" if id==nextSetter else "recover"
         return "help"
     def keyframe(track,tm,xy,role,attack=False,via=None):
@@ -218,7 +233,10 @@ def create(r,serve,side="left",harry_touch=False):
             keyframe(tr,T["first"],first,now_role(id,"first"))
             atSet=target if id==setter else attack_support(id)
             if r==3 and id=="trent" and id!=setter:atSet=(.55,1.65)
-            if id=="harry" and harry_touch:atSet=interp(firstSpot,defense["harry"],.35)
+            if id=="harry" and harry_touch:
+                atSet=interp(firstSpot,defense["harry"],.35)
+                if r==5:atSet=(-.85,2.45)
+                if r==6:atSet=(.00,2.80)
             setVia=[(-.20,.65),(.85,.55)] if r==3 and id=="harry" and not harry_touch else None
             keyframe(tr,T["second"],atSet,now_role(id,"second"),via=setVia)
         else:
@@ -237,13 +255,19 @@ def create(r,serve,side="left",harry_touch=False):
             atSet=(target if id==setter else
                    (interp(first,OFFENSE[r][id],.75) if id in OFFENSE[r] else
                     (interp(first,attack_support(id),.70) if rowpos[id] in (1,5,6) and id!=firstId else first)))
-            if id=="harry" and harry_touch:atSet=interp(firstSpot,defense["harry"],.35)
+            if id=="harry" and harry_touch:
+                atSet=interp(firstSpot,defense["harry"],.35)
+                if r==5:atSet=(-.85,2.45)
+                if r==6:atSet=(.00,2.80)
             setVia=[(1.25,4.25),(1.15,2.5)] if r==1 and id=="harry" and not harry_touch else None
             if r==3 and id=="harry" and not harry_touch:setVia=[(-1.15,3.65),(.15,2.45)]
             keyframe(tr,T["second"],atSet,now_role(id,"second"),via=setVia)
         atHit=target if id==setter else (OFFENSE[r][id] if id in OFFENSE[r] and id!=setter else attack_support(id))
         if id=="harry" and harry_touch:
-            atHit=(-1.65,2.70) if r==4 else defense["harry"]
+            atHit=defense["harry"]
+            if r==4:atHit=(.10,2.25) if side=="left" else (2.15,2.45)
+            if r==5:atHit=(-1.05,2.10)
+            if r==6:atHit=(.05,1.75)
         # Crossing routes are staged during release, not detours at attack contact.
         keyframe(tr,T["hit"],atHit,now_role(id,"hit"),attack=id in OFFENSE[r] and id!=setter)
         if serve=="they":
@@ -266,8 +290,7 @@ def create(r,serve,side="left",harry_touch=False):
         else:
             atReset=attack_support(id)
         if id==nextId and id in OFFENSE[r]:atReset=interp(defense[id],OFFENSE[r][id],.65)
-        resetVia=[(3.60,4.00),(3.60,2.60)] if r==1 and id=="georgia" else None
-        if r==1 and id=="harry":resetVia=[(1.55,5.10),(1.45,3.00)]
+        resetVia=[(1.65,3.75)] if r==1 and id=="harry" else None
         keyframe(tr,T["reset"],atReset,now_role(id,"reset"),via=resetVia)
         keyframe(tr,T["end"],atReset,"recover")
         tracks[id]=tr
@@ -333,7 +356,7 @@ PLANS={"schemaVersion":1,"status":"DRAFT","netHeight":2.43,"scenarios":scenarios
 ROOT.mkdir(parents=True,exist_ok=True)
 (ROOT/"team.json").write_text(json.dumps(TEAM,indent=2)+"\n")
 (ROOT/"rotations.json").write_text(json.dumps(PLANS,indent=2)+"\n")
-print("Wrote 12 main and 36 alternative timelines on branch feature/tactical-v2.")
+print("Wrote 12 base and 36 alternate V3 tactical scenarios (DRAFT).")
 for s in scenarios[::2]:
     r=s["rotation"];t=TARGET[r];a=COURT[r][order(r).index("harry")+1]
     print(f"R{r}: setter run {math.dist(a,t):.2f}m from {a} to {t}, attack {list(OFFENSE[r])}")
