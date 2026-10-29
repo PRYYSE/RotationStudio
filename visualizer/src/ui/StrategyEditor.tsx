@@ -1,0 +1,52 @@
+import { useState } from 'react'
+import { useStrategies } from '../state/strategyStore'
+import { activeBundle, activeScenario, useRotations } from '../state/rotationStore'
+import { isFront, positionOf, sampleTrack } from '../lib/rotationModel'
+import { stageOrder, stageTimes } from '../lib/strategyDraft'
+import type { PlayerId, RotationKey } from '../lib/strategyDraft'
+import { strategyPoint } from '../lib/strategyOverlay'
+
+export function StrategyEditor({ warnings }: { warnings: string[] }) {
+  const studio = useStrategies(), s = useRotations(), scenario = activeScenario(s)!, team = activeBundle(s)!.team
+  const [reset, setReset] = useState(false)
+  const key = `${s.rotation}/${s.serve}` as RotationKey
+  const point = strategyPoint(studio.working, scenario, studio.stage, s.selected)
+  const stages = stageOrder(s.serve), times = stageTimes(scenario)
+  const bends = studio.working?.overrides[key]?.routes?.[studio.stage]?.[s.selected as PlayerId]
+  const front = team.players.filter(p => isFront(positionOf(team, s.rotation, p.id)) && p.id !== scenario.secondContact.player)
+  return <section className="strategy-editor" aria-label="Court strategy editor">
+    <h2>Edit strategy · R{s.rotation} · {s.serve === 'us' ? 'Us' : 'They'} serve</h2>
+    <nav className="strategy-stages" aria-label="Strategy stages">{stages.map(stage => <button key={stage} aria-pressed={studio.stage === stage} onClick={() => studio.setStage(stage)}>{stage}</button>)}</nav>
+    {!studio.working ? <p>Team V3 is read-only. Create a strategy to place athletes and edit routes.</p> : <>
+      <p>Drag any athlete in Top view. Each stage places all six athletes. Edits apply to all four opponent/first-touch variants for this serve owner.</p>
+      {studio.stage === 'Start' && <p className="strategy-warning">Start is a formation preview. View playback retains the original legal service-contact positions. Changing serve order needs tactical review.</p>}
+      {studio.stage === 'Set' && <p className="strategy-warning">Ready options: {front.map(p => p.name).join(', ')}. {team.players.find(p => p.id === scenario.secondContact.player)?.name} takes the setter window. Ready options are a foundation; timing and attack choice need review.</p>}
+      <div className="editor-grid">
+        <label>Selected athlete<select aria-label="Selected athlete" value={s.selected} onChange={e => useRotations.setState({ selected: e.target.value })}>
+          {team.players.map(p => <option key={p.id} value={p.id}>{p.name} · P{positionOf(team, s.rotation, p.id)}</option>)}<option value="target">Setter pass target · gold ring</option>
+        </select></label>
+        <button aria-pressed={s.selected === 'target'} onClick={() => useRotations.setState({ selected: 'target' })}>Select gold target</button>
+        {(['x', 'z'] as const).map(axis => <label key={axis}>{axis.toUpperCase()} (m)<input key={`${key}/${studio.stage}/${s.selected}/${axis}`} aria-label={`${axis.toUpperCase()} metres`} type="number" step="0.1" min={axis === 'x' ? -4.5 : 0} max={axis === 'x' ? 4.5 : s.selected === 'target' ? 2.99 : 12} value={Number(point[axis].toFixed(2))} onChange={e => { if (e.target.value !== '') s.edit({ ...point, [axis]: Number(e.target.value) }) }} /></label>)}
+      </div>
+      <div className="rotation-row">
+        <button aria-pressed={studio.routeVisible} disabled={s.selected === 'target' || studio.stage === 'Start'} onClick={() => useStrategies.setState({ routeVisible: !studio.routeVisible })}>Incoming route</button>
+        <button disabled={s.selected === 'target' || studio.stage === 'Start'} onClick={() => {
+          const previous = stages[stages.indexOf(studio.stage) - 1]
+          const a = sampleTrack(scenario.tracks[s.selected], Math.max(scenario.ball[0].start, times[previous])), b = sampleTrack(scenario.tracks[s.selected], times[studio.stage])
+          studio.bend(key, s.selected, [{ x: Math.max(-4.5, Math.min(4.5, (a.x + b.x) / 2 + .6)), z: (a.z + b.z) / 2 }])
+          useStrategies.setState({ routeVisible: true })
+        }}>{bends?.length ? 'Replace with one bend' : 'Add bend'}</button>
+        <button disabled={s.selected === 'target' || studio.stage === 'Start'} onClick={() => studio.bend(key, s.selected, [])}>Straighten</button>
+      </div>
+      <p>Incoming route runs from the previous stage; movement starts after service contact. Drag the large bend handle to change the path.</p>
+      <div className="rotation-row">
+        <button disabled={!studio.past.length || !!studio.gesture} onClick={studio.undo}>Undo</button><button disabled={!studio.future.length || !!studio.gesture} onClick={studio.redo}>Redo</button>
+        <button onClick={() => studio.resetStage(key)}>Reset stage</button><button onClick={() => setReset(true)}>Reset rotation</button>
+      </div>
+      {reset && <div role="alert" className="strategy-confirm">Revert all edits to R{s.rotation}, {s.serve === 'us' ? 'Us' : 'They'} serve? Other serve order stays separate.
+        <button onClick={() => { studio.resetRotation(key); setReset(false) }}>Confirm rotation reset</button><button onClick={() => setReset(false)}>Cancel</button>
+      </div>}
+    </>}
+    {!!warnings.length && <details className="strategy-warning"><summary>Needs review · {warnings.length} notices</summary>{warnings.slice(0, 20).map((w, i) => <p key={i}>{w}</p>)}{warnings.length > 20 && <p>{warnings.length - 20} further notices. Review exported JSON before approval.</p>}</details>}
+  </section>
+}

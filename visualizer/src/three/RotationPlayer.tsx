@@ -4,7 +4,9 @@ import { useFrame, type ThreeEvent } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { Keyframe, Team } from '../lib/rotationTypes'
 import { sampleTrack, positionOf, isFront } from '../lib/rotationModel'
-import { useRotations } from '../state/rotationStore'
+import { activeScenario, useRotations } from '../state/rotationStore'
+import { useStrategies } from '../state/strategyStore'
+import { strategyPoint } from '../lib/strategyOverlay'
 
 type Player = Team['players'][number]
 const floor = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
@@ -29,7 +31,10 @@ export function RotationPlayer({ player, track, team, rotation }: { player: Play
   const labelPosition: [number, number, number] = view === 'front' || view === 'side' ? [0, 0.05, 0] : labelOffset[position]
   useFrame(() => {
     const s = useRotations.getState()
-    const p = sampleTrack(track, s.time)
+    const studio = useStrategies.getState()
+    const p = s.strategyMode && s.editor && studio.stage === 'Start'
+      ? { ...sampleTrack(track, s.time), ...strategyPoint(studio.working, activeScenario(s)!, 'Start', player.id) }
+      : sampleTrack(track, s.time)
     if (group.current) { group.current.position.set(p.x, 0, p.z); group.current.rotation.y = p.facing ?? 0 }
     const before = sampleTrack(track, Math.max(0, s.time - 0.03))
     const moving = Math.hypot(p.x - before.x, p.z - before.z) > 0.002
@@ -47,17 +52,19 @@ export function RotationPlayer({ player, track, team, rotation }: { player: Play
     useRotations.setState({ selected: player.id })
     if (s.view !== 'top') return
     dragging.current = true
+    if (s.strategyMode) useStrategies.getState().beginGesture()
     ;(e.target as Element).setPointerCapture(e.pointerId)
   }
   const move = (e: ThreeEvent<PointerEvent>) => {
     if (!dragging.current) return
     e.stopPropagation()
     const hit = e.ray.intersectPlane(floor, new THREE.Vector3())
-    if (hit) useRotations.getState().edit({ x: Math.round(hit.x * 100) / 100, z: Math.round(hit.z * 100) / 100 })
+    if (hit) useRotations.getState().edit({ x: Math.max(-4.5, Math.min(4.5, Math.round(hit.x * 100) / 100)), z: Math.max(0, Math.min(12, Math.round(hit.z * 100) / 100)) })
   }
   const up = (e: ThreeEvent<PointerEvent>) => {
     if (!dragging.current) return
     dragging.current = false
+    if (useRotations.getState().strategyMode) useStrategies.getState().endGesture(e.type === 'pointercancel')
     ;(e.target as Element).releasePointerCapture(e.pointerId)
   }
   const skin = '#e9bea5'

@@ -6,6 +6,7 @@ import { receiveExample, type FirstBallExample, type ReceiveExampleResult } from
 
 const link = readRotationLink(window.location.search)
 type State = {
+  strategyMode: boolean; strategyEdit: ((spot: Spot) => void) | null
   example: FirstBallExample | null; exampleResult: ReceiveExampleResult | null; exampleScenario: Scenario | null; exampleNotice: string
   chooseExample: (example: FirstBallExample | null) => void; setEditor: (enabled: boolean) => void
   published: Bundle | null; draft: Bundle | null; error: string; loading: boolean
@@ -43,6 +44,7 @@ function examplePatch(s: State, example: FirstBallExample | null, keepPrevious =
 }
 
 export const useRotations = create<State>((set, get) => ({
+  strategyMode: false, strategyEdit: null,
   example: null, exampleResult: null, exampleScenario: null, exampleNotice: '',
   published: null, draft: null, error: '', loading: true,
   ...link, playing: false, rate: 1, view: 'orbit', labels: true, trails: false, receiveAreas: true,
@@ -105,6 +107,7 @@ export const useRotations = create<State>((set, get) => ({
   },
   edit: (spot) => {
     const s = get(), current = activeBundle(s)
+    if (s.editor && s.strategyMode) { s.strategyEdit?.(spot); return }
     if (!s.editor || s.example || !current || !Number.isFinite(spot.x) || !Number.isFinite(spot.z)) return
     const draft = structuredClone(current)
     const scenario = activeScenario({ ...s, draft })!

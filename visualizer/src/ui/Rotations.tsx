@@ -6,9 +6,16 @@ import { phaseAt, rotationLink, showReceiveAreas } from '../lib/rotationModel'
 import { RotationEditor } from './RotationEditor'
 import { FirstBallExamples } from './FirstBallExamples'
 import type { RotationView } from '../lib/rotationTypes'
+import { stageOrder, stageTimes } from '../lib/strategyDraft'
+import { useStrategyStudio } from './useStrategyStudio'
+import { StrategyLibrary } from './StrategyLibrary'
+import { StrategyEditor } from './StrategyEditor'
+import { useStrategies } from '../state/strategyStore'
 
 export function Rotations() {
   const s = useRotations(), bundle = activeBundle(s), scenario = activeScenario(s)
+  const { studio, warnings } = useStrategyStudio()
+  const [libraryOpen, setLibraryOpen] = useState(false)
   const [settings, setSettings] = useState(false)
   const [share, setShare] = useState('')
   const load = () => {
@@ -42,12 +49,23 @@ export function Rotations() {
   const unavailable = s.exampleResult?.ok === false
   const hasAlternates = !!bundle.plans.scenarios.find((p) => p.rotation === s.rotation && p.serve === s.serve)?.alternates
   const jump = (time: number) => { s.seek(time); useRotations.setState({ editTime: time }) }
-  return <main className="rotations" aria-label="Rotation studio">
+  const times = stageTimes(scenario)
+  const panel = studio.editing || libraryOpen
+  return <main className={`rotations ${panel ? 'strategy-open' : ''} ${studio.editing ? 'strategy-editing' : ''}`} aria-label="Rotation studio">
     <div className="rotation-canvas"><RotationScene /></div>
     <div className="rotation-top">
-      <nav className="rotation-phases glass" aria-label="Tactical phase">
-        {(['Receive', 'Attack', 'Defend'] as const).map((section) => <button key={section} aria-pressed={phase.section === section} onClick={() => jump(scenario.phases.find((p) => p.section === section)!.time)}>{section}</button>)}
+      {!studio.editing && <nav className="rotation-phases glass" aria-label="Tactical phase">
+        {(['Receive', 'Attack', 'Defend'] as const).map((section) => <button key={section} aria-pressed={phase.section === section} onClick={() => studio.editing ? studio.setStage(section) : jump(times[section])}>{section}</button>)}
+      </nav>}
+      <nav className="rotation-row glass" aria-label="Strategy mode">
+        <button aria-pressed={!studio.editing} onClick={() => { useStrategies.setState({ editing: false }); s.setEditor(false) }}>View</button>
+        <button aria-pressed={studio.editing} onClick={() => {
+          if (!studio.working) studio.newStrategy(false, s.published ?? undefined)
+          useStrategies.setState({ editing: true }); s.setEditor(true); setSettings(false)
+        }}>Edit strategy</button>
+        <button aria-expanded={panel} onClick={() => { if (studio.editing) { useStrategies.setState({ editing: false }); s.setEditor(false) } setLibraryOpen(!panel) }}>Strategies</button>
       </nav>
+      {studio.editing && <nav className="strategy-stages glass" aria-label="Court stages">{stageOrder(s.serve).map(stage => <button key={stage} aria-pressed={studio.stage === stage} onClick={() => studio.setStage(stage)}>{stage}</button>)}</nav>}
       <div className="rotation-selectors glass">
         <nav className="rotation-row rotation-numbers" aria-label="Rotation">
           {[1, 2, 3, 4, 5, 6].map((r) => <button key={r} aria-pressed={r === s.rotation} onClick={() => s.choose(r, s.serve)}>R{r}</button>)}
@@ -58,8 +76,14 @@ export function Rotations() {
         </div>
       </div>
     </div>
+    {panel && <aside className="strategy-panel glass" aria-label="Strategy studio controls">
+      <StrategyLibrary />
+      {studio.editing && <StrategyEditor warnings={warnings} />}
+      {!studio.editing && studio.working && <p className="strategy-warning">Foundation needs tactical review. View plays the V3 timing template with your foundation edits.</p>}
+    </aside>}
     <div className="rotation-bottom">
       <div className="rotation-cue">
+        {studio.working && <span className="rotation-coach-note">Foundation needs tactical review · {studio.saved ? 'Saved locally' : studio.preview ? 'Preview · Save a copy' : 'Unsaved'}</span>}
         {s.example && s.exampleResult && <span className="rotation-coach-note" role="status">{s.exampleResult.ok
           ? `Teaching sample · ${s.exampleResult.message}`
           : `${s.exampleResult.message} Showing ${s.exampleScenario ? 'previous valid example' : 'authored example'}; playback paused.`}</span>}
@@ -87,7 +111,7 @@ export function Rotations() {
             <label><input type="checkbox" checked={s.labels} onChange={(e) => useRotations.setState({ labels: e.target.checked })} /> Names</label>
             <label><input type="checkbox" checked={s.trails} onChange={(e) => useRotations.setState({ trails: e.target.checked })} /> Paths</label>
             {scenario.tactics && <label><input type="checkbox" checked={s.receiveAreas} onChange={(e) => useRotations.setState({ receiveAreas: e.target.checked })} /> Receive areas</label>}
-            <label><input type="checkbox" checked={s.editor} onChange={(e) => s.setEditor(e.target.checked)} /> Coach draft</label>
+            {!studio.editing && !studio.working && <label><input type="checkbox" checked={s.editor} onChange={(e) => s.setEditor(e.target.checked)} /> Advanced V3 Coach draft</label>}
           </div>
           {s.receiveAreas && !!scenario.tactics?.receiveZones.length && <div className="receive-legend" aria-label="Receive area legend">
             <p>Their serve only, through first contact. Overlapping lanes: call MINE.</p>
@@ -96,15 +120,15 @@ export function Rotations() {
               return <span key={zone.player}><i style={{ backgroundColor: player.color }} />{player.name} · {zone.duty} · {zone.label}</span>
             })}
           </div>}
-          {s.editor && <RotationEditor />}
+          {s.editor && !studio.editing && <RotationEditor />}
         </div>
       </section>}
       <div className="rotation-timeline glass">
-        <div className="rotation-markers" aria-label="Timeline markers">{scenario.phases.map((p, i) => <button key={i} aria-label={`Seek ${p.label} at ${p.time}s`} aria-pressed={phase === p} onClick={() => jump(p.time)}>{p.label}</button>)}</div>
+        <div className="rotation-markers" aria-label="Timeline markers">{stageOrder(s.serve).map(stage => <button key={stage} aria-label={`Seek ${stage}`} aria-pressed={studio.editing ? studio.stage === stage : Math.abs(s.time - times[stage]) < .01} onClick={() => studio.editing ? studio.setStage(stage) : jump(times[stage])}>{stage}</button>)}</div>
         <div className="rotation-play-row">
           <button className="rotation-play" aria-label={s.playing ? 'Pause rotations' : 'Play rotations'} onClick={s.toggle} disabled={s.editor || s.exampleResult?.ok === false} title={s.editor ? "Leave Coach draft to play" : s.exampleResult?.ok === false ? "Choose a feasible sample or Authored to play" : "Space to play / pause"}>{s.playing ? 'Pause' : 'Play'}</button>
           <button aria-label="Restart rotations" onClick={() => jump(0)}>↺</button>
-          <input type="range" min="0" max={scenario.duration} step="0.01" value={s.time} aria-label="Scrub rotations" onChange={(e) => s.seek(Number(e.target.value))} />
+          <input type="range" disabled={studio.editing} min="0" max={scenario.duration} step="0.01" value={s.time} aria-label="Scrub rotations" onChange={(e) => s.seek(Number(e.target.value))} />
           <output aria-label="Timeline time">{s.time.toFixed(1)}s</output>
           <select aria-label="Rotation playback speed" value={s.rate} onChange={(e) => useRotations.setState({ rate: Number(e.target.value) })}>{[0.25, 0.5, 1, 1.5, 2].map((rate) => <option key={rate} value={rate}>{rate}×</option>)}</select>
         </div>

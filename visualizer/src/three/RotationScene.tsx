@@ -11,6 +11,8 @@ import { activeBundle, activeScenario, useRotations } from '../state/rotationSto
 import { ballAt, sampleArc, sampleTrack, showReceiveAreas } from '../lib/rotationModel'
 import { FORMATS } from '../lib/formats'
 import { BRAND } from '../lib/constants'
+import { useStrategies } from '../state/strategyStore'
+import { StrategyRoute } from './StrategyRoute'
 
 function Target({ x, z, label }: { x: number; z: number; label: boolean }) {
   const dragging = useRef(false)
@@ -20,17 +22,19 @@ function Target({ x, z, label }: { x: number; z: number; label: boolean }) {
     if (!s.editor || s.view !== 'top') return
     e.stopPropagation(); dragging.current = true
     useRotations.setState({ selected: 'target' })
+    if (s.strategyMode) useStrategies.getState().beginGesture()
     ;(e.target as Element).setPointerCapture(e.pointerId)
   }
   const move = (e: ThreeEvent<PointerEvent>) => {
     if (!dragging.current) return
     e.stopPropagation()
     const hit = e.ray.intersectPlane(plane, new THREE.Vector3())
-    if (hit) useRotations.getState().edit({ x: Math.round(hit.x * 100) / 100, z: Math.round(hit.z * 100) / 100 })
+    if (hit) useRotations.getState().edit({ x: Math.max(-4.5, Math.min(4.5, Math.round(hit.x * 100) / 100)), z: Math.max(0, Math.min(2.99, Math.round(hit.z * 100) / 100)) })
   }
   const up = (e: ThreeEvent<PointerEvent>) => {
     if (!dragging.current) return
     dragging.current = false
+    if (useRotations.getState().strategyMode) useStrategies.getState().endGesture(e.type === 'pointercancel')
     ;(e.target as Element).releasePointerCapture(e.pointerId)
   }
   return <group position={[x, 0.06, z]} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}>
@@ -79,7 +83,7 @@ function Players() {
       </group>
     })}
     {bundle.team.players.map((player) => <RotationPlayer key={player.id} player={player} track={scenario.tracks[player.id]} team={bundle.team} rotation={scenario.rotation} />)}
-    {trails && bundle.team.players.map((p) => {
+    {trails && !editor && bundle.team.players.map((p) => {
       const points = Array.from({ length: 100 }, (_, i) => { const v = sampleTrack(scenario.tracks[p.id], i / 99 * scenario.duration); return new THREE.Vector3(v.x, 0.08, v.z) })
       return <group key={p.id}>
         <Line points={points} color={p.color} lineWidth={1} transparent opacity={p.setter ? 0.65 : 0.2} />
@@ -92,6 +96,7 @@ function Players() {
       </group>
     })}
     <Target {...scenario.setterTarget} label={!touching && (editor || (time >= scenario.ball[0].start && time <= scenario.secondContact.time + 0.4))} />
+    <StrategyRoute />
     {touching && <Html center position={[first.x, 2.5, first.z]} style={{ pointerEvents: 'none' }}>
       <span className="receiver-cue">{scenario.teachingOnly ? 'Sample 1st touch' : '1st touch'} · {bundle.team.players.find((p) => p.id === scenario.firstContact.player)?.name}</span>
     </Html>}

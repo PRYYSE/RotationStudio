@@ -16,11 +16,12 @@ export function RotationCameraRig() {
   const controls = useRef<Controls>(null)
   const { camera, size } = useThree()
   const view = useRotations((s) => s.view)
+  const editing = useRotations((s) => s.strategyMode)
   const target = useRef(new THREE.Vector3())
   const destination = useRef(new THREE.Vector3())
   const transitioning = useRef(true)
   useEffect(() => {
-    const f = framings[view]
+    const f = editing ? { target: [0, 0, 5] as const, dir: [0, 1, .001] as const, halfW: 5.8, halfH: 6.8 } : framings[view]
     target.current.set(f.target[0], f.target[1], f.target[2])
     const aspect = size.width / size.height
     const tan = Math.tan(42 * Math.PI / 360)
@@ -31,8 +32,13 @@ export function RotationCameraRig() {
     if (portrait && view === 'orbit') target.current.set(0, 0.6, 2.5)
     const distance = Math.max(halfH / tan, halfW / (tan * aspect)) * 1.05
     destination.current.copy(target.current).addScaledVector((portrait && view === 'orbit' ? new THREE.Vector3(0, 1.25, 1) : new THREE.Vector3(...f.dir)).normalize(), distance)
-    transitioning.current = true
-  }, [view, size])
+    if (editing) {
+      camera.position.copy(destination.current)
+      controls.current?.target.copy(target.current)
+      controls.current?.update()
+    }
+    transitioning.current = !editing
+  }, [view, size, editing])
   useFrame((_, dt) => {
     const c = controls.current
     if (!c) return
@@ -44,7 +50,7 @@ export function RotationCameraRig() {
       c.update()
     }
   })
-  return <OrbitControls ref={controls} makeDefault enablePan={false} enableRotate={view === 'orbit'}
+  return <OrbitControls ref={controls} makeDefault enablePan={false} enableZoom={!editing} enableRotate={!editing && view === 'orbit'}
     minDistance={7} maxDistance={85} maxPolarAngle={Math.PI / 2 - 0.02}
     onStart={() => { transitioning.current = false }} />
 }

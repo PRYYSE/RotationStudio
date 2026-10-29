@@ -111,3 +111,29 @@
 .example-notice { color: #ffe49b; }
 .first-ball-examples:disabled button { opacity: .5; }
 .rotations :is(button, select, input):focus-visible { outline: 2px solid #ffe49b; outline-offset: 2px; }
+.strategy-panel { position: absolute; z-index: 15; right: 12px; top: 76px; bottom: 14px; width: 330px; padding: 14px; border-radius: 20px; overflow-y: auto; overscroll-behavior: contain; font-size: 12px; }
+.strategy-panel h2 { font-size: 15px; margin: 15px 0 8px; }
+.strategy-panel p { font-size: 11px; line-height: 1.6; color: #c7d6eb; margin: 8px 0; }
+.strategy-panel label { display: flex; flex-direction: column; gap: 5px; font-size: 12px; min-width: 0; }
+.strategy-panel :is(input,select) { min-width: 0; width: 100%; min-height: 44px; border: 1px solid #486078; border-radius: 8px; background: #142337; color: #eff7ff; padding: 6px 8px; }
+.strategy-panel button { white-space: normal; min-height: 44px; padding: 6px 10px; }
+.strategy-panel button:disabled { opacity: .4; cursor: default; }
+.strategy-panel .strategy-status, .strategy-panel .strategy-warning { color: #ffe49b; }
+.strategy-stages { display: flex; flex-wrap: wrap; gap: 2px; margin-bottom: 8px; }
+.strategy-form, .strategy-confirm { padding: 10px; margin: 8px 0; border: 1px solid #796b46; border-radius: 8px; }
+.strategy-form label + label { margin-top: 8px; }
+.strategy-message { overflow-wrap: anywhere; }
+.strategy-open .rotation-canvas { right: 355px; }
+.strategy-open .rotation-top { left: 0; right: 355px; transform: none; }
+.strategy-open .rotation-bottom { left: calc((100% - 355px) / 2); }
+.strategy-open .rotation-bottom { width: min(760px, calc(100% - 379px)); }
+.strategy-editing .rotation-cue { display: none; }
+.strategy-warning summary { min-height: 44px; padding-top: 10px; cursor: pointer; }
+@media (max-width: 850px) {
+  .strategy-open { overflow-y: auto; overflow-x: hidden; }
+  .strategy-open .rotation-canvas { position: relative; top: auto; bottom: auto; height: 62dvh; min-height: 460px; margin-top: 230px; right: auto; }
+  .strategy-open .rotation-top { left: 50%; right: auto; transform: translateX(-50%); }
+  .strategy-open .strategy-panel { position: relative; top: auto; right: auto; bottom: auto; width: calc(100% - 24px); margin: 8px 12px; max-height: none; }
+  .strategy-open .rotation-bottom { position: relative; left: auto; bottom: auto; transform: none; width: calc(100% - 24px); margin: 8px 12px; padding-bottom: 12px; }
+  .strategy-open .rotation-markers button { padding: 4px 7px; }
+}
