@@ -34,7 +34,7 @@ export function CoverageEditor() {
   const zone = coverageZoneAt(changes, scenario, s.time, id)
   const approximate = coverageAreas(team, scenario, s.time, true).find(a => a.player === id)
   const own = studio.scope ? studio.working?.caseOverrides?.[studio.scope] : studio.working?.overrides[key]
-  const ownZone = studio.laterDefend ? own?.laterDefend?.coverage?.[id] : own?.coverage?.[studio.stage]?.[id]
+  const ownZone = studio.event ? own?.eventOverrides?.[studio.event.id]?.coverage?.[id] : studio.laterDefend ? own?.laterDefend?.coverage?.[id] : own?.coverage?.[studio.stage]?.[id]
   const set = (patch: Partial<CoverageZone>) => studio.setCoverage(key, id, {
     ...(zone ?? { role: 'custom', radiusX: approximate?.radiusX ?? 1, radiusZ: approximate?.radiusZ ?? 1 }), ...patch
   })
@@ -47,12 +47,12 @@ export function CoverageEditor() {
       }}>{mode === 'all' ? 'All areas' : mode === 'selected' ? 'Selected area' : 'Areas off'}</button>)}</div>
     {!player ? <p>Select an athlete above to author coverage.</p> : <>
       <label className="coverage-toggle"><input type="checkbox" checked={!studio.coverageHidden.includes(id)} onChange={e => useStrategies.setState({ coverageHidden: e.target.checked ? studio.coverageHidden.filter(p => p !== id) : [...studio.coverageHidden, id] })} /> Show {player.name}'s area</label>
-      <p>{studio.scope ? 'Only this exact case' : 'Shared across all 4 cases'} · {studio.laterDefend ? 'Later: after our attack' : studio.stage}{zone ? ownZone ? ' · authored here' : ' · inherited' : ' · approximate V3 area'}</p>
+      <p>{studio.scope ? 'Only this exact case' : 'Shared across all 4 cases'} · {studio.event ? `${studio.event.id} · ${s.time.toFixed(2)} s` : studio.laterDefend ? 'Later: after our attack' : studio.stage}{zone ? ownZone ? ' · authored here' : ' · inherited' : ' · approximate V3 area'}</p>
       <label>Area role<select aria-label="Coverage role" value={zone?.role ?? ''} onChange={e => set({ role: e.target.value as CoverageZone['role'] })}>
         <option value="" disabled>Choose responsibility to author</option>
         {COVERAGE_ROLES.map(role => <option key={role} value={role}>{role}</option>)}
       </select></label>
-      {zone && <div className="editor-grid" key={`${id}/${studio.scope}/${studio.stage}/${studio.laterDefend}`}>
+      {zone && <div className="editor-grid" key={`${id}/${studio.scope}/${studio.stage}/${studio.event?.id}/${studio.laterDefend}`}>
         <CoverageMetres label="Width" value={zone.radiusX * 2} min={.2} max={9} commit={n => set({ radiusX: n / 2 })} />
         <CoverageMetres label="Depth" value={zone.radiusZ * 2} min={.2} max={9} commit={n => set({ radiusZ: n / 2 })} />
         <CoverageMetres label="X offset" value={zone.offsetX ?? 0} min={-4.5} max={4.5} commit={n => set({ offsetX: n })} />

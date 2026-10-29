@@ -2,6 +2,7 @@ import type { Keyframe, Scenario, Spot } from './rotationTypes.ts'
 import type { PlayerId, StrategyStage } from './strategyDraft.ts'
 import { stageOrder, stageTimes } from './strategyDraft.ts'
 import { sampleTrack } from './rotationModel.ts'
+import { eventRouteInterval } from './strategyEvents.ts'
 
 export const metresBetween = (a: Spot, b: Spot): number => Math.hypot(b.x - a.x, b.z - a.z)
 export const reviewPoint = (p: Spot): Spot => ({ x: p.x, z: p.z })
@@ -41,9 +42,9 @@ export function eventLabel(s: Scenario, time: number): string {
   return s.phases.find(p => Math.abs(p.time - time) < 1e-6)?.label ?? 'Not authored for this case'
 }
 
-export function playerComparisonAt(s: Scenario, stage: StrategyStage, id: PlayerId, time: number, later: boolean) {
+export function playerComparisonAt(s: Scenario, stage: StrategyStage, id: PlayerId, time: number, later: boolean, eventId?: string) {
   const times = stageTimes(s), order = stageOrder(s.serve), index = order.indexOf(stage)
-  const previous = later ? times.Attack : index > 0 ? Math.max(s.ball[0].start, times[order[index - 1]]) : time
+  const previous = eventId ? Math.min(time, eventRouteInterval(s, eventId, id).start) : later ? times.Attack : index > 0 ? Math.max(s.ball[0].start, times[order[index - 1]]) : time
   const path = (start: number) => {
     const p = timelinePath(s.tracks[id], start, time)
     p.from.label = eventLabel(s, start); p.to.label = eventLabel(s, time)

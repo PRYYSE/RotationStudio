@@ -5,6 +5,9 @@ import type { CaseKey, CoverageZone, PlayerId, RotationKey, StrategyDraftV2, Str
 import type { Bundle, Scenario, Spot } from '../lib/rotationTypes.ts'
 import { loadStrategyLibrary, STRATEGY_STORAGE_KEY } from '../lib/strategyLibrary.ts'
 import type { StrategyStorage } from '../lib/strategyLibrary.ts'
+import { requireSourceEvent, validateEventPatch, validateStrategyEvents } from '../lib/strategyEvents.ts'
+import { coverageStage } from '../lib/coverage.ts'
+import type { LaterDefend } from '../lib/strategyDraft.ts'
 
 export { STRATEGY_STORAGE_KEY }
 type StrategyDraft = StrategyDraftV2
@@ -12,6 +15,8 @@ type State = {
   library: StrategyDraft[]; working: StrategyDraft | null; preview: boolean; saved: boolean; error: string
   editing: boolean; stage: StrategyStage; routeVisible: boolean
   scope: CaseKey | null; laterDefend: boolean
+  event: { id: string; source: Scenario; contexts: Scenario[] } | null
+  setEvent: (source: Scenario, id: string, base?: Bundle) => void; resetEvent: (key: RotationKey) => void
   setScope: (scope: CaseKey | null) => void; setLaterDefend: (scenario: Scenario | null) => void
   resetCase: (key: CaseKey) => void
   coverageDisplay: 'all' | 'selected' | 'off'; coverageHidden: PlayerId[]
@@ -22,7 +27,7 @@ type State = {
   past: StrategyDraft[]; future: StrategyDraft[]; gesture: StrategyDraft | null
   newStrategy: (fromCurrent: boolean, base?: Bundle) => void; select: (id: string | null) => void
   metadata: (name: string, author: string) => void; save: () => void; remove: (id: string) => void
-  previewImport: (json: string) => void; setStage: (stage: StrategyStage) => void
+  previewImport: (json: string, base?: Bundle) => void; setStage: (stage: StrategyStage) => void
   beginGesture: () => void; endGesture: (cancel?: boolean) => void
   move: (key: RotationKey, player: string, spot: Spot) => void
   bend: (key: RotationKey, player: string, points: Spot[]) => void
@@ -75,6 +80,15 @@ export function createStrategyStore(storage?: StrategyStorage) {
       const map = overrides as Record<string, NonNullable<StrategyDraft['overrides'][RotationKey]>>
       return create ? map[k] ??= {} : map[k]
     }
+    const eventPatch = (d: StrategyDraft, key: RotationKey, patch: LaterDefend) => {
+      const event = get().event!
+      if (`${event.source.rotation}/${event.source.serve}` !== key || (get().scope && get().scope !== `${key}/${event.source.tactics?.opponentAttack}/${event.source.tactics?.firstTouch}`)) throw new Error('Source event does not match this case.')
+      const scope = get().scope
+      if (!scope && event.contexts.length !== 4) throw new Error('Shared event editing requires all four authored source cases. Select an exact case or reload the source.')
+      for (const source of scope ? [event.source] : event.contexts) validateEventPatch(source, event.id, patch)
+      const map = rotation(d, key).eventOverrides ??= {}, current = map[event.id] ??= {}
+      for (const field of ['anchors', 'routes', 'coverage'] as const) if (patch[field]) Object.assign(current, { [field]: { ...current[field], ...patch[field] } })
+    }
     const freshId = (excluded?: string) => {
       for (let i = 0; i < 10; i++) {
         const id = crypto.randomUUID()
@@ -84,7 +98,7 @@ export function createStrategyStore(storage?: StrategyStorage) {
     }
     return {
       library, working: initial ? structuredClone(initial) : null, preview: false, saved: !!initial && !error, error,
-      editing: false, stage: 'Start', routeVisible: true, scope: null, laterDefend: false, past: [], future: [], gesture: null,
+      editing: false, stage: 'Start', routeVisible: true, scope: null, laterDefend: false, event: null, past: [], future: [], gesture: null,
       coverageDisplay: 'all', coverageHidden: [], cameraCommand: null,
       zoomCamera: action => set({ cameraCommand: { action, serial: (get().cameraCommand?.serial ?? 0) + 1 } }),
       newStrategy: (fromCurrent, base) => {
@@ -94,11 +108,11 @@ export function createStrategyStore(storage?: StrategyStorage) {
           working.name = `${previous.name.slice(0, 73)} copy`
         }
         try { working.id = freshId(previous?.id) } catch (e) { set({ error: String(e) }); return }
-        set({ working, preview: false, saved: false, error: '', scope: null, laterDefend: false, past: [], future: [], gesture: null })
+        set({ working, preview: false, saved: false, error: '', scope: null, laterDefend: false, event: null, past: [], future: [], gesture: null })
       },
       select: (id) => {
         const working = get().library.find(d => d.id === id) ?? null
-        set({ working: working ? structuredClone(working) : null, preview: false, saved: !!working && !error, scope: null, laterDefend: false, past: [], future: [], gesture: null, error })
+        set({ working: working ? structuredClone(working) : null, preview: false, saved: !!working && !error, scope: null, laterDefend: false, event: null, past: [], future: [], gesture: null, error })
         if (!migrationPending) persist(get().library, working?.id ?? null)
       },
       metadata: (name, author) => update(d => { d.name = name; d.author = author }),
@@ -116,11 +130,28 @@ export function createStrategyStore(storage?: StrategyStorage) {
         if (!persist(next, selected ? null : s.working?.id ?? null)) return
         set({ library: next, ...(selected ? { working: null, saved: false, past: [], future: [], gesture: null } : {}) })
       },
-      previewImport: (json) => {
-        try { const working = parseStrategyImport(json); set({ working, preview: true, saved: false, scope: null, laterDefend: false, past: [], future: [], gesture: null, error: '' }) }
+      previewImport: (json, base) => {
+        try { const working = parseStrategyImport(json); if (base) validateStrategyEvents(base, working)
+          set({ working, preview: true, saved: false, scope: null, laterDefend: false, event: null, past: [], future: [], gesture: null, error: '' }) }
         catch (e) { set({ error: e instanceof Error ? e.message : 'Invalid strategy JSON.' }) }
       },
-      setStage: stage => { if (!get().gesture) set({ stage, ...(stage !== 'Defend' ? { laterDefend: false } : {}) }) },
+      setStage: stage => { if (!get().gesture) set({ stage, event: null, ...(stage !== 'Defend' ? { laterDefend: false } : {}) }) },
+      setEvent: (source, id, base) => {
+        if (get().gesture) return
+        try {
+          const event = requireSourceEvent(source, id)
+          const contexts = (base ? base.plans.scenarios.flatMap(s => [s, ...Object.values(s.alternates ?? {})]) : [source, ...Object.values(source.alternates ?? {})])
+            .filter(s => s.rotation === source.rotation && s.serve === source.serve)
+          set({ event: { id, source, contexts }, stage: coverageStage(source, event.time), laterDefend: false, error: '' })
+        } catch (e) { set({ error: e instanceof Error ? e.message : 'Invalid source event.' }) }
+      },
+      resetEvent: key => update(d => {
+        if (!get().event) return
+        const r = rotation(d, key, false)
+        if (!r?.eventOverrides) return
+        delete r.eventOverrides[get().event!.id]
+        if (!Object.keys(r.eventOverrides).length) delete r.eventOverrides
+      }),
       setScope: scope => {
         if (get().gesture) return
         if (scope !== null && !isCaseKey(scope)) { set({ error: 'Invalid case scope.' }); return }
@@ -129,7 +160,7 @@ export function createStrategyStore(storage?: StrategyStorage) {
       setLaterDefend: scenario => {
         if (get().gesture) return
         if (scenario && (get().stage !== 'Defend' || laterDefendTime(scenario) === undefined)) { set({ error: 'Later defence requires our authored Defend again event.' }); return }
-        set({ laterDefend: !!scenario })
+        set({ laterDefend: !!scenario, event: null })
       },
       beginGesture: () => { const s = get(); if (s.working && !s.gesture) set({ gesture: structuredClone(s.working) }) },
       endGesture: (cancel = false) => {
@@ -141,6 +172,10 @@ export function createStrategyStore(storage?: StrategyStorage) {
       },
       move: (key, player, point) => update(d => {
         const r = rotation(d, key), p = { x: point.x, z: point.z }
+        if (get().event) {
+          if (!PLAYER_IDS.includes(player as PlayerId)) throw new Error('Select an athlete; event timing and touch ownership are read-only.')
+          eventPatch(d, key, { anchors: { [player]: p } }); return
+        }
         if (get().laterDefend) {
           if (player === 'target' || key.split('/')[1] !== 'us' || !PLAYER_IDS.includes(player as PlayerId)) throw new Error('Choose an athlete in our later defence.')
           const anchors = (r.laterDefend ??= {}).anchors ??= {}
@@ -156,6 +191,7 @@ export function createStrategyStore(storage?: StrategyStorage) {
       }),
       bend: (key, player, points) => update(d => {
         if (!PLAYER_IDS.includes(player as PlayerId)) throw new Error('Choose an athlete for a route.')
+        if (get().event) { eventPatch(d, key, { routes: { [player]: points.map(p => ({ x: p.x, z: p.z })) } }); return }
         const r = rotation(d, key)
         if (get().laterDefend) {
           if (key.split('/')[1] !== 'us') throw new Error('Later defence requires our serve.')
@@ -169,6 +205,7 @@ export function createStrategyStore(storage?: StrategyStorage) {
       prepareHitters: key => update(d => { rotation(d, key).readyOptions = true }),
       setCoverage: (key, player, zone) => update(d => {
         if (!PLAYER_IDS.includes(player)) throw new Error('Choose an athlete for coverage.')
+        if (get().event) { eventPatch(d, key, { coverage: { [player]: { ...zone } } }); return }
         const r = rotation(d, key)
         if (get().laterDefend) {
           if (key.split('/')[1] !== 'us' || get().stage !== 'Defend') throw new Error('Later coverage requires our serve and Defend.')
@@ -177,6 +214,15 @@ export function createStrategyStore(storage?: StrategyStorage) {
       }),
       resetCoverage: (key, player) => update(d => {
         const r = rotation(d, key, false); if (!r) return
+        if (get().event) {
+          const id = get().event!.id, patch = r.eventOverrides?.[id]
+          if (!patch?.coverage?.[player]) return
+          delete patch.coverage[player]
+          if (!Object.keys(patch.coverage).length) delete patch.coverage
+          if (!Object.keys(patch).length) delete r.eventOverrides![id]
+          if (!Object.keys(r.eventOverrides!).length) delete r.eventOverrides
+          return
+        }
         const map = get().laterDefend ? r.laterDefend?.coverage : r.coverage?.[get().stage]
         if (!map || !Object.hasOwn(map, player)) return
         delete map[player]

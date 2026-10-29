@@ -1,5 +1,6 @@
 import type { Bundle, FirstTouch, OpponentAttack, Scenario, ServeOwner, Spot } from './rotationTypes.ts'
 import { applyStrategyOverlay } from './strategyOverlay.ts'
+import { isSourceEventId } from './strategyEvents.ts'
 
 export const BASE_REVISION = '8c0fb5d'
 export const MAX_STRATEGY_BYTES = 100_000
@@ -25,6 +26,7 @@ export type StrategyRotation = {
   setterTarget?: Spot
   laterDefend?: LaterDefend
   coverage?: Partial<Record<StrategyStage, Partial<Record<PlayerId, CoverageZone>>>>
+  eventOverrides?: Record<string, LaterDefend>
 }
 export type CoachInstruction = { primary?: string; ifDifferent?: string; fallback?: string; teamCall?: string }
 export type CoachNotes = {
@@ -111,7 +113,7 @@ function checkRotations(overrides: unknown, version: number, cases = false) {
   if (!record(overrides) || Object.keys(overrides).length > (cases ? 48 : 12)) throw new Error('Expected bounded rotation/serve overrides.')
   for (const [key, value] of Object.entries(overrides)) {
     if (!(cases ? isCaseKey(key) : /^[1-6]\/(they|us)$/.test(key)) || !record(value)) throw new Error('Invalid rotation/serve or case override.')
-    allowed(value, ['anchors', 'routes', 'setterTarget', 'readyOptions', ...(version === 2 ? ['laterDefend', 'coverage'] : [])])
+    allowed(value, ['anchors', 'routes', 'setterTarget', 'readyOptions', ...(version === 2 ? ['laterDefend', 'coverage', 'eventOverrides'] : [])])
     if (value.readyOptions !== undefined && typeof value.readyOptions !== 'boolean') throw new Error('readyOptions must be boolean.')
     if (value.setterTarget !== undefined) checkSpot(value.setterTarget, true)
     for (const field of ['anchors', 'routes', ...(version === 2 ? ['coverage'] : [])]) {
@@ -125,6 +127,17 @@ function checkRotations(overrides: unknown, version: number, cases = false) {
       if (key.split('/')[1] !== 'us' || !record(value.laterDefend)) throw new Error('laterDefend requires our serve.')
       allowed(value.laterDefend, ['anchors', 'routes', 'coverage'])
       for (const field of ['anchors', 'routes', 'coverage']) if (value.laterDefend[field] !== undefined) checkPlayers(value.laterDefend[field], field)
+    }
+    if (value.eventOverrides !== undefined) {
+      if (!record(value.eventOverrides) || Object.keys(value.eventOverrides).length > 128) throw new Error('Expected at most 128 source event overrides.')
+      allowed(value.eventOverrides, Object.keys(value.eventOverrides))
+      for (const [id, patch] of Object.entries(value.eventOverrides)) {
+        if (!isSourceEventId(id) || !record(patch)) throw new Error('Invalid source event ID or patch.')
+        allowed(patch, ['anchors', 'routes', 'coverage'])
+        for (const field of ['anchors', 'routes', 'coverage']) if (patch[field] !== undefined) checkPlayers(patch[field], field)
+        const points = [...Object.values((patch.anchors ?? {}) as Record<string, Spot>), ...Object.values((patch.routes ?? {}) as Record<string, Spot[]>).flat()]
+        if (!/^p[01]:(legal-start|serve-hit)$/.test(id) && points.some(p => p.z > 9)) throw new Error('Event positions and routes must stay on our court: Z 0–9.')
+      }
     }
   }
 }

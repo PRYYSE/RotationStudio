@@ -10,15 +10,22 @@ import { useStrategies } from '../state/strategyStore'
 
 export function useViewerReview(stage: StrategyStage, laterDefend = false) {
   const s = useRotations(), working = useStrategies(state => state.working)
+  const event = useStrategies(state => state.editing ? state.event : null)
   // MUST remain keyed only by immutable source and working-strategy identities.
   // No 48-case validation when playback, focus, stage or rotation changes.
-  const model = useMemo(() => s.published ? createReviewModel(s.published, working) : null, [s.published, working])
+  const model = useMemo(() => {
+    if (!s.published) return null
+    try { return createReviewModel(s.published, working) }
+    catch { return createReviewModel(s.published, null) }
+  }, [s.published, working])
   const playerId = PLAYER_IDS.includes(s.selected as PlayerId) ? s.selected as PlayerId : null
   return useMemo(() => {
     if (!model) return null
     const context: ReviewContext = { rotation: s.rotation as ReviewContext['rotation'], serve: s.serve,
       attackSide: s.opponentAttack, firstTouch: s.firstTouch, stage, playerId }
-    const projection = model.project(context, { laterDefend })
+    let projection
+    try { projection = model.project(context, { laterDefend, ...(event ? { eventId: event.id } : {}) }) }
+    catch { projection = model.project(context) }
     // Samples have a separate read-only provenance. Their contact/role facts
     // must describe the actual last valid animation, not the authored template.
     const scenario = activeScenario(s), team = activeBundle(s)?.team
@@ -52,5 +59,5 @@ export function useViewerReview(stage: StrategyStage, laterDefend = false) {
       firstContact: scenario.firstContact.player as PlayerId, secondContact: scenario.secondContact.player as PlayerId,
       animatedHitter: hitter, eligibleFrontAttackers: actors.filter(a => a.frontEligible && !a.isNamedSecond).map(a => a.id),
       explanation, notes, comparison: null, nextEvent: next ? { label: next.label, time: next.time } : undefined }
-  }, [model, s.rotation, s.serve, s.opponentAttack, s.firstTouch, stage, playerId, laterDefend, s.example, s.exampleScenario, s.draft, working])
+  }, [model, s.rotation, s.serve, s.opponentAttack, s.firstTouch, stage, playerId, laterDefend, event, s.example, s.exampleScenario, s.draft, working])
 }

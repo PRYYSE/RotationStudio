@@ -2,6 +2,7 @@ import type { Scenario, Spot, Team } from './rotationTypes.ts'
 import { isFront, phaseAt, positionOf, sampleTrack } from './rotationModel.ts'
 import { laterDefendTime, stageOrder, stageTimes } from './strategyDraft.ts'
 import type { CoverageZone, PlayerId, StrategyRotation, StrategyStage } from './strategyDraft.ts'
+import { sourceEvents } from './strategyEvents.ts'
 
 export type CoverageArea = {
   player: string; center: Spot; radiusX: number; radiusZ: number
@@ -22,7 +23,9 @@ export function coverageStage(s: Scenario, time: number): StrategyStage {
 
 export function coverageZoneAt(changes: StrategyRotation | undefined, s: Scenario, time: number, id: PlayerId): CoverageZone | undefined {
   const stage = coverageStage(s, time), later = laterDefendTime(s)
-  return (stage === 'Defend' && later !== undefined && time >= later ? changes?.laterDefend?.coverage?.[id] : undefined)
+  const event = !s.teachingOnly && !!s.tactics && changes?.eventOverrides && sourceEvents(s).find(e => Math.abs(e.time - time) < 1e-6)
+  return (event ? changes?.eventOverrides?.[event.id]?.coverage?.[id] : undefined)
+    ?? (stage === 'Defend' && later !== undefined && time >= later ? changes?.laterDefend?.coverage?.[id] : undefined)
     ?? changes?.coverage?.[stage]?.[id]
 }
 export function assignedCoverage(player: string, p: Spot, zone: CoverageZone): CoverageArea {

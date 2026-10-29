@@ -144,6 +144,10 @@
 .editor-context .editor-scope { font-size: 11px; line-height: 1.35; color: #ffe49b; margin: 4px 0; }
 .court-first.strategy-editing .strategy-panel { scroll-padding-top: 120px; }
 .editor-provenance, .case-impact { overflow-wrap: anywhere; }
+.event-navigator { border-block: 1px solid #486078; margin-block: 8px; }
+.event-navigator ol { list-style: none; padding: 0; display: grid; gap: 4px; }
+.strategy-panel .event-navigator button { min-height: 44px; width: 100%; white-space: normal; text-align: left; overflow-wrap: anywhere; }
+.event-navigator .rotation-row { flex-wrap: nowrap; margin-block: 8px; }
 .editor-occurrence { border-left: 2px solid #78cfff; margin: 8px 0; padding-left: 8px; display: grid; gap: 4px; }
 .editor-comparison { border-block: 1px solid #486078; margin: 10px 0; padding: 6px 0; line-height: 1.45; }
 .editor-comparison h3, .case-impact h3 { font-size: 12px; }

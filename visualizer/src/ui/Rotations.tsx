@@ -16,7 +16,7 @@ import { useViewerReview } from './useViewerReview'
 
 export function Rotations() {
   const s = useRotations(), bundle = activeBundle(s), scenario = activeScenario(s)
-  const { studio } = useStrategyStudio()
+  const { studio, warnings } = useStrategyStudio()
   const [libraryOpen, setLibraryOpen] = useState(false)
   const [settings, setSettings] = useState(false)
   const [lowMotion, setLowMotion] = useState(false)
@@ -99,6 +99,7 @@ export function Rotations() {
     </div>
     {panel && <aside className="strategy-panel glass" aria-label="Strategy studio controls">
       <StrategyLibrary compact={studio.editing} />
+      {warnings.filter(w => w.startsWith('Event edits were not applied:')).map(w => <p className="strategy-warning" role="alert" key={w}>{w}</p>)}
       {studio.editing && <StrategyEditor key={`${s.rotation}/${s.serve}/${s.opponentAttack}/${s.firstTouch}`} review={review} />}
       {!studio.editing && studio.working && <p className="strategy-warning">Foundation needs tactical review. View plays the V3 timing template with your foundation edits.</p>}
     </aside>}

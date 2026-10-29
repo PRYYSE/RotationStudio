@@ -8,6 +8,7 @@ import { sampleTrack, selectScenario } from '../lib/rotationModel'
 import { laterDefendTime, stageOrder, stageTimes } from '../lib/strategyDraft'
 import { resolveStrategyRotation } from '../lib/strategyOverlay'
 import type { PlayerId, RotationKey } from '../lib/strategyDraft'
+import { eventRouteInterval, sourceEvents } from '../lib/strategyEvents'
 
 const floor = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
 function Bend({ point, index }: { point: { x: number; z: number }; index: number }) {
@@ -28,8 +29,8 @@ function Bend({ point, index }: { point: { x: number; z: number }; index: number
       const s = useRotations.getState(), studio = useStrategies.getState(), key = `${s.rotation}/${s.serve}` as RotationKey
       const scenario = activeScenario(s)!
       const effective = studio.working ? resolveStrategyRotation(studio.working, scenario) : null
-      const bends = structuredClone((studio.laterDefend ? effective?.laterDefend?.routes?.[s.selected as PlayerId] : effective?.routes?.[studio.stage]?.[s.selected as PlayerId]) ?? [])
-      bends[index] = { x: Math.max(-4.5, Math.min(4.5, Math.round(p.x * 100) / 100)), z: Math.max(0, Math.min(12, Math.round(p.z * 100) / 100)) }
+      const bends = structuredClone((studio.event ? effective?.eventOverrides?.[studio.event.id]?.routes?.[s.selected as PlayerId] : studio.laterDefend ? effective?.laterDefend?.routes?.[s.selected as PlayerId] : effective?.routes?.[studio.stage]?.[s.selected as PlayerId]) ?? [])
+      bends[index] = { x: Math.max(-4.5, Math.min(4.5, Math.round(p.x * 100) / 100)), z: Math.max(0, Math.min(studio.event ? 9 : 12, Math.round(p.z * 100) / 100)) }
       studio.bend(key, s.selected, bends)
     }} onPointerUp={e => finish(e)} onPointerCancel={e => finish(e, true)}>
     <circleGeometry args={[.36, 32]} /><meshBasicMaterial color="#fff3c4" side={THREE.DoubleSide} depthTest={false} />
@@ -40,18 +41,19 @@ export function StrategyRoute() {
   if (!s.strategyMode || !studio.routeVisible || !scenario || !bundle) return null
   const order = stageOrder(s.serve), times = stageTimes(scenario), previous = order[order.indexOf(studio.stage) - 1]
   const later = studio.laterDefend && s.serve === 'us' && studio.stage === 'Defend'
-  const end = later ? laterDefendTime(scenario)! : times[studio.stage]
-  const start = later ? times.Attack : studio.stage === 'Start' ? end : Math.max(times[previous], scenario.ball[0].start)
   const root = s.published?.plans.scenarios.find(v => v.rotation === s.rotation && v.serve === s.serve)
   if (!root) return null
   const source = selectScenario(root, s.opponentAttack, s.firstTouch)
+  const event = studio.event ? sourceEvents(source).find(e => e.id === studio.event!.id) : undefined
+  const end = event?.time ?? (later ? laterDefendTime(scenario)! : times[studio.stage])
+  const start = event ? Math.min(end, eventRouteInterval(source, event.id, s.selected).start) : later ? times.Attack : studio.stage === 'Start' ? end : Math.max(times[previous], scenario.ball[0].start)
   const target = s.selected === 'target', ghost = target ? source.setterTarget : sampleTrack(source.tracks[s.selected], end)
   const points = (base = false) => Array.from({ length: 90 }, (_, i) => {
     const p = sampleTrack((base ? source : scenario).tracks[s.selected], start + (end - start) * i / 89)
     return new THREE.Vector3(p.x, base ? .08 : .12, p.z)
   })
   const effective = studio.working ? resolveStrategyRotation(studio.working, scenario) : null
-  const bends = (later ? effective?.laterDefend?.routes?.[s.selected as PlayerId] : effective?.routes?.[studio.stage]?.[s.selected as PlayerId]) ?? []
+  const bends = (event ? effective?.eventOverrides?.[event.id]?.routes?.[s.selected as PlayerId] : later ? effective?.laterDefend?.routes?.[s.selected as PlayerId] : effective?.routes?.[studio.stage]?.[s.selected as PlayerId]) ?? []
   return <group>
     <mesh name="strategy-v3-ghost" position={[ghost.x, .09, ghost.z]} rotation={[-Math.PI / 2, 0, 0]} raycast={() => null}>
       <ringGeometry args={[.36, .46, 40]} /><meshBasicMaterial color="#dbe9ff" transparent opacity={.35} depthWrite={false} side={THREE.DoubleSide} />

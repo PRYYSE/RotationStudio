@@ -4,6 +4,7 @@ import { BASE_REVISION, laterDefendTime, scenarioCaseKey, STAGES, stageOrder, st
 import { isFront, positionOf, sampleTrack } from './rotationModel.ts'
 import { validateBundle } from './rotationValidation.ts'
 import { EXAMPLE_SCREEN } from './receiveExample.ts'
+import { applyEventOverrides, sourceEndpointOwners, validateStrategyEvents } from './strategyEvents.ts'
 
 // Merge sparse player maps, replacing each route as a whole (including []).
 // Resolve once against source, then apply once: a shared route must never leave
@@ -26,6 +27,16 @@ export function resolveStrategyRotation(draft: StrategyDraft, s: Scenario): Stra
     anchors: { ...shared.laterDefend?.anchors, ...exact.laterDefend?.anchors },
     routes: { ...shared.laterDefend?.routes, ...exact.laterDefend?.routes },
     ...((shared.laterDefend?.coverage || exact.laterDefend?.coverage) ? { coverage: { ...shared.laterDefend?.coverage, ...exact.laterDefend?.coverage } } : {})
+  }
+  if (shared.eventOverrides || exact.eventOverrides) {
+    merged.eventOverrides = { ...shared.eventOverrides }
+    for (const [id, patch] of Object.entries(exact.eventOverrides ?? {})) {
+      const inherited = shared.eventOverrides?.[id]
+      merged.eventOverrides[id] = {}
+      for (const field of ['anchors', 'routes', 'coverage'] as const) if (inherited?.[field] || patch[field]) {
+        Object.assign(merged.eventOverrides[id], { [field]: { ...inherited?.[field], ...patch[field] } })
+      }
+    }
   }
   return merged
 }
@@ -146,6 +157,7 @@ function applyScenario(team: Bundle['team'], s: Scenario, changes: StrategyRotat
 }
 export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bundle: Bundle; warnings: string[] } {
   validateStrategy(draft)
+  validateStrategyEvents(base, draft)
   const bundle = structuredClone(base), warnings = ['Foundation needs tactical review. Authored hitter, timing and alternates remain templates, not optimised choreography.']
   if (draft.baseRevision !== BASE_REVISION) warnings.push(`Different base revision ${draft.baseRevision}; this browser uses ${BASE_REVISION}. Review all mappings before use.`)
   bundle.team.status = bundle.plans.status = 'DRAFT'
@@ -153,7 +165,8 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
     const changes = resolveStrategyRotation(draft, s)
     if (!Object.keys(changes).length) continue
     const tag = scenarioCaseKey(s) ?? `${s.rotation}/${s.serve}`
-    for (const [stage, players] of [...Object.entries(changes.coverage ?? {}), ['Later Defend', changes.laterDefend?.coverage] as const]) {
+    for (const [stage, players] of [...Object.entries(changes.coverage ?? {}), ['Later Defend', changes.laterDefend?.coverage] as const,
+      ...Object.entries(changes.eventOverrides ?? {}).map(([id, patch]) => [id, patch.coverage] as const)]) {
       for (const [id, zone] of Object.entries(players ?? {})) if (zone.role === 'block' && !isFront(positionOf(bundle.team, s.rotation, id))) {
         warnings.push(`${tag}: ${id} is back-row; assigned block coverage at ${stage} needs review. Coverage does not change contact or track roles.`)
       }
@@ -161,7 +174,9 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
     // Coverage is display-only. Do not run geometric/contact reconstruction for
     // a zone-only strategy: even source frame serialization must stay identical.
     if (!changes.anchors && !changes.routes && changes.setterTarget === undefined && changes.readyOptions === undefined
-      && !Object.keys(changes.laterDefend?.anchors ?? {}).length && !Object.keys(changes.laterDefend?.routes ?? {}).length) continue
+      && !Object.keys(changes.laterDefend?.anchors ?? {}).length && !Object.keys(changes.laterDefend?.routes ?? {}).length
+      && !Object.values(changes.eventOverrides ?? {}).some(p => Object.keys(p.anchors ?? {}).length || Object.keys(p.routes ?? {}).length)) continue
+    const source = structuredClone(s)
     const times = stageTimes(s)
     // Record endpoint owners from immutable authored geometry BEFORE edits.
     const owners = s.ball.map(b => (['from', 'to'] as const).map(side => {
@@ -175,13 +190,24 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
         return Math.hypot(p.x - b[side].x, p.z - b[side].z) < .4 && (time !== times.Attack || p.role === 'attack')
       })
     }))
-    applyScenario(bundle.team, s, changes, warnings)
+    const stageGeometry = changes.anchors || changes.routes || changes.setterTarget !== undefined || changes.readyOptions !== undefined
+      || Object.keys(changes.laterDefend?.anchors ?? {}).length || Object.keys(changes.laterDefend?.routes ?? {}).length
+    if (stageGeometry) applyScenario(bundle.team, s, changes, warnings)
+    const eventGeometry = Object.values(changes.eventOverrides ?? {}).some(p => Object.keys(p.anchors ?? {}).length || Object.keys(p.routes ?? {}).length)
+    if (eventGeometry) applyEventOverrides(source, s, changes, warnings)
+    const sourceOwners = eventGeometry ? sourceEndpointOwners(source) : owners
     s.ball.forEach((b, i) => (['from', 'to'] as const).forEach((side, j) => {
-      const id = owners[i][j]
+      const id = sourceOwners[i][j]
       if (id) Object.assign(b[side], xy(sampleTrack(s.tracks[id], side === 'from' ? b.start : b.end)))
     }))
     // V3 supports holds between flights; endpoint links stay exact even then.
     for (let i = 1; i < s.ball.length; i++) s.ball[i].from = { ...s.ball[i - 1].to }
+    if (eventGeometry) s.ball.forEach((b, i) => (['from', 'to'] as const).forEach((side, j) => {
+      const id = sourceOwners[i][j], time = side === 'from' ? b.start : b.end
+      if (!id) return
+      const p = sampleTrack(s.tracks[id], time)
+      if (Math.hypot(p.x - b[side].x, p.z - b[side].z) > 1e-6) warnings.push(`${tag}: source contact ${id} at ${time.toFixed(2)} s cannot be re-linked safely; timing and touch ownership remain read-only. Reset or review the event placement.`)
+    }))
   }
   warnings.push(...validateBundle(bundle))
   return { bundle, warnings: [...new Set(warnings)] }

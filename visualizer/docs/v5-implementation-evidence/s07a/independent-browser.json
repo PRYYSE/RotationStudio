@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "Rendered V5 court"
+    },
+    {
+      "label": "Editor displays all authored source events",
+      "summary": "All events · 16 source events"
+    },
+    {
+      "label": "Existing authored events selectable",
+      "count": 16
+    },
+    {
+      "label": "R1 Us serve first dig is separately selectable"
+    },
+    {
+      "label": "R1 Us serve next dig is separately selectable"
+    },
+    {
+      "label": "Mobile editor responsive",
+      "viewport": 390,
+      "document": 390,
+      "canvas": 390,
+      "events": true
+    },
+    {
+      "label": "No page JavaScript errors"
+    }
+  ],
+  "errors": []
+}

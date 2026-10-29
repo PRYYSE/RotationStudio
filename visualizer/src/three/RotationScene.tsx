@@ -22,7 +22,7 @@ function Target({ x, z }: { x: number; z: number }) {
   const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
   const down = (e: ThreeEvent<PointerEvent>) => {
     const s = useRotations.getState()
-    if (!s.editor || s.view !== 'top') return
+    if (!s.editor || s.view !== 'top' || (s.strategyMode && useStrategies.getState().event)) return
     e.stopPropagation(); dragging.current = true
     useRotations.setState({ selected: 'target' })
     if (s.strategyMode) useStrategies.getState().beginGesture()

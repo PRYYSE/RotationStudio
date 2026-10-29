@@ -130,13 +130,21 @@ export function collectReviewFindings(bundle: Bundle, draft: StrategyDraft | nul
     // Validator copies are already represented with complete original evidence.
     if (validation.includes(raw)) continue
     const exact = /^([1-6]\/(?:they|us)\/(?:left|right)\/(?:normal|harry)): (.*)$/.exec(raw)
-    const coverage = exact && /assigned block coverage at (Start|Receive|Set|Attack|Defend|Later Defend) needs review\./.exec(exact[2])
+    const coverage = exact && /assigned block coverage at (.+) needs review\./.exec(exact[2])
     if (coverage) {
       add({ code: 'back-row-coverage-review', category: 'COVERAGE', severity: 'REVIEW',
-        affectedStage: coverage[1] === 'Later Defend' ? 'Defend' : coverage[1] as StrategyStage,
+        ...(['Start', 'Receive', 'Set', 'Attack', 'Defend', 'Later Defend'].includes(coverage[1])
+          ? { affectedStage: coverage[1] === 'Later Defend' ? 'Defend' as const : coverage[1] as StrategyStage } : {}),
         playerId: inferPlayer(exact![2]), summary: exact![2],
         suggestedCheck: 'Review this coach-assigned area and front/back-row eligibility. Coverage does not change source contact, ball or track roles.',
         source: 'human-review' }, [exact![1] as CaseKey], { message: raw })
+      continue
+    }
+    if (exact && (/ at .+ \([0-9.]+ s\) exceeds the teaching movement screen/.test(exact[2]) || /source contact .*cannot be re-linked safely/.test(exact[2]))) {
+      const contact = /source contact/.test(exact[2])
+      add({ code: contact ? 'source-event-contact-link' : 'source-event-movement-screen', category: contact ? 'CONTACT' : 'GEOMETRY_TIME',
+        severity: contact ? 'INVALID' : 'CAUTION', playerId: inferPlayer(exact[2]), summary: exact[2],
+        suggestedCheck: 'Inspect this source event and its adjacent route interval; timing and touch ownership are read-only.', source: 'sampled-timeline' }, [exact[1] as CaseKey], { message: raw })
       continue
     }
     const missing = !!exact && /missing/.test(exact[2])

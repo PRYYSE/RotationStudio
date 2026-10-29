@@ -121,7 +121,7 @@ export function StrategyLibrary({ compact = false }: { compact?: boolean }) {
       const f = e.target.files?.[0]; e.target.value = ''; if (!f) return
       if (working && !s.saved) { setMessage('Save or export your current work before importing another strategy.'); return }
       if (f.size > MAX_STRATEGY_BYTES) { useStrategies.setState({ error: 'Strategy file must be at most 100 KB.' }); return }
-      try { s.previewImport(await f.text()) }
+      try { s.previewImport(await f.text(), published ?? undefined) }
       catch { useStrategies.setState({ error: 'Could not read that file. Your current strategy is unchanged. Choose a local JSON file and try again.' }) }
     }} />
     </>}
