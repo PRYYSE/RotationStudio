@@ -35,7 +35,7 @@ export function RotationPlayer({ player, scenario, team, reducedMotion = false }
     e.stopPropagation()
     const s = useRotations.getState()
     useRotations.setState({ selected: player.id })
-    if (!s.editor) return
+    if (!s.editor || s.playing) return
     if (s.view !== 'top') return
     dragging.current = true
     if (s.strategyMode) useStrategies.getState().beginGesture()

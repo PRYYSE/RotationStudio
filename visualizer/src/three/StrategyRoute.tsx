@@ -47,7 +47,8 @@ export function StrategyRoute() {
   const event = studio.event ? sourceEvents(source).find(e => e.id === studio.event!.id) : undefined
   const end = event?.time ?? (later ? laterDefendTime(scenario)! : times[studio.stage])
   const start = event ? Math.min(end, eventRouteInterval(source, event.id, s.selected).start) : later ? times.Attack : studio.stage === 'Start' ? end : Math.max(times[previous], scenario.ball[0].start)
-  const target = s.selected === 'target', ghost = target ? source.setterTarget : sampleTrack(source.tracks[s.selected], end)
+  const target = s.selected === 'target'
+  if (!target && !scenario.tracks[s.selected]) return null
   const points = (base = false) => Array.from({ length: 90 }, (_, i) => {
     const p = sampleTrack((base ? source : scenario).tracks[s.selected], start + (end - start) * i / 89)
     return new THREE.Vector3(p.x, base ? .08 : .12, p.z)
@@ -55,13 +56,10 @@ export function StrategyRoute() {
   const effective = studio.working ? resolveStrategyRotation(studio.working, scenario) : null
   const bends = (event ? effective?.eventOverrides?.[event.id]?.routes?.[s.selected as PlayerId] : later ? effective?.laterDefend?.routes?.[s.selected as PlayerId] : effective?.routes?.[studio.stage]?.[s.selected as PlayerId]) ?? []
   return <group>
-    <mesh name="strategy-v3-ghost" position={[ghost.x, .09, ghost.z]} rotation={[-Math.PI / 2, 0, 0]} raycast={() => null}>
-      <ringGeometry args={[.36, .46, 40]} /><meshBasicMaterial color="#dbe9ff" transparent opacity={.35} depthWrite={false} side={THREE.DoubleSide} />
-    </mesh>
     {!target && end > start && <>
       <Line name="strategy-current-path" points={points()} color={bundle.team.players.find(p => p.id === s.selected)!.color} lineWidth={3} depthTest={false} raycast={() => null} />
-      <Line name="strategy-v3-path" points={points(true)} color="#dbe9ff" lineWidth={1.5} transparent opacity={.3} raycast={() => null} />
-      {bends.map((point, i) => <Bend key={i} point={point} index={i} />)}
+      {s.v3Ghost && <Line name="strategy-v3-path" points={points(true)} color="#dbe9ff" lineWidth={1.5} transparent opacity={.3} raycast={() => null} />}
+      {!s.playing && s.view === 'top' && bends.map((point, i) => <Bend key={i} point={point} index={i} />)}
     </>}
   </group>
 }

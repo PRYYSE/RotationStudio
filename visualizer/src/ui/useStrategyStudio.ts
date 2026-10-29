@@ -26,7 +26,7 @@ export function useStrategyStudio() {
     // no sparse strategy is selected; changing library selection clears them.
     if (!applied && !ownsOverlay.current) return
     ownsOverlay.current = !!applied
-    useRotations.setState({ draft: applied?.bundle ?? null, example: null, exampleResult: null, exampleScenario: null, playing: false })
+    useRotations.setState({ draft: applied?.bundle ?? null, example: null, exampleResult: null, exampleScenario: null, playing: false, transitionTarget: null })
   }, [applied])
   useEffect(() => {
     if (!studio.editing) { useRotations.setState({ strategyMode: false, strategyEdit: null }); return }
@@ -47,7 +47,7 @@ export function useStrategyStudio() {
     const later = studio.laterDefend && studio.stage === 'Defend' ? laterDefendTime(scenario) : undefined
     if (studio.laterDefend && later === undefined) useStrategies.getState().setLaterDefend(null)
     const time = eventTime ?? later ?? stageTimes(scenario)[studio.stage]
-    useRotations.setState({ editor: true, strategyMode: true, view: 'top', playing: false, time, editTime: time,
+    useRotations.setState({ editor: true, strategyMode: true, playing: false, transitionTarget: null, time, editTime: time,
       example: null, exampleResult: null, exampleScenario: null,
       strategyEdit: spot => {
         const r = useRotations.getState(), scenario = activeScenario(r), state = useStrategies.getState()

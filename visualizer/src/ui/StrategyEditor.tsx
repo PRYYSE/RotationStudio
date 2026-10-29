@@ -71,6 +71,19 @@ export function StrategyEditor({ review }: { review: ReviewProjection | null }) 
   const events = sourceEvents(source), event = studio.event ? events.find(e => e.id === studio.event!.id) : undefined
   const later = studio.laterDefend && s.serve === 'us' && studio.stage === 'Defend'
   const stages = stageOrder(s.serve), times = stageTimes(scenario), time = event?.time ?? (later ? laterDefendTime(scenario)! : times[studio.stage])
+  const selectStage = (stage: typeof studio.stage) => {
+    const destination = times[stage]
+    if (s.reducedMotion || Math.abs(s.time - destination) < .005) {
+      studio.setStage(stage); s.navigate(destination, true)
+    } else s.navigate(destination)
+  }
+  const selectEvent = (id: string) => {
+    const destination = events.find(e => e.id === id)?.time
+    if (destination === undefined) return
+    if (s.reducedMotion || Math.abs(s.time - destination) < .005) {
+      studio.setEvent(source, id, s.published ?? undefined); s.navigate(destination, true)
+    } else s.navigate(destination)
+  }
   const point = s.selected === 'target' ? scenario.setterTarget : sampleTrack(scenario.tracks[s.selected], time)
   const effective = studio.working ? resolveStrategyRotation(studio.working, scenario) : null
   const bends = event ? effective?.eventOverrides?.[event.id]?.routes?.[s.selected as PlayerId] : later ? effective?.laterDefend?.routes?.[s.selected as PlayerId] : effective?.routes?.[studio.stage]?.[s.selected as PlayerId]
@@ -81,10 +94,10 @@ export function StrategyEditor({ review }: { review: ReviewProjection | null }) 
   return <section className="strategy-editor" aria-label="Court strategy editor">
     <div className="editor-context">
       <h2>R{s.rotation} · {s.serve === 'us' ? 'Us' : 'They'} serve · {event?.label ?? studio.stage}</h2>
-      <nav className="strategy-stages" aria-label="Court stages">{stages.map(stage => <button key={stage} aria-pressed={!event && studio.stage === stage} onClick={() => studio.setStage(stage)}>{stage}</button>)}</nav>
+      <nav className="strategy-stages" aria-label="Court stages">{stages.map(stage => <button key={stage} aria-pressed={!event && studio.stage === stage} onClick={() => selectStage(stage)}>{stage}</button>)}</nav>
       <p className="editor-scope" aria-label="Current edit scope">{studio.scope ? 'This exact case · 1 authored alternative' : 'Shared · all 4 authored alternatives'}<br />{name(s.selected)} · {event ? `${event.label} · ${time.toFixed(2)} s` : later ? 'Later: after our attack' : studio.stage}</p>
     </div>
-    <EventNavigator events={events} selectedId={event?.id} onSelect={id => studio.setEvent(source, id, s.published ?? undefined)} />
+    <EventNavigator events={events} selectedId={event?.id} onSelect={selectEvent} />
     {event && <section aria-label="Source event facts" className="editor-comparison">
       <h3>{event.label} · {time.toFixed(2)} s · source occurrence {event.occurrence}</h3>
       <p>{event.id} · {event.caseKey}<br />Source contact: {event.actors.map(name).join(', ') || 'No named our-team contact at this boundary'}. Selected athlete source role: {s.selected === 'target' ? 'Select an athlete' : sampleTrack(source.tracks[s.selected], time).role}.</p>
@@ -105,7 +118,8 @@ export function StrategyEditor({ review }: { review: ReviewProjection | null }) 
       <button aria-pressed={!later} onClick={() => studio.setLaterDefend(null)}>First: after our serve</button>
       <button aria-pressed={later} onClick={() => studio.setLaterDefend(scenario)}>Later: after our attack</button>
     </div>}
-    {!studio.working ? <p>Team V3 is read-only. Create a strategy to place athletes and edit routes.</p> : <>
+    {!studio.working ? <p>Team V3 is read-only. Create a strategy to place athletes and edit routes.</p> : <fieldset className="editor-fields" disabled={s.playing}>
+      {s.playing && <p role="status">Preview playing · edit handles return when paused at an event.</p>}
       <p>Drag athletes or enter metres. Fields commit on Enter or blur; Escape cancels. Scope selection alone saves no edit.</p>
       {studio.stage === 'Start' && <p className="strategy-warning">Start holds through service contact. Keep rotational order and P1 behind the endline on our serve; review the rule findings.</p>}
       <div className="editor-grid">
@@ -153,7 +167,7 @@ export function StrategyEditor({ review }: { review: ReviewProjection | null }) 
       {reset && <div role="alert" className="strategy-confirm">{reset === 'case' ? `Delete only ${caseKey} overrides and inherit shared placements?` : `Revert shared edits to R${s.rotation}, ${s.serve} serve? Exact-case edits remain.`}
         <button onClick={() => { if (reset === 'case') studio.resetCase(caseKey); else studio.resetRotation(key); setReset(null) }}>{reset === 'case' ? 'Confirm case reset' : 'Confirm rotation reset'}</button><button onClick={() => setReset(null)}>Cancel</button>
       </div>}
-    </>}
+    </fieldset>}
     <ImpactInspector review={review} rotationKey={key} />
   </section>
 }

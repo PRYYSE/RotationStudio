@@ -56,7 +56,7 @@ export function StrategyCoverage() {
         <circleGeometry args={[1, 64]} /><meshBasicMaterial color={player.color} transparent opacity={area.assigned ? .16 : area.duty === 'primary' ? .09 : .045} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
       <Line points={points} color={player.color} lineWidth={area.assigned ? 1.5 : .8} transparent opacity={area.assigned ? .7 : .25} raycast={() => null} />
-      {s.strategyMode && studio.working && s.selected === area.player && zone && <>
+      {s.strategyMode && !s.playing && s.view === 'top' && studio.working && s.selected === area.player && zone && <>
         <RadiusHandle area={area} zone={zone} axis="X" color={player.color} />
         <RadiusHandle area={area} zone={zone} axis="Z" color={player.color} />
       </>}

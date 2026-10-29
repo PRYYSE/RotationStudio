@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": [
+    "Edit Play/Pause works at slow pace and restores fields",
+    "Camera presets outside settings and seven toggleable visibility layers",
+    "390px phone Edit and camera/visibility no horizontal scroll",
+    "844px landscape no horizontal overflow",
+    "Original Set arcs unchanged and accessible",
+    "Zero page JavaScript errors"
+  ],
+  "error": "",
+  "errors": []
+}

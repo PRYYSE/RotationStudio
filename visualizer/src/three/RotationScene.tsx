@@ -16,13 +16,14 @@ import { useStrategies } from '../state/strategyStore'
 import { StrategyRoute } from './StrategyRoute'
 import { RotationLabels } from './RotationLabels'
 import { motionBudget } from '../lib/rotationPose'
+import { RotationGuides } from './RotationGuides'
 
 function Target({ x, z }: { x: number; z: number }) {
   const dragging = useRef(false)
   const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
   const down = (e: ThreeEvent<PointerEvent>) => {
     const s = useRotations.getState()
-    if (!s.editor || s.view !== 'top' || (s.strategyMode && useStrategies.getState().event)) return
+    if (!s.editor || s.playing || s.view !== 'top' || (s.strategyMode && useStrategies.getState().event)) return
     e.stopPropagation(); dragging.current = true
     useRotations.setState({ selected: 'target' })
     if (s.strategyMode) useStrategies.getState().beginGesture()
@@ -63,6 +64,8 @@ function Players({ secondary }: { secondary: boolean }) {
   const scenario = useRotations(activeScenario)!
   const trails = useRotations((s) => s.trails)
   const editor = useRotations((s) => s.editor)
+  const flight = useRotations((s) => s.ballFlight)
+  const target = useRotations((s) => s.setterTargetVisible)
   return <>
     <StrategyCoverage />
     {bundle.team.players.map((player) => <RotationPlayer key={player.id} player={player} scenario={scenario} team={bundle.team} reducedMotion={!secondary} />)}
@@ -78,9 +81,10 @@ function Players({ secondary }: { secondary: boolean }) {
         })}
       </group>
     })}
-    <Target {...scenario.setterTarget} />
+    {target && <Target {...scenario.setterTarget} />}
+    <RotationGuides />
     <StrategyRoute />
-    {trails && scenario.ball.map((b, i) => <Line key={i} points={Array.from({ length: 50 }, (_, j) => { const p = sampleArc(b, j / 49); return new THREE.Vector3(p.x, p.y, p.z) })}
+    {flight && scenario.ball.map((b, i) => <Line key={i} points={Array.from({ length: 50 }, (_, j) => { const p = sampleArc(b, j / 49); return new THREE.Vector3(p.x, p.y, p.z) })}
       color={b.kind === 'pass' ? '#ffd878' : BRAND.accent} lineWidth={b.kind === 'pass' ? 2 : 1} transparent opacity={0.35} />)}
     {scenario.serve === 'they' && <group position={[scenario.ball[0].from.x, 0, scenario.ball[0].from.z]}>
       <mesh position={[0, 0.8, 0]}><capsuleGeometry args={[0.2, 0.9, 6, 10]} /><meshStandardMaterial color="#536581" /></mesh>
