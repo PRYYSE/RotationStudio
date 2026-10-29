@@ -1,4 +1,4 @@
-import { memo, useRef } from 'react'
+import { memo, useRef, type RefObject } from 'react'
 import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber'
 import { ContactShadows, Html, Line } from '@react-three/drei'
 import * as THREE from 'three'
@@ -14,6 +14,7 @@ import { FORMATS } from '../lib/formats'
 import { BRAND } from '../lib/constants'
 import { useStrategies } from '../state/strategyStore'
 import { StrategyRoute } from './StrategyRoute'
+import { RotationLabels } from './RotationLabels'
 
 function Target({ x, z }: { x: number; z: number }) {
   const dragging = useRef(false)
@@ -63,8 +64,6 @@ function Players() {
   const time = useRotations((s) => s.time)
   const editor = useRotations((s) => s.editor)
   const receiveAreas = useRotations((s) => s.receiveAreas)
-  const touching = Math.abs(time - scenario.firstContact.time) <= 0.55
-  const first = sampleTrack(scenario.tracks[scenario.firstContact.player], scenario.firstContact.time)
   return <>
     {coverageAreas(bundle.team, scenario, time, receiveAreas).map((zone) => {
       const player = bundle.team.players.find((p) => p.id === zone.player)!
@@ -94,20 +93,17 @@ function Players() {
     })}
     <Target {...scenario.setterTarget} />
     <StrategyRoute />
-    {touching && <Html center position={[first.x, 2.5, first.z]} style={{ pointerEvents: 'none' }}>
-      <span className="receiver-cue">{scenario.teachingOnly ? 'Sample 1st touch' : '1st touch'} · {bundle.team.players.find((p) => p.id === scenario.firstContact.player)?.name}</span>
-    </Html>}
     {trails && scenario.ball.map((b, i) => <Line key={i} points={Array.from({ length: 50 }, (_, j) => { const p = sampleArc(b, j / 49); return new THREE.Vector3(p.x, p.y, p.z) })}
       color={b.kind === 'pass' ? '#ffd878' : BRAND.accent} lineWidth={b.kind === 'pass' ? 2 : 1} transparent opacity={0.35} />)}
     {scenario.serve === 'they' && <group position={[scenario.ball[0].from.x, 0, scenario.ball[0].from.z]}>
       <mesh position={[0, 0.8, 0]}><capsuleGeometry args={[0.2, 0.9, 6, 10]} /><meshStandardMaterial color="#536581" /></mesh>
       <mesh position={[0, 1.6, 0]}><sphereGeometry args={[0.18, 12, 10]} /><meshStandardMaterial color="#b7c9e4" /></mesh>
-      <Html center position={[0, 2.3, 0]} style={{ pointerEvents: 'none' }}><span className="server-cue">Their server</span></Html>
+      <Html zIndexRange={[1, 0]} center position={[0, 2.3, 0]} style={{ pointerEvents: 'none' }}><span className="server-cue">Their server</span></Html>
     </group>}
     <MovingBall />
   </>
 }
-export const RotationScene = memo(function RotationScene() {
+export const RotationScene = memo(function RotationScene({ labelHost }: { labelHost: RefObject<HTMLDivElement | null> }) {
   const netHeight = useRotations((s) => activeBundle(s)!.plans.netHeight)
   const scenarioKey = useRotations((s) => `${s.rotation}/${s.serve}/${s.opponentAttack}/${s.firstTouch}`)
   return <Canvas shadows dpr={[1, 1.7]} camera={{ position: [12, 30, 25], fov: 42, near: 0.1, far: 150 }} gl={{ antialias: true }}>
@@ -120,5 +116,6 @@ export const RotationScene = memo(function RotationScene() {
     <Players key={scenarioKey} />
     <ContactShadows position={[0, 0.02, 0]} scale={28} resolution={512} blur={2.4} opacity={0.35} far={5} />
     <RotationCameraRig />
+    <RotationLabels host={labelHost} />
   </Canvas>
 })

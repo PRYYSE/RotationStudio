@@ -1,0 +1,11 @@
+{
+  "pass": true,
+  "stage": "Set",
+  "player": "caleb",
+  "modes": [
+    "View",
+    "Edit strategy",
+    "View"
+  ],
+  "errors": []
+}

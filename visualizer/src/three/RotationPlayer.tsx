@@ -1,31 +1,20 @@
 import { useRef, useState } from 'react'
-import { Html } from '@react-three/drei'
 import { useFrame, type ThreeEvent } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { Keyframe, Team } from '../lib/rotationTypes'
-import { sampleTrack, positionOf } from '../lib/rotationModel'
+import { sampleTrack } from '../lib/rotationModel'
 import { useRotations } from '../state/rotationStore'
 import { useStrategies } from '../state/strategyStore'
 
 type Player = Team['players'][number]
 const floor = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
-export function RotationPlayer({ player, track, team, rotation }: { player: Player; track: Keyframe[]; team: Team; rotation: number }) {
+export function RotationPlayer({ player, track }: { player: Player; track: Keyframe[]; team: Team; rotation: number }) {
   const group = useRef<THREE.Group>(null)
   const leftArm = useRef<THREE.Group>(null), rightArm = useRef<THREE.Group>(null)
   const leftLeg = useRef<THREE.Group>(null), rightLeg = useRef<THREE.Group>(null)
   const [hovered, setHovered] = useState(false)
-  const labels = useRotations((s) => s.labels)
-  const view = useRotations((s) => s.view)
-  const selected = useRotations((s) => s.editor && s.selected === player.id)
+  const selected = useRotations((s) => s.selected === player.id)
   const dragging = useRef(false)
-  const position = positionOf(team, rotation, player.id)
-  // Small feet-level offsets keep the tag close to its athlete in every camera.
-  const labelOffset: Record<number, [number, number, number]> = {
-    1: [.3, .07, .55], 2: [.3, .07, -.5],
-    3: [0, .07, .55], 4: [-.3, .07, -.5],
-    5: [-.3, .07, .55], 6: [0, .07, .55],
-  }
-  const labelPosition: [number, number, number] = view === 'front' || view === 'side' ? [0, 0.05, 0] : labelOffset[position]
   useFrame(() => {
     const s = useRotations.getState()
     const p = sampleTrack(track, s.time)
@@ -42,8 +31,8 @@ export function RotationPlayer({ player, track, team, rotation }: { player: Play
   const down = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation()
     const s = useRotations.getState()
-    if (!s.editor) return
     useRotations.setState({ selected: player.id })
+    if (!s.editor) return
     if (s.view !== 'top') return
     dragging.current = true
     if (s.strategyMode) useStrategies.getState().beginGesture()
@@ -84,8 +73,5 @@ export function RotationPlayer({ player, track, team, rotation }: { player: Play
       <mesh position={[0, -0.27, 0]} castShadow><capsuleGeometry args={[0.09, 0.4, 4, 8]} /><meshStandardMaterial color={skin} /></mesh>
       <mesh position={[0, -0.58, -0.04]} castShadow><boxGeometry args={[0.2, 0.13, 0.32]} /><meshStandardMaterial color="#f0f3ff" /></mesh>
     </group>)}
-    {labels && <Html center position={labelPosition as [number, number, number]} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
-      <span className={`athlete-label ${selected ? 'selected' : ''}`} style={{ borderColor: player.color }}><i style={{ backgroundColor: player.color }} />{player.name} · P{position}</span>
-    </Html>}
   </group>
 }

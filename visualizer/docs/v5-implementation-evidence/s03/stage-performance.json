@@ -1,0 +1,253 @@
+{
+  "browser": "Chrome/156.0.8078.49",
+  "measurement": "Capture-phase click to aria-pressed DOM update, and two requestAnimationFrame callbacks; no concurrent build/unit checks.",
+  "samples": [
+    {
+      "draft": false,
+      "width": 1440,
+      "height": 900,
+      "counters": {
+        "models": 4,
+        "validations": 6
+      },
+      "events": [
+        {
+          "stage": "Receive",
+          "domMs": 22.599999994039536,
+          "twoFramesMs": 112.5
+        },
+        {
+          "stage": "Set",
+          "domMs": 20.700000002980232,
+          "twoFramesMs": 108.70000000298023
+        },
+        {
+          "stage": "Attack",
+          "domMs": 19.400000005960464,
+          "twoFramesMs": 98.79999999701977
+        },
+        {
+          "stage": "Defend",
+          "domMs": 20.900000005960464,
+          "twoFramesMs": 112
+        },
+        {
+          "stage": "Start",
+          "domMs": 20.700000002980232,
+          "twoFramesMs": 104.79999999701977
+        },
+        {
+          "stage": "Receive",
+          "domMs": 20.799999997019768,
+          "twoFramesMs": 99.40000000596046
+        },
+        {
+          "stage": "Set",
+          "domMs": 22,
+          "twoFramesMs": 107.90000000596046
+        },
+        {
+          "stage": "Attack",
+          "domMs": 20.80000001192093,
+          "twoFramesMs": 92.6000000089407
+        },
+        {
+          "stage": "Defend",
+          "domMs": 22.400000005960464,
+          "twoFramesMs": 106.40000000596046
+        },
+        {
+          "stage": "Start",
+          "domMs": 20.100000008940697,
+          "twoFramesMs": 105
+        }
+      ]
+    },
+    {
+      "draft": false,
+      "width": 390,
+      "height": 844,
+      "counters": {
+        "models": 4,
+        "validations": 6
+      },
+      "events": [
+        {
+          "stage": "Receive",
+          "domMs": 19.5,
+          "twoFramesMs": 94.09999999403954
+        },
+        {
+          "stage": "Set",
+          "domMs": 18.799999997019768,
+          "twoFramesMs": 96.79999999701977
+        },
+        {
+          "stage": "Attack",
+          "domMs": 21.599999994039536,
+          "twoFramesMs": 96.70000000298023
+        },
+        {
+          "stage": "Defend",
+          "domMs": 20.399999991059303,
+          "twoFramesMs": 92.69999998807907
+        },
+        {
+          "stage": "Start",
+          "domMs": 19.399999991059303,
+          "twoFramesMs": 95.29999999701977
+        },
+        {
+          "stage": "Receive",
+          "domMs": 19.299999997019768,
+          "twoFramesMs": 90.1000000089407
+        },
+        {
+          "stage": "Set",
+          "domMs": 18.799999997019768,
+          "twoFramesMs": 95.8999999910593
+        },
+        {
+          "stage": "Attack",
+          "domMs": 20.200000002980232,
+          "twoFramesMs": 93.29999999701977
+        },
+        {
+          "stage": "Defend",
+          "domMs": 20,
+          "twoFramesMs": 93.40000000596046
+        },
+        {
+          "stage": "Start",
+          "domMs": 19,
+          "twoFramesMs": 97.29999999701977
+        }
+      ]
+    },
+    {
+      "draft": true,
+      "width": 1440,
+      "height": 900,
+      "counters": {
+        "models": 6,
+        "validations": 12
+      },
+      "events": [
+        {
+          "stage": "Receive",
+          "domMs": 21.799999997019768,
+          "twoFramesMs": 102.59999999403954
+        },
+        {
+          "stage": "Set",
+          "domMs": 19.899999991059303,
+          "twoFramesMs": 96.5
+        },
+        {
+          "stage": "Attack",
+          "domMs": 19.599999994039536,
+          "twoFramesMs": 94.69999998807907
+        },
+        {
+          "stage": "Defend",
+          "domMs": 19.100000008940697,
+          "twoFramesMs": 99.70000000298023
+        },
+        {
+          "stage": "Start",
+          "domMs": 21.69999998807907,
+          "twoFramesMs": 101.59999999403954
+        },
+        {
+          "stage": "Receive",
+          "domMs": 19.299999997019768,
+          "twoFramesMs": 90.8999999910593
+        },
+        {
+          "stage": "Set",
+          "domMs": 21.200000002980232,
+          "twoFramesMs": 97
+        },
+        {
+          "stage": "Attack",
+          "domMs": 20.200000002980232,
+          "twoFramesMs": 96.1000000089407
+        },
+        {
+          "stage": "Defend",
+          "domMs": 21.69999998807907,
+          "twoFramesMs": 103.19999998807907
+        },
+        {
+          "stage": "Start",
+          "domMs": 19.900000005960464,
+          "twoFramesMs": 104
+        }
+      ]
+    },
+    {
+      "draft": true,
+      "width": 390,
+      "height": 844,
+      "counters": {
+        "models": 6,
+        "validations": 12
+      },
+      "events": [
+        {
+          "stage": "Receive",
+          "domMs": 20.5,
+          "twoFramesMs": 86.6000000089407
+        },
+        {
+          "stage": "Set",
+          "domMs": 20.100000008940697,
+          "twoFramesMs": 94.6000000089407
+        },
+        {
+          "stage": "Attack",
+          "domMs": 19.400000005960464,
+          "twoFramesMs": 91.90000000596046
+        },
+        {
+          "stage": "Defend",
+          "domMs": 18.899999991059303,
+          "twoFramesMs": 91.09999999403954
+        },
+        {
+          "stage": "Start",
+          "domMs": 19.400000005960464,
+          "twoFramesMs": 92.5
+        },
+        {
+          "stage": "Receive",
+          "domMs": 19.400000005960464,
+          "twoFramesMs": 87.80000001192093
+        },
+        {
+          "stage": "Set",
+          "domMs": 20.600000008940697,
+          "twoFramesMs": 95.79999999701977
+        },
+        {
+          "stage": "Attack",
+          "domMs": 23,
+          "twoFramesMs": 92.79999999701977
+        },
+        {
+          "stage": "Defend",
+          "domMs": 20.200000002980232,
+          "twoFramesMs": 94.09999999403954
+        },
+        {
+          "stage": "Start",
+          "domMs": 18.799999997019768,
+          "twoFramesMs": 95.40000000596046
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "maxDomMs": 23,
+  "maxTwoFramesMs": 112.5
+}

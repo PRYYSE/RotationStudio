@@ -3,7 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import type { OrbitControls as Controls } from 'three-stdlib'
 import * as THREE from 'three'
-import { useRotations } from '../state/rotationStore'
+import { activeScenario, useRotations } from '../state/rotationStore'
 
 // Same aspect-fitted target/direction approach as the original CameraRig.
 const framings = {
@@ -17,19 +17,24 @@ export function RotationCameraRig() {
   const { camera, size } = useThree()
   const view = useRotations((s) => s.view)
   const editing = useRotations((s) => s.strategyMode)
+  // Their server needs the far half at Start. Once the first ball arrives,
+  // devote the view to our full 9x9 floor instead of the empty opposing half.
+  const ourHalf = useRotations(s => s.serve === 'us' || s.time >= (activeScenario(s)?.firstContact.time ?? Infinity))
   const target = useRef(new THREE.Vector3())
   const destination = useRef(new THREE.Vector3())
   const transitioning = useRef(true)
   useEffect(() => {
-    const f = editing ? { target: [0, 0, 5] as const, dir: [0, 1, .001] as const, halfW: 5.8, halfH: 6.8 } : framings[view]
+    const original = framings[view]
+    const f = editing ? { target: [0, 0, 5] as const, dir: [0, 1, .001] as const, halfW: 5.8, halfH: 6.8 }
+      : ourHalf ? { ...original, target: [0, .5, 4.5] as const, halfW: view === 'side' ? 6.8 : 6, halfH: 6.8 } : original
     target.current.set(f.target[0], f.target[1], f.target[2])
     const aspect = size.width / size.height
     const tan = Math.tan(42 * Math.PI / 360)
     // Reserve chrome space, especially the lower timeline on portrait phones.
     const portrait = size.width < 600
-    const halfW = portrait && (view === 'orbit' || view === 'front') ? 6.2 : f.halfW
-    const halfH = portrait && (view === 'orbit' || view === 'front') ? 9.5 : f.halfH
-    if (portrait && view === 'orbit') target.current.set(0, 0.6, 2.5)
+    const halfW = !ourHalf && portrait && (view === 'orbit' || view === 'front') ? 6.2 : f.halfW
+    const halfH = !ourHalf && portrait && (view === 'orbit' || view === 'front') ? 9.5 : f.halfH
+    if (!ourHalf && portrait && view === 'orbit') target.current.set(0, 0.6, 2.5)
     const distance = Math.max(halfH / tan, halfW / (tan * aspect)) * 1.05
     destination.current.copy(target.current).addScaledVector((portrait && view === 'orbit' ? new THREE.Vector3(0, 1.25, 1) : new THREE.Vector3(...f.dir)).normalize(), distance)
     if (editing) {
@@ -38,7 +43,7 @@ export function RotationCameraRig() {
       controls.current?.update()
     }
     transitioning.current = !editing
-  }, [view, size, editing])
+  }, [view, size, editing, ourHalf])
   useFrame((_, dt) => {
     const c = controls.current
     if (!c) return

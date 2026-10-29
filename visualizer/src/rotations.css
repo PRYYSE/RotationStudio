@@ -155,3 +155,100 @@
   .strategy-editing { height: 100dvh; grid-template-columns: minmax(0, 1fr); grid-template-rows: 190px 340px minmax(240px, 320px); overflow-x: hidden; overflow-y: auto; }
   .strategy-editing > * { min-width: 0; max-width: 100%; }
 }
+
+/* V5 viewer: the court, controls and context occupy separate layout cells.
+   The context is the sole scroll owner. Canvas and all projected tags are
+   isolated/clipped below it, including during live ResizeObserver updates. */
+.court-first { display: grid; grid-template-columns: minmax(0, 1fr) 350px; grid-template-rows: 126px minmax(0, 1fr) 170px; gap: 0; overflow: hidden; min-width: 0; }
+.court-first > * { min-width: 0; }
+.court-first .rotation-canvas { grid-column: 1; grid-row: 2; position: relative; inset: auto; width: 100%; height: 100%; min-height: 0; margin: 0; overflow: hidden; isolation: isolate; z-index: 0; }
+.court-first .rotation-top { grid-column: 1; grid-row: 1; position: relative; inset: auto; transform: none; width: auto; flex-direction: row; justify-content: center; align-items: center; align-self: end; padding: 4px 12px; gap: 10px; }
+.court-first .rotation-selectors { position: static; display: flex; align-items: center; gap: 8px; }
+.court-first .rotation-top button { padding: 4px 9px; min-height: 36px; }
+.court-first .rotation-numbers button { min-width: 36px; }
+.court-first .rotation-bottom { grid-column: 1; grid-row: 3; position: relative; inset: auto; transform: none; width: auto; margin: 0 12px; align-self: center; }
+.court-first .rotation-cue { margin: 0 0 4px; font-size: 11px; }
+.court-first .rotation-cue strong { font-size: 12px; margin: 0; }
+.court-first .rotation-timeline { padding: 0 8px; }
+.court-first .demo-disclaimer { margin: 2px 0; }
+.court-first :is(.viewer-panel, .strategy-panel) { grid-column: 2; grid-row: 1 / -1; position: relative; inset: auto; width: auto; min-height: 0; max-height: none; margin: 64px 12px 10px 0; padding: 10px; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: 48px; scroll-padding-bottom: 10px; border-radius: 16px; font-size: 12px; }
+.viewer-panel { display: flex; flex-direction: column; }
+.viewer-panel > * { flex-shrink: 0; }
+.viewer-heading { display: flex; align-items: center; justify-content: space-between; gap: 4px; position: sticky; top: -10px; z-index: 3; background: #101b2c; padding: 2px 0; }
+.viewer-heading button { font-size: 11px; padding: 4px 8px; }
+.player-focus { font-size: 12px; line-height: 1.45; }
+.player-focus h2 { font-size: 14px; margin: 8px 0; }
+.player-focus p { margin: 7px 0; }
+.focus-selector { display: flex; flex-direction: column; gap: 5px; font-weight: 600; }
+.focus-selector select { min-height: 44px; width: 100%; color: #eef6ff; background: #15263b; border: 1px solid #486078; border-radius: 8px; padding: 4px 8px; }
+.focus-source, .focus-fallback { color: #ffe49b; font-size: 11px; }
+.focus-position { color: #b5d8f3; }
+.player-focus summary { cursor: pointer; min-height: 44px; padding: 10px 0; }
+.focus-roster { list-style: none; padding: 0; margin: 0; }
+.focus-roster li { margin-bottom: 6px; }
+.focus-roster button { display: flex; align-items: center; gap: 5px; width: 100%; text-align: left; }
+.focus-roster i { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.focus-roster span { display: block; font-size: 11px; color: #bdcee3; padding-left: 12px; }
+.court-first .rotation-settings { width: 100%; border-radius: 0; padding: 0; margin: 0; }
+.settings-open .player-focus { order: 2; border-top: 1px solid #405674; margin-top: 12px; padding-top: 12px; }
+.court-labels { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
+.court-labels svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.court-labels line { stroke-width: 1; opacity: .65; }
+.court-labels .athlete-label { position: absolute; left: 0; top: 0; height: 24px; padding: 2px 3px; justify-content: center; white-space: nowrap; }
+.court-labels [hidden] { display: none; }
+@media (max-width: 1150px) {
+  .court-first .rotation-top { flex-direction: column; gap: 2px; }
+  .court-first .rotation-selectors { padding: 2px; gap: 2px; }
+}
+@media (max-width: 850px) {
+  .court-first, .court-first.strategy-editing { height: 100dvh; width: 100%; max-width: 100%; grid-template-columns: minmax(0, 1fr); grid-template-rows: 140px minmax(0, 1fr) 132px 158px; overflow: hidden; }
+  .court-first.settings-open, .court-first.strategy-open { grid-template-rows: 140px minmax(0, 1fr) 222px 158px; }
+  .court-first .rotation-top { grid-column: 1; grid-row: 1; padding: 0 8px 2px; width: 100%; align-self: end; gap: 1px; }
+  .court-first .rotation-top > .rotation-row { padding: 0 2px; }
+  .court-first .rotation-selectors { display: contents; }
+  .court-first .rotation-top button { min-height: 30px; font-size: 11px; padding: 3px 10px; }
+  .court-first .rotation-numbers button { min-width: 44px; }
+  .court-first .demo-tag { padding: 4px 8px; }
+  .court-first .rotation-canvas { grid-column: 1; grid-row: 2; min-height: 0; max-width: 100%; }
+  .court-first :is(.viewer-panel, .strategy-panel) { grid-column: 1; grid-row: 3; margin: 0 8px; padding: 0 10px 8px; max-width: calc(100% - 16px); overflow-y: auto; min-height: 0; border-radius: 14px; }
+  .court-first .rotation-bottom { grid-column: 1; grid-row: 4; margin: 0 8px; align-self: center; }
+  /* The selected stage and player are already named in the pinned markers and focus panel.
+     Remove the redundant floating court cue on narrow screens so it cannot paint over the focus sheet. */
+  .court-first .rotation-cue { display: none; }
+  .court-first .rotation-markers { overflow: visible; }
+  .court-first .rotation-markers button { flex: 1; min-width: 0; min-height: 44px; padding: 2px 4px; font-size: 10px; }
+  .court-first .rotation-cue strong { font-size: 11px; }
+  .viewer-heading { top: 0; min-height: 34px; }
+  .viewer-heading button { min-height: 34px; }
+  .focus-selector { flex-direction: row; align-items: center; justify-content: space-between; font-size: 11px; }
+  .focus-selector select { min-height: 34px; width: 55%; }
+  .player-focus h2 { font-size: 12px; margin: 4px 0; }
+  .player-focus p { margin: 5px 0; }
+  .player-focus { display: flex; flex-direction: column; }
+  .player-focus > * { flex-shrink: 0; order: 2; }
+  .player-focus .focus-selector { order: 0; }
+  .player-focus .focus-primary { order: 1; }
+  .court-first .strategy-panel .strategy-stages { top: 0; }
+}
+@media (max-width: 850px) and (max-height: 600px) and (orientation: landscape) {
+  .court-first, .court-first.strategy-editing, .court-first.settings-open, .court-first.strategy-open { grid-template-columns: minmax(0, 1fr) 300px; grid-template-rows: 58px 86px minmax(0, 1fr) 116px; }
+  .court-first .rotation-canvas { grid-column: 1; grid-row: 2 / -1; }
+  .court-first .rotation-top { grid-column: 2; grid-row: 2; padding: 0 6px; }
+  .court-first .rotation-top button { min-height: 26px; padding: 2px 8px; }
+  .court-first .rotation-selectors { display: contents; }
+  .court-first .rotation-numbers button { min-width: 32px; padding: 2px 4px; }
+  .court-first .serve-row button { font-size: 10px; padding: 2px 5px; }
+  .court-first .demo-tag { display: inline; }
+  .court-first :is(.viewer-panel, .strategy-panel) { grid-column: 2; grid-row: 3; margin: 0 8px 0 0; max-width: none; }
+  .court-first .rotation-bottom { grid-column: 2; grid-row: 4; margin: 0 8px 0 0; align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
+  .court-first .rotation-timeline { height: 88px; padding: 0 6px; }
+  .court-first .rotation-play-row { position: static; }
+  .court-first .rotation-play-row .rotation-play { min-width: 48px; padding: 4px 8px; }
+  .court-first .rotation-play-row { gap: 2px; }
+  .court-first .rotation-play-row select { width: 48px; }
+  .court-first .rotation-footer { position: absolute; top: -28px; right: 0; margin: 0; }
+  .court-first .rotation-footer > span, .court-first .demo-disclaimer { display: none; }
+  .court-first .rotation-footer > div { position: static; }
+  .court-first .rotation-footer button { min-height: 28px; font-size: 10px; padding: 2px 8px; }
+  .court-first .rotation-cue { text-align: left; margin-bottom: 2px; padding-right: 140px; }
+}
