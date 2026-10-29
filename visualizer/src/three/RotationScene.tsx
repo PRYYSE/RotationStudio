@@ -1,4 +1,4 @@
-import { memo, useRef, type RefObject } from 'react'
+import { memo, useEffect, useRef, useState, type RefObject } from 'react'
 import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber'
 import { ContactShadows, Html, Line } from '@react-three/drei'
 import * as THREE from 'three'
@@ -15,6 +15,7 @@ import { BRAND } from '../lib/constants'
 import { useStrategies } from '../state/strategyStore'
 import { StrategyRoute } from './StrategyRoute'
 import { RotationLabels } from './RotationLabels'
+import { motionBudget } from '../lib/rotationPose'
 
 function Target({ x, z }: { x: number; z: number }) {
   const dragging = useRef(false)
@@ -45,7 +46,7 @@ function Target({ x, z }: { x: number; z: number }) {
     <Line points={[[0, 0, -0.7], [0, 0, 0.7]]} color="#ffd878" lineWidth={2} />
   </group>
 }
-function MovingBall() {
+function MovingBall({ secondary }: { secondary: boolean }) {
   const mesh = useRef<THREE.Mesh>(null)
   useFrame((_, dt) => {
     useRotations.getState().tick(dt)
@@ -53,18 +54,18 @@ function MovingBall() {
     if (!scenario || !mesh.current) return
     const p = ballAt(scenario, s.time)
     mesh.current.position.set(p.x, p.y, p.z)
-    mesh.current.rotation.z = s.time * 3
-  })
+    mesh.current.rotation.z = secondary ? s.time * 3 : 0
+  }, -1) // Advance the source clock before avatars/labels read this frame.
   return <mesh ref={mesh} castShadow><sphereGeometry args={[0.16, 20, 16]} /><meshStandardMaterial color="#ffdb70" emissive="#ffbd36" emissiveIntensity={0.35} roughness={0.5} /></mesh>
 }
-function Players() {
+function Players({ secondary }: { secondary: boolean }) {
   const bundle = useRotations(activeBundle)!
   const scenario = useRotations(activeScenario)!
   const trails = useRotations((s) => s.trails)
   const editor = useRotations((s) => s.editor)
   return <>
     <StrategyCoverage />
-    {bundle.team.players.map((player) => <RotationPlayer key={player.id} player={player} track={scenario.tracks[player.id]} team={bundle.team} rotation={scenario.rotation} />)}
+    {bundle.team.players.map((player) => <RotationPlayer key={player.id} player={player} scenario={scenario} team={bundle.team} reducedMotion={!secondary} />)}
     {trails && !editor && bundle.team.players.map((p) => {
       const points = Array.from({ length: 100 }, (_, i) => { const v = sampleTrack(scenario.tracks[p.id], i / 99 * scenario.duration); return new THREE.Vector3(v.x, 0.08, v.z) })
       return <group key={p.id}>
@@ -86,21 +87,29 @@ function Players() {
       <mesh position={[0, 1.6, 0]}><sphereGeometry args={[0.18, 12, 10]} /><meshStandardMaterial color="#b7c9e4" /></mesh>
       <Html zIndexRange={[1, 0]} center position={[0, 2.3, 0]} style={{ pointerEvents: 'none' }}><span className="server-cue">Their server</span></Html>
     </group>}
-    <MovingBall />
+    <MovingBall secondary={secondary} />
   </>
 }
-export const RotationScene = memo(function RotationScene({ labelHost }: { labelHost: RefObject<HTMLDivElement | null> }) {
+export const RotationScene = memo(function RotationScene({ labelHost, lowMotion = false }: { labelHost: RefObject<HTMLDivElement | null>; lowMotion?: boolean }) {
   const netHeight = useRotations((s) => activeBundle(s)!.plans.netHeight)
   const scenarioKey = useRotations((s) => `${s.rotation}/${s.serve}/${s.opponentAttack}/${s.firstTouch}`)
-  return <Canvas shadows dpr={[1, 1.7]} camera={{ position: [12, 30, 25], fov: 42, near: 0.1, far: 150 }} gl={{ antialias: true }}>
+  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const update = () => setReducedMotion(media.matches)
+    update(); media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
+  const budget = motionBudget(lowMotion, reducedMotion)
+  return <Canvas shadows={budget.shadows} dpr={budget.dpr} camera={{ position: [12, 30, 25], fov: 42, near: 0.1, far: 150 }} gl={{ antialias: true }}>
     <color attach="background" args={[BRAND.bg]} />
     <fog attach="fog" args={[BRAND.bg, 45, 100]} />
     <ambientLight intensity={0.75} />
     <hemisphereLight args={['#b8d8ff', '#090a12', 0.8]} />
-    <directionalLight position={[7, 13, 9]} intensity={1.8} castShadow shadow-mapSize={[1024, 1024]} shadow-camera-left={-12} shadow-camera-right={12} shadow-camera-top={12} shadow-camera-bottom={-12} />
+    <directionalLight position={[7, 13, 9]} intensity={1.8} castShadow={budget.shadows} shadow-mapSize={[1024, 1024]} shadow-camera-left={-12} shadow-camera-right={12} shadow-camera-top={12} shadow-camera-bottom={-12} />
     <StageBox /><Court courtFormat={FORMATS.indoor6s} /><Net courtFormat={{ ...FORMATS.indoor6s, netHeight }} />
-    <Players key={scenarioKey} />
-    <ContactShadows position={[0, 0.02, 0]} scale={28} resolution={512} blur={2.4} opacity={0.35} far={5} />
+    <Players key={scenarioKey} secondary={budget.secondary} />
+    {budget.shadows && <ContactShadows position={[0, 0.02, 0]} scale={28} resolution={512} blur={2.4} opacity={0.35} far={5} />}
     <RotationCameraRig />
     <RotationLabels host={labelHost} />
   </Canvas>

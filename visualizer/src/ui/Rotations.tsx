@@ -19,6 +19,7 @@ export function Rotations() {
   const { studio } = useStrategyStudio()
   const [libraryOpen, setLibraryOpen] = useState(false)
   const [settings, setSettings] = useState(false)
+  const [lowMotion, setLowMotion] = useState(false)
   const [share, setShare] = useState('')
   const labelHost = useRef<HTMLDivElement>(null)
   const currentStage = studio.editing ? studio.stage : scenario
@@ -64,7 +65,7 @@ export function Rotations() {
   const panel = studio.editing || libraryOpen
   return <main className={`rotations court-first ${panel ? 'strategy-open' : ''} ${studio.editing ? 'strategy-editing' : ''} ${settings ? 'settings-open' : ''}`} aria-label="Rotation studio">
     <div className="rotation-canvas" aria-label="Interactive volleyball court">
-      <RotationScene labelHost={labelHost} />
+      <RotationScene labelHost={labelHost} lowMotion={lowMotion} />
       {studio.editing && <div className="editor-zoom glass" role="group" aria-label="Edit court zoom">
         <button aria-label="Zoom in" onClick={() => studio.zoomCamera('in')}>+</button>
         <button aria-label="Zoom out" onClick={() => studio.zoomCamera('out')}>−</button>
@@ -124,6 +125,7 @@ export function Rotations() {
             <label><input type="checkbox" checked={s.labels} onChange={(e) => useRotations.setState({ labels: e.target.checked })} /> Names</label>
             <label><input type="checkbox" checked={s.trails} onChange={(e) => useRotations.setState({ trails: e.target.checked })} /> Paths</label>
             <label><input type="checkbox" checked={s.receiveAreas} onChange={(e) => useRotations.setState({ receiveAreas: e.target.checked })} /> Coverage areas</label>
+            <label><input type="checkbox" checked={lowMotion} onChange={(e) => setLowMotion(e.target.checked)} /> Low motion / phone performance</label>
             {!studio.editing && !studio.working && <label><input type="checkbox" checked={s.editor} onChange={(e) => s.setEditor(e.target.checked)} /> Advanced V3 Coach draft</label>}
           </div>
           {s.receiveAreas && <p className="coverage-note">Colour areas follow athletes at every stage. Approximate responsibilities, not measured reach: compact block/tip lanes, broader backcourt cover. On their serve, original receive proportions apply. Call MINE on overlaps.</p>}
