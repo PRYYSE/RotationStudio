@@ -11,3 +11,11 @@
 - Code: src/lib/strategyDraft.ts, strategyOverlay.ts, strategyLibrary.ts; src/state/strategyStore.ts; focused V2 test files and tests/strategyV2.browser.mjs. Full receipts in .cache/browser-qa/V5-S01-run.log and .cache/v5-s01-browser/.
 - Scope boundary: Case/later-defence store APIs are ready; visible scope controls, editor path display and impact review deliberately belong to S04. No tactical match approval or referee-foot certification.
 - Next planned: S02 deterministic case projection; S03 court-first viewer; S04 visible editor; S05 local sharing/team reference; S06 restrained animation. Stop after implementation completion; independent full UAT and release require separate user continues.
+
+## S02: Deterministic source-backed case review - PASS (29 October 2026)
+
+- Pure review modules in src/lib/caseReview.ts, reviewTypes.ts, reviewFindings.ts, reviewGeometry.ts and coachProjection.ts; receiveExample.ts only exports the original movementIssue screen without changing its formula. No UI, V3 plans or Set arcs edits.
+- Includes all 48 authored cases; five stage meanings; six-player front/back eligibility separate from named setter/hitter and physical readiness; authored/user-coach-note provenance; actual path/interval/metres, case-difference and V3 ghost comparison; detailed grouped INVALID/CAUTION/REVIEW findings without invented probabilities.
+- Provides createReviewModel(published,draft) to precompute modelled bundle and full warnings exactly once, then project(context) for fast stage/player changes. S03 MUST memoise this precomputation by immutable [published, draft] object identity. The convenience createReviewProjection is intended for one-offs, not render loops.
+- Codex scoped suite 9/9 PASS; full npm test 96/96 PASS; npm run build -- --base=/RotationStudio/ PASS (existing chunk advisory); git diff --check and diff vs protected V3 plans, generators, UI/scene/store PASS. No physical match approval.
+- Note: long matrix tests motivated precomputed model approach, not a change to source tactical movement thresholds. Independent visual/product UAT remains a separate user-authorised phase.

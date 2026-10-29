@@ -19,7 +19,7 @@ const frame = (time: number, spot: Spot, role: Keyframe['role']): Keyframe => ({
 
 // Uses the same eased, waypoint-aware paths as the renderer. The analytical peak
 // bound catches even a very short interval that falls between sampled instants.
-function movementIssue(s: Scenario): string | undefined {
+export function movementIssue(s: Scenario): string | undefined {
   const tracks = Object.values(s.tracks)
   for (const track of tracks) for (let i = 1; i < track.length; i++) {
     const a = track[i - 1], b = track[i], path = [a, ...(b.via ?? []), b]
