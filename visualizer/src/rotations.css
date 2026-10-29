@@ -42,12 +42,6 @@
 .tactics-row { font-size: 12px; color: #c7d6eb; }
 .tactics-row > span { min-width: 86px; }
 .rotation-coach-note { display: block; color: #ffe49b; margin-top: 4px; }
-.receive-instruction { display: block; font-size: 10px; margin-top: 4px; }
-.receive-area-name { color: #eff7ff; background: #0a1528cf; border-bottom: 2px solid; border-radius: 3px; padding: 1px 4px; font-size: 9px; }
-.receive-legend { font-size: 11px; color: #c7d6eb; display: flex; flex-wrap: wrap; gap: 5px 12px; padding-bottom: 8px; }
-.receive-legend p { width: 100%; margin: 4px 0; }
-.receive-legend span { display: inline-flex; align-items: center; gap: 5px; }
-.receive-legend i { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .rotation-editor p { color: #bdcee3; font-size: 11px; line-height: 1.6; margin: 6px 0; }
 .editor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .editor-grid label { display: flex; flex-direction: column; font-size: 11px; gap: 4px; color: #c7d6eb; }
@@ -56,10 +50,9 @@
 .rotation-errors p { color: #ffc4a8; }
 .rotation-loading { position: absolute; inset: 80px 20px 20px; display: grid; place-content: center; color: #d2e5ff; white-space: pre-line; overflow: auto; }
 .rotation-loading button { margin: 12px; padding: 12px; border: 1px solid #47638a; border-radius: 10px; }
-.athlete-label { transform: translateY(26px); display: block; background: #0a1528de; color: #eff7ff; border: 1px solid #456080; border-radius: 6px; padding: 3px 7px; font-size: 11px; font-weight: 500; text-align: center; }
-.athlete-label small { display: block; color: #a9c5e6; font-size: 9px; }
-.athlete-label.selected { border-color: #fff; }
-.pass-target { white-space: nowrap; color: #ffe49b; background: #241d0def; border: 1px solid #c7a450; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; }
+.athlete-label { display: inline-flex; align-items: center; gap: 4px; background: #081323f2; color: #fff; border: 1px solid; border-radius: 4px; padding: 2px 5px; font-size: 11px; line-height: 1.25; font-weight: 600; text-align: center; box-shadow: 0 1px 3px #0008; }
+.athlete-label i { width: 5px; height: 5px; border-radius: 50%; }
+.athlete-label.selected { outline: 1px solid #fff; outline-offset: 1px; }
 .receiver-cue, .server-cue { white-space: nowrap; color: #ffe7a1; background: #15171ce0; padding: 3px 5px; font-size: 9px; border-radius: 4px; }
 .server-cue { color: #c8d7ed; }
 .share-feedback { font-size: 11px; color: #d5e8ff; display: flex; align-items: center; justify-content: space-between; overflow-wrap: anywhere; }
@@ -85,17 +78,12 @@
   .demo-tag { padding: 4px 8px; }
   .rotation-cue { font-size: 10px; margin-bottom: 8px; }
   .rotation-cue strong { font-size: 13px; margin-bottom: 3px; }
-  /* Coloured receiving lanes stay visible; hide duplicate names over athletes.
-     The expanded settings sheet provides the full named lane legend. */
-  .receive-area-name { display: none; }
-  .receive-instruction { display: block; font-size: 9px; }
   .rotation-timeline { padding: 3px 7px 0; border-radius: 18px; }
   .rotation-markers { gap: 0; }
   .rotation-markers button { font-size: 9px; padding: 3px 8px; }
   .rotation-footer > span { font-size: 9px; letter-spacing: 0; }
   .demo-disclaimer { font-size: 10px; line-height: 1.35; font-weight: 600; }
   .athlete-label { font-size: 11px; padding: 2px 5px; }
-  .athlete-label small { font-size: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .rotations button, .studio-modes button { transition: none; }
@@ -127,8 +115,24 @@
 .strategy-open .rotation-top { left: 0; right: 355px; transform: none; }
 .strategy-open .rotation-bottom { left: calc((100% - 355px) / 2); }
 .strategy-open .rotation-bottom { width: min(760px, calc(100% - 379px)); }
-.strategy-editing .rotation-cue { display: none; }
+.strategy-editing .rotation-canvas { top: 158px; bottom: 16px; }
+.strategy-selection { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 6px; align-items: end; }
+.strategy-selection > label { grid-column: 1 / -1; }
+.strategy-selection .strategy-confirm, .strategy-selection > [role=alert] { grid-column: 1 / -1; }
+.strategy-selection .strategy-status { margin: 6px 0; align-self: center; }
+.strategy-panel .coverage-toggle { display: flex; flex-direction: row; align-items: center; gap: 7px; min-height: 36px; }
+.strategy-panel .coverage-toggle input { width: 18px; height: 18px; min-height: 0; accent-color: #36C6FA; }
+.strategy-editor > .strategy-stages { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: sticky; top: -14px; z-index: 1; background: #101c2e; padding: 4px 0; }
+.strategy-panel .strategy-stages button { font-size: 11px; padding: 4px 2px; }
+.strategy-editor > .rotation-row { margin-top: 8px; }
+.strategy-editor > details > summary { cursor: pointer; min-height: 36px; padding: 9px 0; }
+.strategy-assist { margin-top: 8px; }
+.coverage-note { font-size: 11px; color: #c7d6eb; line-height: 1.5; }
 .strategy-warning summary { min-height: 44px; padding-top: 10px; cursor: pointer; }
+@media (min-width: 851px) {
+  .strategy-editing .rotation-top { top: 16px; }
+  .strategy-editing .rotation-selectors { position: absolute; left: 24px; top: 48px; }
+}
 @media (max-width: 850px) {
   .strategy-open { overflow-y: auto; overflow-x: hidden; }
   .strategy-open .rotation-canvas { position: relative; top: auto; bottom: auto; height: 62dvh; min-height: 460px; margin-top: 230px; right: auto; }
@@ -136,4 +140,11 @@
   .strategy-open .strategy-panel { position: relative; top: auto; right: auto; bottom: auto; width: calc(100% - 24px); margin: 8px 12px; max-height: none; }
   .strategy-open .rotation-bottom { position: relative; left: auto; bottom: auto; transform: none; width: calc(100% - 24px); margin: 8px 12px; padding-bottom: 12px; }
   .strategy-open .rotation-markers button { padding: 4px 7px; }
+  /* A dedicated court row above a scrollable editing sheet, all on-screen. */
+  .strategy-editing { display: grid; grid-template-rows: 190px minmax(150px, 1fr) minmax(180px, 43dvh); overflow: hidden; }
+  .strategy-editing .rotation-top { top: 58px; width: calc(100% - 24px); }
+  .strategy-editing .rotation-canvas { grid-row: 2; position: relative; inset: auto; height: 100%; min-height: 0; margin: 0; }
+  .strategy-editing .strategy-panel { grid-row: 3; position: relative; inset: auto; width: calc(100% - 16px); margin: 0 8px 8px; min-height: 0; max-height: 100%; overflow-y: auto; padding: 10px; border-radius: 16px; }
+  .strategy-editing .strategy-editor > .strategy-stages { top: -10px; }
+  .strategy-editing .rotation-selectors { position: static; }
 }

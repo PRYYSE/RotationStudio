@@ -34,9 +34,9 @@ function route(track: Keyframe[], start: number, end: number, bends: Spot[]) {
     previous = fraction
   }
 }
-function applyScenario(team: Bundle['team'], s: Scenario, changes: StrategyRotation, warnings: string[]) {
+function applyScenario(team: Bundle['team'], s: Scenario, changes: StrategyRotation) {
   const times = stageTimes(s), order = stageOrder(s.serve), serveTime = s.ball[0].start
-  // Foundation Set defaults are deliberately visible in the UI and export docs.
+  // Set assistance is an explicit user action, never a default on a new copy.
   // Retain V3 attack identity; prepare every eligible front-row option, not a
   // replacement hitter selected by an optimisation heuristic.
   const front = team.players.filter(p => isFront(positionOf(team, s.rotation, p.id)) && p.id !== s.secondContact.player)
@@ -44,7 +44,14 @@ function applyScenario(team: Bundle['team'], s: Scenario, changes: StrategyRotat
   if (changes.readyOptions) front.forEach((p, i) => Object.assign(frameAt(s.tracks[p.id], times.Set), { x: front.length === 1 ? 0 : -3.1 + i * 6.2 / (front.length - 1), z: 3.4, role: 'help' }))
   for (const stage of order) {
     if (stage === 'Start') {
-      if (Object.keys(changes.anchors?.Start ?? {}).length || Object.keys(changes.routes?.Start ?? {}).length) warnings.push(`R${s.rotation}/${s.serve}: Start is a formation preview only. Playback holds original legal service-contact spots; reconcile this formation before publishing.`)
+      for (const [id, point] of Object.entries(changes.anchors?.Start ?? {})) {
+        frameAt(s.tracks[id], serveTime)
+        for (const frame of s.tracks[id].filter(k => k.time <= serveTime)) {
+          Object.assign(frame, point)
+          delete frame.via
+        }
+        if (s.serve === 'us' && positionOf(team, s.rotation, id) === 1) Object.assign(s.ball[0].from, point)
+      }
       continue
     }
     const time = times[stage]
@@ -86,11 +93,12 @@ function applyScenario(team: Bundle['team'], s: Scenario, changes: StrategyRotat
 }
 export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bundle: Bundle; warnings: string[] } {
   validateStrategy(draft)
-  const bundle = structuredClone(base), warnings = ['Foundation needs tactical review. Needs review: Set shows approach-ready front-row options; authored hitter, timing and alternates remain templates, not optimised choreography.']
+  const bundle = structuredClone(base), warnings = ['Foundation needs tactical review. Authored hitter, timing and alternates remain templates, not optimised choreography.']
   if (draft.baseRevision !== BASE_REVISION) warnings.push(`Different base revision ${draft.baseRevision}; this browser uses ${BASE_REVISION}. Review all mappings before use.`)
   bundle.team.status = bundle.plans.status = 'DRAFT'
   for (const root of bundle.plans.scenarios) for (const s of [root, ...Object.values(root.alternates ?? {})]) {
     const changes = draft.overrides[`${s.rotation}/${s.serve}` as RotationKey] ?? {}
+    if (!Object.keys(changes).length) continue
     const times = stageTimes(s)
     // Record endpoint owners from immutable authored geometry BEFORE edits.
     const owners = s.ball.map(b => (['from', 'to'] as const).map(side => {
@@ -104,7 +112,7 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
         return Math.hypot(p.x - b[side].x, p.z - b[side].z) < .4 && (time !== times.Attack || p.role === 'attack')
       })
     }))
-    applyScenario(bundle.team, s, changes, warnings)
+    applyScenario(bundle.team, s, changes)
     s.ball.forEach((b, i) => (['from', 'to'] as const).forEach((side, j) => {
       const id = owners[i][j]
       if (id) Object.assign(b[side], xy(sampleTrack(s.tracks[id], side === 'from' ? b.start : b.end)))

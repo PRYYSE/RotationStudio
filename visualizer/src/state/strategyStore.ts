@@ -15,6 +15,7 @@ type State = {
   beginGesture: () => void; endGesture: (cancel?: boolean) => void
   move: (key: RotationKey, player: string, spot: Spot) => void
   bend: (key: RotationKey, player: string, points: Spot[]) => void
+  prepareHitters: (key: RotationKey) => void
   resetStage: (key: RotationKey) => void; resetRotation: (key: RotationKey) => void
   undo: () => void; redo: () => void
 }
@@ -119,6 +120,7 @@ export function createStrategyStore(storage?: Storage) {
         const r = rotation(d, key), routes = r.routes ??= {}, stage = routes[get().stage] ??= {}
         stage[player as PlayerId] = points.map(p => ({ x: p.x, z: p.z }))
       }),
+      prepareHitters: key => update(d => { rotation(d, key).readyOptions = true }),
       resetStage: key => update(d => {
         const r = d.overrides[key]; if (!r) return
         delete r.anchors?.[get().stage]; delete r.routes?.[get().stage]

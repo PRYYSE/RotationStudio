@@ -15,12 +15,12 @@ export function StrategyEditor({ warnings }: { warnings: string[] }) {
   const bends = studio.working?.overrides[key]?.routes?.[studio.stage]?.[s.selected as PlayerId]
   const front = team.players.filter(p => isFront(positionOf(team, s.rotation, p.id)) && p.id !== scenario.secondContact.player)
   return <section className="strategy-editor" aria-label="Court strategy editor">
-    <h2>Edit strategy · R{s.rotation} · {s.serve === 'us' ? 'Us' : 'They'} serve</h2>
-    <nav className="strategy-stages" aria-label="Strategy stages">{stages.map(stage => <button key={stage} aria-pressed={studio.stage === stage} onClick={() => studio.setStage(stage)}>{stage}</button>)}</nav>
+    <h2>R{s.rotation} · {s.serve === 'us' ? 'Us' : 'They'} serve · {studio.stage}</h2>
+    <nav className="strategy-stages" aria-label="Court stages">{stages.map(stage => <button key={stage} aria-pressed={studio.stage === stage} onClick={() => studio.setStage(stage)}>{stage}</button>)}</nav>
+    <label className="coverage-toggle"><input type="checkbox" checked={s.receiveAreas} onChange={e => useRotations.setState({ receiveAreas: e.target.checked })} /> Coverage areas</label>
     {!studio.working ? <p>Team V3 is read-only. Create a strategy to place athletes and edit routes.</p> : <>
-      <p>Drag any athlete in Top view. Each stage places all six athletes. Edits apply to all four opponent/first-touch variants for this serve owner.</p>
-      {studio.stage === 'Start' && <p className="strategy-warning">Start is a formation preview. View playback retains the original legal service-contact positions. Changing serve order needs tactical review.</p>}
-      {studio.stage === 'Set' && <p className="strategy-warning">Ready options: {front.map(p => p.name).join(', ')}. {team.players.find(p => p.id === scenario.secondContact.player)?.name} takes the setter window. Ready options are a foundation; timing and attack choice need review.</p>}
+      <p>Drag athletes or enter metres. Changes apply to all four variants for this serve.</p>
+      {studio.stage === 'Start' && <p className="strategy-warning">Start holds through service contact in playback. Keep rotational order and P1 behind the endline on our serve; review any warnings below.</p>}
       <div className="editor-grid">
         <label>Selected athlete<select aria-label="Selected athlete" value={s.selected} onChange={e => useRotations.setState({ selected: e.target.value })}>
           {team.players.map(p => <option key={p.id} value={p.id}>{p.name} · P{positionOf(team, s.rotation, p.id)}</option>)}<option value="target">Setter pass target · gold ring</option>
@@ -38,11 +38,15 @@ export function StrategyEditor({ warnings }: { warnings: string[] }) {
         }}>{bends?.length ? 'Replace with one bend' : 'Add bend'}</button>
         <button disabled={s.selected === 'target' || studio.stage === 'Start'} onClick={() => studio.bend(key, s.selected, [])}>Straighten</button>
       </div>
-      <p>Incoming route runs from the previous stage; movement starts after service contact. Drag the large bend handle to change the path.</p>
       <div className="rotation-row">
         <button disabled={!studio.past.length || !!studio.gesture} onClick={studio.undo}>Undo</button><button disabled={!studio.future.length || !!studio.gesture} onClick={studio.redo}>Redo</button>
         <button onClick={() => studio.resetStage(key)}>Reset stage</button><button onClick={() => setReset(true)}>Reset rotation</button>
       </div>
+      {studio.stage === 'Set' && <div className="strategy-assist">
+        <button onClick={() => studio.prepareHitters(key)}>Prepare all hitters</button>
+        <p>Optional approach-ready positions for {front.map(p => p.name).join(', ')}. Keeps the active setter and your explicit placements. Undo or Reset stage to revert.</p>
+      </div>}
+      <details><summary>Editing help</summary><p>Each stage places all six athletes. Incoming routes run from the previous anchor after service contact. Add a bend, then drag its handle. Coverage shows approximate responsibilities, not measured reach.</p></details>
       {reset && <div role="alert" className="strategy-confirm">Revert all edits to R{s.rotation}, {s.serve === 'us' ? 'Us' : 'They'} serve? Other serve order stays separate.
         <button onClick={() => { studio.resetRotation(key); setReset(false) }}>Confirm rotation reset</button><button onClick={() => setReset(false)}>Cancel</button>
       </div>}

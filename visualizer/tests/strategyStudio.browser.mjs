@@ -20,7 +20,7 @@ const read = () => page.evaluate(async () => {
   const { useStrategies } = await import('/src/state/strategyStore.ts')
   const r = useRotations.getState(), s = useStrategies.getState()
   return { strategy: s.working, preview: s.preview, saved: s.saved, library: s.library, stage: s.stage, past: s.past.length, future: s.future.length,
-    time: r.time, selected: r.selected, view: r.view, playing: r.playing, scenario: activeScenario(r), example: r.example }
+    time: r.time, selected: r.selected, view: r.view, playing: r.playing, coverage: r.receiveAreas, scenario: activeScenario(r), example: r.example }
 })
 async function click(text, scope = '') {
   const buttons = await page.$$(`${scope ? scope + ' ' : ''}button`)
@@ -54,16 +54,62 @@ try {
   assert.equal((await read()).example?.receiver, 'caleb', 'legacy sample links survive an initial no-strategy mount')
   await page.goto(base, { waitUntil: 'domcontentloaded' })
   await page.waitForSelector('nav[aria-label="Tactical phase"]')
-  for (const serve of ['they', 'us']) {
+  await page.waitForSelector('.athlete-label')
+  const labels = await page.$$eval('.athlete-label', els => els.map(el => ({text: el.textContent, children: el.querySelectorAll('small').length})))
+  assert.equal(labels.length, 6)
+  for (const label of labels) {
+    assert.match(label.text, /^(Harry|Caleb|Trent|Logan|Georgia|Jaz) · P[1-6]$/)
+    assert.equal(label.children, 0, 'single compact tag, no second line/front-back detail')
+  }
+  assert.equal(await page.$('.pass-target'), null)
+  assert.doesNotMatch(await page.evaluate(() => document.body.innerText), /PASS HERE/)
+  await click('Settings')
+  // Select by label text because Names and Paths are independent controls.
+  const toggleCoverage = async scope => {
+    const labels = await page.$$(`${scope} label`)
+    for (const label of labels) if ((await label.evaluate(el => el.textContent)).trim() === 'Coverage areas') { await (await label.$('input')).click(); await delay(100); return }
+    throw new Error('Missing coverage toggle')
+  }
+  await toggleCoverage('.rotation-settings'); assert.equal((await read()).coverage, false)
+  await toggleCoverage('.rotation-settings'); assert.equal((await read()).coverage, true)
+  await click('Close')
+  for (let rotation = 1; rotation <= 6; rotation++) for (const serve of ['they', 'us']) {
+    await click(`R${rotation}`)
     await click(serve === 'us' ? 'Us serve' : 'They serve')
+    assert.deepEqual(await page.$$eval('.rotation-markers button', els => els.map(el => el.textContent)),
+      serve === 'us' ? ['Start','Defend','Receive','Set','Attack'] : ['Start','Receive','Set','Attack','Defend'])
     for (const name of ['Receive', 'Attack', 'Defend']) {
       await click(name, 'nav[aria-label="Tactical phase"]')
       const r = await read(), expected = name === 'Receive' ? r.scenario.firstContact.time : r.scenario.phases.find(p => p.label === (name === 'Attack' ? 'Our attack' : 'Defence ready')).time
       assert.equal(r.time, expected)
+      assert.equal(await page.$eval(`nav[aria-label="Tactical phase"] button[aria-pressed="true"]`, el => el.textContent), name)
     }
   }
-  await click('They serve'); await click('Edit strategy'); await delay(500)
+  await click('R1'); await click('They serve'); await click('Edit strategy'); await delay(500)
   assert.equal((await read()).view, 'top')
+  assert.deepEqual((await read()).strategy.overrides, {}, 'new copy has no hidden hitter preparation')
+  assert.equal(await page.$('[aria-label="Strategy library"]'), null)
+  assert.equal(await page.$('[aria-label="Scrub rotations"]'), null, 'video chrome is collapsed while editing')
+  assert.equal((await page.$$('[aria-label="Court stages"]')).length, 1, 'one five-stage editor selector')
+  await toggleCoverage('.strategy-editor'); assert.equal((await read()).coverage, false)
+  await toggleCoverage('.strategy-editor'); assert.equal((await read()).coverage, true)
+  const initialLayout = await page.evaluate(() => {
+    const rect = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return {x:r.x,y:r.y,width:r.width,height:r.height,bottom:r.bottom} }
+    const buttons = [...document.querySelectorAll('.strategy-editor button')].filter(el => ['Add bend','Incoming route','Undo','Redo'].includes(el.textContent))
+    return {canvas:rect('.rotation-canvas'),panel:rect('.strategy-panel'),buttons:buttons.map(el=>({text:el.textContent,bottom:el.getBoundingClientRect().bottom})),height:innerHeight}
+  })
+  assert.ok(initialLayout.canvas.width > initialLayout.panel.width * 2)
+  for (const b of initialLayout.buttons) assert.ok(b.bottom < initialLayout.height, `${b.text} above the first desktop fold`)
+  await page.screenshot({ path: path.join(cache, 'v4-desktop-initial-editor.png') })
+  // A small legal Start edit drives both the displayed anchor and View playback.
+  await page.select('[aria-label="Selected athlete"]', 'caleb')
+  const start = (await read()).scenario.tracks.caleb[0]
+  await page.locator('[aria-label="X metres"]').fill(String(start.x + .05)); await delay(200)
+  await click('View')
+  let startView = await read()
+  assert.equal(startView.scenario.tracks.caleb[0].x, start.x + .05)
+  assert.equal(startView.scenario.tracks.caleb.find(k => k.time === startView.scenario.ball[0].start).x, start.x + .05)
+  await click('Edit strategy'); await click('Undo')
   await stage('Receive'); await page.select('[aria-label="Selected athlete"]', 'caleb')
   let r = await read(), t = r.scenario.firstContact.time, p = r.scenario.tracks.caleb.find(k => k.time === t), history = r.past
   await drag(p, 36, -10)
@@ -90,6 +136,7 @@ try {
   await click('Select gold target'); r = await read()
   await drag({ x: r.scenario.setterTarget.x + .46, z: r.scenario.setterTarget.z, y: .06 }, 15, -8)
   const edited = (await read()).strategy.overrides['1/they']
+  await click('Strategies')
   await click('Rename / author'); await page.locator('[aria-label="Strategy name"]').fill('R1 browser foundation')
   await page.locator('[aria-label="Strategy author"]').fill('QA coach'); await click('Apply name'); await click('Save')
   r = await read(); assert.equal(r.saved, true); const savedId = r.strategy.id
@@ -116,15 +163,26 @@ try {
   await click('View'); await click('Play'); await delay(400); assert.ok((await read()).playing || (await read()).time > 0)
   await click('Edit strategy')
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 }); await delay(700)
+  const phoneLayout = await page.evaluate(() => {
+    const p = document.querySelector('.strategy-panel'), c = document.querySelector('.rotation-canvas').getBoundingClientRect(), r = p.getBoundingClientRect()
+    return {canvasBottom:c.bottom,panelTop:r.top,panelBottom:r.bottom,scroll:p.scrollHeight>p.clientHeight,height:innerHeight,overflow:getComputedStyle(p).overflowY}
+  })
+  assert.ok(phoneLayout.canvasBottom <= phoneLayout.panelTop + 1, 'court remains clear of controls')
+  assert.ok(phoneLayout.panelBottom <= phoneLayout.height, 'editing sheet fits on phone')
+  assert.equal(phoneLayout.overflow, 'auto')
+  await page.locator('[aria-label="Selected athlete"]').scrollIntoView()
   await stage('Receive'); await page.select('[aria-label="Selected athlete"]', 'caleb')
   await page.evaluate(() => document.querySelector('main.rotations').scrollTo(0, 0)); await delay(200)
   r = await read(); p = r.scenario.tracks.caleb.find(k => k.time === r.scenario.firstContact.time); history = r.past
   await drag(p, 18, 10); r = await read(); assert.equal(r.past, history + 1, 'narrow viewport player drag')
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'no horizontal overflow')
   await page.screenshot({ path: path.join(cache, 'v4-mobile-court.png') })
+  const mobileLabels = await page.$$eval('.athlete-label', els => els.map(el => ({text:el.textContent,size:parseFloat(getComputedStyle(el).fontSize)})))
+  assert.equal(mobileLabels.length, 6); for (const label of mobileLabels) assert.ok(label.size >= 11)
+  assert.equal(await page.$('.pass-target'), null)
   await page.locator('[aria-label="Selected athlete"]').scrollIntoView(); await page.screenshot({ path: path.join(cache, 'v4-mobile-controls.png') })
   await click('View'); await click('Set arcs'); await page.waitForSelector('canvas'); assert.ok(await page.$('canvas'))
   assert.deepEqual(errors, [])
-  console.log('PASS: exact viewer landmarks; real desktop player/setter/attacker/waypoint/target drags; per-gesture undo; save/reload; duplicate/delete; import/shared previews and independent copies; View playback; 390px drag/no overflow; Set arcs accessible; no runtime errors.')
+  console.log('PASS: R1-R6 exact viewer landmarks/shortcuts; compact name tags/no PASS HERE; focused editor/first-fold controls; legal Start playback; real desktop player/setter/attacker/waypoint/target drags; per-gesture undo; save/reload; duplicate/delete; import/shared previews and independent copies; View playback; 390px sheet/drag/no overflow; Set arcs accessible; no runtime errors.')
 } finally { await page.screenshot({ path: path.join(cache, 'v4-e2e-last.png') }); await browser.close() }
 

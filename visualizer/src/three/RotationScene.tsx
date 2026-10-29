@@ -8,13 +8,14 @@ import { StageBox } from './StageBox'
 import { RotationCameraRig } from './RotationCameraRig'
 import { RotationPlayer } from './RotationPlayer'
 import { activeBundle, activeScenario, useRotations } from '../state/rotationStore'
-import { ballAt, sampleArc, sampleTrack, showReceiveAreas } from '../lib/rotationModel'
+import { ballAt, sampleArc, sampleTrack } from '../lib/rotationModel'
+import { coverageAreas } from '../lib/coverage'
 import { FORMATS } from '../lib/formats'
 import { BRAND } from '../lib/constants'
 import { useStrategies } from '../state/strategyStore'
 import { StrategyRoute } from './StrategyRoute'
 
-function Target({ x, z, label }: { x: number; z: number; label: boolean }) {
+function Target({ x, z }: { x: number; z: number }) {
   const dragging = useRef(false)
   const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
   const down = (e: ThreeEvent<PointerEvent>) => {
@@ -41,7 +42,6 @@ function Target({ x, z, label }: { x: number; z: number; label: boolean }) {
     <mesh rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[0.4, 0.53, 40]} /><meshBasicMaterial color="#ffd878" side={THREE.DoubleSide} /></mesh>
     <Line points={[[-0.7, 0, 0], [0.7, 0, 0]]} color="#ffd878" lineWidth={2} />
     <Line points={[[0, 0, -0.7], [0, 0, 0.7]]} color="#ffd878" lineWidth={2} />
-    {label && <Html center position={[0, 0.35, -0.7]} style={{ pointerEvents: 'none' }}><span className="pass-target">PASS HERE</span></Html>}
   </group>
 }
 function MovingBall() {
@@ -66,20 +66,17 @@ function Players() {
   const touching = Math.abs(time - scenario.firstContact.time) <= 0.55
   const first = sampleTrack(scenario.tracks[scenario.firstContact.player], scenario.firstContact.time)
   return <>
-    {showReceiveAreas(scenario, time, receiveAreas) && scenario.tactics?.receiveZones.map((zone) => {
+    {coverageAreas(bundle.team, scenario, time, receiveAreas).map((zone) => {
       const player = bundle.team.players.find((p) => p.id === zone.player)!
       const points = Array.from({ length: 65 }, (_, i) => {
         const angle = i / 64 * Math.PI * 2
         return new THREE.Vector3(Math.cos(angle) * zone.radiusX, 0, Math.sin(angle) * zone.radiusZ)
       })
-      return <group key={zone.player} position={[zone.center.x, 0.045, zone.center.z]}>
+      return <group key={zone.player} name={`coverage-${zone.player}`} position={[zone.center.x, 0.045, zone.center.z]}>
         <mesh rotation={[-Math.PI / 2, 0, 0]} scale={[zone.radiusX, zone.radiusZ, 1]} raycast={() => null}>
-          <circleGeometry args={[1, 64]} /><meshBasicMaterial color={player.color} transparent opacity={zone.duty === 'primary' ? 0.12 : 0.07} depthWrite={false} side={THREE.DoubleSide} />
+          <circleGeometry args={[1, 64]} /><meshBasicMaterial color={player.color} transparent opacity={zone.duty === 'primary' ? 0.09 : 0.045} depthWrite={false} side={THREE.DoubleSide} />
         </mesh>
-        <Line points={points} color={player.color} lineWidth={1} transparent opacity={0.4} raycast={() => null} />
-        <Html center position={[0, 0.08, -zone.radiusZ * 0.7]} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
-          <span className="receive-area-name" style={{ borderColor: player.color }}>{player.name}</span>
-        </Html>
+        <Line points={points} color={player.color} lineWidth={.8} transparent opacity={0.25} raycast={() => null} />
       </group>
     })}
     {bundle.team.players.map((player) => <RotationPlayer key={player.id} player={player} track={scenario.tracks[player.id]} team={bundle.team} rotation={scenario.rotation} />)}
@@ -95,7 +92,7 @@ function Players() {
         })}
       </group>
     })}
-    <Target {...scenario.setterTarget} label={!touching && (editor || (time >= scenario.ball[0].start && time <= scenario.secondContact.time + 0.4))} />
+    <Target {...scenario.setterTarget} />
     <StrategyRoute />
     {touching && <Html center position={[first.x, 2.5, first.z]} style={{ pointerEvents: 'none' }}>
       <span className="receiver-cue">{scenario.teachingOnly ? 'Sample 1st touch' : '1st touch'} · {bundle.team.players.find((p) => p.id === scenario.firstContact.player)?.name}</span>

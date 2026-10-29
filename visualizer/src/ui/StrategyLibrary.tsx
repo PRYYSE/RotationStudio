@@ -3,7 +3,7 @@ import { useStrategies } from '../state/strategyStore'
 import { useRotations } from '../state/rotationStore'
 import { exportStrategy, MAX_STRATEGY_BYTES, strategyLink } from '../lib/strategyDraft'
 
-export function StrategyLibrary() {
+export function StrategyLibrary({ compact = false }: { compact?: boolean }) {
   const s = useStrategies(), published = useRotations(r => r.published)
   const file = useRef<HTMLInputElement>(null)
   const [message, setMessage] = useState(''), [naming, setNaming] = useState(false)
@@ -16,13 +16,18 @@ export function StrategyLibrary() {
     s.select(id)
   }
   const beginName = () => { setName(working?.name ?? ''); setAuthor(working?.author ?? ''); setNaming(true) }
-  return <section className="strategy-library" aria-label="Strategy library">
+  return <section className={compact ? 'strategy-selection' : 'strategy-library'} aria-label={compact ? 'Strategy selection' : 'Strategy library'}>
     <label>Strategy<select aria-label="Saved strategy" value={s.preview ? '__preview' : working ? stored ? working.id : '__new' : ''} onChange={e => choose(e.target.value || null)}>
       <option value="">Team V3 · read-only baseline</option>
       {working && !stored && <option value={s.preview ? '__preview' : '__new'}>{working.name} · {s.preview ? 'preview' : 'unsaved'}</option>}
       {s.library.map(d => <option value={d.id} key={d.id}>{d.name} · {d.author}</option>)}
     </select></label>
     <p className="strategy-status" role="status">{working ? `${working.author} · ${s.preview ? 'Preview — Save a copy to keep' : s.saved ? 'Saved locally' : 'Unsaved'} · Needs review` : 'Team V3 · immutable published tactics'}</p>
+    {compact && working && <button disabled={!!s.gesture || s.saved} onClick={s.save}>{s.preview ? 'Save a copy' : 'Save'}</button>}
+    {pendingSelect !== undefined && <div role="alert" className="strategy-confirm">This strategy has unsaved changes. Save or export to keep them.
+      <button onClick={() => { s.select(pendingSelect); setPendingSelect(undefined) }}>Discard and switch</button><button onClick={() => setPendingSelect(undefined)}>Keep editing</button>
+    </div>}
+    {!compact && <>
     <p>Stored in this browser only. Share JSON or a link for another coach to make a copy; changes do not sync.</p>
     <div className="rotation-row">
       <button onClick={() => { if (working && !s.saved) { setMessage('Save or export the current unsaved strategy before starting another.'); return } s.newStrategy(false, published ?? undefined) }}>New from baseline</button>
@@ -39,9 +44,6 @@ export function StrategyLibrary() {
       <label>Author<input aria-label="Strategy author" required maxLength={80} value={author} onChange={e => setAuthor(e.target.value)} /></label>
       <button type="submit">Apply name</button><button type="button" onClick={() => setNaming(false)}>Cancel</button>
     </form>}
-    {pendingSelect !== undefined && <div role="alert" className="strategy-confirm">This strategy has unsaved changes. Save or export to keep them.
-      <button onClick={() => { s.select(pendingSelect); setPendingSelect(undefined) }}>Discard and switch</button><button onClick={() => setPendingSelect(undefined)}>Keep editing</button>
-    </div>}
     {confirmDelete && working && <div role="alert" className="strategy-confirm">Delete “{working.name}” from this browser?
       <button onClick={() => { s.remove(working.id); setConfirmDelete(false) }}>Confirm delete</button><button onClick={() => setConfirmDelete(false)}>Cancel</button>
     </div>}
@@ -69,7 +71,8 @@ export function StrategyLibrary() {
       if (f.size > MAX_STRATEGY_BYTES) { useStrategies.setState({ error: 'Strategy file must be at most 100 KB.' }); return }
       s.previewImport(await f.text())
     }} />
+    </>}
     {s.error && <p role="alert">{s.error}</p>}
-    {message && <p role="status" className="strategy-message">{message}<button onClick={() => setMessage('')}>Dismiss</button></p>}
+    {!compact && message && <p role="status" className="strategy-message">{message}<button onClick={() => setMessage('')}>Dismiss</button></p>}
   </section>
 }

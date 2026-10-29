@@ -1,12 +1,11 @@
 import { useRef, useState } from 'react'
-import { Html, Line } from '@react-three/drei'
+import { Html } from '@react-three/drei'
 import { useFrame, type ThreeEvent } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { Keyframe, Team } from '../lib/rotationTypes'
-import { sampleTrack, positionOf, isFront } from '../lib/rotationModel'
-import { activeScenario, useRotations } from '../state/rotationStore'
+import { sampleTrack, positionOf } from '../lib/rotationModel'
+import { useRotations } from '../state/rotationStore'
 import { useStrategies } from '../state/strategyStore'
-import { strategyPoint } from '../lib/strategyOverlay'
 
 type Player = Team['players'][number]
 const floor = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
@@ -20,21 +19,16 @@ export function RotationPlayer({ player, track, team, rotation }: { player: Play
   const selected = useRotations((s) => s.editor && s.selected === player.id)
   const dragging = useRef(false)
   const position = positionOf(team, rotation, player.id)
-  // A legal overlap-safe stack can place adjacent athletes only ~1m apart.
-  // Offset nameplates from bodies (not player positions) to keep the six
-  // identities readable in top-down/mobile views without changing tactics.
+  // Small feet-level offsets keep the tag close to its athlete in every camera.
   const labelOffset: Record<number, [number, number, number]> = {
-    1: [0.65, 0.07, 0.62], 2: [2.50, 0.07, 0.42],
-    3: [0, 0.07, 1.15], 4: [-1.52, 0.07, 0.42],
-    5: [-0.70, 0.07, 0.65], 6: [0, 0.07, 0.95],
+    1: [.3, .07, .55], 2: [.3, .07, -.5],
+    3: [0, .07, .55], 4: [-.3, .07, -.5],
+    5: [-.3, .07, .55], 6: [0, .07, .55],
   }
   const labelPosition: [number, number, number] = view === 'front' || view === 'side' ? [0, 0.05, 0] : labelOffset[position]
   useFrame(() => {
     const s = useRotations.getState()
-    const studio = useStrategies.getState()
-    const p = s.strategyMode && s.editor && studio.stage === 'Start'
-      ? { ...sampleTrack(track, s.time), ...strategyPoint(studio.working, activeScenario(s)!, 'Start', player.id) }
-      : sampleTrack(track, s.time)
+    const p = sampleTrack(track, s.time)
     if (group.current) { group.current.position.set(p.x, 0, p.z); group.current.rotation.y = p.facing ?? 0 }
     const before = sampleTrack(track, Math.max(0, s.time - 0.03))
     const moving = Math.hypot(p.x - before.x, p.z - before.z) > 0.002
@@ -68,7 +62,6 @@ export function RotationPlayer({ player, track, team, rotation }: { player: Play
     ;(e.target as Element).releasePointerCapture(e.pointerId)
   }
   const skin = '#e9bea5'
-  const jersey = hovered || selected ? '#e0f1ff' : player.color
   return <group ref={group} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}
     onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false)}>
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.03, 0]}>
@@ -77,7 +70,7 @@ export function RotationPlayer({ player, track, team, rotation }: { player: Play
     </mesh>
     <mesh position={[0, 1.13, 0]} castShadow>
       <boxGeometry args={[0.48, 0.56, 0.28]} />
-      <meshStandardMaterial color={jersey} roughness={0.7} emissive={player.color} emissiveIntensity={0.13} />
+      <meshStandardMaterial color={player.color} roughness={0.7} emissive={player.color} emissiveIntensity={hovered || selected ? .35 : .13} />
     </mesh>
     <mesh position={[0, 1.66, 0]} castShadow>
       <sphereGeometry args={[0.19, 12, 10]} /><meshStandardMaterial color={skin} roughness={0.9} />
@@ -91,9 +84,8 @@ export function RotationPlayer({ player, track, team, rotation }: { player: Play
       <mesh position={[0, -0.27, 0]} castShadow><capsuleGeometry args={[0.09, 0.4, 4, 8]} /><meshStandardMaterial color={skin} /></mesh>
       <mesh position={[0, -0.58, -0.04]} castShadow><boxGeometry args={[0.2, 0.13, 0.32]} /><meshStandardMaterial color="#f0f3ff" /></mesh>
     </group>)}
-    {labels && view !== 'front' && view !== 'side' && <Line points={[[0, 0.085, 0], labelPosition]} color={player.color} transparent opacity={0.42} lineWidth={1} />}
     {labels && <Html center position={labelPosition as [number, number, number]} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
-      <span className={`athlete-label ${selected ? 'selected' : ''}`}>{player.name}{player.setter ? ' · S' : ''}<small>P{position} · {isFront(position) ? 'front' : 'back'}</small></span>
+      <span className={`athlete-label ${selected ? 'selected' : ''}`} style={{ borderColor: player.color }}><i style={{ backgroundColor: player.color }} />{player.name} · P{position}</span>
     </Html>}
   </group>
 }

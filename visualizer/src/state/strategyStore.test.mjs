@@ -63,3 +63,14 @@ test('invalid import or edits and storage failures preserve data and report unsa
   recovered.getState().select(null); recovered.getState().newStrategy(false); recovered.getState().save()
   assert.equal(bad.getItem(STRATEGY_STORAGE_KEY),'not json','unreadable storage must survive every ordinary operation')
 })
+
+test('Prepare all hitters is a deliberate undoable per-rotation assist, reset restores the copy', () => {
+  const store = createStrategyStore(memory()), get = store.getState
+  get().newStrategy(false); assert.deepEqual(get().working.overrides, {})
+  get().setStage('Set'); get().prepareHitters('1/they')
+  assert.deepEqual(get().working.overrides, {'1/they': {readyOptions: true}})
+  assert.equal(get().past.length, 1)
+  get().undo(); assert.deepEqual(get().working.overrides, {})
+  get().redo(); assert.equal(get().working.overrides['1/they'].readyOptions, true)
+  get().resetStage('1/they'); assert.equal(get().working.overrides['1/they'].readyOptions, undefined)
+})

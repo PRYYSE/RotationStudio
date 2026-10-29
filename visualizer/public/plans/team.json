@@ -6,7 +6,7 @@
       "id": "harry",
       "name": "Harry",
       "setter": true,
-      "color": "#75c5ff",
+      "color": "#36C6FA",
       "skills": {
         "receive": 3,
         "mobility": 4,
@@ -18,7 +18,7 @@
       "id": "caleb",
       "name": "Caleb",
       "setter": false,
-      "color": "#769bff",
+      "color": "#A6E34A",
       "skills": {
         "receive": 5,
         "mobility": 5,
@@ -30,7 +30,7 @@
       "id": "trent",
       "name": "Trent",
       "setter": false,
-      "color": "#92d5ca",
+      "color": "#FF8640",
       "skills": {
         "receive": 3,
         "mobility": 2,
@@ -42,7 +42,7 @@
       "id": "logan",
       "name": "Logan",
       "setter": false,
-      "color": "#dcaef7",
+      "color": "#AB87F5",
       "skills": {
         "receive": 1,
         "mobility": 3,
@@ -54,7 +54,7 @@
       "id": "georgia",
       "name": "Georgia",
       "setter": false,
-      "color": "#ffbc8f",
+      "color": "#F26FA6",
       "skills": {
         "receive": 3,
         "mobility": 3,
@@ -66,7 +66,7 @@
       "id": "jaz",
       "name": "Jaz",
       "setter": false,
-      "color": "#ffd878",
+      "color": "#FFD84E",
       "skills": {
         "receive": 2,
         "mobility": 1,

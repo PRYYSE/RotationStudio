@@ -35,9 +35,14 @@ export function stageTimes(s: Scenario): Record<StrategyStage, number> {
   return { Start: s.phases[0].time, Receive: s.firstContact.time, Set: s.secondContact.time,
     Attack: event('Our attack'), Defend: event('Defence ready') }
 }
-export function createStrategy(name = 'My strategy', author = 'Coach', base?: Bundle): StrategyDraft {
+// Selection represents an event, not the longer tactical transition around it.
+export function selectedEvent(s: Scenario, time: number): StrategyStage | undefined {
+  const times = stageTimes(s)
+  return stageOrder(s.serve).find(stage => Math.abs(time - times[stage]) < .005)
+}
+export function createStrategy(name = 'My strategy', author = 'Coach', _base?: Bundle): StrategyDraft {
   return { kind: 'rotation-studio-strategy', schemaVersion: 1, id: crypto.randomUUID(), name, author, baseRevision: BASE_REVISION,
-    overrides: base ? Object.fromEntries(base.plans.scenarios.map(s => [`${s.rotation}/${s.serve}`, { readyOptions: true }])) : {} }
+    overrides: {} }
 }
 const record = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v) && [Object.prototype, null].includes(Object.getPrototypeOf(v))
 const allowed = (v: Record<string, unknown>, keys: readonly string[]) => {

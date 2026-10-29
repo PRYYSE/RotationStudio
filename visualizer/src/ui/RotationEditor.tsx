@@ -22,7 +22,7 @@ export function RotationEditor() {
     {scenario.tactics && <p>Editing R{s.rotation} · {s.serve === 'they' ? 'They' : 'Us'} serve · Our {s.opponentAttack} · {s.firstTouch === 'harry' ? 'Harry first' : 'Normal first contact'}.</p>}
     <div className="editor-grid">
       <label>Athlete / target<select value={s.selected} onChange={(e) => useRotations.setState({ selected: e.target.value })}>
-        {bundle.team.players.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}<option value="target">PASS HERE target</option>
+        {bundle.team.players.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}<option value="target">Setter pass target</option>
       </select></label>
       <label>Keyframe<select value={s.editTime} onChange={(e) => { const time = Number(e.target.value); s.seek(time); useRotations.setState({ editTime: time }) }}>
         {times.map((time) => <option key={time} value={time}>{time}s · {scenario.phases.find((p) => p.time === time)?.label ?? 'Frame'}</option>)}
