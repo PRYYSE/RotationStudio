@@ -1,19 +1,47 @@
-import { useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStrategies } from '../state/strategyStore'
-import { useRotations } from '../state/rotationStore'
-import { exportStrategy, MAX_STRATEGY_BYTES, strategyLink } from '../lib/strategyDraft'
+import { activeBundle, activeScenario, useRotations } from '../state/rotationStore'
+import { BASE_REVISION, exportStrategy, MAX_STRATEGY_BYTES, PLAYER_IDS, selectedEvent, stageOrder, stageTimes, strategyLink } from '../lib/strategyDraft'
+import type { PlayerId } from '../lib/strategyDraft'
+import { createReviewPacket, exportReviewPacket } from '../lib/strategyShare'
+import { createTeamReference } from '../lib/teamReference'
+import type { TeamReferenceData } from '../lib/teamReference'
+import type { Scenario } from '../lib/rotationTypes'
+import { TeamReference } from './TeamReference'
+import { rotationLink } from '../lib/rotationModel'
+
+function download(json: string, filename: string) {
+  const url = URL.createObjectURL(new Blob([json], { type: 'application/json' }))
+  const a = document.createElement('a'); a.href = url; a.download = filename; a.click()
+  setTimeout(() => URL.revokeObjectURL(url), 1000)
+}
 
 export function StrategyLibrary({ compact = false }: { compact?: boolean }) {
-  const s = useStrategies(), published = useRotations(r => r.published)
+  const s = useStrategies(), r = useRotations(), published = r.published
   const file = useRef<HTMLInputElement>(null)
   const [message, setMessage] = useState(''), [naming, setNaming] = useState(false)
   const [name, setName] = useState(''), [author, setAuthor] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [pendingSelect, setPendingSelect] = useState<string | null | undefined>(undefined)
+  const [reference, setReference] = useState<{ data: TeamReferenceData; scenario: Scenario; name: string; author: string; revision: string } | null>(null)
+  const closeReference = useCallback(() => setReference(null), [])
   const working = s.working, stored = !!working && !s.preview && s.library.some(d => d.id === working.id)
+  useEffect(() => {
+    if (!working || (s.saved && !s.gesture)) return
+    const guard = (e: BeforeUnloadEvent) => { e.preventDefault(); e.returnValue = '' }
+    window.addEventListener('beforeunload', guard)
+    return () => window.removeEventListener('beforeunload', guard)
+  }, [working, s.saved, s.gesture])
+  const clearSharedAddress = () => {
+    if (!window.location.hash.startsWith('#strategy=')) return
+    try { const url = new URL(window.location.href); url.hash = ''; window.history.replaceState(null, '', url) }
+    catch { setMessage('Your local selection is kept, but this address still contains the shared preview. Use a fresh app address when reopening it.') }
+  }
+  const select = (id: string | null) => { s.select(id); clearSharedAddress() }
+  const save = () => { s.save(); if (s.preview && !useStrategies.getState().preview) clearSharedAddress() }
   const choose = (id: string | null) => {
     if (working && !s.saved) { setPendingSelect(id); return }
-    s.select(id)
+    select(id)
   }
   const beginName = () => { setName(working?.name ?? ''); setAuthor(working?.author ?? ''); setNaming(true) }
   return <section className={compact ? 'strategy-selection' : 'strategy-library'} aria-label={compact ? 'Strategy selection' : 'Strategy library'}>
@@ -23,18 +51,19 @@ export function StrategyLibrary({ compact = false }: { compact?: boolean }) {
       {s.library.map(d => <option value={d.id} key={d.id}>{d.name} · {d.author}</option>)}
     </select></label>
     <p className="strategy-status" role="status">{working ? `${working.author} · ${s.preview ? 'Preview — Save a copy to keep' : s.saved ? 'Saved locally' : 'Unsaved'} · Needs review` : 'Team V3 · immutable published tactics'}</p>
-    {compact && working && <button disabled={!!s.gesture || s.saved} onClick={s.save}>{s.preview ? 'Save a copy' : 'Save'}</button>}
+    {!compact && <p>Source: {working?.baseRevision ?? 'Team V3'} · {s.library.length}/50 local drafts</p>}
+    {compact && working && <button disabled={!!s.gesture || s.saved} onClick={save}>{s.preview ? 'Save a copy' : 'Save'}</button>}
     {pendingSelect !== undefined && <div role="alert" className="strategy-confirm">This strategy has unsaved changes. Save or export to keep them.
-      <button onClick={() => { s.select(pendingSelect); setPendingSelect(undefined) }}>Discard and switch</button><button onClick={() => setPendingSelect(undefined)}>Keep editing</button>
+      <button onClick={() => { select(pendingSelect); setPendingSelect(undefined) }}>Discard and switch</button><button onClick={() => setPendingSelect(undefined)}>Keep editing</button>
     </div>}
     {!compact && <>
-    <p>Stored in this browser only. Share JSON or a link for another coach to make a copy; changes do not sync.</p>
+    <p>This browser only. Save a copy of a shared preview. Share JSON or a link for another coach; changes do not sync. DRAFT; not match-approved.</p>
     <div className="rotation-row">
       <button onClick={() => { if (working && !s.saved) { setMessage('Save or export the current unsaved strategy before starting another.'); return } s.newStrategy(false, published ?? undefined) }}>New from baseline</button>
       <button onClick={() => { if (working && !s.saved) { setMessage('Save or export the current unsaved strategy before making a copy.'); return } s.newStrategy(true, published ?? undefined) }}>New from current</button>
       <button disabled={!working} onClick={() => { if (!s.saved) { setMessage('Save or export this strategy before duplicating.'); return } s.newStrategy(true) }}>Duplicate</button>
       <button disabled={!working} onClick={beginName}>Rename / author</button>
-      <button disabled={!working || !!s.gesture} onClick={s.save}>{s.preview ? 'Save a copy' : 'Save'}</button>
+      <button disabled={!working || !!s.gesture || (s.saved && !s.preview)} onClick={save}>{s.preview ? 'Save a copy' : 'Save'}</button>
       <button disabled={!stored} onClick={() => setConfirmDelete(true)}>Delete</button>
     </div>
     {naming && <form className="strategy-form" onSubmit={e => {
@@ -52,27 +81,52 @@ export function StrategyLibrary({ compact = false }: { compact?: boolean }) {
       <button disabled={!working} onClick={() => {
         if (!working) return
         try {
-          const url = URL.createObjectURL(new Blob([exportStrategy(working)], { type: 'application/json' }))
-          const a = document.createElement('a'); a.href = url; a.download = 'strategy-' + working.id + '.json'; a.click()
-          setTimeout(() => URL.revokeObjectURL(url), 1000); setMessage('Exported sparse foundation. Needs tactical review.')
+          download(exportStrategy(working), 'strategy-' + working.id + '.json')
+          setMessage('Exported lossless sparse draft. DRAFT; not match-approved.')
         } catch (e) { setMessage(String(e)) }
       }}>Export strategy</button>
       <button disabled={!working} onClick={async () => {
         if (!working) return
-        const url = strategyLink(window.location.href, working)
-        if (!url) { setMessage('Link would be too long. Export strategy JSON instead.'); return }
-        try { await navigator.clipboard.writeText(url); setMessage('Strategy link copied. Opens as preview; recipient saves a copy.') }
-        catch { setMessage(url) }
+        try {
+          const url = strategyLink(rotationLink(window.location.href, r.rotation, r.serve, r.time, r.opponentAttack, r.firstTouch, null), working)
+          if (!url) { setMessage('Link would be too long. Export strategy JSON instead.'); return }
+          try { await navigator.clipboard.writeText(url); setMessage('Strategy link copied. Opens as preview; recipient saves a copy.') }
+          catch { setMessage(url) }
+        } catch (e) { setMessage(String(e)) }
       }}>Share strategy</button>
+      <button disabled={!working || !published || !!r.example} onClick={() => {
+        if (!working || !published) return
+        try {
+          const scenario = activeScenario(r)
+          if (!scenario) return
+          const stage = s.editing ? s.stage : selectedEvent(scenario, r.time) ?? [...stageOrder(r.serve)].reverse().find(stage => stageTimes(scenario)[stage] <= r.time) ?? 'Start'
+          const packet = createReviewPacket(published, working, { rotation: r.rotation as 1|2|3|4|5|6, serve: r.serve,
+            attackSide: r.opponentAttack, firstTouch: r.firstTouch, stage, playerId: PLAYER_IDS.includes(r.selected as PlayerId) ? r.selected as PlayerId : null })
+          download(exportReviewPacket(packet), 'review-' + working.id + '.json')
+          setMessage('Exported deterministic Review packet with source, sparse draft, author notes and findings. DRAFT; not match-approved.')
+        } catch (e) { setMessage(String(e)) }
+      }}>Export Review packet</button>
+      <button disabled={!activeScenario(r)} onClick={() => {
+        try {
+          const bundle = activeBundle(r), scenario = activeScenario(r)
+          if (!bundle || !scenario) return
+          useRotations.setState({ playing: false })
+          setReference({ data: createTeamReference(bundle.team, scenario, working, PLAYER_IDS.includes(r.selected as PlayerId) ? r.selected as PlayerId : null),
+            scenario: structuredClone(scenario), name: working?.name ?? 'Team V3', author: working?.author ?? 'Published source', revision: working?.baseRevision ?? BASE_REVISION })
+        } catch (e) { setMessage(String(e)) }
+      }}>Team reference</button>
     </div>
+    {r.example && <p>Return to Authored to export a Review packet for this strategy.</p>}
     <input ref={file} hidden type="file" accept=".json,application/json" aria-label="Import sparse strategy JSON" onChange={async e => {
       const f = e.target.files?.[0]; e.target.value = ''; if (!f) return
       if (working && !s.saved) { setMessage('Save or export your current work before importing another strategy.'); return }
       if (f.size > MAX_STRATEGY_BYTES) { useStrategies.setState({ error: 'Strategy file must be at most 100 KB.' }); return }
-      s.previewImport(await f.text())
+      try { s.previewImport(await f.text()) }
+      catch { useStrategies.setState({ error: 'Could not read that file. Your current strategy is unchanged. Choose a local JSON file and try again.' }) }
     }} />
     </>}
     {s.error && <p role="alert">{s.error}</p>}
     {!compact && message && <p role="status" className="strategy-message">{message}<button onClick={() => setMessage('')}>Dismiss</button></p>}
+    {reference && <TeamReference {...reference} onClose={closeReference} />}
   </section>
 }

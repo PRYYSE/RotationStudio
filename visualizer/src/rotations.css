@@ -189,6 +189,37 @@
    isolated/clipped below it, including during live ResizeObserver updates. */
 .court-first { display: grid; grid-template-columns: minmax(0, 1fr) 350px; grid-template-rows: 126px minmax(0, 1fr) 170px; gap: 0; overflow: hidden; min-width: 0; }
 .court-first > * { min-width: 0; }
+.strategy-message { overflow-wrap: anywhere; }
+.strategy-library .rotation-row { flex-wrap: wrap; }
+.team-reference { position: fixed; inset: 0; z-index: 100; overflow: auto; overscroll-behavior: contain; background: #f4f7fb; color: #172d43; font: 14px/1.5 system-ui, sans-serif; }
+.reference-actions { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px; background: #e6edf5; border-bottom: 1px solid #8b9bad; }
+.reference-actions :is(button,select) { min-height: 44px; border: 1px solid #637a91; border-radius: 8px; padding: 6px 10px; color: #172d43; background: white; }
+.reference-actions label { display: flex; align-items: center; gap: 8px; }
+.reference-document { max-width: 850px; margin: auto; padding: 20px; overflow-wrap: anywhere; }
+.reference-document h1 { font-size: 24px; font-weight: 700; }
+.reference-document h2 { font-size: 20px; font-weight: 700; }
+.reference-document p { margin: 8px 0; }
+.reference-draft { font-weight: 800; color: #8b3200; }
+.team-reference-stage { margin: 24px 0; padding-top: 20px; border-top: 2px solid #71879b; }
+.reference-court { display: block; width: 100%; max-width: 470px; height: auto; margin: auto; color: #172d43; background: white; }
+.reference-court text { fill: #172d43; font-family: system-ui, sans-serif; }
+.reference-roster { list-style: none; padding: 0; }
+.reference-roster > li { padding: 8px 0; border-bottom: 1px solid #cad6e0; }
+@media print {
+  @page { size: A4 portrait; margin: 12mm; }
+  body:has(> .team-reference), html:has(.team-reference) { height: auto !important; overflow: visible !important; background: white; }
+  body:has(> .team-reference) > :not(.team-reference) { display: none !important; }
+  .team-reference { position: static; inset: auto; height: auto; width: 100%; overflow: visible; background: white; font-size: 10pt; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .reference-actions { display: none; }
+  .reference-document { max-width: none; padding: 0; margin: 0; }
+  .reference-document h1 { font-size: 17pt; }
+  .reference-document h2 { font-size: 14pt; }
+  .team-reference-stage { margin: 0; padding-top: 6mm; border: 0; break-before: page; }
+  .team-reference-stage:first-of-type { break-before: auto; }
+  .reference-formation { break-inside: avoid; }
+  .reference-court { max-width: 100mm; max-height: none; }
+  .reference-roster > li { break-inside: avoid; }
+}
 .court-first .rotation-canvas { grid-column: 1; grid-row: 2; position: relative; inset: auto; width: 100%; height: 100%; min-height: 0; margin: 0; overflow: hidden; isolation: isolate; z-index: 0; }
 .court-first .rotation-top { grid-column: 1; grid-row: 1; position: relative; inset: auto; transform: none; width: auto; flex-direction: row; justify-content: center; align-items: center; align-self: end; padding: 4px 12px; gap: 10px; }
 .court-first .rotation-selectors { position: static; display: flex; align-items: center; gap: 8px; }

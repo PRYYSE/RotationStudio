@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import { createStrategy, exportStrategy, isCaseKey, laterDefendTime, parseStrategy, PLAYER_IDS } from '../lib/strategyDraft.ts'
+import { createStrategy, exportStrategy, isCaseKey, laterDefendTime, PLAYER_IDS } from '../lib/strategyDraft.ts'
+import { parseStrategyImport } from '../lib/strategyShare.ts'
 import type { CaseKey, CoverageZone, PlayerId, RotationKey, StrategyDraftV2, StrategyStage } from '../lib/strategyDraft.ts'
 import type { Bundle, Scenario, Spot } from '../lib/rotationTypes.ts'
 import { loadStrategyLibrary, STRATEGY_STORAGE_KEY } from '../lib/strategyLibrary.ts'
@@ -87,11 +88,10 @@ export function createStrategyStore(storage?: StrategyStorage) {
       coverageDisplay: 'all', coverageHidden: [], cameraCommand: null,
       zoomCamera: action => set({ cameraCommand: { action, serial: (get().cameraCommand?.serial ?? 0) + 1 } }),
       newStrategy: (fromCurrent, base) => {
-        const previous = get().working, working = createStrategy('My strategy', 'Coach', base)
+        const previous = get().working
+        const working = fromCurrent && previous ? structuredClone(previous) : createStrategy('My strategy', 'Coach', base)
         if (fromCurrent && previous) {
-          working.overrides = structuredClone(previous.overrides); working.baseRevision = previous.baseRevision; working.name = `${previous.name.slice(0, 73)} copy`; working.author = previous.author
-          if (previous.caseOverrides) working.caseOverrides = structuredClone(previous.caseOverrides)
-          if (previous.notes) working.notes = structuredClone(previous.notes)
+          working.name = `${previous.name.slice(0, 73)} copy`
         }
         try { working.id = freshId(previous?.id) } catch (e) { set({ error: String(e) }); return }
         set({ working, preview: false, saved: false, error: '', scope: null, laterDefend: false, past: [], future: [], gesture: null })
@@ -117,7 +117,7 @@ export function createStrategyStore(storage?: StrategyStorage) {
         set({ library: next, ...(selected ? { working: null, saved: false, past: [], future: [], gesture: null } : {}) })
       },
       previewImport: (json) => {
-        try { const working = parseStrategy(json); set({ working, preview: true, saved: false, scope: null, laterDefend: false, past: [], future: [], gesture: null, error: '' }) }
+        try { const working = parseStrategyImport(json); set({ working, preview: true, saved: false, scope: null, laterDefend: false, past: [], future: [], gesture: null, error: '' }) }
         catch (e) { set({ error: e instanceof Error ? e.message : 'Invalid strategy JSON.' }) }
       },
       setStage: stage => { if (!get().gesture) set({ stage, ...(stage !== 'Defend' ? { laterDefend: false } : {}) }) },
