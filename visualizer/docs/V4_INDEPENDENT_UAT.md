@@ -48,3 +48,20 @@ Fix UAT-01 responsive behaviour and UAT-02 grammar **only**, add regression test
 2. Independently inspect screenshots at 1440×900, 768×1024, 390×844 and 375×812 for visible actual court, all stage controls and no overlap/clipping.
 3. Run `npm test`, `npm run build -- --base=/RotationStudio/`, `git diff --check` and verify authored V3 plans unchanged.
 4. Commit/push reviewed branch; merge with fast-forward to main only once all gates pass, check Pages workflow and fetch actual public V4. DRAFT/tactical-human review remains open; V5 full product strategy is a separate next phase controlled by user's "continue".
+
+## 29 October 2026 — final host-browser and production acceptance (pre-deployment)
+
+**Independent final UAT: PASS.** Normal Chat reran the actual browser script `visualizer/tests/strategyStudio.browser.mjs` in Windows Chrome after responsive corrections, exit code **0**, runtime **168.36 seconds**. This final run did not skip the R1-R6/They-Us or variant matrix. It included:
+
+- All **12** rotation/serve combinations, **36** exact Receive/Attack/Defend seek assertions, and **48** left/right plus normal/Harry-first choices with active six-person/ball tracks and no page errors.
+- Real desktop player, selected front-hitter, setter and gold target drags; adding and dragging route bends; per-gesture undo/redo and Start contact held through serve-hit.
+- Save/change rotation/reload/restored work; duplicate/rename/delete confirm and cancel; independent JSON import and share-fragment previews with explicit Save a copy; View playback and original Set arcs opening.
+- Desktop-to-390px live resize, 390px-to-desktop reverse, 390px direct load, 375px narrow phone, 768px tablet and 844x390 short landscape. The script checks actual React Three Fiber camera/canvas measured size, all six on-court name tags and all stage/control boundaries, real Caleb drag and one undo step after resize, no horizontal overflow, and warning/invalid-placement handling. All passed after UAT-01 repair.
+- Corrected singular/plural validation notice wording without weakening the 48-variant rules. Illegal Harry P1 position on our serve remains flagged and Reset stage restores source.
+- Desktop and phone screenshots are in host-local `D:\Projects\RotationStudio-V4\.cache\browser-qa`; they were directly inspected. Mobile labels remain denser near clustered athletes than desktop. This is a future **V5 label collision / court-zoom art and UX refinement**, not permission to change TTGVA tactical geometry just to make tags fit.
+
+**Production regression:** independent `npm test` **73/73 PASS**, `npm run build -- --base=/RotationStudio/` successful (**633 modules, 17.03s**). Vite's existing 1.2MB uncompressed JS chunk advisory remains; not a build failure. `git diff origin/main -- visualizer/public/plans/rotations.json visualizer/scripts/author_tactics_v2.py` has no changes. Built static site served by Vite preview at `http://127.0.0.1:4176/RotationStudio/`, and Windows Chrome opened it (HTTP 304 cache response) with 6 player tags, five editor stages, scene and no browser errors.
+
+**Scope boundary:** These are real desktop-Chrome and emulated viewport tests, not a physical Android/iOS device test, real human foot overlap, court practice, or fully automatic ball-dependent tactical optimisation. The team plan remains **DRAFT**; named foundation strategies remain **Needs review**. Local browser strategy libraries DO NOT synchronise between friends. Visual character animations and mobile collision-aware labels are for V5 investigation.
+
+**Source checkpoint:** feature branch `feature/strategy-studio-v4` commit `c00fdc4` contains responsive fix, notice grammar, full E2E script and initial UAT report. Public deployment confirmation and final release hash must be appended *after* GitHub Actions finishes; don't claim deployment from this local build alone.
