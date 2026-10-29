@@ -1,8 +1,33 @@
 import type { Bundle, Keyframe, Scenario, Spot } from './rotationTypes.ts'
 import type { PlayerId, RotationKey, StrategyDraft, StrategyRotation, StrategyStage } from './strategyDraft.ts'
-import { BASE_REVISION, stageOrder, stageTimes, validateStrategy } from './strategyDraft.ts'
+import { BASE_REVISION, laterDefendTime, scenarioCaseKey, STAGES, stageOrder, stageTimes, validateStrategy } from './strategyDraft.ts'
 import { isFront, positionOf, sampleTrack } from './rotationModel.ts'
 import { validateBundle } from './rotationValidation.ts'
+import { EXAMPLE_SCREEN } from './receiveExample.ts'
+
+// Merge sparse player maps, replacing each route as a whole (including []).
+// Resolve once against source, then apply once: a shared route must never leave
+// intermediate geometry behind when a case replaces its destination or bends.
+export function resolveStrategyRotation(draft: StrategyDraft, s: Scenario): StrategyRotation {
+  const shared = draft.overrides[`${s.rotation}/${s.serve}` as RotationKey] ?? {}
+  const key = scenarioCaseKey(s), exact = draft.schemaVersion === 2 && key ? draft.caseOverrides?.[key] : undefined
+  if (!exact) return shared
+  const merged = { ...shared, ...exact }
+  for (const field of ['anchors', 'routes'] as const) {
+    if (!shared[field] && !exact[field]) continue
+    // Each map has identical stage/player keys; route values remain arrays.
+    const stages = {} as NonNullable<StrategyRotation[typeof field]>
+    for (const stage of STAGES) if (shared[field]?.[stage] || exact[field]?.[stage]) {
+      Object.assign(stages, { [stage]: { ...shared[field]?.[stage], ...exact[field]?.[stage] } })
+    }
+    Object.assign(merged, { [field]: stages })
+  }
+  if (shared.laterDefend || exact.laterDefend) merged.laterDefend = {
+    anchors: { ...shared.laterDefend?.anchors, ...exact.laterDefend?.anchors },
+    routes: { ...shared.laterDefend?.routes, ...exact.laterDefend?.routes }
+  }
+  return merged
+}
 
 const xy = (p: Spot): Spot => ({ x: p.x, z: p.z })
 function frameAt(track: Keyframe[], time: number) {
@@ -34,7 +59,7 @@ function route(track: Keyframe[], start: number, end: number, bends: Spot[]) {
     previous = fraction
   }
 }
-function applyScenario(team: Bundle['team'], s: Scenario, changes: StrategyRotation) {
+function applyScenario(team: Bundle['team'], s: Scenario, changes: StrategyRotation, warnings: string[]) {
   const times = stageTimes(s), order = stageOrder(s.serve), serveTime = s.ball[0].start
   // Set assistance is an explicit user action, never a default on a new copy.
   // Retain V3 attack identity; prepare every eligible front-row option, not a
@@ -72,6 +97,33 @@ function applyScenario(team: Bundle['team'], s: Scenario, changes: StrategyRotat
       route(s.tracks[id], Math.max(serveTime, times[previous]), times[stage], bends)
     }
   }
+  if (changes.laterDefend && Object.values(changes.laterDefend).some(v => v && Object.keys(v).length)) {
+    const time = laterDefendTime(s), tag = scenarioCaseKey(s)
+    if (time === undefined) warnings.push(`${tag}: Defend again event missing; later defence was not applied.`)
+    else {
+      // Preserve the next named reception and every following contact/recovery.
+      // Incoming motion starts at our hit; no change to the first defence or
+      // earlier contacts, and no invented contact identity at the new anchor.
+      const nextContact = Math.min(s.duration, ...s.ball.flatMap(b => [
+        ...(b.start > time && b.from.z >= 0 ? [b.start] : []),
+        ...(b.end > time && b.to.z >= 0 ? [b.end] : [])
+      ]))
+      for (const [id, point] of Object.entries(changes.laterDefend.anchors ?? {})) {
+        Object.assign(frameAt(s.tracks[id], time), point)
+        for (const frame of s.tracks[id]) if (frame.time > time && frame.time < nextContact && ['defend', 'block', 'recover'].includes(frame.role)) Object.assign(frame, point)
+      }
+      for (const [id, bends] of Object.entries(changes.laterDefend.routes ?? {})) route(s.tracks[id], times.Attack, time, bends)
+      for (const id of new Set([...Object.keys(changes.laterDefend.anchors ?? {}), ...Object.keys(changes.laterDefend.routes ?? {})])) {
+        const track = s.tracks[id]
+        if (track.some((b, i) => {
+          if (!i || b.time <= times.Attack || track[i - 1].time >= nextContact) return false
+          const a = track[i - 1], path = [a, ...(b.via ?? []), b]
+          const length = path.slice(1).reduce((sum, p, j) => sum + Math.hypot(p.x - path[j].x, p.z - path[j].z), 0)
+          return 1.5 * length / (b.time - a.time) > EXAMPLE_SCREEN.peakSpeed
+        })) warnings.push(`${tag}: ${id} later defence exceeds the teaching movement screen; check the authored time before the next contact.`)
+      }
+    }
+  }
   // Contacts are linked by original athlete + event identity, including later
   // digs and next-set contacts affected by reusing the Defend formation.
   for (let i = 0; i < s.ball.length; i++) {
@@ -97,7 +149,7 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
   if (draft.baseRevision !== BASE_REVISION) warnings.push(`Different base revision ${draft.baseRevision}; this browser uses ${BASE_REVISION}. Review all mappings before use.`)
   bundle.team.status = bundle.plans.status = 'DRAFT'
   for (const root of bundle.plans.scenarios) for (const s of [root, ...Object.values(root.alternates ?? {})]) {
-    const changes = draft.overrides[`${s.rotation}/${s.serve}` as RotationKey] ?? {}
+    const changes = resolveStrategyRotation(draft, s)
     if (!Object.keys(changes).length) continue
     const times = stageTimes(s)
     // Record endpoint owners from immutable authored geometry BEFORE edits.
@@ -112,7 +164,7 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
         return Math.hypot(p.x - b[side].x, p.z - b[side].z) < .4 && (time !== times.Attack || p.role === 'attack')
       })
     }))
-    applyScenario(bundle.team, s, changes)
+    applyScenario(bundle.team, s, changes, warnings)
     s.ball.forEach((b, i) => (['from', 'to'] as const).forEach((side, j) => {
       const id = owners[i][j]
       if (id) Object.assign(b[side], xy(sampleTrack(s.tracks[id], side === 'from' ? b.start : b.end)))
@@ -126,6 +178,6 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
 
 export function strategyPoint(draft: StrategyDraft | null, s: Scenario, stage: StrategyStage, id: string): Spot {
   if (id === 'target') return s.setterTarget
-  const override = draft?.overrides[`${s.rotation}/${s.serve}` as RotationKey]?.anchors?.[stage]?.[id as PlayerId]
+  const override = draft ? resolveStrategyRotation(draft, s).anchors?.[stage]?.[id as PlayerId] : undefined
   return stage === 'Start' && override ? override : sampleTrack(s.tracks[id], stageTimes(s)[stage])
 }

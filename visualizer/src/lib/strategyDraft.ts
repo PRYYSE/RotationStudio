@@ -1,4 +1,4 @@
-import type { Bundle, Scenario, ServeOwner, Spot } from './rotationTypes.ts'
+import type { Bundle, FirstTouch, OpponentAttack, Scenario, ServeOwner, Spot } from './rotationTypes.ts'
 import { applyStrategyOverlay } from './strategyOverlay.ts'
 
 export const BASE_REVISION = '8c0fb5d'
@@ -8,20 +8,46 @@ export type PlayerId = typeof PLAYER_IDS[number]
 export const STAGES = ['Start', 'Receive', 'Set', 'Attack', 'Defend'] as const
 export type StrategyStage = typeof STAGES[number]
 export type RotationKey = `${1 | 2 | 3 | 4 | 5 | 6}/${ServeOwner}`
+export type CaseKey = `${RotationKey}/${OpponentAttack}/${FirstTouch}`
+export type LaterDefend = {
+  anchors?: Partial<Record<PlayerId, Spot>>
+  routes?: Partial<Record<PlayerId, Spot[]>>
+}
 export type StrategyRotation = {
   readyOptions?: boolean // Set formation: prepare eligible front hitters, retaining the active setter.
   anchors?: Partial<Record<StrategyStage, Partial<Record<PlayerId, Spot>>>>
   routes?: Partial<Record<StrategyStage, Partial<Record<PlayerId, Spot[]>>>>
   setterTarget?: Spot
+  laterDefend?: LaterDefend
 }
-export type StrategyDraft = {
+export type CoachInstruction = { primary?: string; ifDifferent?: string; fallback?: string; teamCall?: string }
+export type CoachNotes = {
+  team?: Partial<Record<RotationKey, Partial<Record<StrategyStage, string>>>>
+  players?: Partial<Record<RotationKey, Partial<Record<StrategyStage, Partial<Record<PlayerId, CoachInstruction>>>>>>
+}
+type StrategyFields = {
   kind: 'rotation-studio-strategy'
-  schemaVersion: 1
   id: string
   name: string
   author: string
   baseRevision: string
   overrides: Partial<Record<RotationKey, StrategyRotation>>
+}
+export type StrategyDraftV1 = StrategyFields & { schemaVersion: 1 }
+export type StrategyDraftV2 = StrategyFields & {
+  schemaVersion: 2
+  caseOverrides?: Partial<Record<CaseKey, StrategyRotation>>
+  notes?: CoachNotes
+}
+export type StrategyDraft = StrategyDraftV1 | StrategyDraftV2
+export const MAX_NOTES_CHARACTERS = 20_000
+export const isCaseKey = (key: string): key is CaseKey => /^[1-6]\/(they|us)\/(left|right)\/(normal|harry)$/.test(key)
+export function scenarioCaseKey(s: Scenario): CaseKey | undefined {
+  return s.tactics ? `${s.rotation}/${s.serve}/${s.tactics.opponentAttack}/${s.tactics.firstTouch}` as CaseKey : undefined
+}
+export function laterDefendTime(s: Scenario): number | undefined {
+  const time = s.serve === 'us' ? s.phases.find(p => p.label === 'Defend again')?.time : undefined
+  return time !== undefined && time > stageTimes(s).Attack ? time : undefined
 }
 export function stageOrder(serve: ServeOwner): StrategyStage[] {
   return serve === 'us' ? ['Start', 'Defend', 'Receive', 'Set', 'Attack'] : [...STAGES]
@@ -40,13 +66,13 @@ export function selectedEvent(s: Scenario, time: number): StrategyStage | undefi
   const times = stageTimes(s)
   return stageOrder(s.serve).find(stage => Math.abs(time - times[stage]) < .005)
 }
-export function createStrategy(name = 'My strategy', author = 'Coach', _base?: Bundle): StrategyDraft {
-  return { kind: 'rotation-studio-strategy', schemaVersion: 1, id: crypto.randomUUID(), name, author, baseRevision: BASE_REVISION,
+export function createStrategy(name = 'My strategy', author = 'Coach', _base?: Bundle): StrategyDraftV2 {
+  return { kind: 'rotation-studio-strategy', schemaVersion: 2, id: crypto.randomUUID(), name, author, baseRevision: BASE_REVISION,
     overrides: {} }
 }
 const record = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object' && !Array.isArray(v) && [Object.prototype, null].includes(Object.getPrototypeOf(v))
 const allowed = (v: Record<string, unknown>, keys: readonly string[]) => {
-  if (Object.keys(v).some(k => !keys.includes(k))) throw new Error('Unknown strategy field.')
+  if (Reflect.ownKeys(v).some(k => typeof k !== 'string' || !keys.includes(k) || !('value' in Object.getOwnPropertyDescriptor(v, k)!))) throw new Error('Unknown strategy field.')
 }
 const text = (v: unknown, max: number): v is string => typeof v === 'string' && v.trim().length > 0 && v.length <= max && !/[\u0000-\u001f]/.test(v)
 function checkSpot(v: unknown, target = false): asserts v is Spot {
@@ -54,15 +80,22 @@ function checkSpot(v: unknown, target = false): asserts v is Spot {
   allowed(v, ['x', 'z'])
   if (typeof v.x !== 'number' || !Number.isFinite(v.x) || Math.abs(v.x) > 4.5 || typeof v.z !== 'number' || !Number.isFinite(v.z) || v.z < 0 || v.z > (target ? 2.99 : 12)) throw new Error('Coordinates must be finite: X −4.5…4.5, Z 0…12; setter target Z < 3.')
 }
-export function validateStrategy(v: unknown): asserts v is StrategyDraft {
-  if (!record(v)) throw new Error('Expected a sparse strategy object.')
-  allowed(v, ['kind', 'schemaVersion', 'id', 'name', 'author', 'baseRevision', 'overrides'])
-  if (v.kind !== 'rotation-studio-strategy' || v.schemaVersion !== 1) throw new Error('Unsupported strategy format/version.')
-  if (typeof v.id !== 'string' || !/^[a-zA-Z0-9-]{1,80}$/.test(v.id) || v.id === 'team-v3' || !text(v.name, 80) || !text(v.author, 80) || !text(v.baseRevision, 80)) throw new Error('Strategy requires a safe ID, name, author and base revision (1–80 characters).')
-  if (!record(v.overrides) || Object.keys(v.overrides).length > 12) throw new Error('Expected up to 12 rotation/serve overrides.')
-  for (const [key, value] of Object.entries(v.overrides)) {
-    if (!/^[1-6]\/(they|us)$/.test(key) || !record(value)) throw new Error('Invalid rotation/serve override.')
-    allowed(value, ['anchors', 'routes', 'setterTarget', 'readyOptions'])
+function checkPlayers(players: unknown, field: string) {
+  if (!record(players)) throw new Error('Expected athlete overrides.')
+  allowed(players, PLAYER_IDS)
+  for (const point of Object.values(players)) {
+    if (field === 'anchors') checkSpot(point)
+    else {
+      if (!Array.isArray(point) || point.length > 8) throw new Error('Routes require an array of up to 8 waypoints.')
+      for (const p of point) checkSpot(p)
+    }
+  }
+}
+function checkRotations(overrides: unknown, version: number, cases = false) {
+  if (!record(overrides) || Object.keys(overrides).length > (cases ? 48 : 12)) throw new Error('Expected bounded rotation/serve overrides.')
+  for (const [key, value] of Object.entries(overrides)) {
+    if (!(cases ? isCaseKey(key) : /^[1-6]\/(they|us)$/.test(key)) || !record(value)) throw new Error('Invalid rotation/serve or case override.')
+    allowed(value, ['anchors', 'routes', 'setterTarget', 'readyOptions', ...(version === 2 ? ['laterDefend'] : [])])
     if (value.readyOptions !== undefined && typeof value.readyOptions !== 'boolean') throw new Error('readyOptions must be boolean.')
     if (value.setterTarget !== undefined) checkSpot(value.setterTarget, true)
     for (const field of ['anchors', 'routes']) {
@@ -70,25 +103,60 @@ export function validateStrategy(v: unknown): asserts v is StrategyDraft {
       if (stages === undefined) continue
       if (!record(stages)) throw new Error('Expected stage overrides.')
       allowed(stages, STAGES)
-      for (const players of Object.values(stages)) {
-        if (!record(players)) throw new Error('Expected athlete overrides.')
-        allowed(players, PLAYER_IDS)
-        for (const point of Object.values(players)) {
-          if (field === 'anchors') checkSpot(point)
-          else {
-            if (!Array.isArray(point) || point.length > 8) throw new Error('Routes require an array of up to 8 waypoints.')
-            point.forEach(p => checkSpot(p))
+      for (const players of Object.values(stages)) checkPlayers(players, field)
+    }
+    if (value.laterDefend !== undefined) {
+      if (key.split('/')[1] !== 'us' || !record(value.laterDefend)) throw new Error('laterDefend requires our serve.')
+      allowed(value.laterDefend, ['anchors', 'routes'])
+      for (const field of ['anchors', 'routes']) if (value.laterDefend[field] !== undefined) checkPlayers(value.laterDefend[field], field)
+    }
+  }
+}
+function checkNotes(notes: unknown) {
+  if (!record(notes)) throw new Error('Expected coach notes.')
+  allowed(notes, ['team', 'players'])
+  let total = 0
+  const note = (v: unknown) => {
+    if (typeof v !== 'string' || v.length > 400 || /[\u0000-\u001f\u007f-\u009f]/.test(v)) throw new Error('Notes require plain text, at most 400 characters per field, without controls.')
+    total += v.length
+    if (total > MAX_NOTES_CHARACTERS) throw new Error('Notes exceed 20,000 characters in total.')
+  }
+  for (const [scope, rotations] of Object.entries(notes)) {
+    if (!record(rotations)) throw new Error('Expected rotation notes.')
+    allowed(rotations, Array.from({ length: 6 }, (_, i) => [`${i + 1}/they`, `${i + 1}/us`]).flat())
+    for (const stages of Object.values(rotations)) {
+      if (!record(stages)) throw new Error('Expected stage notes.')
+      allowed(stages, STAGES)
+      for (const value of Object.values(stages)) {
+        if (scope === 'team') note(value)
+        else {
+          if (!record(value)) throw new Error('Expected player notes.')
+          allowed(value, PLAYER_IDS)
+          for (const instruction of Object.values(value)) {
+            if (!record(instruction)) throw new Error('Expected coach instruction.')
+            allowed(instruction, ['primary', 'ifDifferent', 'fallback', 'teamCall'])
+            Object.values(instruction).forEach(note)
           }
         }
       }
     }
   }
 }
-export function parseStrategy(json: string): StrategyDraft {
+export function validateStrategy(v: unknown): asserts v is StrategyDraft {
+  if (!record(v)) throw new Error('Expected a sparse strategy object.')
+  allowed(v, ['kind', 'schemaVersion', 'id', 'name', 'author', 'baseRevision', 'overrides', ...(v.schemaVersion === 2 ? ['caseOverrides', 'notes'] : [])])
+  if (v.kind !== 'rotation-studio-strategy' || (v.schemaVersion !== 1 && v.schemaVersion !== 2)) throw new Error('Unsupported strategy format/version.')
+  if (typeof v.id !== 'string' || !/^[a-zA-Z0-9-]{1,80}$/.test(v.id) || v.id === 'team-v3' || !text(v.name, 80) || !text(v.author, 80) || !text(v.baseRevision, 80)) throw new Error('Strategy requires a safe ID, name, author and base revision (1–80 characters).')
+  checkRotations(v.overrides, v.schemaVersion)
+  if (v.schemaVersion === 2 && v.caseOverrides !== undefined) checkRotations(v.caseOverrides, 2, true)
+  if (v.schemaVersion === 2 && v.notes !== undefined) checkNotes(v.notes)
+  if (new TextEncoder().encode(JSON.stringify(v)).length > MAX_STRATEGY_BYTES) throw new Error('Strategy file must be at most 100 KB.')
+}
+export function parseStrategy(json: string): StrategyDraftV2 {
   if (json.length > MAX_STRATEGY_BYTES || new TextEncoder().encode(json).length > MAX_STRATEGY_BYTES) throw new Error('Strategy file must be at most 100 KB.')
   const value: unknown = JSON.parse(json)
   validateStrategy(value)
-  return value
+  return { ...value, schemaVersion: 2 }
 }
 export function exportStrategy(draft: StrategyDraft): string {
   validateStrategy(draft)
