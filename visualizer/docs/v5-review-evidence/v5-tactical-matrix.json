@@ -1,0 +1,332 @@
+{
+  "team": {
+    "schemaVersion": 1,
+    "status": "DRAFT",
+    "players": [
+      {
+        "id": "harry",
+        "name": "Harry",
+        "setter": true,
+        "color": "#36C6FA",
+        "skills": {
+          "receive": 3,
+          "mobility": 4,
+          "setting": 5,
+          "attack": 2
+        }
+      },
+      {
+        "id": "caleb",
+        "name": "Caleb",
+        "setter": false,
+        "color": "#A6E34A",
+        "skills": {
+          "receive": 5,
+          "mobility": 5,
+          "setting": 4,
+          "attack": 4
+        }
+      },
+      {
+        "id": "trent",
+        "name": "Trent",
+        "setter": false,
+        "color": "#FF8640",
+        "skills": {
+          "receive": 3,
+          "mobility": 2,
+          "setting": 2,
+          "attack": 4
+        }
+      },
+      {
+        "id": "logan",
+        "name": "Logan",
+        "setter": false,
+        "color": "#AB87F5",
+        "skills": {
+          "receive": 1,
+          "mobility": 3,
+          "setting": 1,
+          "attack": 4
+        }
+      },
+      {
+        "id": "georgia",
+        "name": "Georgia",
+        "setter": false,
+        "color": "#F26FA6",
+        "skills": {
+          "receive": 3,
+          "mobility": 3,
+          "setting": 3,
+          "attack": 3
+        }
+      },
+      {
+        "id": "jaz",
+        "name": "Jaz",
+        "setter": false,
+        "color": "#FFD84E",
+        "skills": {
+          "receive": 2,
+          "mobility": 1,
+          "setting": 1,
+          "attack": 2
+        }
+      }
+    ],
+    "initialOrder": [
+      "harry",
+      "georgia",
+      "logan",
+      "trent",
+      "jaz",
+      "caleb"
+    ]
+  },
+  "planStatus": "DRAFT",
+  "scenarioCount": 12,
+  "rows": [
+    {
+      "r": 1,
+      "serve": "they",
+      "front": "Trent/Logan/Georgia",
+      "first": "Caleb",
+      "second": "Harry",
+      "hitter": "Logan",
+      "sampledSetterTravel": 1.6,
+      "firstDepth": 6.2,
+      "phaseLengths": {
+        "start": 0,
+        "first": 2.75,
+        "second": 4.5,
+        "attack": 5.38,
+        "defend": 8.06,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    },
+    {
+      "r": 1,
+      "serve": "us",
+      "front": "Trent/Logan/Georgia",
+      "first": "Caleb",
+      "second": "Harry",
+      "hitter": "Logan",
+      "sampledSetterTravel": 8.58,
+      "firstDepth": 6.75,
+      "phaseLengths": {
+        "start": 0,
+        "first": 5.4,
+        "second": 7.77,
+        "attack": 8.63,
+        "defend": 4.18,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    },
+    {
+      "r": 2,
+      "serve": "they",
+      "front": "Trent/Logan/Jaz",
+      "first": "Caleb",
+      "second": "Harry",
+      "hitter": "Logan",
+      "sampledSetterTravel": 1.85,
+      "firstDepth": 6.35,
+      "phaseLengths": {
+        "start": 0,
+        "first": 2.75,
+        "second": 4.5,
+        "attack": 5.38,
+        "defend": 8.06,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    },
+    {
+      "r": 2,
+      "serve": "us",
+      "front": "Trent/Logan/Jaz",
+      "first": "Caleb",
+      "second": "Harry",
+      "hitter": "Trent",
+      "sampledSetterTravel": 1.85,
+      "firstDepth": 6.85,
+      "phaseLengths": {
+        "start": 0,
+        "first": 5.4,
+        "second": 7.52,
+        "attack": 8.38,
+        "defend": 4.18,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    },
+    {
+      "r": 3,
+      "serve": "they",
+      "front": "Caleb/Trent/Jaz",
+      "first": "Georgia",
+      "second": "Harry",
+      "hitter": "Caleb",
+      "sampledSetterTravel": 3.5,
+      "firstDepth": 6.55,
+      "phaseLengths": {
+        "start": 0,
+        "first": 2.75,
+        "second": 4.7,
+        "attack": 5.58,
+        "defend": 8.26,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    },
+    {
+      "r": 3,
+      "serve": "us",
+      "front": "Caleb/Trent/Jaz",
+      "first": "Georgia",
+      "second": "Harry",
+      "hitter": "Trent",
+      "sampledSetterTravel": 3.5,
+      "firstDepth": 6.9,
+      "phaseLengths": {
+        "start": 0,
+        "first": 5.4,
+        "second": 7.77,
+        "attack": 8.63,
+        "defend": 4.18,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    },
+    {
+      "r": 4,
+      "serve": "they",
+      "front": "Harry/Caleb/Jaz",
+      "first": "Georgia",
+      "second": "Harry",
+      "hitter": "Caleb",
+      "sampledSetterTravel": 1.63,
+      "firstDepth": 6.35,
+      "phaseLengths": {
+        "start": 0,
+        "first": 2.75,
+        "second": 4.5,
+        "attack": 5.38,
+        "defend": 8.06,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    },
+    {
+      "r": 4,
+      "serve": "us",
+      "front": "Harry/Caleb/Jaz",
+      "first": "Georgia",
+      "second": "Harry",
+      "hitter": "Caleb",
+      "sampledSetterTravel": 1.63,
+      "firstDepth": 6.1,
+      "phaseLengths": {
+        "start": 0,
+        "first": 5.4,
+        "second": 7.52,
+        "attack": 8.38,
+        "defend": 4.18,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    },
+    {
+      "r": 5,
+      "serve": "they",
+      "front": "Harry/Caleb/Georgia",
+      "first": "Caleb",
+      "second": "Harry",
+      "hitter": "Georgia",
+      "sampledSetterTravel": 0.67,
+      "firstDepth": 5.25,
+      "phaseLengths": {
+        "start": 0,
+        "first": 2.75,
+        "second": 4.5,
+        "attack": 5.38,
+        "defend": 8.06,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    },
+    {
+      "r": 5,
+      "serve": "us",
+      "front": "Harry/Caleb/Georgia",
+      "first": "Caleb",
+      "second": "Harry",
+      "hitter": "Georgia",
+      "sampledSetterTravel": 0.67,
+      "firstDepth": 1.28,
+      "phaseLengths": {
+        "start": 0,
+        "first": 5.4,
+        "second": 7.52,
+        "attack": 8.38,
+        "defend": 4.18,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    },
+    {
+      "r": 6,
+      "serve": "they",
+      "front": "Harry/Logan/Georgia",
+      "first": "Caleb",
+      "second": "Harry",
+      "hitter": "Logan",
+      "sampledSetterTravel": 1,
+      "firstDepth": 6.25,
+      "phaseLengths": {
+        "start": 0,
+        "first": 2.75,
+        "second": 4.5,
+        "attack": 5.38,
+        "defend": 8.06,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    },
+    {
+      "r": 6,
+      "serve": "us",
+      "front": "Harry/Logan/Georgia",
+      "first": "Caleb",
+      "second": "Harry",
+      "hitter": "Logan",
+      "sampledSetterTravel": 1,
+      "firstDepth": 6.75,
+      "phaseLengths": {
+        "start": 0,
+        "first": 5.4,
+        "second": 7.52,
+        "attack": 8.38,
+        "defend": 4.18,
+        "serve": 1.4
+      },
+      "altCount": 3,
+      "noneOffCourt": true
+    }
+  ]
+}

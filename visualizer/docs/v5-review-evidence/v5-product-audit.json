@@ -1,0 +1,1773 @@
+{
+  "timestamp": "2026-10-29T03:56:35.591Z",
+  "site": "https://pryyse.github.io/RotationStudio/",
+  "states": [
+    {
+      "id": "desktop-start",
+      "file": "v5-review-desktop-start.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 58,
+        "width": 1440,
+        "height": 627,
+        "right": 1440,
+        "bottom": 685
+      },
+      "panel": null,
+      "cue": "Legal start\nR1: stand in the legal stack. DO NOT move before serve contact.",
+      "settings": "",
+      "strategy": "",
+      "stages": [],
+      "buttons": [
+        "View",
+        "R1",
+        "They serve",
+        "Start",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 710,
+            "y": 445,
+            "width": 69,
+            "height": 20,
+            "right": 779,
+            "bottom": 465
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 633,
+            "y": 540,
+            "width": 74,
+            "height": 20,
+            "right": 707,
+            "bottom": 560
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 625,
+            "y": 363,
+            "width": 70,
+            "height": 20,
+            "right": 695,
+            "bottom": 383
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 646,
+            "y": 430,
+            "width": 76,
+            "height": 20,
+            "right": 722,
+            "bottom": 450
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 754,
+            "y": 414,
+            "width": 85,
+            "height": 20,
+            "right": 840,
+            "bottom": 433
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 518,
+            "y": 503,
+            "width": 58,
+            "height": 20,
+            "right": 576,
+            "bottom": 523
+          }
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    {
+      "id": "desktop-receive",
+      "file": "v5-review-desktop-receive.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 58,
+        "width": 1440,
+        "height": 627,
+        "right": 1440,
+        "bottom": 685
+      },
+      "panel": null,
+      "cue": "First pass\nCaleb takes the sample serve. Pass HIGH to the marked setting window.",
+      "settings": "",
+      "strategy": "",
+      "stages": [],
+      "buttons": [
+        "Receive",
+        "View",
+        "R1",
+        "They serve",
+        "Receive",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 721,
+            "y": 419,
+            "width": 69,
+            "height": 20,
+            "right": 790,
+            "bottom": 438
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 622,
+            "y": 520,
+            "width": 74,
+            "height": 20,
+            "right": 696,
+            "bottom": 540
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 649,
+            "y": 369,
+            "width": 70,
+            "height": 20,
+            "right": 718,
+            "bottom": 388
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 615,
+            "y": 409,
+            "width": 76,
+            "height": 20,
+            "right": 691,
+            "bottom": 429
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 752,
+            "y": 419,
+            "width": 85,
+            "height": 20,
+            "right": 838,
+            "bottom": 438
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 518,
+            "y": 503,
+            "width": 58,
+            "height": 20,
+            "right": 576,
+            "bottom": 523
+          }
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    {
+      "id": "desktop-settings",
+      "file": "v5-review-desktop-settings.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 58,
+        "width": 1440,
+        "height": 627,
+        "right": 1440,
+        "bottom": 685
+      },
+      "panel": null,
+      "cue": "First pass\nCaleb takes the sample serve. Pass HIGH to the marked setting window.",
+      "settings": "View & draft\nClose\nTheir attack:\nOur left\nOur right\nFirst contact:\nNormal\nHarry first\nFirst-ball example\nAuthored (default)\nShort L\nShort C\nShort R\nMid L\nMid C\nMid R\nDeep L\nDeep C\nDeep R\nReceiver\nAuto (best reachable)\nHarry\nCaleb\nTrent\nLogan\nGeorgia\nJaz\n\nIncoming serve · from legal starts. Normal excludes Harry.\n\nShort / mid / deep: z 3.5 / 5.8 / 8m. L / C / R: x −3 / 0 / +3m. Reach and spacing are teaching heuristics; skills are relative preferences, not measured speeds.\n\nFront\nSide\nOrbit\nTop\nNames\nPaths\nCoverage areas\nAdvanced V3 Coach draft\n\nColour areas follow athletes at every stage. Approximate responsibilities, not measured reach: comp",
+      "strategy": "",
+      "stages": [],
+      "buttons": [
+        "Receive",
+        "View",
+        "R1",
+        "They serve",
+        "Our left",
+        "Normal",
+        "Authored (default)",
+        "Orbit",
+        "Receive",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 721,
+            "y": 419,
+            "width": 69,
+            "height": 20,
+            "right": 790,
+            "bottom": 438
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 622,
+            "y": 520,
+            "width": 74,
+            "height": 20,
+            "right": 696,
+            "bottom": 540
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 649,
+            "y": 369,
+            "width": 70,
+            "height": 20,
+            "right": 718,
+            "bottom": 388
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 615,
+            "y": 409,
+            "width": 76,
+            "height": 20,
+            "right": 691,
+            "bottom": 429
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 752,
+            "y": 419,
+            "width": 85,
+            "height": 20,
+            "right": 838,
+            "bottom": 438
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 518,
+            "y": 503,
+            "width": 58,
+            "height": 20,
+            "right": 576,
+            "bottom": 523
+          }
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    {
+      "id": "desktop-deep-left-example",
+      "file": "v5-review-desktop-deep-left-example.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 58,
+        "width": 1440,
+        "height": 627,
+        "right": 1440,
+        "bottom": 685
+      },
+      "panel": null,
+      "cue": "Teaching sample · Jaz receives · Harry sets · Logan sample hitter\nFirst pass\nJaz takes the sample serve. Pass high to the marked window, then recover locally.",
+      "settings": "View & draft\nClose\nTheir attack:\nOur left\nOur right\nFirst contact:\nNormal\nHarry first\nFirst-ball example\nAuthored (default)\nShort L\nShort C\nShort R\nMid L\nMid C\nMid R\nDeep L\nDeep C\nDeep R\nReceiver\nAuto (best reachable)\nHarry\nCaleb\nTrent\nLogan\nGeorgia\nJaz\n\nIncoming serve · from legal starts. Normal excludes Harry.\n\nShort / mid / deep: z 3.5 / 5.8 / 8m. L / C / R: x −3 / 0 / +3m. Reach and spacing are teaching heuristics; skills are relative preferences, not measured speeds.\n\nFront\nSide\nOrbit\nTop\nNames\nPaths\nCoverage areas\nAdvanced V3 Coach draft\n\nColour areas follow athletes at every stage. Approximate responsibilities, not measured reach: comp",
+      "strategy": "",
+      "stages": [],
+      "buttons": [
+        "Receive",
+        "View",
+        "R1",
+        "They serve",
+        "Our left",
+        "Normal",
+        "Deep L",
+        "Orbit",
+        "Receive",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 721,
+            "y": 419,
+            "width": 69,
+            "height": 20,
+            "right": 790,
+            "bottom": 438
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 633,
+            "y": 540,
+            "width": 74,
+            "height": 20,
+            "right": 707,
+            "bottom": 560
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 649,
+            "y": 369,
+            "width": 70,
+            "height": 20,
+            "right": 718,
+            "bottom": 388
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 615,
+            "y": 409,
+            "width": 76,
+            "height": 20,
+            "right": 691,
+            "bottom": 429
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 752,
+            "y": 419,
+            "width": 85,
+            "height": 20,
+            "right": 838,
+            "bottom": 438
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 499,
+            "y": 532,
+            "width": 58,
+            "height": 20,
+            "right": 558,
+            "bottom": 552
+          }
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    {
+      "id": "desktop-r3-us-start",
+      "file": "v5-review-desktop-r3-us-start.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 58,
+        "width": 1440,
+        "height": 627,
+        "right": 1440,
+        "bottom": 685
+      },
+      "panel": null,
+      "cue": "Legal start\nStart in legal rotational order; P1 serves behind the endline.",
+      "settings": "",
+      "strategy": "",
+      "stages": [],
+      "buttons": [
+        "View",
+        "R3",
+        "Us serve",
+        "Start",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P5",
+          "rect": {
+            "x": 634,
+            "y": 450,
+            "width": 71,
+            "height": 20,
+            "right": 705,
+            "bottom": 470
+          }
+        },
+        {
+          "text": "Caleb · P4",
+          "rect": {
+            "x": 594,
+            "y": 395,
+            "width": 75,
+            "height": 20,
+            "right": 668,
+            "bottom": 414
+          }
+        },
+        {
+          "text": "Trent · P2",
+          "rect": {
+            "x": 736,
+            "y": 390,
+            "width": 69,
+            "height": 20,
+            "right": 806,
+            "bottom": 409
+          }
+        },
+        {
+          "text": "Logan · P1",
+          "rect": {
+            "x": 757,
+            "y": 631,
+            "width": 73,
+            "height": 20,
+            "right": 831,
+            "bottom": 651
+          }
+        },
+        {
+          "text": "Georgia · P6",
+          "rect": {
+            "x": 648,
+            "y": 552,
+            "width": 86,
+            "height": 20,
+            "right": 733,
+            "bottom": 571
+          }
+        },
+        {
+          "text": "Jaz · P3",
+          "rect": {
+            "x": 700,
+            "y": 428,
+            "width": 58,
+            "height": 20,
+            "right": 758,
+            "bottom": 448
+          }
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    {
+      "id": "desktop-r3-us-defend",
+      "file": "v5-review-desktop-r3-us-defend.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 58,
+        "width": 1440,
+        "height": 627,
+        "right": 1440,
+        "bottom": 685
+      },
+      "panel": null,
+      "cue": "Defence ready\nTheir hitter attacks to our LEFT. Backcourt and blockers take assigned lanes.",
+      "settings": "",
+      "strategy": "",
+      "stages": [],
+      "buttons": [
+        "Defend",
+        "View",
+        "R3",
+        "Us serve",
+        "Defend",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P5",
+          "rect": {
+            "x": 639,
+            "y": 481,
+            "width": 71,
+            "height": 20,
+            "right": 710,
+            "bottom": 500
+          }
+        },
+        {
+          "text": "Caleb · P4",
+          "rect": {
+            "x": 610,
+            "y": 354,
+            "width": 75,
+            "height": 20,
+            "right": 684,
+            "bottom": 374
+          }
+        },
+        {
+          "text": "Trent · P2",
+          "rect": {
+            "x": 697,
+            "y": 373,
+            "width": 69,
+            "height": 20,
+            "right": 766,
+            "bottom": 393
+          }
+        },
+        {
+          "text": "Logan · P1",
+          "rect": {
+            "x": 744,
+            "y": 564,
+            "width": 73,
+            "height": 20,
+            "right": 818,
+            "bottom": 584
+          }
+        },
+        {
+          "text": "Georgia · P6",
+          "rect": {
+            "x": 631,
+            "y": 550,
+            "width": 86,
+            "height": 20,
+            "right": 716,
+            "bottom": 570
+          }
+        },
+        {
+          "text": "Jaz · P3",
+          "rect": {
+            "x": 746,
+            "y": 462,
+            "width": 58,
+            "height": 20,
+            "right": 804,
+            "bottom": 482
+          }
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    {
+      "id": "desktop-r3-us-attack",
+      "file": "v5-review-desktop-r3-us-attack.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 58,
+        "width": 1440,
+        "height": 627,
+        "right": 1440,
+        "bottom": 685
+      },
+      "panel": null,
+      "cue": "Our attack\nFront attackers approach; others cover the hitter.",
+      "settings": "",
+      "strategy": "",
+      "stages": [],
+      "buttons": [
+        "Attack",
+        "View",
+        "R3",
+        "Us serve",
+        "Attack",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P5",
+          "rect": {
+            "x": 710,
+            "y": 393,
+            "width": 71,
+            "height": 20,
+            "right": 782,
+            "bottom": 413
+          }
+        },
+        {
+          "text": "Caleb · P4",
+          "rect": {
+            "x": 596,
+            "y": 388,
+            "width": 75,
+            "height": 20,
+            "right": 670,
+            "bottom": 408
+          }
+        },
+        {
+          "text": "Trent · P2",
+          "rect": {
+            "x": 697,
+            "y": 357,
+            "width": 69,
+            "height": 20,
+            "right": 766,
+            "bottom": 377
+          }
+        },
+        {
+          "text": "Logan · P1",
+          "rect": {
+            "x": 752,
+            "y": 539,
+            "width": 73,
+            "height": 20,
+            "right": 825,
+            "bottom": 559
+          }
+        },
+        {
+          "text": "Georgia · P6",
+          "rect": {
+            "x": 603,
+            "y": 475,
+            "width": 86,
+            "height": 20,
+            "right": 688,
+            "bottom": 495
+          }
+        },
+        {
+          "text": "Jaz · P3",
+          "rect": {
+            "x": 757,
+            "y": 437,
+            "width": 58,
+            "height": 20,
+            "right": 815,
+            "bottom": 457
+          }
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    {
+      "id": "desktop-edit-start",
+      "file": "v5-review-desktop-edit-start.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 158,
+        "width": 1085,
+        "height": 726,
+        "right": 1085,
+        "bottom": 884
+      },
+      "panel": {
+        "x": 1098,
+        "y": 76,
+        "width": 330,
+        "height": 810,
+        "right": 1428,
+        "bottom": 886
+      },
+      "cue": "",
+      "settings": "",
+      "strategy": "Strategy\nTeam V3 · read-only baseline\nMy strategy · unsaved\n\nCoach · Unsaved · Needs review\n\nSave\nR1 · They serve · Start\nStart\nReceive\nSet\nAttack\nDefend\nCoverage areas\n\nDrag athletes or enter metres. Changes apply to all four variants for this serve.\n\nStart holds through service contact in playback. Keep rotational order and P1 behind the endline on our serve; review any warnings below.\n\nSelected athlete\nHarry · P1\nCaleb · P6\nTrent · P4\nLogan · P3\nGeorgia · P2\nJaz · P5\nSetter pass target · gold ring\nSelect gold target\nX (m)\nZ (m)\nIncoming route\nAdd bend\nStraighten\nUndo\nRedo\nReset stage\nReset rotation\nEditing help\nNeeds review · 1 notice",
+      "stages": [
+        "Start",
+        "Receive",
+        "Set",
+        "Attack",
+        "Defend"
+      ],
+      "buttons": [
+        "Edit strategy",
+        "R1",
+        "They serve",
+        "Start",
+        "Incoming route",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 603,
+            "y": 422,
+            "width": 69,
+            "height": 20,
+            "right": 671,
+            "bottom": 442
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 551,
+            "y": 629,
+            "width": 74,
+            "height": 20,
+            "right": 625,
+            "bottom": 649
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 398,
+            "y": 310,
+            "width": 70,
+            "height": 20,
+            "right": 468,
+            "bottom": 330
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 492,
+            "y": 430,
+            "width": 76,
+            "height": 20,
+            "right": 568,
+            "bottom": 449
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 658,
+            "y": 328,
+            "width": 85,
+            "height": 20,
+            "right": 743,
+            "bottom": 347
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 347,
+            "y": 639,
+            "width": 58,
+            "height": 20,
+            "right": 406,
+            "bottom": 659
+          }
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    {
+      "id": "desktop-edit-set",
+      "file": "v5-review-desktop-edit-set.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 158,
+        "width": 1085,
+        "height": 726,
+        "right": 1085,
+        "bottom": 884
+      },
+      "panel": {
+        "x": 1098,
+        "y": 76,
+        "width": 330,
+        "height": 810,
+        "right": 1428,
+        "bottom": 886
+      },
+      "cue": "",
+      "settings": "",
+      "strategy": "Strategy\nTeam V3 · read-only baseline\nMy strategy · unsaved\n\nCoach · Unsaved · Needs review\n\nSave\nR1 · They serve · Set\nStart\nReceive\nSet\nAttack\nDefend\nCoverage areas\n\nDrag athletes or enter metres. Changes apply to all four variants for this serve.\n\nSelected athlete\nHarry · P1\nCaleb · P6\nTrent · P4\nLogan · P3\nGeorgia · P2\nJaz · P5\nSetter pass target · gold ring\nSelect gold target\nX (m)\nZ (m)\nIncoming route\nAdd bend\nStraighten\nUndo\nRedo\nReset stage\nReset rotation\nPrepare all hitters\n\nOptional approach-ready positions for Trent, Logan, Georgia. Keeps the active setter and your explicit placements. Undo or Reset stage to revert.\n\nEditing help\nNeeds review · 1 notice",
+      "stages": [
+        "Start",
+        "Receive",
+        "Set",
+        "Attack",
+        "Defend"
+      ],
+      "buttons": [
+        "Edit strategy",
+        "R1",
+        "They serve",
+        "Set",
+        "Incoming route",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 603,
+            "y": 340,
+            "width": 69,
+            "height": 20,
+            "right": 671,
+            "bottom": 360
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 505,
+            "y": 601,
+            "width": 74,
+            "height": 20,
+            "right": 580,
+            "bottom": 620
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 485,
+            "y": 302,
+            "width": 70,
+            "height": 20,
+            "right": 554,
+            "bottom": 322
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 362,
+            "y": 389,
+            "width": 76,
+            "height": 20,
+            "right": 437,
+            "bottom": 409
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 658,
+            "y": 351,
+            "width": 85,
+            "height": 20,
+            "right": 743,
+            "bottom": 370
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 367,
+            "y": 560,
+            "width": 58,
+            "height": 20,
+            "right": 425,
+            "bottom": 580
+          }
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    {
+      "id": "desktop-all-hitters-prepared",
+      "file": "v5-review-desktop-all-hitters-prepared.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 158,
+        "width": 1085,
+        "height": 726,
+        "right": 1085,
+        "bottom": 884
+      },
+      "panel": {
+        "x": 1098,
+        "y": 76,
+        "width": 330,
+        "height": 810,
+        "right": 1428,
+        "bottom": 886
+      },
+      "cue": "",
+      "settings": "",
+      "strategy": "Strategy\nTeam V3 · read-only baseline\nMy strategy · unsaved\n\nCoach · Unsaved · Needs review\n\nSave\nR1 · They serve · Set\nStart\nReceive\nSet\nAttack\nDefend\nCoverage areas\n\nDrag athletes or enter metres. Changes apply to all four variants for this serve.\n\nSelected athlete\nHarry · P1\nCaleb · P6\nTrent · P4\nLogan · P3\nGeorgia · P2\nJaz · P5\nSetter pass target · gold ring\nSelect gold target\nX (m)\nZ (m)\nIncoming route\nAdd bend\nStraighten\nUndo\nRedo\nReset stage\nReset rotation\nPrepare all hitters\n\nOptional approach-ready positions for Trent, Logan, Georgia. Keeps the active setter and your explicit placements. Undo or Reset stage to revert.\n\nEditing help\nNeeds review · 1 notice",
+      "stages": [
+        "Start",
+        "Receive",
+        "Set",
+        "Attack",
+        "Defend"
+      ],
+      "buttons": [
+        "Edit strategy",
+        "R1",
+        "They serve",
+        "Set",
+        "Incoming route",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 603,
+            "y": 340,
+            "width": 69,
+            "height": 20,
+            "right": 671,
+            "bottom": 360
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 505,
+            "y": 601,
+            "width": 74,
+            "height": 20,
+            "right": 580,
+            "bottom": 620
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 492,
+            "y": 407,
+            "width": 70,
+            "height": 20,
+            "right": 562,
+            "bottom": 427
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 346,
+            "y": 460,
+            "width": 76,
+            "height": 20,
+            "right": 422,
+            "bottom": 480
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 673,
+            "y": 407,
+            "width": 85,
+            "height": 20,
+            "right": 759,
+            "bottom": 427
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 367,
+            "y": 560,
+            "width": 58,
+            "height": 20,
+            "right": 425,
+            "bottom": 580
+          }
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    {
+      "id": "desktop-strategies",
+      "file": "v5-review-desktop-strategies.png",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 58,
+        "width": 1085,
+        "height": 627,
+        "right": 1085,
+        "bottom": 685
+      },
+      "panel": {
+        "x": 1098,
+        "y": 76,
+        "width": 330,
+        "height": 810,
+        "right": 1428,
+        "bottom": 886
+      },
+      "cue": "Foundation needs tactical review · Unsaved\nLegal start\nR1: stand in the legal stack. DO NOT move before serve contact.",
+      "settings": "",
+      "strategy": "Strategy\nTeam V3 · read-only baseline\nMy strategy · unsaved\n\nCoach · Unsaved · Needs review\n\nStored in this browser only. Share JSON or a link for another coach to make a copy; changes do not sync.\n\nNew from baseline\nNew from current\nDuplicate\nRename / author\nSave\nDelete\nImport strategy\nExport strategy\nShare strategy\n\nFoundation needs tactical review. View plays the V3 timing template with your foundation edits.",
+      "stages": [],
+      "buttons": [
+        "Strategies",
+        "R1",
+        "They serve",
+        "Start",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 559,
+            "y": 437,
+            "width": 69,
+            "height": 20,
+            "right": 627,
+            "bottom": 457
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 530,
+            "y": 548,
+            "width": 74,
+            "height": 20,
+            "right": 604,
+            "bottom": 567
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 449,
+            "y": 377,
+            "width": 70,
+            "height": 20,
+            "right": 519,
+            "bottom": 397
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 498,
+            "y": 441,
+            "width": 76,
+            "height": 20,
+            "right": 573,
+            "bottom": 461
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 584,
+            "y": 386,
+            "width": 85,
+            "height": 20,
+            "right": 670,
+            "bottom": 406
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 425,
+            "y": 553,
+            "width": 58,
+            "height": 20,
+            "right": 483,
+            "bottom": 573
+          }
+        }
+      ],
+      "scrollWidth": 1440
+    },
+    {
+      "id": "phone-view",
+      "file": "v5-review-phone-view.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 174,
+        "width": 390,
+        "height": 464,
+        "right": 390,
+        "bottom": 638
+      },
+      "panel": null,
+      "cue": "Foundation needs tactical review · Unsaved\nLegal start\nR1: stand in the legal stack. DO NOT move before serve contact.",
+      "settings": "",
+      "strategy": "",
+      "stages": [],
+      "buttons": [
+        "View",
+        "R1",
+        "They serve",
+        "Start",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 198,
+            "y": 453,
+            "width": 69,
+            "height": 20,
+            "right": 267,
+            "bottom": 473
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 176,
+            "y": 535,
+            "width": 74,
+            "height": 20,
+            "right": 250,
+            "bottom": 555
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 117,
+            "y": 409,
+            "width": 70,
+            "height": 20,
+            "right": 187,
+            "bottom": 429
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 152,
+            "y": 456,
+            "width": 76,
+            "height": 20,
+            "right": 228,
+            "bottom": 476
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 215,
+            "y": 416,
+            "width": 85,
+            "height": 20,
+            "right": 300,
+            "bottom": 436
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 100,
+            "y": 539,
+            "width": 58,
+            "height": 20,
+            "right": 159,
+            "bottom": 559
+          }
+        }
+      ],
+      "scrollWidth": 390
+    },
+    {
+      "id": "phone-settings",
+      "file": "v5-review-phone-settings.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 174,
+        "width": 390,
+        "height": 464,
+        "right": 390,
+        "bottom": 638
+      },
+      "panel": null,
+      "cue": "Foundation needs tactical review · Unsaved\nLegal start\nR1: stand in the legal stack. DO NOT move before serve contact.",
+      "settings": "View & draft\nClose\nTheir attack:\nOur left\nOur right\nFirst contact:\nNormal\nHarry first\nFirst-ball example\nAuthored (default)\nShort L\nShort C\nShort R\nMid L\nMid C\nMid R\nDeep L\nDeep C\nDeep R\nReceiver\nAuto (best reachable)\nHarry\nCaleb\nTrent\nLogan\nGeorgia\nJaz\n\nIncoming serve · from legal starts. Normal excludes Harry.\n\nShort / mid / deep: z 3.5 / 5.8 / 8m. L / C / R: x −3 / 0 / +3m. Reach and spacing are teaching heuristics; skills are relative preferences, not measured speeds.\n\nFront\nSide\nOrbit\nTop\nNames\nPaths\nCoverage areas\n\nColour areas follow athletes at every stage. Approximate responsibilities, not measured reach: compact block/tip lanes, bro",
+      "strategy": "",
+      "stages": [],
+      "buttons": [
+        "View",
+        "R1",
+        "They serve",
+        "Our left",
+        "Normal",
+        "Authored (default)",
+        "Top",
+        "Start",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 198,
+            "y": 453,
+            "width": 69,
+            "height": 20,
+            "right": 267,
+            "bottom": 473
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 176,
+            "y": 535,
+            "width": 74,
+            "height": 20,
+            "right": 250,
+            "bottom": 555
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 117,
+            "y": 409,
+            "width": 70,
+            "height": 20,
+            "right": 187,
+            "bottom": 429
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 152,
+            "y": 456,
+            "width": 76,
+            "height": 20,
+            "right": 228,
+            "bottom": 476
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 215,
+            "y": 416,
+            "width": 85,
+            "height": 20,
+            "right": 300,
+            "bottom": 436
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 100,
+            "y": 539,
+            "width": 58,
+            "height": 20,
+            "right": 159,
+            "bottom": 559
+          }
+        }
+      ],
+      "scrollWidth": 390
+    },
+    {
+      "id": "phone-edit-start",
+      "file": "v5-review-phone-edit-start.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 190,
+        "width": 390,
+        "height": 291,
+        "right": 390,
+        "bottom": 481
+      },
+      "panel": {
+        "x": 8,
+        "y": 481,
+        "width": 374,
+        "height": 355,
+        "right": 382,
+        "bottom": 836
+      },
+      "cue": "",
+      "settings": "",
+      "strategy": "Strategy\nTeam V3 · read-only baseline\nMy strategy · unsaved\n\nCoach · Unsaved · Needs review\n\nSave\nR1 · They serve · Set\nStart\nReceive\nSet\nAttack\nDefend\nCoverage areas\n\nDrag athletes or enter metres. Changes apply to all four variants for this serve.\n\nSelected athlete\nHarry · P1\nCaleb · P6\nTrent · P4\nLogan · P3\nGeorgia · P2\nJaz · P5\nSetter pass target · gold ring\nSelect gold target\nX (m)\nZ (m)\nIncoming route\nAdd bend\nStraighten\nUndo\nRedo\nReset stage\nReset rotation\nPrepare all hitters\n\nOptional approach-ready positions for Trent, Logan, Georgia. Keeps the active setter and your explicit placements. Undo or Reset stage to revert.\n\nEditing help\nNeeds review · 1 notice",
+      "stages": [
+        "Start",
+        "Receive",
+        "Set",
+        "Attack",
+        "Defend"
+      ],
+      "buttons": [
+        "Edit strategy",
+        "R1",
+        "They serve",
+        "Set",
+        "Incoming route",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 198,
+            "y": 259,
+            "width": 69,
+            "height": 20,
+            "right": 267,
+            "bottom": 279
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 158,
+            "y": 363,
+            "width": 74,
+            "height": 20,
+            "right": 232,
+            "bottom": 383
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 154,
+            "y": 286,
+            "width": 70,
+            "height": 20,
+            "right": 224,
+            "bottom": 305
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 94,
+            "y": 307,
+            "width": 76,
+            "height": 20,
+            "right": 169,
+            "bottom": 327
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 222,
+            "y": 286,
+            "width": 85,
+            "height": 20,
+            "right": 307,
+            "bottom": 305
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 107,
+            "y": 347,
+            "width": 58,
+            "height": 20,
+            "right": 165,
+            "bottom": 367
+          }
+        }
+      ],
+      "scrollWidth": 390
+    },
+    {
+      "id": "phone-edit-set",
+      "file": "v5-review-phone-edit-set.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 190,
+        "width": 390,
+        "height": 291,
+        "right": 390,
+        "bottom": 481
+      },
+      "panel": {
+        "x": 8,
+        "y": 481,
+        "width": 374,
+        "height": 355,
+        "right": 382,
+        "bottom": 836
+      },
+      "cue": "",
+      "settings": "",
+      "strategy": "Strategy\nTeam V3 · read-only baseline\nMy strategy · unsaved\n\nCoach · Unsaved · Needs review\n\nSave\nR1 · They serve · Set\nStart\nReceive\nSet\nAttack\nDefend\nCoverage areas\n\nDrag athletes or enter metres. Changes apply to all four variants for this serve.\n\nSelected athlete\nHarry · P1\nCaleb · P6\nTrent · P4\nLogan · P3\nGeorgia · P2\nJaz · P5\nSetter pass target · gold ring\nSelect gold target\nX (m)\nZ (m)\nIncoming route\nAdd bend\nStraighten\nUndo\nRedo\nReset stage\nReset rotation\nPrepare all hitters\n\nOptional approach-ready positions for Trent, Logan, Georgia. Keeps the active setter and your explicit placements. Undo or Reset stage to revert.\n\nEditing help\nNeeds review · 1 notice",
+      "stages": [
+        "Start",
+        "Receive",
+        "Set",
+        "Attack",
+        "Defend"
+      ],
+      "buttons": [
+        "Edit strategy",
+        "R1",
+        "They serve",
+        "Set",
+        "Incoming route",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 198,
+            "y": 259,
+            "width": 69,
+            "height": 20,
+            "right": 267,
+            "bottom": 279
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 158,
+            "y": 363,
+            "width": 74,
+            "height": 20,
+            "right": 232,
+            "bottom": 383
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 154,
+            "y": 286,
+            "width": 70,
+            "height": 20,
+            "right": 224,
+            "bottom": 305
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 94,
+            "y": 307,
+            "width": 76,
+            "height": 20,
+            "right": 169,
+            "bottom": 327
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 222,
+            "y": 286,
+            "width": 85,
+            "height": 20,
+            "right": 307,
+            "bottom": 305
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 107,
+            "y": 347,
+            "width": 58,
+            "height": 20,
+            "right": 165,
+            "bottom": 367
+          }
+        }
+      ],
+      "scrollWidth": 390
+    },
+    {
+      "id": "phone-edit-set-scrollbottom",
+      "file": "v5-review-phone-edit-set-scrollbottom.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 190,
+        "width": 390,
+        "height": 291,
+        "right": 390,
+        "bottom": 481
+      },
+      "panel": {
+        "x": 8,
+        "y": 481,
+        "width": 374,
+        "height": 355,
+        "right": 382,
+        "bottom": 836
+      },
+      "cue": "",
+      "settings": "",
+      "strategy": "Strategy\nTeam V3 · read-only baseline\nMy strategy · unsaved\n\nCoach · Unsaved · Needs review\n\nSave\nR1 · They serve · Set\nStart\nReceive\nSet\nAttack\nDefend\nCoverage areas\n\nDrag athletes or enter metres. Changes apply to all four variants for this serve.\n\nSelected athlete\nHarry · P1\nCaleb · P6\nTrent · P4\nLogan · P3\nGeorgia · P2\nJaz · P5\nSetter pass target · gold ring\nSelect gold target\nX (m)\nZ (m)\nIncoming route\nAdd bend\nStraighten\nUndo\nRedo\nReset stage\nReset rotation\nPrepare all hitters\n\nOptional approach-ready positions for Trent, Logan, Georgia. Keeps the active setter and your explicit placements. Undo or Reset stage to revert.\n\nEditing help\nNeeds review · 1 notice",
+      "stages": [
+        "Start",
+        "Receive",
+        "Set",
+        "Attack",
+        "Defend"
+      ],
+      "buttons": [
+        "Edit strategy",
+        "R1",
+        "They serve",
+        "Set",
+        "Incoming route",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 198,
+            "y": 259,
+            "width": 69,
+            "height": 20,
+            "right": 267,
+            "bottom": 279
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 158,
+            "y": 363,
+            "width": 74,
+            "height": 20,
+            "right": 232,
+            "bottom": 383
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 154,
+            "y": 286,
+            "width": 70,
+            "height": 20,
+            "right": 224,
+            "bottom": 305
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 94,
+            "y": 307,
+            "width": 76,
+            "height": 20,
+            "right": 169,
+            "bottom": 327
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 222,
+            "y": 286,
+            "width": 85,
+            "height": 20,
+            "right": 307,
+            "bottom": 305
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 107,
+            "y": 347,
+            "width": 58,
+            "height": 20,
+            "right": 165,
+            "bottom": 367
+          }
+        }
+      ],
+      "scrollWidth": 390
+    },
+    {
+      "id": "phone-strategies",
+      "file": "v5-review-phone-strategies.png",
+      "viewport": [
+        390,
+        844
+      ],
+      "canvas": {
+        "x": 0,
+        "y": 230,
+        "width": 390,
+        "height": 523,
+        "right": 390,
+        "bottom": 753
+      },
+      "panel": {
+        "x": 12,
+        "y": 761,
+        "width": 366,
+        "height": 360,
+        "right": 378,
+        "bottom": 1121
+      },
+      "cue": "Foundation needs tactical review · Unsaved\nLegal start\nR1: stand in the legal stack. DO NOT move before serve contact.",
+      "settings": "",
+      "strategy": "Strategy\nTeam V3 · read-only baseline\nMy strategy · unsaved\n\nCoach · Unsaved · Needs review\n\nStored in this browser only. Share JSON or a link for another coach to make a copy; changes do not sync.\n\nNew from baseline\nNew from current\nDuplicate\nRename / author\nSave\nDelete\nImport strategy\nExport strategy\nShare strategy\n\nFoundation needs tactical review. View plays the V3 timing template with your foundation edits.",
+      "stages": [],
+      "buttons": [
+        "Strategies",
+        "R1",
+        "They serve",
+        "Start",
+        "Rotations"
+      ],
+      "labels": [
+        {
+          "text": "Harry · P1",
+          "rect": {
+            "x": 203,
+            "y": 545,
+            "width": 69,
+            "height": 20,
+            "right": 272,
+            "bottom": 565
+          }
+        },
+        {
+          "text": "Caleb · P6",
+          "rect": {
+            "x": 179,
+            "y": 637,
+            "width": 74,
+            "height": 20,
+            "right": 253,
+            "bottom": 657
+          }
+        },
+        {
+          "text": "Trent · P4",
+          "rect": {
+            "x": 111,
+            "y": 495,
+            "width": 70,
+            "height": 20,
+            "right": 181,
+            "bottom": 515
+          }
+        },
+        {
+          "text": "Logan · P3",
+          "rect": {
+            "x": 151,
+            "y": 549,
+            "width": 76,
+            "height": 20,
+            "right": 227,
+            "bottom": 568
+          }
+        },
+        {
+          "text": "Georgia · P2",
+          "rect": {
+            "x": 223,
+            "y": 503,
+            "width": 85,
+            "height": 20,
+            "right": 308,
+            "bottom": 523
+          }
+        },
+        {
+          "text": "Jaz · P5",
+          "rect": {
+            "x": 92,
+            "y": 642,
+            "width": 58,
+            "height": 20,
+            "right": 150,
+            "bottom": 662
+          }
+        }
+      ],
+      "scrollWidth": 390
+    }
+  ],
+  "errors": [],
+  "requests": [],
+  "status": "PASS"
+}
