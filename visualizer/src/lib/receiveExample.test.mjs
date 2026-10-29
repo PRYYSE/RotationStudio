@@ -132,11 +132,20 @@ test('all accepted continuations screen below 4m/s with at least .56m centre spa
 })
 
 test('forced unreachable, uncovered auto and forbidden Harry overrides return no animation', () => {
-  for (const sample of [{ x: 3, z: 8, receiver: 'logan' }, { x: 3, z: 3.5, receiver: 'auto' }, { x: 0, z: 5.8, receiver: 'harry' }, { x: 0, z: 5.8, receiver: 'unknown' }, { x: 1, z: 5.8, receiver: 'auto' }]) {
+  for (const sample of [{ x: 3, z: 8, receiver: 'logan' }, { x: 0, z: 5.8, receiver: 'harry' }, { x: 0, z: 5.8, receiver: 'unknown' }, { x: 1, z: 5.8, receiver: 'auto' }]) {
     const result = receiveExample(bundle.team, authored(1), sample)
     assert.equal(result.ok, false); assert.equal('scenario' in result, false)
     assert.match(result.message, /^No feasible first touch at this sample\./)
   }
+  // Improving R1's short-right reception made the old R1 negative example
+  // genuinely reachable. Test a currently uncovered R3 deep-left receive
+  // instead; do not weaken the simulator's movement/reach criteria.
+  const uncovered = receiveExample(bundle.team, authored(3), { x: -3, z: 5.8, receiver: 'auto' })
+  assert.equal(uncovered.ok, false)
+  assert.match(uncovered.message, /No feasible first touch/)
+  const improved = receiveExample(bundle.team, authored(1), { x: 3, z: 3.5, receiver: 'auto' })
+  assert.equal(improved.ok, true)
+  assert.equal(improved.receiver, 'georgia')
   const denied = receiveExample(bundle.team, authored(2, 'they', 'left', 'harry'), { x: 0, z: 3.5, receiver: 'caleb' })
   assert.equal(denied.ok, false); assert.match(denied.message, /Harry-first allows only Harry/)
   const crowding = receiveExample(bundle.team, authored(4, 'they', 'left', 'harry'), { x: 0, z: 3.5, receiver: 'harry' })

@@ -27,8 +27,8 @@ for athlete in TEAM["players"]:athlete["skills"]=SKILLS[athlete["id"]]
 COURT={
  1:{4:(-1.85,1.50),3:(-.25,2.80),2:(2.80,1.85),5:(-2.95,6.90),6:(.90,6.70),1:(1.55,2.65)},
  2:{4:(-2.95,2.65),3:(-.25,1.70),2:(2.80,1.90),5:(-1.95,6.50),6:(.35,2.80),1:(1.95,6.90)},
- 3:{4:(-2.85,2.40),3:(.55,2.25),2:(1.65,1.75),5:(-1.25,3.25),6:(-.85,6.90),1:(2.85,7.00)},
- 4:{4:(-1.20,1.55),3:(-.60,3.00),2:(2.75,2.05),5:(-2.85,6.70),6:(.05,6.85),1:(2.80,6.80)},
+ 3:{4:(-2.85,2.40),3:(.55,2.25),2:(1.65,1.75),5:(-1.25,3.25),6:(-.45,6.90),1:(2.85,7.00)},
+ 4:{4:(-1.20,1.55),3:(-.45,3.00),2:(2.75,2.05),5:(-2.85,6.70),6:(.05,6.85),1:(2.80,6.80)},
  5:{4:(-2.20,4.20),3:(.50,1.55),2:(2.20,4.30),5:(-3.00,7.35),6:(0,6.60),1:(3.05,7.25)},
  6:{4:(-2.80,1.75),3:(1.05,2.30),2:(1.95,1.65),5:(-2.80,6.65),6:(0,7.10),1:(2.70,6.65)},
 }
@@ -109,6 +109,10 @@ def defshape(r,side):
         out[id]=(round(max(-3.35,min(3.35,x+sign*shade)),2),z)
     woman,(x,z)=SHORT[r]
     out[woman]=(x,z)
+    if r==1:
+        # Harry keeps the right-deep channel instead of shading onto
+        # Georgia's short-right lane. This also gives a clear return path.
+        out["harry"]=(3.20,4.85)
     left,right=BLOCKERS[r]
     lx,rx=BLOCK_X[r][side]
     out[left]=(lx,.87 if side=="left" else 1.28)
@@ -143,6 +147,15 @@ def create(r,serve,side="left",harry_touch=False):
     setter=FALLBACK[r] if harry_touch else "harry"
     hitter=BACKUP_HIT[r] if harry_touch else MAIN[r]
     assert hitter not in (setter,"harry")
+    # On our attack, one nearby BACK-row helper steps into block-rebound
+    # coverage behind the CHOSEN sample hitter. Other nonhitters remain at
+    # middle/deep support. This is distinct from opponent-side spike defence.
+    # At social level 1 close + two deeper helpers is preferable to a
+    # choreography-intensive full five-person shuffle.
+    coverer={1:"jaz",2:"georgia",3:"georgia",4:("trent" if hitter=="jaz" else "georgia"),5:"logan",6:"trent"}[r]
+    assert coverer not in OFFENSE[r] and coverer != setter
+    hitSide=-1 if OFFENSE[r][hitter][0]<0 else 1
+    coverSpot=(hitSide*2.35,4.45 if coverer in ("jaz","trent") else 4.25)
     row=order(r); rowpos={id:row.index(id)+1 for id in PEOPLE}
     if serve=="they":
         firstSpot=startpos["harry"] if harry_touch else RECEIVE_PT[r]
@@ -208,7 +221,9 @@ def create(r,serve,side="left",harry_touch=False):
             # arrival toward the pin continues until the hitting contact.
             if id==firstId:return interp(firstSpot,OFFENSE[r][id],.62)
             return OFFENSE[r][id]
-        # deep athletes cover hitters while our team has possession
+        # Cover a possible blocked return before everyone retreats to base.
+        if id==coverer:return coverSpot
+        # Other back athletes protect centre/deep, rather than all rushing.
         if rowpos[id]==5:return (-2.8,6.05)
         if rowpos[id]==6:return (0,6.15)
         if rowpos[id]==1:return (2.8,6.10)
@@ -243,6 +258,10 @@ def create(r,serve,side="left",harry_touch=False):
                 if r==3 and id=="trent":first=(.85,1.40)
             keyframe(tr,T["first"],first,now_role(id,"first"))
             atSet=target if id==setter else attack_support(id)
+            # Stage the short-cover approach BEFORE hit contact. Shorter
+            # first step for low-mobility Jaz avoids a sudden 2m sprint.
+            if id==coverer:
+                atSet=interp(first,coverSpot,.63 if id=="jaz" else .78)
             if r==3 and id=="trent" and id!=setter:atSet=(.55,1.65)
             if id=="harry" and harry_touch:
                 atSet=interp(firstSpot,defense["harry"],.35)
@@ -266,6 +285,8 @@ def create(r,serve,side="left",harry_touch=False):
             atSet=(target if id==setter else
                    (interp(first,OFFENSE[r][id],.75) if id in OFFENSE[r] else
                     (interp(first,attack_support(id),.70) if rowpos[id] in (1,5,6) and id!=firstId else first)))
+            if id==coverer and id==firstId:
+                atSet=interp(firstSpot,coverSpot,.70)
             if id=="harry" and harry_touch:
                 atSet=interp(firstSpot,defense["harry"],.35)
                 if r==5:atSet=(-.85,2.45)
@@ -283,11 +304,11 @@ def create(r,serve,side="left",harry_touch=False):
         keyframe(tr,T["hit"],atHit,now_role(id,"hit"),attack=id in OFFENSE[r] and id!=setter)
         if serve=="they":
             midway=interp(atHit,defense[id],.30)
-            if r==1 and id=="harry" and not harry_touch:midway=(3.70,1.90)
+            if r==1 and id=="harry" and not harry_touch:midway=(3.35,1.90)
             keyframe(tr,T["oppReceive"],midway,"help")
         else:
-            midway=interp(atHit,defense[id],.45)
-            if r==1 and id=="harry" and not harry_touch:midway=(3.70,1.90)
+            midway=interp(atHit,defense[id],.30 if id=="jaz" else .45)
+            if r==1 and id=="harry" and not harry_touch:midway=(3.35,1.90)
             keyframe(tr,T["oppReceive2"],midway,"help")
         readyTime=T["ready"] if serve=="they" else T["ready2"]
         keyframe(tr,readyTime,defense[id],now_role(id,"ready"))

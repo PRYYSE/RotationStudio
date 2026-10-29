@@ -82,7 +82,7 @@ receive overlays are hidden for **Us serve**, when the same six defensive
 responsibilities follow a different sequence (serve → defend → dig → set → hit).
 
 For controlled tactical authoring, update
-`visualizer/scripts/author_tactics_v2.py` (the ChatGPT-owned V2 geometry and
+`visualizer/scripts/author_tactics_v2.py` (the ChatGPT-owned V3 geometry and
 possession script), then run from the repository root:
 
 ```bash
@@ -143,6 +143,6 @@ This is an optional alternative filesystem-host command, not the current publish
 
 The genuine fork publishes the `visualizer/` app through `.github/workflows/publish-rotation-studio.yml` on pushes to `main`. Build and tests must pass first. No login is required to view the site; friends cannot change the published plan. The GitHub Pages URL is `https://pryyse.github.io/RotationStudio/`.
 
-For ChatGPT-authored rotations, edit ONLY `visualizer/public/plans/team.json` and/or `visualizer/public/plans/rotations.json` on `main`; GitHub Actions validates and rebuilds the public site automatically. Approved status must be explicit and matching in both JSON documents, and does not replace tactical or match validation.
+For tactical V3 changes, update the ChatGPT-owned generator under visualizer/scripts/author_tactics_v2.py, regenerate both JSON files under visualizer/public/plans/, run the tactical audit and tests, then commit to main. GitHub Actions rebuilds the DRAFT public viewer automatically. The script remains the source of truth; editing only generated JSON would be overwritten. Approved status must be explicit and matching in both JSON documents, and does not replace tactical or match validation.
 
 Local production build for the same base path: `npm run build -- --base=/RotationStudio/`. This base path also applies to the retained original Set arcs ball textures.
