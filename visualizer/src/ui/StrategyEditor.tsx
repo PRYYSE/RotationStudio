@@ -8,6 +8,7 @@ import { resolveStrategyRotation } from '../lib/strategyOverlay'
 import { commitMetres } from '../lib/metreDraft'
 import { scopeEditorFindings } from '../lib/editorFindings'
 import type { ReviewProjection } from '../lib/reviewTypes'
+import { CoverageEditor } from './CoverageEditor'
 
 function MetreField({ axis, value, max, commit }: { axis: 'x' | 'z'; value: number; max: number; commit: (n: number) => void }) {
   const [draft, setDraft] = useState<string | null>(null), [invalid, setInvalid] = useState(false)
@@ -91,7 +92,6 @@ export function StrategyEditor({ review }: { review: ReviewProjection | null }) 
       <button aria-pressed={!later} onClick={() => studio.setLaterDefend(null)}>First: after our serve</button>
       <button aria-pressed={later} onClick={() => studio.setLaterDefend(scenario)}>Later: after our attack</button>
     </div>}
-    <label className="coverage-toggle"><input type="checkbox" checked={s.receiveAreas} onChange={e => useRotations.setState({ receiveAreas: e.target.checked })} /> Coverage areas</label>
     {!studio.working ? <p>Team V3 is read-only. Create a strategy to place athletes and edit routes.</p> : <>
       <p>Drag athletes or enter metres. Fields commit on Enter or blur; Escape cancels. Scope selection alone saves no edit.</p>
       {studio.stage === 'Start' && <p className="strategy-warning">Start holds through service contact. Keep rotational order and P1 behind the endline on our serve; review the rule findings.</p>}
@@ -103,6 +103,7 @@ export function StrategyEditor({ review }: { review: ReviewProjection | null }) 
         {!targetDisabled && (['x', 'z'] as const).map(axis => <MetreField key={`${caseKey}/${studio.scope}/${studio.stage}/${later}/${s.selected}/${axis}`} axis={axis} value={point[axis]} max={axis === 'x' ? 4.5 : s.selected === 'target' || (studio.stage === 'Set' && s.selected === scenario.secondContact.player) ? 2.99 : 12} commit={n => s.edit({ ...point, [axis]: n })} />)}
       </div>
       {targetDisabled && <p>Select an athlete to edit later defence; the gold ring belongs to the first set.</p>}
+      <CoverageEditor />
       <section className="editor-comparison" aria-label="Selected player comparison">
         <h3>{name(s.selected)} · {review?.eventLabel} · {time.toFixed(2)} s</h3>
         <p>Current: X {point.x.toFixed(2)}, Z {point.z.toFixed(2)} m</p>

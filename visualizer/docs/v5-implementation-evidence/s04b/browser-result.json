@@ -1,0 +1,44 @@
+{
+  "outcome": "PASS",
+  "checks": [
+    "R1 Harry tip role, independent full width/depth and signed offsets authored only by UI, without moving him",
+    "Back-row block review warning and one-step field undo",
+    "Harry coverage independent of Georgia right position; case switching isolated; All/Selected/Off controls work",
+    "1440px +/−, wheel and two-finger pinch work; stage preserves zoom; Fit targets our half",
+    "Desktop rendered ellipse radius drag makes one undo step",
+    "Later own-serve coverage distinct from first defensive coverage",
+    "390px +/−, wheel and two-finger pinch work; stage preserves zoom; Fit targets our half",
+    "390px numeric coverage and radius drag with one Undo; player and target direct dragging retained",
+    "390px court/panel separation, no horizontal scroll or 3D label bleed",
+    "Coverage and case/occurrence strategy survives save/reload",
+    "Set arcs opens and zero browser page exceptions"
+  ],
+  "measurements": [
+    {
+      "width": 1440,
+      "fit": 18.600335921913747,
+      "button": 14.880268737530997,
+      "wheel": 17.670319125818057,
+      "pinch": 8.835159562909027,
+      "target": [
+        0,
+        0,
+        4.5
+      ]
+    },
+    {
+      "width": 390,
+      "fit": 18.600335921913747,
+      "button": 14.880268737530997,
+      "wheel": 17.670319125818057,
+      "pinch": 8.835159562909027,
+      "target": [
+        0,
+        0,
+        4.5
+      ]
+    }
+  ],
+  "failure": "",
+  "pageErrors": []
+}

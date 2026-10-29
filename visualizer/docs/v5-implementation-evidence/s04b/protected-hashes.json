@@ -1,0 +1,20 @@
+[
+    {
+        "path":  "visualizer\\public\\plans\\team.json",
+        "expected":  "0BDAAAFC5569020CB0EBD93CB239A0E12778585AE6A61F9B3D7177128A299AA9",
+        "actual":  "0BDAAAFC5569020CB0EBD93CB239A0E12778585AE6A61F9B3D7177128A299AA9",
+        "match":  true
+    },
+    {
+        "path":  "visualizer\\public\\plans\\rotations.json",
+        "expected":  "06896FEF07722F5AB71A1A0C68E3B4DC1B1B6BBDF7E1E27515BBCCDDAE31A326",
+        "actual":  "06896FEF07722F5AB71A1A0C68E3B4DC1B1B6BBDF7E1E27515BBCCDDAE31A326",
+        "match":  true
+    },
+    {
+        "path":  "visualizer\\scripts\\author_tactics_v2.py",
+        "expected":  "31AB8CDB99A165BB6F2BA9E1984EC1E5136D98365155CE94750172CF5FB039D7",
+        "actual":  "31AB8CDB99A165BB6F2BA9E1984EC1E5136D98365155CE94750172CF5FB039D7",
+        "match":  true
+    }
+]

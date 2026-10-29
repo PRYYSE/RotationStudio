@@ -65,9 +65,11 @@
   .rotation-selectors { position: absolute; left: 24px; top: 48px; }
 }
 @media (max-width: 600px) {
-  .studio-header { left: 12px; right: 12px; }
+  /* Keep the app-mode switch above the View/Edit/Strategies tabs, not across them. */
+  .studio-header { top: max(3px, env(safe-area-inset-top)); left: 12px; right: 12px; }
   .studio-brand { font-size: 12px; }
-  .studio-modes button { min-height: 36px; font-size: 11px; padding: 4px 10px; }
+  .studio-modes { padding: 0; }
+  .studio-modes button { min-height: 38px; font-size: 11px; padding: 3px 10px; }
   .rotation-top { top: max(58px, calc(env(safe-area-inset-top) + 46px)); gap: 4px; width: calc(100% - 24px); }
   /* Keep the court and athlete labels clear of both control stacks. */
   .rotation-canvas { top: max(174px, calc(env(safe-area-inset-top) + 162px)); bottom: max(206px, calc(env(safe-area-inset-bottom) + 198px)); }
@@ -128,6 +130,12 @@
 .strategy-editor > details > summary { cursor: pointer; min-height: 36px; padding: 9px 0; }
 .strategy-assist { margin-top: 8px; }
 .coverage-note { font-size: 11px; color: #c7d6eb; line-height: 1.5; }
+.coverage-editor { border-block: 1px solid #486078; margin-block: 8px; padding-block: 6px; }
+.coverage-editor > summary { min-height: 44px; padding-block: 10px; cursor: pointer; }
+.coverage-editor > label { display: flex; flex-direction: column; gap: 4px; }
+.coverage-editor button, .coverage-editor select, .coverage-editor input { min-height: 44px; }
+.editor-zoom { position: absolute; top: 6px; left: 6px; z-index: 3; display: flex; gap: 4px; padding: 3px; border-radius: 10px; }
+.editor-zoom button { min-width: 44px; min-height: 44px; padding: 4px 8px; font-size: 12px; }
 .strategy-warning summary { min-height: 44px; padding-top: 10px; cursor: pointer; }
 .editor-context { position: sticky; top: -10px; z-index: 4; background: #101c2e; padding: 4px 0; border-bottom: 1px solid #486078; }
 .strategy-panel .editor-context h2 { font-size: 13px; line-height: 1.3; margin: 4px 0; }

@@ -9,9 +9,14 @@ export const STAGES = ['Start', 'Receive', 'Set', 'Attack', 'Defend'] as const
 export type StrategyStage = typeof STAGES[number]
 export type RotationKey = `${1 | 2 | 3 | 4 | 5 | 6}/${ServeOwner}`
 export type CaseKey = `${RotationKey}/${OpponentAttack}/${FirstTouch}`
+export const COVERAGE_ROLES = ['receive', 'tip', 'block', 'deep', 'attack-cover', 'setter-support', 'custom'] as const
+export type CoverageZone = {
+  role: typeof COVERAGE_ROLES[number]; radiusX: number; radiusZ: number; offsetX?: number; offsetZ?: number
+}
 export type LaterDefend = {
   anchors?: Partial<Record<PlayerId, Spot>>
   routes?: Partial<Record<PlayerId, Spot[]>>
+  coverage?: Partial<Record<PlayerId, CoverageZone>>
 }
 export type StrategyRotation = {
   readyOptions?: boolean // Set formation: prepare eligible front hitters, retaining the active setter.
@@ -19,6 +24,7 @@ export type StrategyRotation = {
   routes?: Partial<Record<StrategyStage, Partial<Record<PlayerId, Spot[]>>>>
   setterTarget?: Spot
   laterDefend?: LaterDefend
+  coverage?: Partial<Record<StrategyStage, Partial<Record<PlayerId, CoverageZone>>>>
 }
 export type CoachInstruction = { primary?: string; ifDifferent?: string; fallback?: string; teamCall?: string }
 export type CoachNotes = {
@@ -85,6 +91,16 @@ function checkPlayers(players: unknown, field: string) {
   allowed(players, PLAYER_IDS)
   for (const point of Object.values(players)) {
     if (field === 'anchors') checkSpot(point)
+    else if (field === 'coverage') {
+      if (!record(point)) throw new Error('Expected a coverage zone.')
+      allowed(point, ['role', 'radiusX', 'radiusZ', 'offsetX', 'offsetZ'])
+      if (!COVERAGE_ROLES.includes(point.role as CoverageZone['role'])) throw new Error('Unknown coverage responsibility.')
+      for (const axis of ['radiusX', 'radiusZ', 'offsetX', 'offsetZ']) {
+        const radius = axis.startsWith('radius'), value = point[axis]
+        if (!radius && value === undefined) continue
+        if (typeof value !== 'number' || !Number.isFinite(value) || value < (radius ? .1 : -4.5) || value > 4.5) throw new Error('Coverage radii must be 0.1–4.5 m; offsets −4.5–4.5 m, all finite.')
+      }
+    }
     else {
       if (!Array.isArray(point) || point.length > 8) throw new Error('Routes require an array of up to 8 waypoints.')
       for (const p of point) checkSpot(p)
@@ -95,10 +111,10 @@ function checkRotations(overrides: unknown, version: number, cases = false) {
   if (!record(overrides) || Object.keys(overrides).length > (cases ? 48 : 12)) throw new Error('Expected bounded rotation/serve overrides.')
   for (const [key, value] of Object.entries(overrides)) {
     if (!(cases ? isCaseKey(key) : /^[1-6]\/(they|us)$/.test(key)) || !record(value)) throw new Error('Invalid rotation/serve or case override.')
-    allowed(value, ['anchors', 'routes', 'setterTarget', 'readyOptions', ...(version === 2 ? ['laterDefend'] : [])])
+    allowed(value, ['anchors', 'routes', 'setterTarget', 'readyOptions', ...(version === 2 ? ['laterDefend', 'coverage'] : [])])
     if (value.readyOptions !== undefined && typeof value.readyOptions !== 'boolean') throw new Error('readyOptions must be boolean.')
     if (value.setterTarget !== undefined) checkSpot(value.setterTarget, true)
-    for (const field of ['anchors', 'routes']) {
+    for (const field of ['anchors', 'routes', ...(version === 2 ? ['coverage'] : [])]) {
       const stages = value[field]
       if (stages === undefined) continue
       if (!record(stages)) throw new Error('Expected stage overrides.')
@@ -107,8 +123,8 @@ function checkRotations(overrides: unknown, version: number, cases = false) {
     }
     if (value.laterDefend !== undefined) {
       if (key.split('/')[1] !== 'us' || !record(value.laterDefend)) throw new Error('laterDefend requires our serve.')
-      allowed(value.laterDefend, ['anchors', 'routes'])
-      for (const field of ['anchors', 'routes']) if (value.laterDefend[field] !== undefined) checkPlayers(value.laterDefend[field], field)
+      allowed(value.laterDefend, ['anchors', 'routes', 'coverage'])
+      for (const field of ['anchors', 'routes', 'coverage']) if (value.laterDefend[field] !== undefined) checkPlayers(value.laterDefend[field], field)
     }
   }
 }

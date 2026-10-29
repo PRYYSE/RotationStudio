@@ -1,11 +1,12 @@
 import type { Scenario, Spot, Team } from './rotationTypes.ts'
 import { isFront, phaseAt, positionOf, sampleTrack } from './rotationModel.ts'
-import { stageOrder, stageTimes } from './strategyDraft.ts'
-import type { StrategyStage } from './strategyDraft.ts'
+import { laterDefendTime, stageOrder, stageTimes } from './strategyDraft.ts'
+import type { CoverageZone, PlayerId, StrategyRotation, StrategyStage } from './strategyDraft.ts'
 
 export type CoverageArea = {
   player: string; center: Spot; radiusX: number; radiusZ: number
   duty: 'primary' | 'assist' | 'compact'; responsibility: string
+  assigned?: boolean
 }
 
 // These are relative coaching assignments, not reach measurements/probabilities.
@@ -19,11 +20,25 @@ export function coverageStage(s: Scenario, time: number): StrategyStage {
   return [...stageOrder(s.serve)].reverse().find(stage => time >= times[stage]) ?? 'Start'
 }
 
-export function coverageAreas(team: Team, s: Scenario, time: number, enabled: boolean): CoverageArea[] {
+export function coverageZoneAt(changes: StrategyRotation | undefined, s: Scenario, time: number, id: PlayerId): CoverageZone | undefined {
+  const stage = coverageStage(s, time), later = laterDefendTime(s)
+  return (stage === 'Defend' && later !== undefined && time >= later ? changes?.laterDefend?.coverage?.[id] : undefined)
+    ?? changes?.coverage?.[stage]?.[id]
+}
+export function assignedCoverage(player: string, p: Spot, zone: CoverageZone): CoverageArea {
+  // Retain authored metre dimensions. Clamp the centre so the entire ellipse
+  // fits our 9×9 floor, including an athlete serving beyond the endline.
+  return { player, radiusX: zone.radiusX, radiusZ: zone.radiusZ, assigned: true, duty: 'primary', responsibility: zone.role,
+    center: { x: Math.max(-4.5 + zone.radiusX, Math.min(4.5 - zone.radiusX, p.x + (zone.offsetX ?? 0))),
+      z: Math.max(zone.radiusZ, Math.min(9 - zone.radiusZ, p.z + (zone.offsetZ ?? 0))) } }
+}
+export function coverageAreas(team: Team, s: Scenario, time: number, enabled: boolean, changes?: StrategyRotation): CoverageArea[] {
   if (!enabled) return []
   const stage = coverageStage(s, time)
   return team.players.map(player => {
     const p = sampleTrack(s.tracks[player.id], time)
+    const zone = coverageZoneAt(changes, s, time, player.id as PlayerId)
+    if (zone) return assignedCoverage(player.id, p, zone)
     const center = { x: p.x, z: p.z }
     const front = isFront(positionOf(team, s.rotation, player.id))
     const authored = s.serve === 'they' && (stage === 'Start' || stage === 'Receive')

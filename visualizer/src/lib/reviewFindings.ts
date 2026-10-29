@@ -130,6 +130,15 @@ export function collectReviewFindings(bundle: Bundle, draft: StrategyDraft | nul
     // Validator copies are already represented with complete original evidence.
     if (validation.includes(raw)) continue
     const exact = /^([1-6]\/(?:they|us)\/(?:left|right)\/(?:normal|harry)): (.*)$/.exec(raw)
+    const coverage = exact && /assigned block coverage at (Start|Receive|Set|Attack|Defend|Later Defend) needs review\./.exec(exact[2])
+    if (coverage) {
+      add({ code: 'back-row-coverage-review', category: 'COVERAGE', severity: 'REVIEW',
+        affectedStage: coverage[1] === 'Later Defend' ? 'Defend' : coverage[1] as StrategyStage,
+        playerId: inferPlayer(exact![2]), summary: exact![2],
+        suggestedCheck: 'Review this coach-assigned area and front/back-row eligibility. Coverage does not change source contact, ball or track roles.',
+        source: 'human-review' }, [exact![1] as CaseKey], { message: raw })
+      continue
+    }
     const missing = !!exact && /missing/.test(exact[2])
     add({ code: missing ? 'later-defence-not-authored' : exact ? 'later-defence-screen' : /base revision/.test(raw) ? 'source-revision-review' : 'draft-template-review',
       category: missing ? 'COVERAGE' : exact ? 'GEOMETRY_TIME' : 'TACTICAL_REVIEW', severity: exact && !missing ? 'CAUTION' : 'REVIEW',

@@ -65,6 +65,11 @@ export function Rotations() {
   return <main className={`rotations court-first ${panel ? 'strategy-open' : ''} ${studio.editing ? 'strategy-editing' : ''} ${settings ? 'settings-open' : ''}`} aria-label="Rotation studio">
     <div className="rotation-canvas" aria-label="Interactive volleyball court">
       <RotationScene labelHost={labelHost} />
+      {studio.editing && <div className="editor-zoom glass" role="group" aria-label="Edit court zoom">
+        <button aria-label="Zoom in" onClick={() => studio.zoomCamera('in')}>+</button>
+        <button aria-label="Zoom out" onClick={() => studio.zoomCamera('out')}>−</button>
+        <button onClick={() => studio.zoomCamera('fit')}>Fit our court</button>
+      </div>}
       <div className="court-labels" ref={labelHost} aria-label="Court identities">
         <svg aria-hidden="true">{bundle.team.players.map(p => <line key={p.id} data-leader={p.id} stroke={p.color} />)}</svg>
         {bundle.team.players.map(p => <span key={p.id} data-player={p.id} hidden className="athlete-label" style={{ borderColor: p.color }} aria-label={p.name} />)}

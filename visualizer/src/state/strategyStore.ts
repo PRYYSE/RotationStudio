@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { createStrategy, exportStrategy, isCaseKey, laterDefendTime, parseStrategy, PLAYER_IDS } from '../lib/strategyDraft.ts'
-import type { CaseKey, PlayerId, RotationKey, StrategyDraftV2, StrategyStage } from '../lib/strategyDraft.ts'
+import type { CaseKey, CoverageZone, PlayerId, RotationKey, StrategyDraftV2, StrategyStage } from '../lib/strategyDraft.ts'
 import type { Bundle, Scenario, Spot } from '../lib/rotationTypes.ts'
 import { loadStrategyLibrary, STRATEGY_STORAGE_KEY } from '../lib/strategyLibrary.ts'
 import type { StrategyStorage } from '../lib/strategyLibrary.ts'
@@ -13,6 +13,11 @@ type State = {
   scope: CaseKey | null; laterDefend: boolean
   setScope: (scope: CaseKey | null) => void; setLaterDefend: (scenario: Scenario | null) => void
   resetCase: (key: CaseKey) => void
+  coverageDisplay: 'all' | 'selected' | 'off'; coverageHidden: PlayerId[]
+  cameraCommand: { action: 'in' | 'out' | 'fit'; serial: number } | null
+  zoomCamera: (action: 'in' | 'out' | 'fit') => void
+  setCoverage: (key: RotationKey, player: PlayerId, zone: CoverageZone) => void
+  resetCoverage: (key: RotationKey, player: PlayerId) => void
   past: StrategyDraft[]; future: StrategyDraft[]; gesture: StrategyDraft | null
   newStrategy: (fromCurrent: boolean, base?: Bundle) => void; select: (id: string | null) => void
   metadata: (name: string, author: string) => void; save: () => void; remove: (id: string) => void
@@ -79,6 +84,8 @@ export function createStrategyStore(storage?: StrategyStorage) {
     return {
       library, working: initial ? structuredClone(initial) : null, preview: false, saved: !!initial && !error, error,
       editing: false, stage: 'Start', routeVisible: true, scope: null, laterDefend: false, past: [], future: [], gesture: null,
+      coverageDisplay: 'all', coverageHidden: [], cameraCommand: null,
+      zoomCamera: action => set({ cameraCommand: { action, serial: (get().cameraCommand?.serial ?? 0) + 1 } }),
       newStrategy: (fromCurrent, base) => {
         const previous = get().working, working = createStrategy('My strategy', 'Coach', base)
         if (fromCurrent && previous) {
@@ -160,10 +167,30 @@ export function createStrategyStore(storage?: StrategyStorage) {
         stage[player as PlayerId] = points.map(p => ({ x: p.x, z: p.z }))
       }),
       prepareHitters: key => update(d => { rotation(d, key).readyOptions = true }),
+      setCoverage: (key, player, zone) => update(d => {
+        if (!PLAYER_IDS.includes(player)) throw new Error('Choose an athlete for coverage.')
+        const r = rotation(d, key)
+        if (get().laterDefend) {
+          if (key.split('/')[1] !== 'us' || get().stage !== 'Defend') throw new Error('Later coverage requires our serve and Defend.')
+          ;((r.laterDefend ??= {}).coverage ??= {})[player] = { ...zone }
+        } else ((r.coverage ??= {})[get().stage] ??= {})[player] = { ...zone }
+      }),
+      resetCoverage: (key, player) => update(d => {
+        const r = rotation(d, key, false); if (!r) return
+        const map = get().laterDefend ? r.laterDefend?.coverage : r.coverage?.[get().stage]
+        if (!map || !Object.hasOwn(map, player)) return
+        delete map[player]
+        if (!Object.keys(map).length) {
+          if (get().laterDefend) delete r.laterDefend?.coverage
+          else delete r.coverage?.[get().stage]
+        }
+        if (r.coverage && !Object.keys(r.coverage).length) delete r.coverage
+        if (r.laterDefend && !Object.keys(r.laterDefend).length) delete r.laterDefend
+      }),
       resetStage: key => update(d => {
         const r = rotation(d, key, false); if (!r) return
         if (get().laterDefend) { delete r.laterDefend; return }
-        delete r.anchors?.[get().stage]; delete r.routes?.[get().stage]
+        delete r.anchors?.[get().stage]; delete r.routes?.[get().stage]; delete r.coverage?.[get().stage]
         if (get().stage === 'Set') { delete r.setterTarget; delete r.readyOptions }
       }),
       resetRotation: key => update(d => { delete d.overrides[key] }),

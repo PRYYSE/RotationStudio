@@ -13,7 +13,7 @@ export function resolveStrategyRotation(draft: StrategyDraft, s: Scenario): Stra
   const key = scenarioCaseKey(s), exact = draft.schemaVersion === 2 && key ? draft.caseOverrides?.[key] : undefined
   if (!exact) return shared
   const merged = { ...shared, ...exact }
-  for (const field of ['anchors', 'routes'] as const) {
+  for (const field of ['anchors', 'routes', 'coverage'] as const) {
     if (!shared[field] && !exact[field]) continue
     // Each map has identical stage/player keys; route values remain arrays.
     const stages = {} as NonNullable<StrategyRotation[typeof field]>
@@ -24,7 +24,8 @@ export function resolveStrategyRotation(draft: StrategyDraft, s: Scenario): Stra
   }
   if (shared.laterDefend || exact.laterDefend) merged.laterDefend = {
     anchors: { ...shared.laterDefend?.anchors, ...exact.laterDefend?.anchors },
-    routes: { ...shared.laterDefend?.routes, ...exact.laterDefend?.routes }
+    routes: { ...shared.laterDefend?.routes, ...exact.laterDefend?.routes },
+    ...((shared.laterDefend?.coverage || exact.laterDefend?.coverage) ? { coverage: { ...shared.laterDefend?.coverage, ...exact.laterDefend?.coverage } } : {})
   }
   return merged
 }
@@ -151,6 +152,16 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
   for (const root of bundle.plans.scenarios) for (const s of [root, ...Object.values(root.alternates ?? {})]) {
     const changes = resolveStrategyRotation(draft, s)
     if (!Object.keys(changes).length) continue
+    const tag = scenarioCaseKey(s) ?? `${s.rotation}/${s.serve}`
+    for (const [stage, players] of [...Object.entries(changes.coverage ?? {}), ['Later Defend', changes.laterDefend?.coverage] as const]) {
+      for (const [id, zone] of Object.entries(players ?? {})) if (zone.role === 'block' && !isFront(positionOf(bundle.team, s.rotation, id))) {
+        warnings.push(`${tag}: ${id} is back-row; assigned block coverage at ${stage} needs review. Coverage does not change contact or track roles.`)
+      }
+    }
+    // Coverage is display-only. Do not run geometric/contact reconstruction for
+    // a zone-only strategy: even source frame serialization must stay identical.
+    if (!changes.anchors && !changes.routes && changes.setterTarget === undefined && changes.readyOptions === undefined
+      && !Object.keys(changes.laterDefend?.anchors ?? {}).length && !Object.keys(changes.laterDefend?.routes ?? {}).length) continue
     const times = stageTimes(s)
     // Record endpoint owners from immutable authored geometry BEFORE edits.
     const owners = s.ball.map(b => (['from', 'to'] as const).map(side => {

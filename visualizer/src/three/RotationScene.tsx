@@ -9,7 +9,7 @@ import { RotationCameraRig } from './RotationCameraRig'
 import { RotationPlayer } from './RotationPlayer'
 import { activeBundle, activeScenario, useRotations } from '../state/rotationStore'
 import { ballAt, sampleArc, sampleTrack } from '../lib/rotationModel'
-import { coverageAreas } from '../lib/coverage'
+import { StrategyCoverage } from './StrategyCoverage'
 import { FORMATS } from '../lib/formats'
 import { BRAND } from '../lib/constants'
 import { useStrategies } from '../state/strategyStore'
@@ -61,23 +61,9 @@ function Players() {
   const bundle = useRotations(activeBundle)!
   const scenario = useRotations(activeScenario)!
   const trails = useRotations((s) => s.trails)
-  const time = useRotations((s) => s.time)
   const editor = useRotations((s) => s.editor)
-  const receiveAreas = useRotations((s) => s.receiveAreas)
   return <>
-    {coverageAreas(bundle.team, scenario, time, receiveAreas).map((zone) => {
-      const player = bundle.team.players.find((p) => p.id === zone.player)!
-      const points = Array.from({ length: 65 }, (_, i) => {
-        const angle = i / 64 * Math.PI * 2
-        return new THREE.Vector3(Math.cos(angle) * zone.radiusX, 0, Math.sin(angle) * zone.radiusZ)
-      })
-      return <group key={zone.player} name={`coverage-${zone.player}`} position={[zone.center.x, 0.045, zone.center.z]}>
-        <mesh rotation={[-Math.PI / 2, 0, 0]} scale={[zone.radiusX, zone.radiusZ, 1]} raycast={() => null}>
-          <circleGeometry args={[1, 64]} /><meshBasicMaterial color={player.color} transparent opacity={zone.duty === 'primary' ? 0.09 : 0.045} depthWrite={false} side={THREE.DoubleSide} />
-        </mesh>
-        <Line points={points} color={player.color} lineWidth={.8} transparent opacity={0.25} raycast={() => null} />
-      </group>
-    })}
+    <StrategyCoverage />
     {bundle.team.players.map((player) => <RotationPlayer key={player.id} player={player} track={scenario.tracks[player.id]} team={bundle.team} rotation={scenario.rotation} />)}
     {trails && !editor && bundle.team.players.map((p) => {
       const points = Array.from({ length: 100 }, (_, i) => { const v = sampleTrack(scenario.tracks[p.id], i / 99 * scenario.duration); return new THREE.Vector3(v.x, 0.08, v.z) })
