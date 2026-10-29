@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-29T03:49:30.394Z",
+  "site": "https://pryyse.github.io/RotationStudio/",
+  "attempts": [
+    {
+      "label": {
+        "x": 557.8111572265625,
+        "top": 603.2490234375,
+        "rect": {
+          "x": 520.8033447265625,
+          "y": 603.2490234375,
+          "width": 74.015625,
+          "height": 19.75
+        }
+      },
+      "before": 0.3,
+      "after": 0.85,
+      "clickedAt": {
+        "x": 557.8111572265625,
+        "y": 578.2490234375
+      },
+      "dy": 25
+    }
+  ],
+  "errors": [],
+  "drag": "PASS",
+  "shareStatus": "Strategy\nTeam V3 · read-only baseline\nPublic link roundtrip · QA\n\nQA · Saved locally · Needs review\n\nStored in this browser only. Share JSON or a link for another coach to make a copy; changes do not sync.\n\nNew from baseline\nNew from current\nDuplicate\nRename / author\nSave\nDelete\nImport strategy\nExport strategy\nShare strategy\n\nStrategy link copied. Opens as preview; recipient saves a copy.Dismiss",
+  "share": "PASS"
+}

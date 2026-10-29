@@ -1,0 +1,207 @@
+{
+  "site": "https://pryyse.github.io/RotationStudio/",
+  "checkedAt": "2026-10-29T03:48:03.707Z",
+  "steps": [
+    {
+      "id": "Public V4 app/assets and DRAFT plan loaded; six named players",
+      "asset": "/RotationStudio/assets/index-C3zcOCsS.js",
+      "plan": {
+        "statuses": [
+          200,
+          200
+        ],
+        "team": "DRAFT",
+        "rotations": "DRAFT",
+        "count": 12,
+        "teamPlayers": 6
+      }
+    },
+    {
+      "id": "12 published rotation/serve flows and 36 phase shortcuts"
+    },
+    {
+      "id": "Public editor coordinate change and route bend",
+      "before": 0.3,
+      "after": 0.44
+    },
+    {
+      "id": "Named draft saves and survives public-page reload",
+      "persisted": 0.44
+    },
+    {
+      "id": "Public live-resize to 390px plus mobile editor input",
+      "width": 390,
+      "mobileBefore": 6.2,
+      "mobileAfter": 6.32
+    },
+    {
+      "id": "Set arcs remains accessible in published V4"
+    }
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "screenshots": [
+    "D:\\Projects\\RotationStudio-V4\\.cache\\browser-qa\\v4-public-live-desktop.png",
+    "D:\\Projects\\RotationStudio-V4\\.cache\\browser-qa\\v4-public-live-edit.png",
+    "D:\\Projects\\RotationStudio-V4\\.cache\\browser-qa\\v4-public-live-mobile.png"
+  ],
+  "asset": "/RotationStudio/assets/index-C3zcOCsS.js",
+  "htmlStatus": 200,
+  "assetResponse": {
+    "status": 200,
+    "length": 343282,
+    "type": "application/javascript; charset=utf-8"
+  },
+  "plan": {
+    "statuses": [
+      200,
+      200
+    ],
+    "team": "DRAFT",
+    "rotations": "DRAFT",
+    "count": 12,
+    "teamPlayers": 6
+  },
+  "mobile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "court": {
+      "left": 0,
+      "right": 390,
+      "top": 190,
+      "bottom": 481,
+      "width": 390,
+      "height": 291
+    },
+    "canvas": {
+      "left": 0,
+      "right": 390,
+      "top": 190,
+      "bottom": 481,
+      "width": 390,
+      "height": 291
+    },
+    "panel": {
+      "left": 8,
+      "right": 382,
+      "top": 481,
+      "bottom": 836,
+      "width": 374,
+      "height": 355
+    },
+    "stages": [
+      {
+        "left": 19,
+        "right": 88,
+        "top": 653,
+        "bottom": 697,
+        "width": 69,
+        "height": 44
+      },
+      {
+        "left": 90,
+        "right": 159,
+        "top": 653,
+        "bottom": 697,
+        "width": 69,
+        "height": 44
+      },
+      {
+        "left": 161,
+        "right": 229,
+        "top": 653,
+        "bottom": 697,
+        "width": 69,
+        "height": 44
+      },
+      {
+        "left": 231,
+        "right": 300,
+        "top": 653,
+        "bottom": 697,
+        "width": 69,
+        "height": 44
+      },
+      {
+        "left": 302,
+        "right": 371,
+        "top": 653,
+        "bottom": 697,
+        "width": 69,
+        "height": 44
+      }
+    ],
+    "labels": [
+      {
+        "text": "Harry · P1",
+        "rect": {
+          "left": 198,
+          "right": 267,
+          "top": 268,
+          "bottom": 288,
+          "width": 69,
+          "height": 20
+        }
+      },
+      {
+        "text": "Caleb · P6",
+        "rect": {
+          "left": 167,
+          "right": 241,
+          "top": 364,
+          "bottom": 384,
+          "width": 74,
+          "height": 20
+        }
+      },
+      {
+        "text": "Trent · P4",
+        "rect": {
+          "left": 134,
+          "right": 204,
+          "top": 245,
+          "bottom": 265,
+          "width": 70,
+          "height": 20
+        }
+      },
+      {
+        "text": "Logan · P3",
+        "rect": {
+          "left": 125,
+          "right": 200,
+          "top": 286,
+          "bottom": 306,
+          "width": 76,
+          "height": 20
+        }
+      },
+      {
+        "text": "Georgia · P2",
+        "rect": {
+          "left": 216,
+          "right": 301,
+          "top": 259,
+          "bottom": 278,
+          "width": 85,
+          "height": 20
+        }
+      },
+      {
+        "text": "Jaz · P5",
+        "rect": {
+          "left": 99,
+          "right": 158,
+          "top": 379,
+          "bottom": 398,
+          "width": 58,
+          "height": 20
+        }
+      }
+    ],
+    "scrollWidth": 390
+  },
+  "outcome": "PASS"
+}

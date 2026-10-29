@@ -1,6 +1,6 @@
 # V4 Independent UAT — 29 October 2026
 
-Status: **PASS — SOFTWARE / BROWSER UAT ACCEPTED, PENDING PUBLIC PAGES VERIFICATION.** Tactics remain DRAFT and are not approved match instructions. The original V3 source geometry and Set arcs remain protected. This review is by Normal Chat independently from Codex, on Windows via real locally rendered Chrome, not code-only or Codex self-attestation.
+Status: **PASS — SOFTWARE / BROWSER UAT ACCEPTED, PUBLIC PAGES VERIFIED.** Tactics remain DRAFT and are not approved match instructions. The original V3 source geometry and Set arcs remain protected. This review is by Normal Chat independently from Codex, on Windows via real locally rendered Chrome, not code-only or Codex self-attestation.
 
 ## Test host and branch
 - Windows authorized desktop, genuine `PRYYSE/RotationStudio` worktree `D:\Projects\RotationStudio-V4`, branch `feature/strategy-studio-v4`, initial checkpoint `163bb1a`.
@@ -65,3 +65,9 @@ Fix UAT-01 responsive behaviour and UAT-02 grammar **only**, add regression test
 **Scope boundary:** These are real desktop-Chrome and emulated viewport tests, not a physical Android/iOS device test, real human foot overlap, court practice, or fully automatic ball-dependent tactical optimisation. The team plan remains **DRAFT**; named foundation strategies remain **Needs review**. Local browser strategy libraries DO NOT synchronise between friends. Visual character animations and mobile collision-aware labels are for V5 investigation.
 
 **Source checkpoint:** feature branch `feature/strategy-studio-v4` commit `c00fdc4` contains responsive fix, notice grammar, full E2E script and initial UAT report. Public deployment confirmation and final release hash must be appended *after* GitHub Actions finishes; don't claim deployment from this local build alone.
+
+## 29 October 2026 — public release closure
+
+The public deployment of code commit `270a636` succeeded in [GitHub Pages run 40808899475](https://github.com/PRYYSE/RotationStudio/actions/runs/40808899475). Independent Windows Chrome then operated the **actual published URL** (not local Vite): 12 rotation/serve choices, 36 phase shortcuts, direct athlete pointer drag, coordinate and route editing, save/reload, Share strategy, desktop→390px resize/mobile input and Set arcs. The served V4 JS fingerprint matched the local production build, and both public plan JSONs remain DRAFT. The public smoke reports zero runtime errors or failed asset requests.
+
+Full evidence, screenshot links and verification limits: [V4_PUBLIC_RELEASE.md](V4_PUBLIC_RELEASE.md). This closes the *software release* gate only. On-court tactical and physical-phone acceptance are still open. V5 is **not** authorised until the user says continue.
