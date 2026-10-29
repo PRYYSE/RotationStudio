@@ -3,12 +3,17 @@ import type { Bundle, RotationView, ServeOwner, Spot, OpponentAttack, FirstTouch
 import { phaseAt, readRotationLink, selectScenario } from '../lib/rotationModel.ts'
 import { containsTeachingExamples, validateBundle } from '../lib/rotationValidation.ts'
 import { receiveExample, type FirstBallExample, type ReceiveExampleResult } from '../lib/receiveExample.ts'
+import { shuffleCase, shuffleCases, type ShuffleCase } from '../lib/rotationShuffle.ts'
 
 const link = readRotationLink(window.location.search)
 // The clock visits actual contacts/keyframes even when a delayed frame spans
 // several boundaries. No synthetic player or ball positions are authored here.
 export const timelineTimes = (s: Scenario) => [...new Set([0, s.duration, ...s.phases.map(p => p.time), ...s.ball.flatMap(b => [b.start, b.end]), ...Object.values(s.tracks).flatMap(t => t.map(k => k.time))])].sort((a, b) => a - b)
 type State = {
+  shuffleEnabled: boolean; shuffleRunning: boolean; shuffleSeed: number
+  shuffleHistory: ShuffleCase[]; shuffleCursor: number; shuffleNotice: string
+  setShuffle: (enabled: boolean) => void; stopShuffle: () => void; setShuffleSeed: (seed: number) => void
+  nextVariation: (direction?: 1 | -1) => void; previousVariation: () => void
   strategyMode: boolean; strategyEdit: ((spot: Spot) => void) | null
   example: FirstBallExample | null; exampleResult: ReceiveExampleResult | null; exampleScenario: Scenario | null; exampleNotice: string
   chooseExample: (example: FirstBallExample | null) => void; setEditor: (enabled: boolean) => void
@@ -50,6 +55,45 @@ function examplePatch(s: State, example: FirstBallExample | null, keepPrevious =
 }
 
 export const useRotations = create<State>((set, get) => ({
+  shuffleEnabled: false, shuffleRunning: false, shuffleSeed: 7003, shuffleHistory: [], shuffleCursor: -1, shuffleNotice: '',
+  setShuffle: enabled => {
+    if (!enabled) { get().stopShuffle(); return }
+    const s = get(), root = activeBundle(s)?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
+    if (s.editor || s.strategyMode) return
+    if (shuffleCases(root, s.shuffleSeed).length !== 4) { set({ shuffleNotice: 'Shuffle unavailable: four authored cases are required.' }); return }
+    const notice = s.example ? `${s.exampleResult?.ok === false ? 'Invalid teaching sample skipped' : 'Teaching sample cleared'}; Shuffle uses authored cases only.` : ''
+    if (s.example) { get().chooseTactics(s.opponentAttack, s.firstTouch); set({ time: 0, editTime: 0, example: null, exampleResult: null, exampleScenario: null }) }
+    set({ shuffleEnabled: true, shuffleRunning: false, playing: false, transitionTarget: null,
+      shuffleHistory: s.shuffleHistory.length ? s.shuffleHistory : [shuffleCase(s)], shuffleCursor: Math.max(0, s.shuffleCursor), shuffleNotice: notice })
+  },
+  stopShuffle: () => {
+    const s = get()
+    if (s.shuffleEnabled || s.shuffleRunning) { get().pause(); set({ shuffleEnabled: false, shuffleRunning: false }) }
+  },
+  setShuffleSeed: seed => {
+    if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) return
+    get().stopShuffle()
+    set({ shuffleSeed: seed, shuffleHistory: [], shuffleCursor: -1, shuffleNotice: '' })
+  },
+  previousVariation: () => get().nextVariation(-1),
+  nextVariation: (direction = 1) => {
+    const s = get(), root = activeBundle(s)?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
+    if (s.editor || s.strategyMode) return
+    const order = shuffleCases(root, s.shuffleSeed)
+    if (order.length !== 4) { set({ shuffleNotice: 'Shuffle unavailable: four authored cases are required.' }); return }
+    const history = s.shuffleHistory.length ? [...s.shuffleHistory] : [shuffleCase(s)]
+    const cursor = Math.max(0, s.shuffleCursor) + direction
+    if (cursor < 0) return
+    const key = history[cursor] ?? order[(order.indexOf(shuffleCase(s)) + 1) % order.length]
+    if (!history[cursor]) history.push(key)
+    const [attack, touch] = key.split('/') as [OpponentAttack, FirstTouch]
+    const notice = s.example ? `${s.exampleResult?.ok === false ? 'Invalid teaching sample skipped' : 'Teaching sample cleared'}; Shuffle uses authored cases only.` : s.shuffleNotice
+    // Keep the existing selection path and strategy overlay ownership. Nothing
+    // in Shuffle writes or replaces published plans or the working strategy.
+    get().chooseTactics(attack, touch)
+    set({ example: null, exampleResult: null, exampleScenario: null, exampleNotice: '', time: 0, editTime: 0,
+      shuffleEnabled: true, shuffleRunning: false, shuffleHistory: history, shuffleCursor: cursor, shuffleNotice: notice })
+  },
   strategyMode: false, strategyEdit: null,
   example: null, exampleResult: null, exampleScenario: null, exampleNotice: '',
   published: null, draft: null, error: '', loading: true,
@@ -57,17 +101,21 @@ export const useRotations = create<State>((set, get) => ({
   ballFlight: false, setterTargetVisible: true, legalHints: false, v3Ghost: false,
   editor: false, selected: 'harry', editTime: 0,
   setBundle: (published) => {
+    get().stopShuffle()
     const next = { ...get(), published }, patch = examplePatch(next, next.example)
     const scenario = activeScenario({ ...next, ...patch })!
     set({ published, ...patch, loading: false, error: '', time: patch.exampleResult?.ok === false ? scenario.firstContact.time : Math.min(get().time, scenario.duration) })
   },
   chooseExample: (example) => {
+    get().stopShuffle()
+    set({ shuffleHistory: [], shuffleCursor: -1 })
     const s = get()
     if (s.editor) { set({ exampleNotice: 'First-ball examples are disabled in Coach draft.' }); return }
     const patch = examplePatch(s, example, true), scenario = activeScenario({ ...s, ...patch })
     set({ ...patch, playing: false, transitionTarget: null, time: scenario?.firstContact.time ?? 0 })
   },
   setEditor: (editor) => {
+    get().stopShuffle()
     const s = get(), hadExample = !!s.example
     const time = Math.min(s.time, authoredScenario(s)?.duration ?? 0)
     set({ editor, example: null, exampleResult: null, exampleScenario: null, time, editTime: time, playing: false, transitionTarget: null,
@@ -75,10 +123,14 @@ export const useRotations = create<State>((set, get) => ({
       exampleNotice: editor && hadExample ? 'First-ball example cleared. Coach draft edits and exports use authored plans only.' : '' })
   },
   choose: (rotation, serve) => {
+    get().stopShuffle()
+    set({ shuffleHistory: [], shuffleCursor: -1, shuffleNotice: '' })
     const s = { ...get(), rotation, serve }, patch = examplePatch(s, s.example)
     set({ rotation, serve, ...patch, time: s.example ? authoredScenario(s)?.firstContact.time ?? 0 : 0, playing: false, transitionTarget: null, editTime: 0, error: '' })
   },
   chooseTactics: (opponentAttack, firstTouch) => {
+    get().stopShuffle()
+    set({ shuffleHistory: [], shuffleCursor: -1, shuffleNotice: '' })
     const s = get(), before = activeScenario(s)
     const next = { ...s, opponentAttack, firstTouch }, patch = examplePatch(next, s.example)
     const after = activeScenario({ ...next, ...patch })
@@ -104,11 +156,12 @@ export const useRotations = create<State>((set, get) => ({
       const times = Object.values(scenario.tracks).flatMap((track) => track.map((k) => k.time))
       time = times.reduce((best, t) => Math.abs(t - time) < Math.abs(best - time) ? t : best, times[0])
     }
-    set({ time, playing: false, transitionTarget: null, ...(s.editor ? { editTime: time } : {}) })
+    set({ time, playing: false, transitionTarget: null, shuffleRunning: false, ...(s.editor ? { editTime: time } : {}) })
   },
   navigate: (requested, instant = false) => {
     const s = get(), scenario = activeScenario(s)
     if (!scenario || !Number.isFinite(requested) || s.exampleResult?.ok === false || (s.editor && !s.strategyMode)) return
+    set({ shuffleRunning: false })
     const time = Math.max(0, Math.min(requested, scenario.duration))
     if (instant || s.reducedMotion || time === s.time) {
       set({ time, editTime: time, playing: false, transitionTarget: null }); return
@@ -118,21 +171,28 @@ export const useRotations = create<State>((set, get) => ({
   pause: () => {
     const s = get(), scenario = activeScenario(s)
     const time = s.editor && scenario ? timelineTimes(scenario).reduce((best, t) => Math.abs(t - s.time) < Math.abs(best - s.time) ? t : best, 0) : s.time
-    set({ time, editTime: time, playing: false, transitionTarget: null })
+    set({ time, editTime: time, playing: false, transitionTarget: null, shuffleRunning: false })
   },
   toggle: () => { const s = get(); if (s.editor || s.exampleResult?.ok === false) return; const duration = activeScenario(s)?.duration ?? 0
-    set({ playing: !s.playing, transitionTarget: null, time: s.time >= duration ? 0 : s.time }) },
+    set({ playing: !s.playing, shuffleRunning: s.shuffleEnabled && !s.playing, transitionTarget: null, time: s.time >= duration ? 0 : s.time }) },
   tick: (dt) => { const s = get(); if (!s.playing || s.exampleResult?.ok === false) return
     const scenario = activeScenario(s), target = s.transitionTarget ?? scenario?.duration ?? 0
+    // Render the final authored frame before advancing on the following frame.
+    // This is driven only by explicit playback, never a timer/background poll.
+    if (s.shuffleRunning && s.shuffleEnabled && !s.editor && s.transitionTarget === null && s.time === target) {
+      get().nextVariation()
+      if (get().shuffleEnabled) set({ playing: true, shuffleRunning: true })
+      return
+    }
     const direction = target >= s.time ? 1 : -1
     let time = s.time + direction * Math.max(0, Number.isFinite(dt) ? dt : 0) * s.rate
-    if (s.transitionTarget !== null && scenario) {
+    if ((s.transitionTarget !== null || s.shuffleRunning) && scenario) {
       const times = timelineTimes(scenario)
       const boundary = direction > 0 ? times.find(t => t > s.time && t < target) : times.reverse().find(t => t < s.time && t > target)
       if (boundary !== undefined) time = direction > 0 ? Math.min(time, boundary) : Math.max(time, boundary)
     }
     time = direction > 0 ? Math.min(target, time) : Math.max(target, time)
-    const playing = time !== target
+    const playing = time !== target || s.shuffleRunning
     set({ time, playing, ...(!playing ? { transitionTarget: null, editTime: time } : {}) })
   },
   edit: (spot) => {
@@ -175,7 +235,8 @@ export const useRotations = create<State>((set, get) => ({
   importDraft: (draft) => { const errors = validateBundle(draft)
     if (!errors.length && containsTeachingExamples(draft)) errors.push('Teaching examples cannot be imported as coach plans.')
     if (errors.length) { set({ error: errors.join('\n') }); return }
+    get().stopShuffle()
     set({ draft, example: null, exampleResult: null, exampleScenario: null, playing: false, transitionTarget: null, time: 0, editTime: 0, selected: draft.team.players[0].id, error: '' })
   },
-  resetDraft: () => set({ draft: null, example: null, exampleResult: null, exampleScenario: null, time: 0, editTime: 0, playing: false, transitionTarget: null, error: '' }),
+  resetDraft: () => { get().stopShuffle(); set({ draft: null, example: null, exampleResult: null, exampleScenario: null, time: 0, editTime: 0, playing: false, transitionTarget: null, error: '' }) },
 }))

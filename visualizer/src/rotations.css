@@ -237,6 +237,17 @@
 .court-first :is(.viewer-panel, .strategy-panel) { grid-column: 2; grid-row: 1 / -1; position: relative; inset: auto; width: auto; min-height: 0; max-height: none; margin: 64px 12px 10px 0; padding: 10px; overflow-y: auto; overscroll-behavior: contain; scroll-padding-top: 48px; scroll-padding-bottom: 10px; border-radius: 16px; font-size: 12px; }
 .viewer-panel { display: flex; flex-direction: column; }
 .viewer-panel > * { flex-shrink: 0; }
+.shuffle-controls { padding: 3px 0; border-bottom: 1px solid #405674; }
+.shuffle-row { display: flex; align-items: center; justify-content: space-between; gap: 3px; }
+.shuffle-row > button, .shuffle-history summary { min-height: 36px; padding: 4px 8px; font-size: 11px; }
+.shuffle-history summary { cursor: pointer; display: flex; align-items: center; }
+.shuffle-history[open] { position: relative; }
+.shuffle-history > div { position: absolute; right: 0; width: min(300px, 76vw); max-height: 240px; overflow: auto; background: #101b2c; border: 1px solid #486078; border-radius: 10px; padding: 8px; z-index: 6; }
+.shuffle-history input { width: 135px; padding: 5px; color: #eef6ff; background: #15263b; border: 1px solid #486078; }
+.shuffle-history p, .shuffle-source, .shuffle-notice { font-size: 11px; line-height: 1.4; margin: 3px 0; overflow-wrap: anywhere; }
+.shuffle-source, .shuffle-notice { color: #ffe49b; }
+.shuffle-history ol { list-style: decimal; padding-left: 22px; }
+.shuffle-history [aria-current] { color: #ffe49b; }
 .viewer-heading { display: flex; align-items: center; justify-content: space-between; gap: 4px; position: sticky; top: -10px; z-index: 3; background: #101b2c; padding: 2px 0; }
 .viewer-heading button { font-size: 11px; padding: 4px 8px; }
 .player-focus { font-size: 12px; line-height: 1.45; }

@@ -74,7 +74,7 @@ export function RotationPlayback() {
   return <>
     <div className="rotation-step-row" role="group" aria-label={studio.editing ? 'Event steps' : 'Phase transitions'}>
       <button aria-label={studio.editing ? 'Previous edit event' : 'Previous phase'} disabled={unavailable || s.time <= 0} onClick={() => step(-1)}>Previous</button>
-      <button className="rotation-play" aria-label={s.playing ? 'Pause transition' : studio.editing ? 'Play transition' : 'Play rotations'} onClick={play} disabled={unavailable}>{s.playing ? 'Pause' : studio.editing ? 'Play transition' : 'Play'}</button>
+      <button className="rotation-play" aria-label={s.playing ? s.shuffleRunning ? 'Pause shuffle' : 'Pause transition' : studio.editing ? 'Play transition' : s.shuffleEnabled ? 'Play shuffle' : 'Play rotations'} onClick={play} disabled={unavailable}>{s.playing ? 'Pause' : studio.editing ? 'Play transition' : s.shuffleEnabled ? 'Play shuffle' : 'Play'}</button>
       <button aria-label={studio.editing ? 'Next edit event' : 'Next phase'} disabled={unavailable || s.time >= (studio.editing ? events.at(-1)?.time ?? 0 : times[order.at(-1)!])} onClick={() => step(1)}>Next</button>
       {!studio.editing && <button aria-label="Jump to destination or next phase" disabled={unavailable} onClick={() => s.transitionTarget !== null ? s.navigate(s.transitionTarget, true) : step(1, true)}>Jump</button>}
       <output aria-label="Timeline time" data-playing={s.playing} data-destination={s.transitionTarget ?? ''}>{s.time.toFixed(2)}s</output>

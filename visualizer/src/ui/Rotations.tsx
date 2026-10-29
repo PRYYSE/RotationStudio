@@ -17,6 +17,7 @@ import { PlayerFocus } from './PlayerFocus'
 import { useViewerReview } from './useViewerReview'
 import { RotationPlayback, ViewerEvents, useRotationPlayback } from './RotationPlayback'
 import { CourtTools } from './CourtTools'
+import { ShuffleControls } from './ShuffleControls'
 
 export function Rotations() {
   const s = useRotations(), bundle = activeBundle(s), scenario = activeScenario(s)
@@ -42,7 +43,7 @@ export function Rotations() {
   }
   useEffect(() => {
     if (!useRotations.getState().published) load()
-    return () => { useRotations.setState({ playing: false }) }
+    return () => { useRotations.getState().stopShuffle(); useRotations.setState({ playing: false }) }
   }, [])
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -83,6 +84,7 @@ export function Rotations() {
       <nav className="rotation-row glass" aria-label="Strategy mode">
         <button aria-pressed={!studio.editing && !libraryOpen} onClick={() => { leaveEditor(); setLibraryOpen(false) }}>View</button>
         <button aria-pressed={studio.editing} onClick={() => {
+          s.stopShuffle()
           if (!studio.working) studio.newStrategy(false, s.published ?? undefined)
           const root = s.published?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
           const source = root && selectScenario(root, s.opponentAttack, s.firstTouch)
@@ -92,7 +94,7 @@ export function Rotations() {
           if (!bundle.team.players.some(p => p.id === s.selected)) useRotations.setState({ selected: 'harry' })
           useStrategies.setState({ editing: true }); s.setEditor(true); setSettings(false); setLibraryOpen(false)
         }}>Edit strategy</button>
-        <button aria-pressed={libraryOpen && !studio.editing} aria-expanded={libraryOpen && !studio.editing} onClick={() => { if (studio.editing) leaveEditor(); setLibraryOpen(!libraryOpen) }}>Strategies</button>
+        <button aria-pressed={libraryOpen && !studio.editing} aria-expanded={libraryOpen && !studio.editing} onClick={() => { s.stopShuffle(); if (studio.editing) leaveEditor(); setLibraryOpen(!libraryOpen) }}>Strategies</button>
       </nav>
       <div className="rotation-selectors glass">
         <nav className="rotation-row rotation-numbers" aria-label="Rotation">
@@ -115,6 +117,7 @@ export function Rotations() {
     {!panel && <aside className="viewer-panel glass" aria-label="Court context">
       <div className="viewer-heading"><strong>{settings ? 'Scenario Explorer' : 'Player Focus'}</strong>
         <button aria-expanded={settings} onClick={() => setSettings(!settings)}>{settings ? 'Player Focus' : 'Scenario Explorer'}</button></div>
+      <ShuffleControls />
       <PlayerFocus review={review} />
       <ViewerEvents />
       {settings && <section className="rotation-settings" aria-label="Rotation settings">

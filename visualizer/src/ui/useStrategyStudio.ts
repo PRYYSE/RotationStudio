@@ -25,6 +25,7 @@ export function useStrategyStudio() {
     // Overlay ownership is explicit. Advanced V3 imports remain available when
     // no sparse strategy is selected; changing library selection clears them.
     if (!applied && !ownsOverlay.current) return
+    useRotations.getState().stopShuffle()
     ownsOverlay.current = !!applied
     useRotations.setState({ draft: applied?.bundle ?? null, example: null, exampleResult: null, exampleScenario: null, playing: false, transitionTarget: null })
   }, [applied])
