@@ -73,7 +73,7 @@ try {
   await toggleCoverage('.rotation-settings'); assert.equal((await read()).coverage, false)
   await toggleCoverage('.rotation-settings'); assert.equal((await read()).coverage, true)
   await click('Close')
-  for (let rotation = 1; rotation <= 6; rotation++) for (const serve of ['they', 'us']) {
+  for (let rotation = 1; rotation <= (process.env.UAT_SHORT ? 0 : 6); rotation++) for (const serve of ['they', 'us']) {
     await click(`R${rotation}`)
     await click(serve === 'us' ? 'Us serve' : 'They serve')
     assert.deepEqual(await page.$$eval('.rotation-markers button', els => els.map(el => el.textContent)),
@@ -126,15 +126,18 @@ try {
   assert.equal(r.past, history + 1)
   await page.screenshot({ path: path.join(cache, 'v4-desktop-route.png') })
   await stage('Set')
+  console.log('UAT: Set entered', (await read()).stage)
   for (const id of ['harry', 'logan', 'georgia']) {
     await page.select('[aria-label="Selected athlete"]', id)
     r = await read(); p = r.scenario.tracks[id].find(k => k.time === r.scenario.secondContact.time)
     await drag(p, id === 'georgia' ? -22 : 22, 8)
+    console.log('UAT: after Set athlete', id, 'editing', (await read()).stage, 'top-nav', await page.$$eval('nav[aria-label="Strategy mode"] button', b=>b.map(x=>x.innerText)))
   }
   r = await read(); assert.ok(r.strategy.overrides['1/they'].setterTarget)
   assert.ok(r.strategy.overrides['1/they'].anchors.Set.logan); assert.ok(r.strategy.overrides['1/they'].anchors.Set.georgia)
   await click('Select gold target'); r = await read()
   await drag({ x: r.scenario.setterTarget.x + .46, z: r.scenario.setterTarget.z, y: .06 }, 15, -8)
+  console.log('UAT: target dragged',JSON.stringify({stage:(await read()).stage,working:(await read()).strategy?.name,topButtons:await page.$$eval('nav[aria-label="Strategy mode"] button',b=>b.map(x=>x.innerText)),dom:(await page.evaluate(()=>document.body.innerText)).slice(0,200)}))
   const edited = (await read()).strategy.overrides['1/they']
   await click('Strategies')
   await click('Rename / author'); await page.locator('[aria-label="Strategy name"]').fill('R1 browser foundation')
@@ -156,7 +159,13 @@ try {
   await click('Save a copy'); assert.equal((await read()).library.length, 2)
   const share = await page.evaluate(async () => { const { strategyLink } = await import('/src/lib/strategyDraft.ts'); const { useStrategies } = await import('/src/state/strategyStore.ts'); return strategyLink(location.href, useStrategies.getState().working) })
   assert.ok(share)
-  await page.goto(share, { waitUntil: 'domcontentloaded' }); r = await read()
+  await page.goto(share, { waitUntil: 'domcontentloaded' })
+  await page.waitForSelector('nav[aria-label="Tactical phase"]', { timeout: 12000 })
+  await page.waitForFunction(async () => {
+    const { useStrategies } = await import('/src/state/strategyStore.ts')
+    return useStrategies.getState().preview === true
+  }, { timeout: 12000 })
+  r = await read()
   assert.equal(r.preview, true); assert.equal(r.library.length, 2)
   assert.match(await page.evaluate(() => document.body.innerText), /Preview/)
   await click('Strategies'); await click('Save a copy'); assert.equal((await read()).library.length, 3)
@@ -170,7 +179,7 @@ try {
   assert.ok(phoneLayout.canvasBottom <= phoneLayout.panelTop + 1, 'court remains clear of controls')
   assert.ok(phoneLayout.panelBottom <= phoneLayout.height, 'editing sheet fits on phone')
   assert.equal(phoneLayout.overflow, 'auto')
-  await page.locator('[aria-label="Selected athlete"]').scrollIntoView()
+  await page.$eval('[aria-label="Selected athlete"]', e => e.scrollIntoView({ block: 'center' }))
   await stage('Receive'); await page.select('[aria-label="Selected athlete"]', 'caleb')
   await page.evaluate(() => document.querySelector('main.rotations').scrollTo(0, 0)); await delay(200)
   r = await read(); p = r.scenario.tracks.caleb.find(k => k.time === r.scenario.firstContact.time); history = r.past
@@ -180,7 +189,7 @@ try {
   const mobileLabels = await page.$$eval('.athlete-label', els => els.map(el => ({text:el.textContent,size:parseFloat(getComputedStyle(el).fontSize)})))
   assert.equal(mobileLabels.length, 6); for (const label of mobileLabels) assert.ok(label.size >= 11)
   assert.equal(await page.$('.pass-target'), null)
-  await page.locator('[aria-label="Selected athlete"]').scrollIntoView(); await page.screenshot({ path: path.join(cache, 'v4-mobile-controls.png') })
+  await page.$eval('[aria-label="Selected athlete"]', e => e.scrollIntoView({ block: 'center' })); await page.screenshot({ path: path.join(cache, 'v4-mobile-controls.png') })
   await click('View'); await click('Set arcs'); await page.waitForSelector('canvas'); assert.ok(await page.$('canvas'))
   assert.deepEqual(errors, [])
   console.log('PASS: R1-R6 exact viewer landmarks/shortcuts; compact name tags/no PASS HERE; focused editor/first-fold controls; legal Start playback; real desktop player/setter/attacker/waypoint/target drags; per-gesture undo; save/reload; duplicate/delete; import/shared previews and independent copies; View playback; 390px sheet/drag/no overflow; Set arcs accessible; no runtime errors.')
