@@ -31,11 +31,9 @@ const stage = text => click(text, 'nav[aria-label="Court stages"]')
 async function project(point) {
   return page.evaluate(async p => {
     const THREE = await import('/node_modules/.vite/deps/three.js')
-    const r = document.querySelector('canvas').getBoundingClientRect(), aspect = r.width / r.height
-    const camera = new THREE.PerspectiveCamera(42, aspect, .1, 150)
-    const d = Math.max(6.8 / Math.tan(42 * Math.PI / 360), 5.8 / (Math.tan(42 * Math.PI / 360) * aspect)) * 1.05
-    camera.position.copy(new THREE.Vector3(0, 0, 5).addScaledVector(new THREE.Vector3(0, 1, .001).normalize(), d))
-    camera.lookAt(0, 0, 5); camera.updateMatrixWorld()
+    const { _roots } = await import('/node_modules/.vite/deps/@react-three_fiber.js')
+    const canvas = document.querySelector('.rotation-canvas canvas'), r = canvas.getBoundingClientRect()
+    const { camera } = _roots.get(canvas).store.getState()
     const q = new THREE.Vector3(p.x, p.y ?? 1.13, p.z).project(camera)
     return { x: r.left + (q.x + 1) * r.width / 2, y: r.top + (1 - q.y) * r.height / 2 }
   }, point)
@@ -43,6 +41,80 @@ async function project(point) {
 async function drag(point, dx, dy) {
   const p = await project(point)
   await page.mouse.move(p.x, p.y); await page.mouse.down(); await page.mouse.move(p.x + dx, p.y + dy, { steps: 12 }); await page.mouse.up(); await delay(300)
+}
+async function assertEditorLayout(context) {
+  await page.$eval('[aria-label="Court stages"]', el => el.scrollIntoView({ block: 'nearest' }))
+  await page.$eval('main.rotations', el => el.scrollTo(0, 0))
+  // Wait for R3F's measured viewport, not just the outer CSS box, to reflow.
+  await page.waitForFunction(async () => {
+    const { _roots } = await import('/node_modules/.vite/deps/@react-three_fiber.js')
+    const canvas = document.querySelector('.rotation-canvas canvas'), box = document.querySelector('.rotation-canvas').getBoundingClientRect()
+    const size = _roots.get(canvas)?.store.getState().size, r = canvas.getBoundingClientRect()
+    return size && Math.abs(size.width - box.width) < 1 && Math.abs(size.height - box.height) < 1 && Math.abs(r.width - box.width) < 1 && Math.abs(r.height - box.height) < 1
+  }, { timeout: 5000 })
+  const layout = await page.evaluate(async () => {
+    const THREE = await import('/node_modules/.vite/deps/three.js')
+    const { _roots } = await import('/node_modules/.vite/deps/@react-three_fiber.js')
+    const rect = el => { const r = el.getBoundingClientRect(); return { left:r.left, right:r.right, top:r.top, bottom:r.bottom, width:r.width, height:r.height } }
+    const main = document.querySelector('main.rotations'), panel = document.querySelector('.strategy-panel'), canvas = document.querySelector('.rotation-canvas canvas')
+    const { camera } = _roots.get(canvas).store.getState()
+    const corners = [-4.5, 4.5].flatMap(x => [0, 9].map(z => {
+      const p = new THREE.Vector3(x, 0, z).project(camera)
+      return { x:p.x, y:p.y, z:p.z }
+    }))
+    return { width:innerWidth, height:innerHeight, court:rect(document.querySelector('.rotation-canvas')), canvas:rect(canvas), panel:rect(panel),
+      stages:[...document.querySelectorAll('[aria-label="Court stages"] button')].map(rect),
+      controls:[...panel.querySelectorAll('button,input,select,summary')].map(rect).filter(r => r.width && r.height),
+      labels:[...document.querySelectorAll('.athlete-label')].map(rect), corners,
+      main:{ scrollHeight:main.scrollHeight, scrollWidth:main.scrollWidth, clientWidth:main.clientWidth, overflowX:getComputedStyle(main).overflowX, overflowY:getComputedStyle(main).overflowY },
+      overflow:getComputedStyle(panel).overflowY, scrollWidth:document.documentElement.scrollWidth }
+  })
+  const shortLandscape = layout.width > layout.height && layout.height <= 600
+  if (shortLandscape) {
+    assert.ok(layout.court.height >= 300, `${context}: usable short-landscape court height`)
+    assert.ok(layout.panel.height >= 220, `${context}: usable short-landscape panel height`)
+    assert.ok(layout.main.scrollHeight > layout.height, `${context}: main scrolls vertically beyond viewport`)
+    assert.equal(layout.main.overflowY, 'auto')
+    assert.equal(layout.main.overflowX, 'hidden')
+    assert.ok(layout.main.scrollWidth <= layout.main.clientWidth, `${context}: no horizontal main overflow`)
+  }
+  const insideWidth = (r, name) => {
+    assert.ok(r.width > 0 && r.width <= layout.width && r.left >= 0 && r.right <= layout.width, `${context}: ${name} within actual viewport: ${JSON.stringify(r)}`)
+  }
+  for (const name of ['court', 'canvas', 'panel']) insideWidth(layout[name], name)
+  assert.equal(layout.stages.length, 5)
+  for (const r of layout.stages) {
+    insideWidth(r, 'stage button')
+    assert.ok(r.height >= 44 && r.top >= layout.panel.top - 1 && r.bottom <= layout.panel.bottom + 1, `${context}: five visible touch-sized stages`)
+  }
+  for (const r of layout.controls) assert.ok(r.left >= layout.panel.left - 1 && r.right <= layout.panel.right + 1, `${context}: controls fit sheet width`)
+  if (!shortLandscape) assert.ok(layout.court.top >= 0 && layout.court.bottom <= layout.height + 1, `${context}: court vertically on screen`)
+  if (layout.width <= 850) assert.ok(layout.court.bottom <= layout.panel.top + 1, `${context}: court clear of sheet`)
+  if (!shortLandscape) assert.ok(layout.panel.bottom <= layout.height + 1, `${context}: sheet fits viewport`)
+  assert.equal(layout.overflow, 'auto')
+  assert.equal(layout.scrollWidth <= layout.width, true, `${context}: no page overflow`)
+  for (const p of layout.corners) assert.ok(Math.abs(p.x) <= 1 && Math.abs(p.y) <= 1 && Math.abs(p.z) <= 1, `${context}: full 9x9m court framed by actual camera`)
+  assert.equal(layout.labels.length, 6)
+  for (const r of layout.labels) assert.ok(r.left >= layout.canvas.left - 1 && r.right <= layout.canvas.right + 1 && r.top >= layout.canvas.top - 1 && r.bottom <= layout.canvas.bottom + 1, `${context}: all six athlete labels on court`)
+  assert.deepEqual(errors, [], `${context}: no page errors`)
+}
+async function assertReceiveDrag(context, dx = 18, dy = 10) {
+  await stage('Receive')
+  await page.$eval('[aria-label="Selected athlete"]', el => el.scrollIntoView({ block: 'center' }))
+  await page.select('[aria-label="Selected athlete"]', 'caleb')
+  const route = await page.$('.strategy-editor > .rotation-row button[aria-pressed="true"]')
+  if (route && await route.evaluate(el => el.textContent === 'Incoming route')) await click('Incoming route')
+  await assertEditorLayout(context)
+  const before = await read(), p = before.scenario.tracks.caleb.find(k => k.time === before.scenario.firstContact.time)
+  await drag(p, dx, dy)
+  const after = await read(), moved = after.strategy.overrides['1/they'].anchors.Receive.caleb
+  assert.ok(moved.x !== p.x || moved.z !== p.z, `${context}: pointer drag changes X/Z`)
+  assert.equal(after.selected, 'caleb', `${context}: resized hit testing selects Caleb`)
+  assert.equal(after.past, before.past + 1, `${context}: one undo per drag`)
+  await click('Undo')
+  assert.deepEqual((await read()).strategy.overrides, before.strategy.overrides, `${context}: one undo restores gesture`)
+  await click('Redo')
+  assert.deepEqual((await read()).strategy.overrides, after.strategy.overrides)
 }
 try {
   await mkdir(cache, { recursive: true })
@@ -84,6 +156,17 @@ try {
       assert.equal(r.time, expected)
       assert.equal(await page.$eval(`nav[aria-label="Tactical phase"] button[aria-pressed="true"]`, el => el.textContent), name)
     }
+    await click('Settings')
+    for (const attack of ['left', 'right']) for (const first of ['normal', 'harry']) {
+      await click(attack === 'left' ? 'Our left' : 'Our right', '[aria-label="Their attack"]')
+      await click(first === 'normal' ? 'Normal' : 'Harry first', '[aria-label="First contact"]')
+      const { scenario } = await read()
+      assert.equal(scenario.rotation, rotation); assert.equal(scenario.serve, serve)
+      assert.equal(scenario.tactics.opponentAttack, attack); assert.equal(scenario.tactics.firstTouch, first)
+      assert.ok(scenario.ball.length && Object.keys(scenario.tracks).length === 6, 'choice preserves ball and six athlete tracks')
+      assert.deepEqual(errors, [], `R${rotation}/${serve}/${attack}/${first}: no page errors`)
+    }
+    await click('Our left', '[aria-label="Their attack"]'); await click('Normal', '[aria-label="First contact"]'); await click('Close')
   }
   await click('R1'); await click('They serve'); await click('Edit strategy'); await delay(500)
   assert.equal((await read()).view, 'top')
@@ -126,18 +209,15 @@ try {
   assert.equal(r.past, history + 1)
   await page.screenshot({ path: path.join(cache, 'v4-desktop-route.png') })
   await stage('Set')
-  console.log('UAT: Set entered', (await read()).stage)
   for (const id of ['harry', 'logan', 'georgia']) {
     await page.select('[aria-label="Selected athlete"]', id)
     r = await read(); p = r.scenario.tracks[id].find(k => k.time === r.scenario.secondContact.time)
     await drag(p, id === 'georgia' ? -22 : 22, 8)
-    console.log('UAT: after Set athlete', id, 'editing', (await read()).stage, 'top-nav', await page.$$eval('nav[aria-label="Strategy mode"] button', b=>b.map(x=>x.innerText)))
   }
   r = await read(); assert.ok(r.strategy.overrides['1/they'].setterTarget)
   assert.ok(r.strategy.overrides['1/they'].anchors.Set.logan); assert.ok(r.strategy.overrides['1/they'].anchors.Set.georgia)
   await click('Select gold target'); r = await read()
   await drag({ x: r.scenario.setterTarget.x + .46, z: r.scenario.setterTarget.z, y: .06 }, 15, -8)
-  console.log('UAT: target dragged',JSON.stringify({stage:(await read()).stage,working:(await read()).strategy?.name,topButtons:await page.$$eval('nav[aria-label="Strategy mode"] button',b=>b.map(x=>x.innerText)),dom:(await page.evaluate(()=>document.body.innerText)).slice(0,200)}))
   const edited = (await read()).strategy.overrides['1/they']
   await click('Strategies')
   await click('Rename / author'); await page.locator('[aria-label="Strategy name"]').fill('R1 browser foundation')
@@ -172,26 +252,38 @@ try {
   await click('View'); await click('Play'); await delay(400); assert.ok((await read()).playing || (await read()).time > 0)
   await click('Edit strategy')
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 }); await delay(700)
-  const phoneLayout = await page.evaluate(() => {
-    const p = document.querySelector('.strategy-panel'), c = document.querySelector('.rotation-canvas').getBoundingClientRect(), r = p.getBoundingClientRect()
-    return {canvasBottom:c.bottom,panelTop:r.top,panelBottom:r.bottom,scroll:p.scrollHeight>p.clientHeight,height:innerHeight,overflow:getComputedStyle(p).overflowY}
-  })
-  assert.ok(phoneLayout.canvasBottom <= phoneLayout.panelTop + 1, 'court remains clear of controls')
-  assert.ok(phoneLayout.panelBottom <= phoneLayout.height, 'editing sheet fits on phone')
-  assert.equal(phoneLayout.overflow, 'auto')
-  await page.$eval('[aria-label="Selected athlete"]', e => e.scrollIntoView({ block: 'center' }))
-  await stage('Receive'); await page.select('[aria-label="Selected athlete"]', 'caleb')
-  await page.evaluate(() => document.querySelector('main.rotations').scrollTo(0, 0)); await delay(200)
-  r = await read(); p = r.scenario.tracks.caleb.find(k => k.time === r.scenario.firstContact.time); history = r.past
-  await drag(p, 18, 10); r = await read(); assert.equal(r.past, history + 1, 'narrow viewport player drag')
-  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'no horizontal overflow')
+  await assertReceiveDrag('1440 to 390, same page')
   await page.screenshot({ path: path.join(cache, 'v4-mobile-court.png') })
   const mobileLabels = await page.$$eval('.athlete-label', els => els.map(el => ({text:el.textContent,size:parseFloat(getComputedStyle(el).fontSize)})))
   assert.equal(mobileLabels.length, 6); for (const label of mobileLabels) assert.ok(label.size >= 11)
   assert.equal(await page.$('.pass-target'), null)
   await page.$eval('[aria-label="Selected athlete"]', e => e.scrollIntoView({ block: 'center' })); await page.screenshot({ path: path.join(cache, 'v4-mobile-controls.png') })
+  await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 }); await delay(700)
+  await assertReceiveDrag('390 to 1440, same page', -18, -10)
+  for (const [width, height] of [[375,812], [768,1024], [844,390]]) {
+    await page.setViewport({ width, height, deviceScaleFactor: 1 }); await delay(700)
+    await assertEditorLayout(`${width}x${height}`)
+    await page.screenshot({ path: path.join(cache, `v4-editor-${width}x${height}.png`) })
+  }
+  // New document at phone width exercises the independent direct-load path.
+  await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1 })
+  await page.goto(base, { waitUntil: 'domcontentloaded' })
+  await page.waitForSelector('nav[aria-label="Tactical phase"]')
+  await click('Edit strategy'); await delay(500)
+  await assertReceiveDrag('390 direct load')
+  // Use a clean foundation so other edited stages cannot affect notice counts.
+  await click('View'); await click('Strategies'); await click('New from baseline'); await click('Edit strategy')
+  await stage('Start')
+  await click('Reset stage')
+  assert.equal(await page.$eval('.strategy-warning summary', el => el.textContent), 'Needs review · 1 notice')
+  await click('Us serve'); await page.select('[aria-label="Selected athlete"]', 'harry')
+  await page.locator('[aria-label="Z metres"]').fill('8'); await delay(200)
+  assert.match(await page.$eval('.strategy-warning summary', el => el.textContent), /Needs review · (?:[2-9]|[1-9]\d+) notices/)
+  assert.ok(await page.$$eval('.strategy-warning p', els => els.length > 1), 'illegal placement retains validator notices')
+  await click('Reset stage')
+  assert.equal(await page.$eval('.strategy-warning summary', el => el.textContent), 'Needs review · 1 notice')
   await click('View'); await click('Set arcs'); await page.waitForSelector('canvas'); assert.ok(await page.$('canvas'))
   assert.deepEqual(errors, [])
-  console.log('PASS: R1-R6 exact viewer landmarks/shortcuts; compact name tags/no PASS HERE; focused editor/first-fold controls; legal Start playback; real desktop player/setter/attacker/waypoint/target drags; per-gesture undo; save/reload; duplicate/delete; import/shared previews and independent copies; View playback; 390px sheet/drag/no overflow; Set arcs accessible; no runtime errors.')
+  console.log(`PASS: ${process.env.UAT_SHORT ? 'focused run (viewer matrix skipped)' : 'R1-R6 exact viewer landmarks/shortcuts and 48 tactical choices'}; compact name tags/no PASS HERE; focused editor/first-fold controls; legal Start playback; real desktop player/setter/attacker/waypoint/target drags; per-gesture undo; save/reload; duplicate/delete; import/shared previews and independent copies; View playback; 1440→390→1440 bounds/drag/undo; direct phone, 375px, tablet and short landscape; notice grammar/validator disclosure; Set arcs accessible; no runtime errors.`)
 } finally { await page.screenshot({ path: path.join(cache, 'v4-e2e-last.png') }); await browser.close() }
 

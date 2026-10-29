@@ -1,6 +1,6 @@
 # V4 Independent UAT — 29 October 2026
 
-Status: **FAIL / HOLD PUBLICATION**, pending bounded responsive repair and post-fix full Chrome acceptance. The live GitHub Pages site remains V3 DRAFT. This review is by Normal Chat independently from Codex, on Windows via real locally rendered Chrome, not code-only or Codex self-attestation.
+Status: **PASS — SOFTWARE / BROWSER UAT ACCEPTED, PENDING PUBLIC PAGES VERIFICATION.** Tactics remain DRAFT and are not approved match instructions. The original V3 source geometry and Set arcs remain protected. This review is by Normal Chat independently from Codex, on Windows via real locally rendered Chrome, not code-only or Codex self-attestation.
 
 ## Test host and branch
 - Windows authorized desktop, genuine `PRYYSE/RotationStudio` worktree `D:\Projects\RotationStudio-V4`, branch `feature/strategy-studio-v4`, initial checkpoint `163bb1a`.

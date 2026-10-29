@@ -51,6 +51,6 @@ export function StrategyEditor({ warnings }: { warnings: string[] }) {
         <button onClick={() => { studio.resetRotation(key); setReset(false) }}>Confirm rotation reset</button><button onClick={() => setReset(false)}>Cancel</button>
       </div>}
     </>}
-    {!!warnings.length && <details className="strategy-warning"><summary>Needs review · {warnings.length} notices</summary>{warnings.slice(0, 20).map((w, i) => <p key={i}>{w}</p>)}{warnings.length > 20 && <p>{warnings.length - 20} further notices. Review exported JSON before approval.</p>}</details>}
+    {!!warnings.length && <details className="strategy-warning"><summary>Needs review · {warnings.length} {warnings.length === 1 ? 'notice' : 'notices'}</summary>{warnings.slice(0, 20).map((w, i) => <p key={i}>{w}</p>)}{warnings.length > 20 && <p>{warnings.length - 20} further {warnings.length - 20 === 1 ? 'notice' : 'notices'}. Review exported JSON before approval.</p>}</details>}
   </section>
 }
