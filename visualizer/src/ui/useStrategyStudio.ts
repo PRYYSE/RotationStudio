@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { activeScenario, useRotations } from '../state/rotationStore'
 import { useStrategies } from '../state/strategyStore'
-import { applyStrategy, readStrategyLink, stageTimes } from '../lib/strategyDraft'
+import { applyStrategy, laterDefendTime, readStrategyLink, scenarioCaseKey, stageTimes } from '../lib/strategyDraft'
 import type { RotationKey } from '../lib/strategyDraft'
 
 export function useStrategyStudio() {
@@ -25,15 +25,23 @@ export function useStrategyStudio() {
     if (!studio.editing) { useRotations.setState({ strategyMode: false, strategyEdit: null }); return }
     const current = useRotations.getState(), scenario = activeScenario(current)
     if (!scenario) return
-    const time = stageTimes(scenario)[studio.stage]
+    const caseKey = scenarioCaseKey(scenario)!
+    if (studio.scope && studio.scope !== caseKey) useStrategies.getState().setScope(caseKey)
+    const later = studio.laterDefend && studio.stage === 'Defend' ? laterDefendTime(scenario) : undefined
+    if (studio.laterDefend && later === undefined) useStrategies.getState().setLaterDefend(null)
+    const time = later ?? stageTimes(scenario)[studio.stage]
     useRotations.setState({ editor: true, strategyMode: true, view: 'top', playing: false, time, editTime: time,
       example: null, exampleResult: null, exampleScenario: null,
       strategyEdit: spot => {
         const r = useRotations.getState(), scenario = activeScenario(r), state = useStrategies.getState()
         const key = `${r.rotation}/${r.serve}` as RotationKey
-        const player = state.stage === 'Set' && r.selected === scenario?.secondContact.player ? 'target' : r.selected
-        state.move(key, player, spot)
+        if (!scenario) return
+        // Navigation never leaves an exact edit aimed at the previous case.
+        if (state.scope && state.scope !== scenarioCaseKey(scenario)) state.setScope(scenarioCaseKey(scenario)!)
+        if (state.laterDefend && laterDefendTime(scenario) === undefined) state.setLaterDefend(null)
+        const player = state.stage === 'Set' && r.selected === scenario.secondContact.player ? 'target' : r.selected
+        if (!(state.laterDefend && player === 'target')) state.move(key, player, spot)
       } })
-  }, [studio.editing, studio.stage, applied, s.published, s.rotation, s.serve, s.opponentAttack, s.firstTouch])
+  }, [studio.editing, studio.stage, studio.scope, studio.laterDefend, applied, s.published, s.rotation, s.serve, s.opponentAttack, s.firstTouch])
   return { studio, warnings: applied?.warnings ?? [] }
 }

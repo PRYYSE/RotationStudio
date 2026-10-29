@@ -16,7 +16,7 @@ import { useViewerReview } from './useViewerReview'
 
 export function Rotations() {
   const s = useRotations(), bundle = activeBundle(s), scenario = activeScenario(s)
-  const { studio, warnings } = useStrategyStudio()
+  const { studio } = useStrategyStudio()
   const [libraryOpen, setLibraryOpen] = useState(false)
   const [settings, setSettings] = useState(false)
   const [share, setShare] = useState('')
@@ -24,7 +24,7 @@ export function Rotations() {
   const currentStage = studio.editing ? studio.stage : scenario
     ? selectedEvent(scenario, s.time) ?? [...stageOrder(s.serve)].reverse().find(stage => stageTimes(scenario)[stage] <= s.time) ?? 'Start'
     : 'Start'
-  const review = useViewerReview(currentStage)
+  const review = useViewerReview(currentStage, studio.editing && studio.laterDefend && s.serve === 'us' && currentStage === 'Defend')
   const leaveEditor = () => {
     useStrategies.setState({ editing: false })
     if (s.editor) { const time = s.time; s.setEditor(false); s.seek(time) }
@@ -93,7 +93,7 @@ export function Rotations() {
     </div>
     {panel && <aside className="strategy-panel glass" aria-label="Strategy studio controls">
       <StrategyLibrary compact={studio.editing} />
-      {studio.editing && <StrategyEditor warnings={warnings} />}
+      {studio.editing && <StrategyEditor key={`${s.rotation}/${s.serve}/${s.opponentAttack}/${s.firstTouch}`} review={review} />}
       {!studio.editing && studio.working && <p className="strategy-warning">Foundation needs tactical review. View plays the V3 timing template with your foundation edits.</p>}
     </aside>}
     {!panel && <aside className="viewer-panel glass" aria-label="Court context">

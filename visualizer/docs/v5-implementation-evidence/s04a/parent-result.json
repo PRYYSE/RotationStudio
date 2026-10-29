@@ -1,0 +1,16 @@
+{
+  "outcome": "PASS",
+  "checks": [
+    "Signed X input preserves -0.5",
+    "Exact-case override distinct from shared placement",
+    "Case reset returns to shared without deleting it",
+    "Later defence separate from first defensive event",
+    "390px mobile edit court and panel non-overlapping",
+    "Mobile numeric edit works",
+    "Save and reload preserve draft, sentinel and V1 backup",
+    "Original Set arcs opens",
+    "Zero browser page errors"
+  ],
+  "failure": "",
+  "pageErrors": []
+}
