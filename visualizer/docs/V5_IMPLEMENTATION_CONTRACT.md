@@ -77,7 +77,7 @@ type StrategyDraftV2 = {
 }
 ~~~
 
-(Use normal TypeScript template-literal types in source; the escaped template delimiters above are documentation notation.)
+The TypeScript definitions above specify the required structure; reuse existing source types where compatible without changing these semantics.
 
 **Application order for every authored scenario**: immutable V3 base → shared overrides of that exact R/serve → optional exact caseOverrides key formed from scenario.tactics.opponentAttack and scenario.tactics.firstTouch → re-link contacts and all ball endpoints → validate structural/movement and report diagnostics. Later Defend is applied to the **second** own-serve “Defend again” event and its following defence/recovery frame(s), NOT the first “Defence ready” stage. For they serve, no laterDefend allowed; explicitly reject it from imports. No new sixth top-level editor stage.
 
