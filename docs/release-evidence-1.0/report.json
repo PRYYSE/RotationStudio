@@ -1,0 +1,92 @@
+{
+  "version": "1.0.0",
+  "website": "https://pryyse.github.io/RotationStudio/",
+  "checks": [
+    {
+      "name": "Live public 1.0 HTML, exact hashed JS/CSS, and protected plan JSON",
+      "detail": {
+        "mainAsset": "/RotationStudio/assets/index-D1VzJF-a.js",
+        "styleAsset": "/RotationStudio/assets/index-DA3NgI2Y.css",
+        "planStatus": "DRAFT",
+        "players": 6
+      }
+    },
+    {
+      "name": "Real live desktop court renders six people and 1.0 header"
+    },
+    {
+      "name": "Public rotations and actual right/Harry case selection",
+      "detail": {
+        "id": "6/they/right/harry",
+        "receiver": "harry",
+        "text": "Authored V3 · 6/they/right/harry · our right · Harry first · DRAFT"
+      }
+    },
+    {
+      "name": "New local strategy saved and restored after real public reload",
+      "detail": {
+        "savedId": "14fcc1ac-9b37-41a5-aabc-cc82e74c21ad"
+      }
+    },
+    {
+      "name": "Public share URL opens isolated recipient preview without writing their library"
+    },
+    {
+      "name": "Responsive public phone/landscape 390x844",
+      "detail": {
+        "width": 390,
+        "doc": 390,
+        "canvas": 390,
+        "brand": 122.234375,
+        "modes": 242.90625
+      }
+    },
+    {
+      "name": "Responsive public phone/landscape 375x812",
+      "detail": {
+        "width": 375,
+        "doc": 375,
+        "canvas": 375,
+        "brand": 122.234375,
+        "modes": 227.90625
+      }
+    },
+    {
+      "name": "Responsive public phone/landscape 844x390",
+      "detail": {
+        "width": 844,
+        "doc": 844,
+        "canvas": 544,
+        "brand": 142.34375,
+        "modes": 664.453125
+      }
+    },
+    {
+      "name": "Original Set arcs opens and returns to 3D rotations"
+    }
+  ],
+  "failures": [],
+  "errors": [],
+  "screenshots": [
+    "public-desktop.png",
+    "public-390x844.png",
+    "public-375x812.png",
+    "public-844x390.png",
+    "public-set-arcs.png"
+  ],
+  "assets": {
+    "/RotationStudio/assets/index-D1VzJF-a.js": {
+      "status": 200,
+      "contentType": "application/javascript; charset=utf-8",
+      "sha256": "2887231b8ea296e418b5778ff61c4b99f377e093c4e569738a7afcb15d209edd"
+    },
+    "/RotationStudio/assets/index-DA3NgI2Y.css": {
+      "status": 200,
+      "contentType": "text/css; charset=utf-8",
+      "sha256": "85842ae48c5c560bd46ad383cbd41bf6897823b3312c96dbbd6c5dbbde7d649e"
+    }
+  },
+  "date": "2026-10-30T02:02:36.609Z",
+  "status": "PASS",
+  "browser": "Chrome/156.0.8078.28"
+}

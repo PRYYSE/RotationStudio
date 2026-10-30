@@ -1,0 +1,6 @@
+PASS Player instruction visible and court responsive 390x844 {"cueVisible":true,"visiblePixels":30.78125,"court":390}
+PASS Player instruction visible and court responsive 375x812 {"cueVisible":true,"visiblePixels":30.78125,"court":375}
+PASS Player instruction visible and court responsive 844x390 {"cueVisible":true,"visiblePixels":11,"court":544}
+PASS Player instruction visible and court responsive 1440x900 {"cueVisible":false,"visiblePixels":0,"court":1090}
+PASS Landscape editor has useful independent workspace {"height":112,"visibleButtons":["Save"]}
+FINAL PASS checks 5 screenshots 5
