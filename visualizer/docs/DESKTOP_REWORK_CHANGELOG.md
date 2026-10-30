@@ -1,5 +1,16 @@
 # RotationStudio — Courtline desktop rework
 
+## Slice C — Direct editing-tool layout (30 October 2026)
+
+**Status: locally verified; public release state is tracked in the canonical project checkpoint.** Independent 1440x900 desktop screenshot critique found that Action and Coverage were buried far below Position and Movement in the right inspector. This was a discoverability defect, despite correct storage logic.
+
+- Replaced the vertically stacked four-tool interface with a clear **Place | Route | Action | Zone** button switcher directly under the selected athlete, current moment and one-case scope. Exactly one focused editing panel is displayed at once; all four choices remain visible within a 1440x900 desktop viewport.
+- Player heading shows the **current teaching action** and selected coverage zone regardless of which tool is active. Undo/Redo and saved/unsaved indication remain visible while changing tools. Strong contrasting amber selected state and keyboard-visible focus.
+- Existing athlete position dragging, complete event-to-event routes, teaching actions, coverage and save behaviour are preserved, with no change to mobile View layout.
+- TypeScript/Pages-base build PASS; the independent isolated Thorium end-to-end player workflow 8/8 PASS after real tab switching, including Save/reload, Play/Pause and desktop/ultrawide/phone overflow checks. Images: [1440 with tools](desktop-evidence/slice-c-1440-tool-switcher.png), [3440](desktop-evidence/slice-c-3440-ultrawide.png), [QA receipt](desktop-evidence/slice-c-browser-receipt.json).
+- A separate real Thorium broad View matrix also PASS: **48/48 authored R1–R6 rotation/serve/attack-side/first-toucher cases**, nine First Ball cells, phase motion and exact Jump, Top/Front/Side/Orbit, seven visibility toggles, five viewports (1440, 390, 375, 768, landscape 844) with zero horizontal overflow. [Machine-readable receipt](desktop-evidence/slice-c-48-case-matrix-receipt.json); 19 screenshots in protected Windows QA cache.
+- This is a focused P1 usability remediation, not a claim of complete tactical or full-app UX sign-off.
+
 ## Slice B — Athlete editing (30 October 2026)
 
 **Status: implementation and local acceptance PASS.** This is the second coherent desktop milestone, following the already-public Slice A. Publication through existing Pages workflow is performed after a clean Git checkpoint.
@@ -20,7 +31,7 @@
 
 ### Open limitations and remaining product work
 - **Optional arbitrary extra movement stop deferred:** source event identity and fractional-time coverage handling need a coherent implementation; no non-working control is displayed. Per-event position/route-bend editing already works.
-- The action, movement and coverage sections are vertically stacked; at 1440×900, editing deeper controls currently requires inspector scrolling. End-of-large-parts review must critically simplify/control exposure and visual polish rather than equating functional tests with good UX.
+- **Addressed in Slice C:** Action and Coverage were buried in a scrolling form at 1440×900; the new direct four-tool switcher makes them available in one click. Additional large-part visual/tactical review must still distinguish good UX from merely passing tests.
 - Larger independent desktop UX review remains to do: varied case/athlete user journeys, full visual composition/camera at different sizes, tactics interpreted as coach instead of programmer, and fixes. Mobile View redesign intentionally deferred separately.
 - Real TTGVA referee-foot and tactical playbook approval are **not** established by browser tests; all base team tactics remain DRAFT.
 

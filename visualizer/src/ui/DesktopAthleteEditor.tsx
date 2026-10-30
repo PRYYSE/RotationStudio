@@ -22,6 +22,7 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
   const source = selectScenario(root, r.opponentAttack, r.firstTouch)
   const events = sourceEvents(source), event = r.playing ? events.filter(e => e.time <= r.time + 1e-7).at(-1) : events.find(e => e.id === studio.event?.id)
   const [confirmShared, setConfirmShared] = useState(false)
+  const [activeTool, setActiveTool] = useState<'position' | 'movement' | 'action' | 'coverage'>('position')
   const key = `${r.rotation}/${r.serve}` as RotationKey, caseKey = scenarioCaseKey(source)!
   const id = r.selected as PlayerId, player = team.players.find(p => p.id === id)
   const time = event?.time ?? r.time, changes = studio.working ? resolveStrategyRotation(studio.working, source) : undefined
@@ -54,6 +55,7 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
     <div className="editor-athlete-heading" style={{ '--athlete-color': player.color } as CSSProperties}>
       <p className="editor-eyebrow">ATHLETE PLAN <span>{event.label} · {time.toFixed(2)} s</span></p>
       <h2>{player.name} <span>P{positionOf(team, r.rotation, id)}</span></h2>
+      <p className="athlete-compact-status" aria-label="Current athlete action">{action ? ACTION_LABELS[action] : roleNames[role] ?? role} · {zone?.role ? coverageNames[zone.role] + ' zone' : 'Coverage not customised'}</p>
       <p className="editor-current-task">{review?.explanation.player || review?.explanation.team || 'Choose what this athlete should do at this moment.'}</p>
       <label>Selected athlete<select aria-label="Selected athlete" value={id} onChange={e => useRotations.setState({ selected: e.target.value })}>
         {team.players.map(p => <option value={p.id} key={p.id}>{p.name} · P{positionOf(team, r.rotation, p.id)}</option>)}
@@ -69,13 +71,23 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
         })}</ul>
         <button onClick={() => { studio.setScope(null); setConfirmShared(false) }}>Edit shared foundation</button><button onClick={() => setConfirmShared(false)}>Cancel</button></div>}
     </div>
-    <fieldset className="editor-fields" disabled={!studio.working || r.playing}>
-      <section className="athlete-section"><h3>Position</h3>
+    <div className="athlete-tool-switcher" role="group" aria-label="Athlete editing tools">
+      {(['position', 'movement', 'action', 'coverage'] as const).map(tool => <button key={tool} type="button" aria-pressed={activeTool === tool}
+        onClick={() => { setActiveTool(tool); if (tool === 'coverage') useRotations.setState({ receiveAreas: true }) }}>
+        {tool === 'position' ? 'Place' : tool === 'movement' ? 'Route' : tool === 'action' ? 'Action' : 'Zone'}
+      </button>)}
+    </div>
+    <div className="athlete-quick-history" role="group" aria-label="Edit history">
+      <button disabled={!studio.past.length || r.playing} onClick={studio.undo}>Undo</button>
+      <button disabled={!studio.future.length || r.playing} onClick={studio.redo}>Redo</button>
+      <span>{studio.saved ? 'Saved locally' : 'Unsaved changes'}</span>
+    </div>
+    <fieldset className="editor-fields" id="athlete-tool-panel" disabled={!studio.working || r.playing}>
+      {activeTool === 'position' && <section className="athlete-section"><h3>Position</h3>
         <p>{r.view === 'top' ? 'Drag the athlete on court to move them.' : 'Choose Top view to drag the athlete.'}</p>
         <p className="edit-change-summary">{Math.hypot(point.x - baseline.x, point.z - baseline.z).toFixed(2)} m from original position · the faint marker shows the original.</p>
-        <div className="rotation-row editor-history"><button disabled={!studio.past.length} onClick={studio.undo}>Undo</button><button disabled={!studio.future.length} onClick={studio.redo}>Redo</button></div>
-      </section>
-      <section className="athlete-section"><h3>Movement</h3>
+      </section>}
+      {activeTool === 'movement' && <section className="athlete-section"><h3>Movement</h3>
         <p>Into: {routeText(previous, event)}</p><p>Out: {routeText(event, next)}</p>
         <div className="rotation-row" aria-label="Route to edit"><button aria-pressed={studio.routeDirection === 'into'} onClick={() => useStrategies.setState({ routeDirection: 'into' })}>Into moment</button><button aria-pressed={studio.routeDirection === 'out'} onClick={() => useStrategies.setState({ routeDirection: 'out' })}>Out of moment</button></div>
         <div className="rotation-row"><button disabled={!canRoute || bends.length >= 8} onClick={() => {
@@ -86,15 +98,15 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
         }}>Add bend</button><button disabled={!canRoute} onClick={() => target && studio.bendAt(key, id, target.id, [])}>Straighten</button></div>
         {bends.length > 0 && <p>Drag a light handle on the court. {bends.map((_, i) => <button key={i} onClick={() => target && studio.bendAt(key, id, target.id, bends.filter((_, n) => n !== i))}>Delete bend {i + 1}</button>)}</p>}
         {!canRoute && <p>Movement editing starts after the serve and needs a neighbouring moment.</p>}
-      </section>
-      <section className="athlete-section"><h3>Action</h3><p>What {player.name} does at this moment. Original role: {roleNames[role] ?? role}.</p>
+      </section>}
+      {activeTool === 'action' && <section className="athlete-section"><h3>Action</h3><p>What {player.name} does at this moment. Original role: {roleNames[role] ?? role}.</p>
         <label>Teaching action<select aria-label="Teaching action" value={action ?? ''} onChange={e => studio.setAction(key, id, (e.target.value || null) as AthleteAction | null)}>
           <option value="">Original role · {roleNames[role] ?? role}</option>{ATHLETE_ACTIONS.map(a => <option value={a} key={a}>{ACTION_LABELS[a]}</option>)}
         </select></label><p className="action-badge">{action ? ACTION_LABELS[action] : `Original: ${roleNames[role] ?? role}`}</p>
         {warnings.map(w => <p className="strategy-warning" role="alert" key={w}>{w}</p>)}
         {action === 'block' && !isFront(positionOf(team, r.rotation, id)) && <p>Back-row athletes may defend near the net without blocking above it.</p>}
-      </section>
-      <section className="athlete-section"><h3>Coverage</h3><p>The space {player.name} is responsible for, separate from their action. Drag the two diamonds to resize.</p>
+      </section>}
+      {activeTool === 'coverage' && <section className="athlete-section"><h3>Coverage</h3><p>The space {player.name} is responsible for, separate from their action. Drag the two diamonds to resize.</p>
         <label>Coverage purpose<select aria-label="Coverage purpose" value={zone?.role ?? ''} onChange={e => setZone({ role: e.target.value as CoverageZone['role'] })}>
           <option value="" disabled>Choose a purpose</option>{COVERAGE_ROLES.map(v => <option value={v} key={v}>{coverageNames[v]}</option>)}
         </select></label>
@@ -106,7 +118,7 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
             }} /></label>)}
         </div></details>}
         {zone && <button disabled={!ownZone} onClick={() => studio.resetCoverage(key, id)}>Reset coverage</button>}
-      </section>
+      </section>}
     </fieldset>
     {studio.error && <p className="strategy-warning" role="alert">{studio.error}</p>}
   </section>

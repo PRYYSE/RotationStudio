@@ -150,6 +150,16 @@
   .court-first .editor-history button { font-size: 13px; min-height: 34px; padding: 6px 9px; border: 1px solid var(--line); }
   .court-first .editor-history button:first-child { color: #fff; background: #344753; }
   .court-first .editor-history button:disabled { opacity: .35; }
+  .court-first .athlete-compact-status { margin: 6px 0 8px; font-size: 12px; font-weight: 600; color: #e6c394; }
+  .court-first .athlete-tool-switcher { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; margin: 12px 0 0; padding-bottom: 8px; border-bottom: 1px solid #425665; }
+  .court-first .athlete-tool-switcher button { min-height: 40px; padding: 8px 3px; border-radius: 3px; border-bottom: 3px solid transparent; background: #26353f; color: #cedbe3; font-size: 13px; font-weight: 600; }
+  .court-first .athlete-tool-switcher button:hover { background: #354955; color: #fff; }
+  .court-first .athlete-tool-switcher button[aria-pressed=true] { color: #192128; border-bottom-color: #f4d1a0; background: #f0b875; }
+  .court-first .athlete-tool-switcher button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  .court-first .athlete-quick-history { display: flex; align-items: center; gap: 6px; padding: 8px 0 6px; }
+  .court-first .athlete-quick-history button { font-size: 12px; padding: 5px 11px; min-height: 31px; border: 1px solid #4a5b65; }
+  .court-first .athlete-quick-history button:disabled { opacity: .4; }
+  .court-first .athlete-quick-history span { margin-left: auto; font-size: 11px; color: #adc0cc; }
   .court-first .desktop-athlete-editor .athlete-section { padding: 12px 0; border-bottom: 1px solid var(--line); }
   .court-first .desktop-athlete-editor .athlete-section h3 { margin: 0 0 6px; font-size: 16px; }
   .court-first .desktop-athlete-editor .athlete-section p { margin: 7px 0; font-size: 13px; }

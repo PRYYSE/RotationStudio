@@ -18,16 +18,19 @@ page=await browser.newPage();page.setDefaultTimeout(27000);page.on('pageerror',e
 await page.setViewport({width:1440,height:900,deviceScaleFactor:1});
 await page.goto((process.env.COURTLINE_QA_URL || 'http://127.0.0.1:5221/RotationStudio/')+'?r=1&serve=us&attack=right&first=normal',{waitUntil:'domcontentloaded',timeout:90000});
 await page.waitForSelector('canvas');await pause(400);await click('Edit strategy');await page.waitForSelector('.desktop-athlete-editor');
-ok(!!await page.$('.desktop-event-rail'),'Event rail absent');ok(await page.$eval('.desktop-athlete-editor',e=>/Action/.test(e.textContent)&&/Coverage/.test(e.textContent)),'Missing action/coverage editor');
+ok(!!await page.$('.desktop-event-rail'),'Event rail absent');
+ok(!!await page.$('.athlete-tool-switcher'),'Quick athlete tool switcher absent');
+const toolBounds=await page.$eval('.athlete-tool-switcher',e=>{const r=e.getBoundingClientRect();return {top:r.top,bottom:r.bottom,h:innerHeight}});
+ok(toolBounds.bottom<=toolBounds.h,'Athlete tools below desktop viewport');ok(await page.$eval('.desktop-athlete-editor',e=>/Action/.test(e.textContent)&&/Coverage/.test(e.textContent)),'Missing action/coverage editor');
 pass('Desktop player-editor tools and chronological source events present');
-await event('p3:our-dig');await select('Selected athlete','harry');await select('Teaching action','cover');
+await event('p3:our-dig');await select('Selected athlete','harry');await click('Action');await select('Teaching action','cover');
 await event('p8:next-dig');await select('Teaching action','receive');
 await event('p3:our-dig');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='cover','Earlier action lost');
 await event('p8:next-dig');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='receive','Later action lost');
 pass('Harry Cover and Receive independently authored at first/next dig');
-await select('Selected athlete','georgia');await click('Into moment');await click('Add bend');
+await select('Selected athlete','georgia');await click('Route');await click('Into moment');await click('Add bend');
 ok(await page.$eval('.desktop-athlete-editor',e=>e.textContent.includes('Delete bend')),'Bend not added');pass('Georgia movement bend authored');
-await select('Selected athlete','jaz');await select('Coverage purpose','tip');pass('Jaz tip-zone coverage authored');
+await select('Selected athlete','jaz');await click('Zone');await select('Coverage purpose','tip');pass('Jaz tip-zone coverage authored');
 await shot('desktop-edits-1440');await click('Save');await pause(420);
 const prior=await page.evaluate(()=>localStorage.getItem('rotation-studio-strategies-v2'));const j=JSON.parse(prior||'null');ok(j?.library?.length>0,'Missing library save');
 const saved=j.library.find(s=>s.id===j.activeId), patch=saved?.caseOverrides?.['1/us/right/normal']?.eventOverrides;
@@ -35,14 +38,14 @@ ok(patch?.['p3:our-dig']?.actions?.harry==='cover','First action missing in save
 ok(patch?.['p8:next-dig']?.coverage?.jaz?.role==='tip','Coverage missing in save');ok(!!patch?.['p8:next-dig']?.routes?.georgia?.length,'Route bend missing in save');
 ok(!saved?.caseOverrides?.['1/us/left/normal'],'Unrelated case modified');pass('Saved actions/routes/coverage case isolated');
 await page.reload({waitUntil:'domcontentloaded'});await page.waitForSelector('canvas');await pause(350);await click('Edit strategy');await page.waitForSelector('.desktop-athlete-editor');
-await event('p3:our-dig');await select('Selected athlete','harry');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='cover','First action lost after reload');
+await event('p3:our-dig');await select('Selected athlete','harry');await click('Action');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='cover','First action lost after reload');
 await event('p8:next-dig');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='receive','Later action lost after reload');
 ok(await page.evaluate(()=>localStorage.getItem('rotation-studio-strategies-v2'))===prior,'Reload modified library unexpectedly');pass('Saved strategy survives reload byte-identically');
 await event('p3:our-dig');const before=Number((await page.$eval('[aria-label="Timeline time"]',e=>e.textContent)).replace('s',''));await page.click('button[aria-label="Play"]');
 await page.waitForFunction(()=>document.querySelector('[aria-label="Timeline time"]')?.dataset.playing==='true',{timeout:4000});await pause(900);
 const after=Number((await page.$eval('[aria-label="Timeline time"]',e=>e.textContent)).replace('s',''));ok(after>before+0.03,'Play did not advance');
 await page.click('button[aria-label="Pause"]');await pause(120);ok(await page.$eval('[aria-label="Timeline time"]',e=>e.dataset.playing)==='false','Pause ineffective');pass('Play advances full-rally preview and Pause halts');
-for(const [w,h] of [[1440,900],[3440,1440],[390,844]]){await page.setViewport({width:w,height:h});await pause(320);const m=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,rail:!!document.querySelector('.desktop-event-rail'),canvas:!!document.querySelector('canvas')}));result.layouts.push(m);ok(m.scroll<=w+1,'Horizontal overflow at '+w);ok(m.rail===(w>=900),'Breakpoint rail mismatch at '+w);ok(m.canvas,'Court missing at '+w);await shot('viewport-'+w)}
+for(const [w,h] of [[1440,900],[3440,1440],[390,844]]){await page.setViewport({width:w,height:h});await pause(320);const m=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,rail:!!document.querySelector('.desktop-event-rail'),canvas:!!document.querySelector('canvas')}));result.layouts.push(m);ok(m.scroll<=w+1,'Horizontal overflow at '+w);ok(m.rail===(w>=900),'Breakpoint rail mismatch at '+w);ok(m.canvas,'Court missing at '+w);if(w<900)ok(!await page.$('.athlete-tool-switcher'),'Desktop tools leaked onto mobile');await shot('viewport-'+w)}
 ok(!result.errors.length,'Page errors: '+result.errors.join('; '));pass('Desktop/ultrawide/mobile no horizontal overflow or JS exceptions');result.status='PASS';
 }catch(e){result.status='FAIL';result.error=String(e.stack||e);console.log('FAIL',result.error);if(page)await shot('failure').catch(()=>{})}
 finally{await fs.writeFile(dir+'/result.json',JSON.stringify(result,null,2));console.log('FINAL',result.status,result.checks.length,'checks');if(browser)await browser.close().catch(()=>{});if(result.status==='FAIL')process.exitCode=1}
