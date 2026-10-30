@@ -35,7 +35,9 @@ export function RotationLabels({ host }: { host: RefObject<HTMLDivElement | null
       const point = sampleTrack(scenario.tracks[p.id], s.time)
       const screen = new Vector3(point.x, .12, point.z).project(camera)
       const action = event && changes?.eventOverrides?.[event.id]?.actions?.[p.id as PlayerId]
-      const actionLabel = action ? ACTION_LABELS[action] : ''
+      // Keep desktop name/P tags compact at athletes' feet. Action remains
+      // visible in the selected-athlete inspector rather than widening all labels.
+      const actionLabel = !desktop && action ? ACTION_LABELS[action] : ''
       return { id: p.id, x: Math.round((screen.x + 1) * size.width / 2), y: Math.round((1 - screen.y) * size.height / 2),
         actionLabel, width: (p.name.length + actionLabel.length) * 7 + (actionLabel ? 70 : 48), priority: s.selected === p.id ? 0 : scenario.firstContact.player === p.id ? 1 : scenario.secondContact.player === p.id ? 2 : 3 }
     })

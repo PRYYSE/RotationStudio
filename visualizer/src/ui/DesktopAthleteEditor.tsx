@@ -85,11 +85,13 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
     <fieldset className="editor-fields" id="athlete-tool-panel" disabled={!studio.working || r.playing}>
       {activeTool === 'position' && <section className="athlete-section"><h3>Position</h3>
         <p>{r.view === 'top' ? 'Drag the athlete on court to move them.' : 'Choose Top view to drag the athlete.'}</p>
+        <p className="auto-path-guidance">Set their position here, choose the next stage and move them again. Their path connects automatically. Open Route only if you need a bend.</p>
         <p className="edit-change-summary">{Math.hypot(point.x - baseline.x, point.z - baseline.z).toFixed(2)} m from original position · the faint marker shows the original.</p>
       </section>}
       {activeTool === 'movement' && <section className="athlete-section"><h3>Movement</h3>
+        <p className="auto-path-guidance">The path is already drawn between stages. Select the arriving or leaving section, then add a bend only where needed.</p>
         <p>Into: {routeText(previous, event)}</p><p>Out: {routeText(event, next)}</p>
-        <div className="rotation-row" aria-label="Route to edit"><button aria-pressed={studio.routeDirection === 'into'} onClick={() => useStrategies.setState({ routeDirection: 'into' })}>Into moment</button><button aria-pressed={studio.routeDirection === 'out'} onClick={() => useStrategies.setState({ routeDirection: 'out' })}>Out of moment</button></div>
+        <div className="rotation-row" aria-label="Route to edit"><button aria-pressed={studio.routeDirection === 'into'} onClick={() => useStrategies.setState({ routeDirection: 'into' })}>Arriving path</button><button aria-pressed={studio.routeDirection === 'out'} onClick={() => useStrategies.setState({ routeDirection: 'out' })}>Leaving path</button></div>
         <div className="rotation-row"><button disabled={!canRoute || bends.length >= 8} onClick={() => {
           if (!target || !start) return
           const a = sampleTrack(scenario.tracks[id], start.time), b = sampleTrack(scenario.tracks[id], target.time)

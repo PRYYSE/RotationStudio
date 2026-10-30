@@ -20,15 +20,33 @@ await page.goto((process.env.COURTLINE_QA_URL || 'http://127.0.0.1:5221/Rotation
 await page.waitForSelector('canvas');await pause(400);await click('Edit strategy');await page.waitForSelector('.desktop-athlete-editor');
 ok(!!await page.$('.desktop-event-rail'),'Event rail absent');
 ok(!!await page.$('.athlete-tool-switcher'),'Quick athlete tool switcher absent');
+const quick=await page.$$eval('.stage-quick-list button',xs=>xs.map(x=>x.querySelector('strong')?.textContent.trim()));
+ok(quick.includes('Start')&&quick.includes('Receive / dig')&&quick.includes('Next dig'),'V4-style quick stages absent');
+ok(!await page.$('.all-source-events-open'),'Technical moments must start collapsed');
+const toggle=await page.$eval('.source-moments-toggle',e=>{const r=e.getBoundingClientRect(),p=e.parentElement.getBoundingClientRect();return{left:r.left,right:r.right,width:r.width,parentRight:p.right,scrollWidth:e.scrollWidth,clientWidth:e.clientWidth}});
+ok(toggle.width>=140&&toggle.scrollWidth<=toggle.clientWidth+1&&toggle.right<=toggle.parentRight+1,'More moments control is clipped at normal desktop size');
+await page.click('button[aria-label="Edit Start stage"]');await pause(140);
+ok(await page.$eval('button[aria-label="Edit Start stage"]',e=>e.getAttribute('aria-pressed'))==='true','Start stage selection failed');
+await page.click('button[aria-label="Edit Receive / dig stage"]');await pause(180);
+ok(await page.$eval('button[aria-label="Edit Receive / dig stage"]',e=>e.getAttribute('aria-pressed'))==='true','Receive stage selection failed');
+ok(await page.$eval('[aria-label="Timeline time"]',e=>e.dataset.playing)==='false','Changing stages unexpectedly animates');
+ok(await page.$eval('.desktop-athlete-editor',e=>e.textContent.includes('Their path connects automatically')),'Stage editing guidance missing');
+pass('Simple Start -> Receive stage navigation is instant; automatic path guidance visible');
+await page.click('.source-moments-toggle');await page.waitForSelector('.all-source-events-open');
+ok((await page.$$('.all-source-events-open button')).length>=14,'Detailed source moments lost');
+await page.click('.source-moments-toggle');await pause(90);
+ok(!await page.$('.all-source-events-open'),'Extra moments did not collapse');
 const toolBounds=await page.$eval('.athlete-tool-switcher',e=>{const r=e.getBoundingClientRect();return {top:r.top,bottom:r.bottom,h:innerHeight}});
 ok(toolBounds.bottom<=toolBounds.h,'Athlete tools below desktop viewport');ok(await page.$eval('.desktop-athlete-editor',e=>/Action/.test(e.textContent)&&/Coverage/.test(e.textContent)),'Missing action/coverage editor');
 pass('Desktop player-editor tools and chronological source events present');
 await event('p3:our-dig');await select('Selected athlete','harry');await click('Action');await select('Teaching action','cover');
 await event('p8:next-dig');await select('Teaching action','receive');
+const harryTag=await page.$eval('.athlete-label[data-player="harry"]',e=>e.textContent.trim());
+ok(harryTag.includes('Harry')&&/P\d/.test(harryTag)&&!harryTag.includes('Receive')&&!harryTag.includes('Cover'),'Desktop tags should show compact name/P only, not action text');
 await event('p3:our-dig');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='cover','Earlier action lost');
 await event('p8:next-dig');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='receive','Later action lost');
 pass('Harry Cover and Receive independently authored at first/next dig');
-await select('Selected athlete','georgia');await click('Route');await click('Into moment');await click('Add bend');
+await select('Selected athlete','georgia');await click('Route');await click('Arriving path');await click('Add bend');
 ok(await page.$eval('.desktop-athlete-editor',e=>e.textContent.includes('Delete bend')),'Bend not added');pass('Georgia movement bend authored');
 await select('Selected athlete','jaz');await click('Zone');await select('Coverage purpose','tip');pass('Jaz tip-zone coverage authored');
 await shot('desktop-edits-1440');await click('Save');await pause(420);
@@ -46,6 +64,12 @@ await page.waitForFunction(()=>document.querySelector('[aria-label="Timeline tim
 const after=Number((await page.$eval('[aria-label="Timeline time"]',e=>e.textContent)).replace('s',''));ok(after>before+0.03,'Play did not advance');
 await page.click('button[aria-label="Pause"]');await pause(120);ok(await page.$eval('[aria-label="Timeline time"]',e=>e.dataset.playing)==='false','Pause ineffective');pass('Play advances full-rally preview and Pause halts');
 for(const [w,h] of [[1440,900],[3440,1440],[390,844]]){await page.setViewport({width:w,height:h});await pause(320);const m=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,rail:!!document.querySelector('.desktop-event-rail'),canvas:!!document.querySelector('canvas')}));result.layouts.push(m);ok(m.scroll<=w+1,'Horizontal overflow at '+w);ok(m.rail===(w>=900),'Breakpoint rail mismatch at '+w);ok(m.canvas,'Court missing at '+w);if(w<900)ok(!await page.$('.athlete-tool-switcher'),'Desktop tools leaked onto mobile');await shot('viewport-'+w)}
+await page.setViewport({width:1440,height:900});await pause(190);await click('They serve');await pause(230);
+const opponentStages=await page.$$eval('.stage-quick-list strong',es=>es.map(x=>x.textContent.trim()));
+ok(opponentStages.includes('Receive / dig')&&opponentStages.includes('Block / defend')&&opponentStages.includes('Next set'),'Their-serve quick stages must expose first pass, block and next set');
+await page.click('button[aria-label="Edit Receive / dig stage"]');await pause(130);
+ok(await page.$eval('[aria-label="Timeline time"]',e=>e.dataset.playing)==='false','Their-serve receive auto-animates unexpectedly');
+pass('They-serve quick stages map first pass/block/next set correctly and jump instantly');
 ok(!result.errors.length,'Page errors: '+result.errors.join('; '));pass('Desktop/ultrawide/mobile no horizontal overflow or JS exceptions');result.status='PASS';
 }catch(e){result.status='FAIL';result.error=String(e.stack||e);console.log('FAIL',result.error);if(page)await shot('failure').catch(()=>{})}
 finally{await fs.writeFile(dir+'/result.json',JSON.stringify(result,null,2));console.log('FINAL',result.status,result.checks.length,'checks');if(browser)await browser.close().catch(()=>{});if(result.status==='FAIL')process.exitCode=1}

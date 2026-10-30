@@ -1,5 +1,17 @@
 # RotationStudio — Courtline desktop rework
 
+## Slice D — Simple stage-first placement and automatic movement (30 October 2026)
+
+**User-requested course correction:** Restore the easy V4 authoring model. Author selects Start, Receive/Dig, Set, Attack, Defend/Recover, Block/Defend or Next Dig as appropriate; selects a player and drags them to their position. The underlying track connects the player to other authored positions and displays their path. Route editing is **optional** for a selected incoming/outgoing interval: Add bend, drag/remove bend, straighten. Do not expose a mandatory timeline or force manual path drawing. "More moments" expands the full authoritative source event list for later/alternate contacts without burying normal stage navigation in 16 technical events.
+
+**Implemented in desktop only:** Human quick-stage strip with exact mappings for both Us-serve and They-serve source labels (including their First pass → Receive/Dig, their attack → Block/Defend, Next set), instant jump on stage selection, fully accessible extra-events disclosure, a readable More moments button (corrected 48px clipping), concise placement/path guidance, Arriving/Leaving route names, and compact under-foot name/P-number tags without concatenated action text. Action remains visible in the selected-athlete inspector. Mobile View is not redesigned.
+
+**Evidence:** Normal Windows real Thorium regression **10/10 PASS**: instant Start→Receive, required quick stages on each serve, optional source events, independent first/next dig edits, Georgia route bend, Jaz coverage, case-isolated saved/reloaded strategy, Play/Pause, 1440 and 3440 desktop with unchanged phone breakpoint, no page errors or horizontal overflow. Separate real-mouse drag moved Jaz **0.93m at Start** while Receive/Dig retained separate placement; the source movement route is derived from the saved positions. **161/161 unit tests PASS** and Pages-base production build PASS; pre-existing nonblocking large-bundle advisory. Actual published Pages status to be confirmed through the release workflow.
+
+This is a focused product improvement, not proof the complete editor has perfect UI or all plausible volleyball contacts/alternate ball trajectories. Preserve legacy V1/V2 saves, original SetOptics/Set arcs, V3 DRAFT team source, all 48 authored cases and user browser-local R1/R2 drafts.
+
+---
+
 ## Slice C — Direct editing-tool layout (30 October 2026)
 
 **Status: locally verified; public release state is tracked in the canonical project checkpoint.** Independent 1440x900 desktop screenshot critique found that Action and Coverage were buried far below Position and Movement in the right inspector. This was a discoverability defect, despite correct storage logic.
