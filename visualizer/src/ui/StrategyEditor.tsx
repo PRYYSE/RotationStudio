@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type ReactNode, type CSSProperties } from 'react'
 import { useStrategies } from '../state/strategyStore'
 import { activeBundle, activeScenario, useRotations } from '../state/rotationStore'
 import { positionOf, sampleTrack, selectScenario } from '../lib/rotationModel'
@@ -11,6 +11,11 @@ import type { ReviewProjection } from '../lib/reviewTypes'
 import { CoverageEditor } from './CoverageEditor'
 import { EventNavigator } from './EventNavigator'
 import { eventRouteInterval, sourceEvents } from '../lib/strategyEvents'
+import { selectDesktopEvent } from '../state/desktopNavigation'
+
+function EditorDisclosure({ desktop, title, children }: { desktop: boolean; title: string; children: ReactNode }) {
+  return desktop ? <details className="editor-disclosure"><summary>{title}</summary>{children}</details> : <>{children}</>
+}
 
 function MetreField({ axis, value, max, commit }: { axis: 'x' | 'z'; value: number; max: number; commit: (n: number) => void }) {
   const [draft, setDraft] = useState<string | null>(null), [invalid, setInvalid] = useState(false)
@@ -62,7 +67,7 @@ function ImpactInspector({ review, rotationKey }: { review: ReviewProjection | n
   </details>
 }
 
-export function StrategyEditor({ review }: { review: ReviewProjection | null }) {
+export function StrategyEditor({ review, desktop = false }: { review: ReviewProjection | null; desktop?: boolean }) {
   const studio = useStrategies(), s = useRotations(), scenario = activeScenario(s)!, team = activeBundle(s)!.team
   const [reset, setReset] = useState<'case' | 'rotation' | null>(null)
   const key = `${s.rotation}/${s.serve}` as RotationKey, caseKey = scenarioCaseKey(scenario)!
@@ -78,6 +83,7 @@ export function StrategyEditor({ review }: { review: ReviewProjection | null }) 
     } else s.navigate(destination)
   }
   const selectEvent = (id: string) => {
+    if (desktop) { selectDesktopEvent(source, id); return }
     const destination = events.find(e => e.id === id)?.time
     if (destination === undefined) return
     if (s.reducedMotion || Math.abs(s.time - destination) < .005) {
@@ -91,13 +97,36 @@ export function StrategyEditor({ review }: { review: ReviewProjection | null }) 
   const name = (id: string | null) => id === 'target' ? 'Setter pass target' : team.players.find(p => p.id === id)?.name ?? 'Not authored for this case'
   const targetDisabled = (later || !!event) && s.selected === 'target'
   const routesDisabled = s.selected === 'target' || (event ? event.time <= scenario.ball[0].start : studio.stage === 'Start')
+  const athlete = team.players.find(p => p.id === s.selected)
+  const athletePicker = <label>Selected athlete<select aria-label="Selected athlete" value={s.selected} onChange={e => useRotations.setState({ selected: e.target.value })}>
+    {team.players.map(p => <option key={p.id} value={p.id}>{p.name} · P{positionOf(team, s.rotation, p.id)}</option>)}<option value="target" disabled={later || !!event}>Setter pass target · gold ring</option>
+  </select></label>
+  const historyControls = <div className="rotation-row editor-history">
+    <button disabled={!studio.past.length || !!studio.gesture || s.playing} onClick={studio.undo}>Undo</button><button disabled={!studio.future.length || !!studio.gesture || s.playing} onClick={studio.redo}>Redo</button>
+    {event ? <button onClick={() => studio.resetEvent(key)}>Reset event</button> : <button onClick={() => studio.resetStage(key)}>Reset stage</button>}
+    {studio.scope ? <button disabled={!studio.working?.caseOverrides?.[caseKey]} onClick={() => setReset('case')}>Reset case to shared</button> : <button onClick={() => setReset('rotation')}>Reset rotation</button>}
+  </div>
   return <section className="strategy-editor" aria-label="Court strategy editor">
+    {desktop && <div className="editor-athlete-heading" style={{ '--athlete-color': athlete?.color ?? '#efb56b' } as CSSProperties}>
+      <p className="editor-eyebrow">POSITION EDITOR <span>{event?.time.toFixed(2) ?? time.toFixed(2)} s · {event?.label ?? studio.stage}</span></p>
+      <h2>{name(s.selected)} <span>{athlete ? `P${positionOf(team, s.rotation, athlete.id)}` : 'Target'}</span></h2>
+      <p className="editor-current-task">{review?.explanation.player || review?.explanation.team || (athlete && sampleTrack(source.tracks[athlete.id], time).role) || 'Choose an athlete and drag to reposition.'}</p>
+      <div className="editor-athlete-picker">{athletePicker}</div>
+      <p className="editor-scope" aria-label="Current edit scope">{studio.scope ? 'This exact case · Only this version' : 'Shared · Edits affect all 4 versions'}</p>
+      <div className="editor-scope-actions" aria-label="Edit scope">
+        <button aria-pressed={!studio.scope} onClick={() => studio.setScope(null)}>All 4 versions</button>
+        <button aria-pressed={!!studio.scope} onClick={() => studio.setScope(caseKey)}>Only this version</button>
+      </div>
+    </div>}
+    {!desktop && <>
     <div className="editor-context">
       <h2>R{s.rotation} · {s.serve === 'us' ? 'Us' : 'They'} serve · {event?.label ?? studio.stage}</h2>
       <nav className="strategy-stages" aria-label="Court stages">{stages.map(stage => <button key={stage} aria-pressed={!event && studio.stage === stage} onClick={() => selectStage(stage)}>{stage}</button>)}</nav>
       <p className="editor-scope" aria-label="Current edit scope">{studio.scope ? 'This exact case · 1 authored alternative' : 'Shared · all 4 authored alternatives'}<br />{name(s.selected)} · {event ? `${event.label} · ${time.toFixed(2)} s` : later ? 'Later: after our attack' : studio.stage}</p>
     </div>
     <EventNavigator events={events} selectedId={event?.id} onSelect={selectEvent} />
+    </>}
+    <EditorDisclosure desktop={desktop} title="Version & source details">
     {event && <section aria-label="Source event facts" className="editor-comparison">
       <h3>{event.label} · {time.toFixed(2)} s · source occurrence {event.occurrence}</h3>
       <p>{event.id} · {event.caseKey}<br />Source contact: {event.actors.map(name).join(', ') || 'No named our-team contact at this boundary'}. Selected athlete source role: {s.selected === 'target' ? 'Select an athlete' : sampleTrack(source.tracks[s.selected], time).role}.</p>
@@ -109,28 +138,32 @@ export function StrategyEditor({ review }: { review: ReviewProjection | null }) 
       <label>First touch<select aria-label="Editor first touch" value={s.firstTouch} onChange={e => s.chooseTactics(s.opponentAttack, e.target.value as typeof s.firstTouch)}><option value="normal">Normal</option><option value="harry">Harry first</option></select></label>
     </div>
     <p className="editor-provenance">Source case: {caseKey} · {review?.caseSource ?? 'published'} · Team V3 {BASE_REVISION}</p>
-    {studio.working && <div className="rotation-row" aria-label="Edit scope">
+    </EditorDisclosure>
+    {!desktop && studio.working && <div className="rotation-row" aria-label="Edit scope">
       <button aria-pressed={!studio.scope} onClick={() => studio.setScope(null)}>Shared: all 4 cases</button>
       <button aria-pressed={!!studio.scope} onClick={() => studio.setScope(caseKey)}>Customise this case</button>
     </div>}
-    {!studio.scope && studio.working?.caseOverrides && <p>Exact-case placements take precedence over shared fields. Inspect each alternative below.</p>}
+    {!desktop && !studio.scope && studio.working?.caseOverrides && <p>Exact-case placements take precedence over shared fields. Inspect each alternative below.</p>}
     {!event && s.serve === 'us' && studio.stage === 'Defend' && laterDefendTime(scenario) !== undefined && <div className="editor-occurrence" role="group" aria-label="Defend occurrence">
       <button aria-pressed={!later} onClick={() => studio.setLaterDefend(null)}>First: after our serve</button>
       <button aria-pressed={later} onClick={() => studio.setLaterDefend(scenario)}>Later: after our attack</button>
     </div>}
     {!studio.working ? <p>Team V3 is read-only. Create a strategy to place athletes and edit routes.</p> : <fieldset className="editor-fields" disabled={s.playing}>
       {s.playing && <p role="status">Preview playing · edit handles return when paused at an event.</p>}
-      <p>Drag athletes or enter metres. Fields commit on Enter or blur; Escape cancels. Scope selection alone saves no edit.</p>
+      <p className="editor-instruction">{desktop ? s.view === 'top' ? 'Drag the selected athlete on court, or enter metres below.' : 'Switch to Top to reposition athletes. Other views are for inspection.' : 'Drag athletes or enter metres. Fields commit on Enter or blur; Escape cancels. Scope selection alone saves no edit.'}</p>
       {studio.stage === 'Start' && <p className="strategy-warning">Start holds through service contact. Keep rotational order and P1 behind the endline on our serve; review the rule findings.</p>}
       <div className="editor-grid">
-        <label>Selected athlete<select aria-label="Selected athlete" value={s.selected} onChange={e => useRotations.setState({ selected: e.target.value })}>
-          {team.players.map(p => <option key={p.id} value={p.id}>{p.name} · P{positionOf(team, s.rotation, p.id)}</option>)}<option value="target" disabled={later || !!event}>Setter pass target · gold ring</option>
-        </select></label>
-        <button disabled={later || !!event} aria-pressed={s.selected === 'target'} onClick={() => useRotations.setState({ selected: 'target' })}>Select gold target</button>
+        {!desktop && athletePicker}
+        {!desktop && <button disabled={later || !!event} aria-pressed={s.selected === 'target'} onClick={() => useRotations.setState({ selected: 'target' })}>Select gold target</button>}
         {!targetDisabled && (['x', 'z'] as const).map(axis => <MetreField key={`${caseKey}/${studio.scope}/${studio.stage}/${event?.id}/${later}/${s.selected}/${axis}`} axis={axis} value={point[axis]} max={axis === 'x' ? 4.5 : s.selected === 'target' || (time === scenario.secondContact.time && s.selected === scenario.secondContact.player) ? 2.99 : event && time > scenario.ball[0].start ? 9 : 12} commit={n => s.edit({ ...point, [axis]: n })} />)}
       </div>
       {targetDisabled && <p>Select an athlete to edit this occurrence; the gold ring belongs to the first set and is read-only here.</p>}
+      {desktop && <>
+        <p className="edit-change-summary" aria-label="Position change from Team V3">{comparison ? Math.hypot(point.x - comparison.baseline.point.x, point.z - comparison.baseline.point.z) < .005 ? 'Original position · no displacement from Team V3 at this moment' : `${Math.hypot(point.x - comparison.baseline.point.x, point.z - comparison.baseline.point.z).toFixed(2)} m from Team V3 at this moment` : 'Setter pass target · linked to the first set'}</p>
+        {historyControls}
+      </>}
       <CoverageEditor />
+      <EditorDisclosure desktop={desktop} title="Position & movement evidence">
       <section className="editor-comparison" aria-label="Selected player comparison">
         <h3>{name(s.selected)} · {review?.eventLabel} · {time.toFixed(2)} s</h3>
         <p>Current: X {point.x.toFixed(2)}, Z {point.z.toFixed(2)} m</p>
@@ -141,6 +174,8 @@ export function StrategyEditor({ review }: { review: ReviewProjection | null }) 
           {comparison.current.releaseToEvent && <p>Service release to event: {comparison.current.releaseToEvent.from.time.toFixed(2)} → {time.toFixed(2)} s · {comparison.current.releaseToEvent.availableSeconds.toFixed(2)} s available · {comparison.current.releaseToEvent.pathMetres.toFixed(2)} m timeline path (straight {comparison.current.releaseToEvent.straightMetres.toFixed(2)} m).</p>}
         </> : <p>Gold target links the first second-contact athlete; select an athlete for a timed V3 route comparison.</p>}
       </section>
+      </EditorDisclosure>
+      <EditorDisclosure desktop={desktop} title="Advanced · incoming route tools">
       <div className="rotation-row">
         <button aria-pressed={studio.routeVisible} disabled={s.selected === 'target'} onClick={() => useStrategies.setState({ routeVisible: !studio.routeVisible })}>Incoming route</button>
         <button disabled={routesDisabled} onClick={() => {
@@ -152,11 +187,8 @@ export function StrategyEditor({ review }: { review: ReviewProjection | null }) 
         }}>{bends?.length ? 'Replace with one bend' : 'Add bend'}</button>
         <button disabled={routesDisabled} onClick={() => studio.bend(key, s.selected, [])}>Straighten</button>
       </div>
-      <div className="rotation-row">
-        <button disabled={!studio.past.length || !!studio.gesture} onClick={studio.undo}>Undo</button><button disabled={!studio.future.length || !!studio.gesture} onClick={studio.redo}>Redo</button>
-        {event ? <button onClick={() => studio.resetEvent(key)}>Reset event</button> : <button onClick={() => studio.resetStage(key)}>Reset stage</button>}
-        {studio.scope ? <button disabled={!studio.working.caseOverrides?.[caseKey]} onClick={() => setReset('case')}>Reset case to shared</button> : <button onClick={() => setReset('rotation')}>Reset rotation</button>}
-      </div>
+      </EditorDisclosure>
+      {!desktop && historyControls}
       {!event && studio.stage === 'Set' && <div className="strategy-assist">
         <p>Animated hitter: {name(review?.animatedHitter ?? null)}; other eligible front-row hitters: {review?.actors.filter(a => a.isOtherFrontHitterOption).map(a => name(a.id)).join(', ') || 'none'}. This does not author their ball trajectories.</p>
         {review?.actors.filter(a => a.isOtherFrontHitterOption).map(a => <p key={a.id}>{name(a.id)}: {a.availabilityText}</p>)}

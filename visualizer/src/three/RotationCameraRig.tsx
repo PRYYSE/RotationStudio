@@ -6,6 +6,7 @@ import * as THREE from 'three'
 import { activeScenario, useRotations } from '../state/rotationStore'
 import { useStrategies } from '../state/strategyStore'
 import { EDITOR_TARGET, EDITOR_MIN_DISTANCE, EDITOR_MAX_DISTANCE, editorZoomDistance } from '../lib/editorZoom'
+import { useDesktopWorkbench } from '../ui/useDesktopWorkbench'
 
 // Same aspect-fitted target/direction approach as the original CameraRig.
 const framings = {
@@ -15,6 +16,7 @@ const framings = {
   top: { target: [0, 0, 0.5], dir: [0, 1, 0.001], halfW: 5.8, halfH: 11 },
 } as const
 export function RotationCameraRig() {
+  const desktop = useDesktopWorkbench()
   const controls = useRef<Controls>(null)
   const { camera, size } = useThree()
   const view = useRotations((s) => s.view)
@@ -29,7 +31,7 @@ export function RotationCameraRig() {
   const destination = useRef(new THREE.Vector3())
   useEffect(() => {
     const original = framings[view]
-    const f = view === 'top' ? { target: EDITOR_TARGET, dir: [0, 1, .001] as const, halfW: 5.8, halfH: 6.8 }
+    const f = view === 'top' ? { target: EDITOR_TARGET, dir: [0, 1, .001] as const, halfW: desktop ? 5.2 : 5.8, halfH: desktop ? 5.6 : 6.8 }
       : ourHalf ? { ...original, target: [0, .5, 4.5] as const, halfW: view === 'side' ? 6.8 : 6, halfH: 6.8 } : original
     target.current.set(f.target[0], f.target[1], f.target[2])
     const aspect = size.width / size.height
@@ -47,7 +49,7 @@ export function RotationCameraRig() {
     controls.current?.update()
     // On mobile, stage labels may shift the canvas top by a few pixels without
     // changing its width/height. Do not discard the coach's zoom for that move.
-  }, [view, size.width, size.height, editing, ourHalf])
+  }, [view, size.width, size.height, editing, ourHalf, desktop])
   useEffect(() => {
     const c = controls.current
     if (!editing || !command || !c) return

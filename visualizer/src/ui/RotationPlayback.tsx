@@ -3,7 +3,10 @@ import { activeScenario, authoredScenario, useRotations } from '../state/rotatio
 import { useStrategies } from '../state/strategyStore'
 import { sourceEvents } from '../lib/strategyEvents'
 import { stageOrder, stageTimes } from '../lib/strategyDraft'
+import { selectScenario } from '../lib/rotationModel'
 import { EventNavigator } from './EventNavigator'
+import { useDesktopWorkbench } from './useDesktopWorkbench'
+import { selectDesktopEvent } from '../state/desktopNavigation'
 
 export function useRotationPlayback() {
   const s = useRotations(), studio = useStrategies(), wasPlaying = useRef(false)
@@ -19,7 +22,8 @@ export function useRotationPlayback() {
   }, [])
   useEffect(() => {
     if (wasPlaying.current && !s.playing && studio.editing) {
-      const source = authoredScenario(s)
+      const root = s.published?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
+      const source = root && selectScenario(root, s.opponentAttack, s.firstTouch)
       const event = source?.tactics && sourceEvents(source).find(e => e.time === s.time)
       if (source && event) studio.setEvent(source, event.id, s.published ?? undefined)
     }
@@ -38,17 +42,22 @@ export function ViewerEvents() {
 }
 
 export function RotationPlayback() {
+  const desktop = useDesktopWorkbench()
   const s = useRotations(), studio = useStrategies(), scenario = activeScenario(s)!
   const order = stageOrder(s.serve), times = stageTimes(scenario)
-  const events = useMemo(() => scenario.tactics && !scenario.teachingOnly ? sourceEvents(scenario) : [], [scenario])
-  const step = (direction: number, instant = false) => {
+  const root = s.published?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
+  const source = root ? selectScenario(root, s.opponentAttack, s.firstTouch) : scenario
+  const events = useMemo(() => source.tactics && !source.teachingOnly ? sourceEvents(source) : [], [source])
+  const step = (direction: number, instant = false, preview = false) => {
     const time = studio.editing
       ? (direction > 0 ? events.find(e => e.time > s.time) : [...events].reverse().find(e => e.time < s.time))?.time
       : (direction > 0 ? order.map(k => times[k]).find(t => t > s.time) : order.map(k => times[k]).reverse().find(t => t < s.time))
     if (time === undefined) return
-    if (studio.editing && (instant || s.reducedMotion)) {
+    if (studio.editing && desktop && !preview) {
+      selectDesktopEvent(source, events.find(e => e.time === time)!.id)
+    } else if (studio.editing && (instant || s.reducedMotion)) {
       const event = events.find(e => e.time === time)!
-      studio.setEvent(scenario, event.id, s.published ?? undefined)
+      studio.setEvent(source, event.id, s.published ?? undefined)
       s.navigate(time, true)
     } else s.navigate(time, instant)
   }
@@ -57,7 +66,7 @@ export function RotationPlayback() {
     // between the button label update and a quick Play/Pause gesture.
     const current = useRotations.getState()
     if (current.playing) current.pause()
-    else if (useStrategies.getState().editing) step(1)
+    else if (useStrategies.getState().editing) step(1, false, true)
     else current.toggle()
   }
   useEffect(() => {

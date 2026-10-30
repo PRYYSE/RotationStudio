@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { RotationScene } from '../three/RotationScene'
 import { activeBundle, activeScenario, useRotations } from '../state/rotationStore'
 import { loadBundle } from '../lib/rotationValidation'
@@ -18,8 +18,13 @@ import { useViewerReview } from './useViewerReview'
 import { RotationPlayback, ViewerEvents, useRotationPlayback } from './RotationPlayback'
 import { CourtTools } from './CourtTools'
 import { ShuffleControls } from './ShuffleControls'
+import { useDesktopWorkbench } from './useDesktopWorkbench'
+import { DesktopEventRail } from './DesktopEventRail'
+import { selectDesktopEvent } from '../state/desktopNavigation'
+import { InspectorResizeHandle } from './InspectorResizeHandle'
 
 export function Rotations() {
+  const desktop = useDesktopWorkbench()
   const s = useRotations(), bundle = activeBundle(s), scenario = activeScenario(s)
   const { studio, warnings } = useStrategyStudio()
   useRotationPlayback()
@@ -27,6 +32,7 @@ export function Rotations() {
   const [settings, setSettings] = useState(false)
   const [lowMotion, setLowMotion] = useState(false)
   const [share, setShare] = useState('')
+  const [inspectorWidth, setInspectorWidth] = useState<number>()
   const labelHost = useRef<HTMLDivElement>(null)
   const currentStage = studio.editing && !s.playing ? studio.stage : scenario
     ? selectedEvent(scenario, s.time) ?? coverageStage(scenario, s.time)
@@ -67,9 +73,15 @@ export function Rotations() {
   const times = stageTimes(scenario)
   const selected = currentStage
   const panel = studio.editing || libraryOpen
-  return <main className={`rotations court-first ${panel ? 'strategy-open' : ''} ${studio.editing ? 'strategy-editing' : ''} ${settings ? 'settings-open' : ''}`} aria-label="Rotation studio">
+  const sourceRoot = s.published?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
+  const source = sourceRoot && selectScenario(sourceRoot, s.opponentAttack, s.firstTouch)
+  const events = source?.tactics ? sourceEvents(source) : []
+  const currentEvent = [...events].reverse().find(e => e.time <= s.time)
+  return <main className={`rotations court-first ${panel ? 'strategy-open' : ''} ${studio.editing ? 'strategy-editing' : ''} ${settings ? 'settings-open' : ''}`} style={desktop && inspectorWidth ? { '--inspector-width': `${inspectorWidth}px` } as CSSProperties : undefined} aria-label="Rotation studio">
     <div className="rotation-canvas" aria-label="Interactive volleyball court">
       <RotationScene labelHost={labelHost} lowMotion={lowMotion} />
+      {desktop && <CourtTools />}
+      <div className="court-workbench-caption desktop-only"><span>PRYYSE / COURTLINE STUDIO</span><strong>R{s.rotation} <span>/{s.serve === 'us' ? ' Our serve' : ' Their serve'}</span></strong><small>{studio.editing ? 'Position editor · 9 × 9 m' : 'Rotation study · 9 × 18 m'}</small></div>
       {studio.editing && <div className="editor-zoom glass" role="group" aria-label="Edit court zoom">
         <button aria-label="Zoom in" onClick={() => studio.zoomCamera('in')}>+</button>
         <button aria-label="Zoom out" onClick={() => studio.zoomCamera('out')}>−</button>
@@ -80,6 +92,7 @@ export function Rotations() {
         {bundle.team.players.map(p => <span key={p.id} data-player={p.id} hidden className="athlete-label" style={{ borderColor: p.color }} aria-label={p.name} />)}
       </div>
     </div>
+    {desktop && <InspectorResizeHandle onResize={setInspectorWidth} />}
     <div className="rotation-top">
       <nav className="rotation-row glass" aria-label="Strategy mode">
         <button aria-pressed={!studio.editing && !libraryOpen} onClick={() => { leaveEditor(); setLibraryOpen(false) }}>View</button>
@@ -93,6 +106,10 @@ export function Rotations() {
           else studio.setStage(currentStage)
           if (!bundle.team.players.some(p => p.id === s.selected)) useRotations.setState({ selected: 'harry' })
           useStrategies.setState({ editing: true }); s.setEditor(true); setSettings(false); setLibraryOpen(false)
+          if (desktop && source) {
+            const destination = sourceEvents(source).find(e => e.time === s.time) ?? sourceEvents(source).find(e => e.time === times[currentStage]) ?? sourceEvents(source)[0]
+            selectDesktopEvent(source, destination.id)
+          }
         }}>Edit strategy</button>
         <button aria-pressed={libraryOpen && !studio.editing} aria-expanded={libraryOpen && !studio.editing} onClick={() => { s.stopShuffle(); if (studio.editing) leaveEditor(); setLibraryOpen(!libraryOpen) }}>Strategies</button>
       </nav>
@@ -110,7 +127,7 @@ export function Rotations() {
       {!studio.editing && <p className="library-preview-context" aria-label="Current preview focus">{currentStage} · {bundle.team.players.find(p => p.id === s.selected)?.name ?? 'Whole team'} · {phase.label} · {s.time.toFixed(2)}s</p>}
       <StrategyLibrary compact={studio.editing} />
       {warnings.filter(w => w.startsWith('Event edits were not applied:')).map(w => <p className="strategy-warning" role="alert" key={w}>{w}</p>)}
-      {studio.editing && <StrategyEditor key={`${s.rotation}/${s.serve}/${s.opponentAttack}/${s.firstTouch}`} review={review} />}
+      {studio.editing && <StrategyEditor key={`${s.rotation}/${s.serve}/${s.opponentAttack}/${s.firstTouch}`} review={review} desktop={desktop} />}
       {!studio.editing && studio.working && <p className="strategy-warning">Foundation needs tactical review. View plays the V3 timing template with your foundation edits.</p>}
       {!studio.editing && <ViewerEvents />}
     </aside>}
@@ -151,11 +168,13 @@ export function Rotations() {
     </aside>}
     <div className="rotation-bottom">
       <div className="rotation-cue" aria-live="off"><strong>{selected} · {bundle.team.players.find(p => p.id === s.selected)?.name ?? 'Whole team'} · {unavailable ? 'Sample unavailable · playback paused' : phase.label === 'Legal start' ? 'At serve contact' : phase.label}</strong></div>
-      <CourtTools />
+      {!desktop && <CourtTools />}
       <div className="rotation-timeline glass">
+        {desktop && studio.editing && source && <DesktopEventRail events={events} selectedId={currentEvent?.id} disabled={!!studio.gesture} onSelect={id => selectDesktopEvent(source, id)} />}
         <div className="rotation-markers" aria-label="Timeline markers">{stageOrder(s.serve).map(stage => <button key={stage} aria-label={`Seek ${stage}`} aria-pressed={selected === stage} onClick={() => {
           if (!studio.editing) { s.navigate(times[stage]); return }
-          if (s.reducedMotion || Math.abs(s.time - times[stage]) < .005) { studio.setStage(stage); s.navigate(times[stage], true) }
+          if (desktop && source) { const event = events.find(e => e.time === times[stage]); if (event) selectDesktopEvent(source, event.id) }
+          else if (s.reducedMotion || Math.abs(s.time - times[stage]) < .005) { studio.setStage(stage); s.navigate(times[stage], true) }
           else s.navigate(times[stage])
         }}>{stage}</button>)}</div>
         <RotationPlayback />

@@ -7,6 +7,9 @@ export function CourtTools() {
   const s = useRotations(), studio = useStrategies(), [layers, setLayers] = useState(false)
   const views: RotationView[] = ['front', 'side', 'orbit', 'top']
   return <div className="court-tools glass">
+    <nav className="desktop-camera-views desktop-only" aria-label="Quick court views">
+      {(['top', 'orbit', 'front', 'side'] as RotationView[]).map(view => <button key={view} aria-pressed={s.view === view} onClick={() => useRotations.setState({ view })}>{view[0].toUpperCase() + view.slice(1)}</button>)}
+    </nav>
     <label>Camera <select aria-label="Court camera view" value={s.view} onChange={e => useRotations.setState({ view: e.target.value as RotationView })}>
       {views.map(view => <option key={view} value={view}>{view[0].toUpperCase() + view.slice(1)}</option>)}
     </select></label>
