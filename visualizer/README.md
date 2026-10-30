@@ -1,20 +1,28 @@
-# Rotation Studio — V4 Strategy Studio
+# RotationStudio 1.0.0
 
-**Live app:** https://pryyse.github.io/RotationStudio/ · **Tactics:** DRAFT, not match-approved. An independently named, source-preserving fork of [dawsonpar/SetOptics](https://github.com/dawsonpar/SetOptics). The original **Set arcs** mode is still available.
+**Public app:** https://pryyse.github.io/RotationStudio/ · **Release:** stable 1.0 software · **Tactical material:** team-specific, pending coaching review.
 
-## V4: create, review and share a volleyball strategy
+RotationStudio is a complete, browser-based volleyball rotation visualiser and strategy editor. It is an independent, source-preserving adaptation of [dawsonpar/SetOptics](https://github.com/dawsonpar/SetOptics), retaining the original **Set arcs** workspace.
 
-- **View**: select R1–R6 and **They serve / Us serve**, press **Receive / Attack / Defend** to jump to exact event positions, or play the full rally. Settings controls opponent attack left/right, Harry-first alternatives, first-ball examples, camera and dynamic coverage.
-- **Edit strategy**: a new copy starts with **exactly the existing V3** (unchanged until you move someone). Choose the five understandable anchors **Start, Receive, Set, Attack, Defend**, ordered on *our serve* as **Start, Defend, Receive, Set, Attack**. Drag an athlete to their spot or enter X/Z metres; select them and add/drag an **incoming route bend**, or return to **Straight**. The gold target is movable. Undo/redo and reset are available.
-- **Strategies**: **Save** locally in this browser; rename/attribute to a coach, duplicate, delete with confirmation, export/import a small JSON strategy, or share a link that recipients open as a **preview** and explicitly **Save a copy**. Every coach/friend can have a different strategy. **There is no account, backend or automatic cross-device sync**: export/share to transfer work.
-- A strategy is a **sparse foundation**, applied to four tactical authored alternatives for a selected rotation and serve order. The animation preserves the V3 authored timing and remains marked **Needs review**. It does **not** independently optimise arbitrary first passes, blockers or all return paths. Ask ChatGPT to review an exported strategy and complete tactical variants before using it as team instructions.
-- The public **Team V3 baseline** is immutable. An illegal starting stack or an implausible animated movement gives review notices, not false approval. Front-row eligibility, back-row Harry rules, and TTGVA serve-contact order still apply.
+## What you can do
 
-**Verification:** see [V4 Independent UAT](docs/V4_INDEPENDENT_UAT.md): 73 unit/regression tests, real desktop/phone browser interactions, all rotations/alternatives, live resize, save/share, and production preview. Real-court execution has not been verified. More realistic jumping/spiking/blocking, collision-aware mobile labels and expanded tactical assistance are future design work.
+- **Rotations:** switch between R1–R6 and both serve owners. Explore 48 authored cases by opponent attack direction and first-contact variation; inspect the 3D court, player responsibilities and actual source events.
+- **Playback and camera:** follow animated player/ball movement between authored phases; pause, step or Jump to exact events. Switch between Top, Front, Side and Orbit cameras, show/hide overlays and zoom.
+- **First Ball and Shuffle:** explore nine first-ball landing areas as labelled teaching examples; use source-backed, seeded Shuffle across the four authored cases for the selected rotation/serve.
+- **Edit strategy:** customise the existing unchanged Team V3 foundation. Edit anchors, source-event positions, route bends, coverage responsibilities, coaching notes and exact cases; use Undo, Redo and scoped resets.
+- **My strategies:** save independent strategies locally, rename or duplicate them, export/import JSON, share preview links, save a recipient copy and print a five-stage Team reference.
+
+**Desktop and mobile:** designed for desktop, tablet, portrait and short-landscape screens. The 1.0 release is the foundation for additional features and targeted improvements, not a beta or demonstration build.
+
+**Strategy ownership:** there is no account, cloud sync or automatic cross-device backup. Your saved strategies stay in this browser profile and site origin. Export the JSON or share a link before changing devices, browser profiles or clearing site data.
+
+**Tactical review:** 1.0 is the first full software release. The included team formations retain the **DRAFT** label because on-court legality, athletic reach and match tactics still require team/coach review. DRAFT describes the proposed tactics, not whether the app is finished.
+
+**Verification:** 153 automated tests, 48 authored cases, desktop/mobile browser editing and original Set arcs were independently accepted. See [V5 UAT](docs/V5_UAT_REPORT.md) and the [1.0.0 public release record](docs/RELEASE_1.0.0.md).
 
 ---
 
-## V1–V3 technical background (historical; V4 above governs normal use)
+## Earlier V1–V4 technical background (historical)
 
 A source-preserving extension of the public [SetOptics visualizer](https://github.com/dawsonpar/SetOptics), licensed under the repository's Apache-2.0 [LICENSE](../LICENSE). Rotation Studio is a fork adaptation, with original branding and no implied endorsement. No hosted SetOptics rotation code is included.
 

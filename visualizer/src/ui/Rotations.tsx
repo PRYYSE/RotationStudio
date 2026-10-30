@@ -57,7 +57,7 @@ export function Rotations() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
   if (!bundle || !scenario) return <div className="rotation-loading" role="status">
-    {s.loading ? 'Loading training demo…' : <><p role="alert">{s.error}</p><button onClick={load}>Retry plans</button></>}
+    {s.loading ? 'Loading rotations…' : <><p role="alert">{s.error}</p><button onClick={load}>Retry plans</button></>}
   </div>
   const phase = phaseAt(scenario, s.time)
   const status = bundle.plans.status
@@ -168,7 +168,7 @@ export function Rotations() {
         </div></div>
         {share && <div className="share-feedback" role="status">{share}<button aria-label="Dismiss share message" onClick={() => setShare('')}>×</button></div>}
       </div>
-      <p className="demo-disclaimer">{s.example ? 'Teaching example — not approved match positions.' : demo ? 'DEMO · Demonstration movements — not approved match positions.' : s.draft || status === 'DRAFT' ? 'Draft — not approved match positions.' : 'Coach-approved plan · structural checks are not referee certification.'}</p>
+      <p className="demo-disclaimer">{s.example ? 'Teaching example — not approved match positions.' : demo ? 'DEMO · Demonstration movements — not approved match positions.' : s.draft || status === 'DRAFT' ? 'Tactical positions are team-specific. Review before match play.' : 'Coach-approved plan · structural checks are not referee certification.'}</p>
     </div>
   </main>
 }

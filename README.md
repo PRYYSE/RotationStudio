@@ -1,6 +1,14 @@
-# Rotation Studio — a fork of SetOptics
+# RotationStudio 1.0.0
 
-This is an independently named adaptation of the Apache-2.0 open-source [dawsonpar/SetOptics](https://github.com/dawsonpar/SetOptics) project, preserving its source and history. The original visualizer/ set-trajectory editor remains available as Set arcs. The added six-player Rotation Studio lives in the same React/Three.js application. The public tactical DRAFT is not yet approved for match use. SetOptics is a trademark of its original author; no endorsement is implied.
+**Public application:** https://pryyse.github.io/RotationStudio/ · [User guide](visualizer/README.md) · [Release record](visualizer/docs/RELEASE_1.0.0.md)
+
+RotationStudio 1.0.0 is the first full software release of a browser-based 3D volleyball rotations and strategy editor. It supports six rotations, both serve owners, 48 authored cases, animated event playback, editable player positions/routes/coverage, local strategy saves, import/export, share links, printable references, Shuffle and the original Set arcs mode.
+
+This repository remains an independent Apache-2.0 [dawsonpar/SetOptics](https://github.com/dawsonpar/SetOptics) adaptation. Original source, Set arcs, licence and attribution are preserved, without implying author endorsement.
+
+**Software versus coaching:** the app is fully released at 1.0.0. The supplied team tactics remain **DRAFT** pending player/coach approval and real-court validation. Saved strategies are browser-local; export them before clearing site data or changing profiles.
+
+---
 
 # Upstream SetOptics information
 

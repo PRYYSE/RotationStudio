@@ -1,9 +1,9 @@
 {
   "name": "visualizer",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
-  "description": "Rotation Studio: 3D volleyball training demos and set trajectories",
+  "description": "RotationStudio 1.0: 3D volleyball rotations and strategy editing, with original Set arcs",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
