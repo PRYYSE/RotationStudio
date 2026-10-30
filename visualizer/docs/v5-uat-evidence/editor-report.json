@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "Exact case coordinate edit / undo / redo",
+      "details": {
+        "start": 0.9,
+        "target": 1.04
+      }
+    },
+    {
+      "label": "Case-specific role/depth coverage fields",
+      "details": {
+        "width": 3.6,
+        "newWidth": 3.8
+      }
+    },
+    {
+      "label": "Two independent real R1 Us-serve dig event edits saved; other case untouched",
+      "details": {
+        "first": "p3:our-dig",
+        "second": "p8:next-dig",
+        "keys": [
+          "p3:our-dig",
+          "p8:next-dig"
+        ]
+      }
+    },
+    {
+      "label": "Exact saved strategy persists byte-equivalent after reload",
+      "details": "41c85f98-b9ba-4b76-9ba0-81823193e274"
+    },
+    {
+      "label": "GUI inherited versus exact event case isolation",
+      "details": {
+        "xleft": 0.77,
+        "xright": 1.19
+      }
+    },
+    {
+      "label": "Editor real mobile/short landscape responsive with no horizontal overflow",
+      "details": 3
+    }
+  ],
+  "screenshots": [
+    "desktop-editor-all-events.png",
+    "editor-390x844.png",
+    "editor-375x812.png",
+    "editor-844x390.png"
+  ],
+  "errors": [],
+  "failures": [],
+  "storageBefore": {
+    "UAT_SENTINEL": "PRESERVED"
+  },
+  "storageAfter": {
+    "rotation-studio-strategies-v2": "{\"schemaVersion\":2,\"library\":[{\"kind\":\"rotation-studio-strategy\",\"schemaVersion\":2,\"id\":\"41c85f98-b9ba-4b76-9ba0-81823193e274\",\"name\":\"My strategy\",\"author\":\"Coach\",\"baseRevision\":\"8c0fb5d\",\"overrides\":{},\"caseOverrides\":{\"1/us/right/normal\":{\"anchors\":{\"Start\":{\"caleb\":{\"x\":1.04,\"z\":6.7}}},\"coverage\":{\"Start\":{\"caleb\":{\"role\":\"deep\",\"radiusX\":1.9,\"radiusZ\":2}}},\"eventOverrides\":{\"p3:our-dig\":{\"anchors\":{\"caleb\":{\"x\":1.19,\"z\":6.75}}},\"p8:next-dig\":{\"anchors\":{\"caleb\":{\"x\":1.07,\"z\":6.75}}}}}}}],\"activeId\":\"41c85f98-b9ba-4b76-9ba0-81823193e274\"}",
+    "UAT_SENTINEL": "PRESERVED"
+  }
+}

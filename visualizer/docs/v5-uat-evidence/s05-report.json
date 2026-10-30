@@ -1,0 +1,33 @@
+{
+  "checks": [
+    "V1 fixture available; duplicate/save creates V2 without changing V1 backup",
+    "V2 coverage/case/later fields survive import → Save a copy → real reload; unsafe and >100KB files preserve saved data",
+    "Actual sparse JSON and Review downloads roundtrip; packet records R3/us/right/harry, Set, source, notes, findings and DRAFT",
+    "Real clipboard link opens clean-context preview, edits never autosave, Save a copy gets distinct ID and reload keeps saved copy",
+    "Delete requires confirmation; Cancel retains draft",
+    "R3 Us-serve reference uses real edited court/P identities/five stages/notes; 1440,390,844 and print have no clipped geometry; mobile actions reachable",
+    "Original Set arcs remains selectable; no page errors"
+  ],
+  "errors": [],
+  "measurements": [
+    {
+      "width": 1440,
+      "scroll": 1440,
+      "client": 1440,
+      "clipped": []
+    },
+    {
+      "width": 390,
+      "scroll": 390,
+      "client": 390,
+      "clipped": []
+    },
+    {
+      "width": 844,
+      "scroll": 844,
+      "client": 844,
+      "clipped": []
+    }
+  ],
+  "passed": true
+}

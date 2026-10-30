@@ -250,6 +250,7 @@
 .shuffle-history [aria-current] { color: #ffe49b; }
 .viewer-heading { display: flex; align-items: center; justify-content: space-between; gap: 4px; position: sticky; top: -10px; z-index: 3; background: #101b2c; padding: 2px 0; }
 .viewer-heading button { font-size: 11px; padding: 4px 8px; }
+.viewer-mobile-role-call { display: none; }
 .player-focus { font-size: 12px; line-height: 1.45; }
 .player-focus h2 { font-size: 14px; margin: 8px 0; }
 .player-focus p { margin: 7px 0; }
@@ -312,8 +313,11 @@
   .court-first .rotation-markers { overflow: visible; }
   .court-first .rotation-markers button { flex: 1; min-width: 0; min-height: 44px; padding: 2px 4px; font-size: 10px; }
   .court-first .rotation-cue strong { font-size: 11px; }
-  .viewer-heading { top: 0; min-height: 34px; }
+  .viewer-heading { top: 0; min-height: 34px; flex-wrap: wrap; }
   .viewer-heading button { min-height: 34px; }
+  /* Keep an actionable player cue visible without making teammates scroll past Shuffle. */
+  .viewer-mobile-role-call { display: -webkit-box; flex: 0 0 100%; margin: 0 0 2px; line-height: 1.4; font-size: 11px; color: #e8f4ff; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+  .viewer-mobile-role-call strong { color: #ffe49b; }
   .focus-selector { flex-direction: row; align-items: center; justify-content: space-between; font-size: 11px; }
   .focus-selector select { min-height: 34px; width: 55%; }
   .player-focus h2 { font-size: 12px; margin: 4px 0; }
@@ -326,6 +330,10 @@
 }
 @media (max-width: 850px) and (max-height: 600px) and (orientation: landscape) {
   .court-first, .court-first.strategy-editing, .court-first.settings-open, .court-first.strategy-open { grid-template-columns: minmax(0, 1fr) 300px; grid-template-rows: 58px 86px minmax(0, 1fr) 194px; }
+  /* Edit already has stage buttons in its own panel; avoid a second stage strip
+     squeezing the actual editable controls into a 52px landscape sliver. */
+  .court-first.strategy-editing { grid-template-rows: 58px 86px minmax(0, 1fr) 134px; }
+  .court-first.strategy-editing .rotation-markers, .court-first.strategy-editing .rotation-footer { display: none; }
   .court-first .rotation-canvas { grid-column: 1; grid-row: 2 / -1; }
   .court-first .rotation-top { grid-column: 2; grid-row: 2; padding: 0 6px; }
   .court-first .rotation-top button { min-height: 26px; padding: 2px 8px; }

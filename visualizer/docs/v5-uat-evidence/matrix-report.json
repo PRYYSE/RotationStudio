@@ -1,0 +1,344 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "label": "Desktop 3D court + six player identities + DRAFT",
+      "data": {
+        "w": 1090,
+        "h": 534
+      }
+    },
+    {
+      "label": "All 48 authored rotation/serve/attack/first-toucher variants",
+      "data": 48
+    },
+    {
+      "label": "All nine First Ball cells",
+      "data": 9
+    },
+    {
+      "label": "Continuous View phase motion and exact Jump",
+      "data": {
+        "v": 1.13,
+        "to": 2.75,
+        "playing": "true"
+      }
+    },
+    {
+      "label": "Five responsive viewports",
+      "data": [
+        {
+          "w": 1440,
+          "overflow": 0,
+          "court": 1090
+        },
+        {
+          "w": 390,
+          "overflow": 0,
+          "court": 390
+        },
+        {
+          "w": 375,
+          "overflow": 0,
+          "court": 375
+        },
+        {
+          "w": 768,
+          "overflow": 0,
+          "court": 768
+        },
+        {
+          "w": 844,
+          "overflow": 0,
+          "court": 544
+        }
+      ]
+    },
+    {
+      "label": "Four quick cameras + seven layer toggles",
+      "data": 7
+    }
+  ],
+  "cases": [
+    {
+      "key": "1/they/left/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "1/they/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "1/they/right/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "1/they/right/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "1/us/left/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "1/us/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "1/us/right/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "1/us/right/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "2/they/left/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "2/they/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "2/they/right/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "2/they/right/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "2/us/left/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "2/us/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "2/us/right/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "2/us/right/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "3/they/left/normal",
+      "receiver": "georgia"
+    },
+    {
+      "key": "3/they/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "3/they/right/normal",
+      "receiver": "georgia"
+    },
+    {
+      "key": "3/they/right/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "3/us/left/normal",
+      "receiver": "georgia"
+    },
+    {
+      "key": "3/us/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "3/us/right/normal",
+      "receiver": "georgia"
+    },
+    {
+      "key": "3/us/right/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "4/they/left/normal",
+      "receiver": "georgia"
+    },
+    {
+      "key": "4/they/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "4/they/right/normal",
+      "receiver": "georgia"
+    },
+    {
+      "key": "4/they/right/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "4/us/left/normal",
+      "receiver": "georgia"
+    },
+    {
+      "key": "4/us/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "4/us/right/normal",
+      "receiver": "georgia"
+    },
+    {
+      "key": "4/us/right/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "5/they/left/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "5/they/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "5/they/right/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "5/they/right/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "5/us/left/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "5/us/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "5/us/right/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "5/us/right/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "6/they/left/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "6/they/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "6/they/right/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "6/they/right/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "6/us/left/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "6/us/left/harry",
+      "receiver": "harry"
+    },
+    {
+      "key": "6/us/right/normal",
+      "receiver": "caleb"
+    },
+    {
+      "key": "6/us/right/harry",
+      "receiver": "harry"
+    }
+  ],
+  "screens": [
+    "desktop-open.png",
+    "r1-they.png",
+    "r1-us.png",
+    "r2-they.png",
+    "r2-us.png",
+    "r3-they.png",
+    "r3-us.png",
+    "r4-they.png",
+    "r4-us.png",
+    "r5-they.png",
+    "r5-us.png",
+    "r6-they.png",
+    "r6-us.png",
+    "viewport-1440x900.png",
+    "viewport-390x844.png",
+    "viewport-375x812.png",
+    "viewport-768x1024.png",
+    "viewport-844x390.png",
+    "visibility-desktop.png"
+  ],
+  "errors": [],
+  "samples": [
+    {
+      "i": 0,
+      "msg": "Teaching example · Caleb receives · Harry sets · Trent sample hitter"
+    },
+    {
+      "i": 1,
+      "msg": "Teaching example · Jaz receives · Harry sets · Caleb sample hitter"
+    },
+    {
+      "i": 2,
+      "msg": "No feasible authored example. No feasible first touch at this sample. Local paths are too close under the teaching spacing screen. Showing previous valid teaching example; playback paused."
+    },
+    {
+      "i": 3,
+      "msg": "No feasible authored example. No feasible first touch at this sample. No eligible athlete can reach from the legal service lineup within the teaching reach screen. Showing previous valid teaching example; playback paused."
+    },
+    {
+      "i": 4,
+      "msg": "Teaching example · Georgia receives · Harry sets · Caleb sample hitter"
+    },
+    {
+      "i": 5,
+      "msg": "Teaching example · Logan receives · Harry sets · Caleb sample hitter"
+    },
+    {
+      "i": 6,
+      "msg": "No feasible authored example. No feasible first touch at this sample. No eligible athlete can reach from the legal service lineup within the teaching reach screen. Showing previous valid teaching example; playback paused."
+    },
+    {
+      "i": 7,
+      "msg": "Teaching example · Georgia receives · Harry sets · Caleb sample hitter"
+    },
+    {
+      "i": 8,
+      "msg": "Teaching example · Logan receives · Harry sets · Caleb sample hitter"
+    }
+  ],
+  "geometry": [
+    {
+      "w": 1440,
+      "overflow": 0,
+      "court": 1090
+    },
+    {
+      "w": 390,
+      "overflow": 0,
+      "court": 390
+    },
+    {
+      "w": 375,
+      "overflow": 0,
+      "court": 375
+    },
+    {
+      "w": 768,
+      "overflow": 0,
+      "court": 768
+    },
+    {
+      "w": 844,
+      "overflow": 0,
+      "court": 544
+    }
+  ],
+  "failures": []
+}

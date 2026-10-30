@@ -1,0 +1,201 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "s": "Player instruction visible and court responsive 390x844",
+      "data": {
+        "cueVisible": true,
+        "visiblePixels": 30.78125,
+        "court": 390
+      }
+    },
+    {
+      "s": "Player instruction visible and court responsive 375x812",
+      "data": {
+        "cueVisible": true,
+        "visiblePixels": 30.78125,
+        "court": 375
+      }
+    },
+    {
+      "s": "Player instruction visible and court responsive 844x390",
+      "data": {
+        "cueVisible": true,
+        "visiblePixels": 11,
+        "court": 544
+      }
+    },
+    {
+      "s": "Player instruction visible and court responsive 1440x900",
+      "data": {
+        "cueVisible": false,
+        "visiblePixels": 0,
+        "court": 1090
+      }
+    },
+    {
+      "s": "Landscape editor has useful independent workspace",
+      "data": {
+        "height": 112,
+        "visibleButtons": [
+          "Save"
+        ]
+      }
+    }
+  ],
+  "failures": [],
+  "screenshots": [
+    "viewer-390x844.png",
+    "viewer-375x812.png",
+    "viewer-844x390.png",
+    "viewer-1440x900.png",
+    "editor-landscape-844x390.png"
+  ],
+  "pageErrors": [],
+  "geometry": [
+    {
+      "w": 390,
+      "h": 844,
+      "scroll": 390,
+      "viewer": {
+        "x": 8,
+        "y": 494,
+        "w": 374,
+        "h": 132,
+        "bottom": 626
+      },
+      "cue": {
+        "x": 19,
+        "y": 535,
+        "w": 352,
+        "h": 30.78125,
+        "bottom": 565.78125
+      },
+      "editor": null,
+      "court": {
+        "x": 0,
+        "y": 140,
+        "w": 390,
+        "h": 354,
+        "bottom": 494
+      },
+      "footer": {
+        "x": 8,
+        "y": 620.75,
+        "w": 374,
+        "h": 228.5,
+        "bottom": 849.25
+      },
+      "cueVisible": true,
+      "text": "Harry · Legal start: Harry begins P1. After contact you may move to your next displayed responsibility."
+    },
+    {
+      "w": 375,
+      "h": 812,
+      "scroll": 375,
+      "viewer": {
+        "x": 8,
+        "y": 462,
+        "w": 359,
+        "h": 132,
+        "bottom": 594
+      },
+      "cue": {
+        "x": 19,
+        "y": 503,
+        "w": 337,
+        "h": 30.78125,
+        "bottom": 533.78125
+      },
+      "editor": null,
+      "court": {
+        "x": 0,
+        "y": 140,
+        "w": 375,
+        "h": 322,
+        "bottom": 462
+      },
+      "footer": {
+        "x": 8,
+        "y": 588.75,
+        "w": 359,
+        "h": 228.5,
+        "bottom": 817.25
+      },
+      "cueVisible": true,
+      "text": "Harry · Legal start: Harry begins P1. After contact you may move to your next displayed responsibility."
+    },
+    {
+      "w": 844,
+      "h": 390,
+      "scroll": 844,
+      "viewer": {
+        "x": 544,
+        "y": 144,
+        "w": 292,
+        "h": 52,
+        "bottom": 196
+      },
+      "cue": {
+        "x": 555,
+        "y": 185,
+        "w": 270,
+        "h": 30.78125,
+        "bottom": 215.78125
+      },
+      "editor": null,
+      "court": {
+        "x": 0,
+        "y": 58,
+        "w": 544,
+        "h": 332,
+        "bottom": 390
+      },
+      "footer": {
+        "x": 544,
+        "y": 196,
+        "w": 292,
+        "h": 194,
+        "bottom": 390
+      },
+      "cueVisible": true,
+      "text": "Harry · Legal start: Harry begins P1. After contact you may move to your next displayed responsibility."
+    },
+    {
+      "w": 1440,
+      "h": 900,
+      "scroll": 1440,
+      "viewer": {
+        "x": 1090,
+        "y": 64,
+        "w": 338,
+        "h": 826,
+        "bottom": 890
+      },
+      "cue": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0,
+        "bottom": 0
+      },
+      "editor": null,
+      "court": {
+        "x": 0,
+        "y": 126,
+        "w": 1090,
+        "h": 534,
+        "bottom": 660
+      },
+      "footer": {
+        "x": 12,
+        "y": 654,
+        "w": 1066,
+        "h": 252,
+        "bottom": 906
+      },
+      "cueVisible": false,
+      "text": "Harry · Legal start: Harry begins P1. After contact you may move to your next displayed responsibility."
+    }
+  ]
+}

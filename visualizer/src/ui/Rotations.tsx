@@ -116,7 +116,10 @@ export function Rotations() {
     </aside>}
     {!panel && <aside className="viewer-panel glass" aria-label="Court context">
       <div className="viewer-heading"><strong>{settings ? 'Scenario Explorer' : 'Player Focus'}</strong>
-        <button aria-expanded={settings} onClick={() => setSettings(!settings)}>{settings ? 'Player Focus' : 'Scenario Explorer'}</button></div>
+        <button aria-expanded={settings} onClick={() => setSettings(!settings)}>{settings ? 'Player Focus' : 'Scenario Explorer'}</button>
+        {!settings && review && <p className="viewer-mobile-role-call" aria-label="Quick player instruction">
+          <strong>{bundle.team.players.find(p => p.id === s.selected)?.name ?? 'Team'} · {review.eventLabel}:</strong> {review.explanation.player || review.explanation.team || review.explanation.core || 'Needs coaching note'}
+        </p>}</div>
       <ShuffleControls />
       <PlayerFocus review={review} />
       <ViewerEvents />

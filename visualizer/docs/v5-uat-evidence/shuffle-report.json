@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "base": "http://127.0.0.1:5205/RotationStudio/",
+  "checks": [
+    {
+      "label": "Pages-base compiled JS content-type",
+      "data": "text/javascript"
+    },
+    {
+      "label": "Seeded sequence, four distinct actual cases, previous/next and reload repeatability",
+      "data": [
+        "1/they/left/harry",
+        "1/they/right/normal",
+        "1/they/right/harry",
+        "1/they/left/normal"
+      ]
+    },
+    {
+      "label": "Opt-in playback advances after source end; Off freezes selected case and library unchanged"
+    },
+    {
+      "label": "Library and Edit disarm shuffle; S07B edit scrub policy and saved library retained"
+    },
+    {
+      "label": "Responsive real court and Shuffle pointer controls",
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "court": {
+          "x": 0,
+          "y": 140,
+          "w": 390,
+          "h": 354
+        },
+        "shuffle": {
+          "x": 19,
+          "y": 545.78125,
+          "w": 352,
+          "h": 36
+        }
+      }
+    },
+    {
+      "label": "Responsive real court and Shuffle pointer controls",
+      "data": {
+        "width": 844,
+        "scroll": 844,
+        "court": {
+          "x": 0,
+          "y": 58,
+          "w": 544,
+          "h": 332
+        },
+        "shuffle": {
+          "x": 555,
+          "y": 192.78125,
+          "w": 270,
+          "h": 36
+        }
+      }
+    },
+    {
+      "label": "Invalid teaching sample skipped with notice; only authored source selected"
+    },
+    {
+      "label": "Original Set arcs WebGL opens and returns with shuffle disabled; zero page exceptions"
+    }
+  ],
+  "errors": [],
+  "browserAcceptance": "scoped host checks passed; independent parent visual review required",
+  "screenshots": [
+    "D:\\Projects\\RotationStudio-V4\\.cache\\browser-qa\\V5-S07C-desktop-next.png",
+    "D:\\Projects\\RotationStudio-V4\\.cache\\browser-qa\\V5-S07C-desktop-playing.png",
+    "D:\\Projects\\RotationStudio-V4\\.cache\\browser-qa\\V5-S07C-390x844.png",
+    "D:\\Projects\\RotationStudio-V4\\.cache\\browser-qa\\V5-S07C-844x390.png",
+    "D:\\Projects\\RotationStudio-V4\\.cache\\browser-qa\\V5-S07C-invalid-skip.png",
+    "D:\\Projects\\RotationStudio-V4\\.cache\\browser-qa\\V5-S07C-set-arcs.png"
+  ],
+  "launchAttempted": true,
+  "browser": "Chrome/156.0.8078.28"
+}

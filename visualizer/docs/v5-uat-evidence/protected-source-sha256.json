@@ -1,0 +1,29 @@
+{
+  "comparedTo": "public main, a8b6698",
+  "checks": [
+    {
+      "path": "visualizer/public/plans/team.json",
+      "canonicalSha256": "400f588c4268fa5daa485f6f8a93ad3dbd6fc96ced282e85b82447b3829f5e51",
+      "publicMainSha256": "400f588c4268fa5daa485f6f8a93ad3dbd6fc96ced282e85b82447b3829f5e51",
+      "worktreeRawSha256": "0bdaaafc5569020cb0ebd93cb239a0e12778585ae6a61f9b3d7177128a299aa9",
+      "worktreeClean": true,
+      "unchanged": true
+    },
+    {
+      "path": "visualizer/public/plans/rotations.json",
+      "canonicalSha256": "2cb258c74a8c738f931c93138eec9a54317c81f91155e7bea93b5155c29a5103",
+      "publicMainSha256": "2cb258c74a8c738f931c93138eec9a54317c81f91155e7bea93b5155c29a5103",
+      "worktreeRawSha256": "06896fef07722f5ab71a1a0c68e3b4dc1b1b6bbdf7e1e27515bbccddae31a326",
+      "worktreeClean": true,
+      "unchanged": true
+    },
+    {
+      "path": "visualizer/scripts/author_tactics_v2.py",
+      "canonicalSha256": "dd229cc071fe81b98614b35fb123b4cf3cb238356a3de080e9b2f239fef86318",
+      "publicMainSha256": "dd229cc071fe81b98614b35fb123b4cf3cb238356a3de080e9b2f239fef86318",
+      "worktreeRawSha256": "31ab8cdb99a165bb6f2ba9e1984ec1e5136d98365155ce94750172cf5fb039d7",
+      "worktreeClean": true,
+      "unchanged": true
+    }
+  ]
+}
