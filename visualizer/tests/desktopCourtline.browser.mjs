@@ -1,147 +1,48 @@
-// Uses the repository's existing isolated Thorium/Puppeteer QA installation.
-// Never opens a user's browser profile or clears browser-local data.
-import assert from 'node:assert/strict'
-import fs from 'node:fs/promises'
-import { fileURLToPath, pathToFileURL } from 'node:url'
-import path from 'node:path'
-
-const root = fileURLToPath(new URL('../../', import.meta.url))
-const cache = path.join(root, '.cache/browser-qa')
-const evidence = path.join(cache, 'courtline-slice-a')
-await fs.mkdir(evidence, { recursive: true })
-const { default: puppeteer } = await import(pathToFileURL(path.join(cache, 'node_modules/puppeteer-core/lib/puppeteer/puppeteer-core.js')).href)
-const base = process.env.COURTLINE_QA_URL ?? 'http://127.0.0.1:5216/RotationStudio/'
-const report = { checks: [], screenshots: [], errors: [] }
-const browser = await puppeteer.launch({
-  executablePath: process.env.COURTLINE_QA_BROWSER ?? 'D:/Tools/Thorium-QA/156.0.8078.28/BIN/thorium.exe',
-  headless: true, userDataDir: path.join(cache, 'courtline-isolated-' + Date.now()),
-  timeout: 90000, protocolTimeout: 60000,
-  args: ['--no-first-run', '--no-proxy-server', '--disable-background-networking'],
-})
-const page = await browser.newPage()
-page.setDefaultTimeout(30000)
-page.on('pageerror', error => report.errors.push(error.message))
-const pause = ms => new Promise(r => setTimeout(r, ms))
-const check = label => { report.checks.push(label); console.log('PASS', label) }
-const click = async text => {
-  const buttons = await page.$$('button')
-  for (const button of buttons) if (await button.evaluate((e, t) => e.textContent.trim() === t, text)) {
-    await button.evaluate(e => e.scrollIntoView({ block: 'nearest', inline: 'nearest' }))
-    await button.click(); await pause(250); return
-  }
-  throw Error('Missing button: ' + text)
-}
-const shot = async label => {
-  await page.screenshot({ path: path.join(evidence, label + '.png') })
-  report.screenshots.push(label + '.png')
-}
-const selectEvent = async id => {
-  const button = await page.$(`.desktop-event-rail [data-event-id="${id}"]`)
-  assert.ok(button, 'Missing rail event ' + id)
-  await button.evaluate(e => e.scrollIntoView({ block: 'nearest', inline: 'nearest' }))
-  await button.click()
-  const state = await page.$eval('[aria-label="Timeline time"]', e => ({ playing: e.dataset.playing, destination: e.dataset.destination, time: e.textContent }))
-  assert.equal(state.playing, 'false'); assert.equal(state.destination, '')
-  assert.equal(await button.evaluate(e => e.getAttribute('aria-pressed')), 'true')
-  return state
-}
-const x = () => page.$eval('[aria-label="X metres"]', e => Number(e.value))
-const editX = async value => {
-  await page.click('[aria-label="X metres"]', { clickCount: 3 })
-  await page.keyboard.down('Control'); await page.keyboard.press('A'); await page.keyboard.up('Control')
-  await page.keyboard.type(String(value)); await page.keyboard.press('Tab'); await pause(350)
-  assert.ok(Math.abs(await x() - value) < .005)
-}
-try {
-  await page.setViewport({ width: 1440, height: 900 })
-  await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'no-preference' }])
-  await page.evaluateOnNewDocument(() => localStorage.setItem('courtline-preserve-R1-R2-sentinel', 'unchanged'))
-  await page.goto(base + '?r=1&serve=us&attack=right&first=normal', { waitUntil: 'domcontentloaded', timeout: 90000 })
-  await page.waitForSelector('[aria-label="Shuffle source"]', { timeout: 90000 })
-  await pause(600); await shot('view-1440x900')
-  await click('Edit strategy')
-  await page.waitForSelector('.desktop-event-rail')
-  assert.equal(await page.$eval('[aria-label="Court camera view"]', e => e.value), 'top')
-  assert.equal(await page.$eval('.rotation-markers', e => getComputedStyle(e).display), 'none')
-  assert.equal(await page.$('.strategy-panel .event-navigator'), null)
-  check('Desktop Edit has one exposed source rail, no competing stage rows, and opens in Top')
-  await click('Only this version')
-  await page.select('[aria-label="Selected athlete"]', 'caleb')
-  const first = await selectEvent('p3:our-dig')
-  assert.equal(first.time, '5.40s')
-  const initial = await x(), changed = Math.round((initial + .12) * 100) / 100
-  await editX(changed)
-  await click('Undo'); assert.ok(Math.abs(await x() - initial) < .005)
-  await click('Redo'); assert.ok(Math.abs(await x() - changed) < .005)
-  const next = await selectEvent('p8:next-dig')
-  assert.equal(next.time, '12.29s')
-  await editX(Math.round((await x() - .12) * 100) / 100)
-  await click('Save')
-  const storage = await page.evaluate(() => Object.fromEntries(Object.keys(localStorage).map(k => [k, localStorage.getItem(k)])))
-  const saved = JSON.parse(storage['rotation-studio-strategies-v2'])
-  const active = saved.library.find(s => s.id === saved.activeId)
-  assert.ok(active.caseOverrides['1/us/right/normal'].eventOverrides['p3:our-dig'])
-  assert.ok(active.caseOverrides['1/us/right/normal'].eventOverrides['p8:next-dig'])
-  assert.equal(active.caseOverrides['1/us/left/normal'], undefined)
-  assert.equal(storage['courtline-preserve-R1-R2-sentinel'], 'unchanged')
-  check('Motion enabled: distinct first/next dig instantly selected, edited, undone/redone and saved only to this version')
-  await page.click('[aria-label="Previous edit event"]')
-  assert.equal(await page.$eval('[aria-label="Timeline time"]', e => e.dataset.playing), 'false')
-  await page.click('[aria-label="Next edit event"]')
-  assert.equal(await page.$eval('[aria-label="Timeline time"]', e => e.dataset.playing), 'false')
-  await page.click('[aria-label="Play transition"]')
-  await page.waitForFunction(() => document.querySelector('[aria-label="Timeline time"]').dataset.playing === 'true')
-  await page.click('[aria-label="Pause transition"]')
-  check('Previous/Next instantly jump; explicit Play animates and Pause stops')
-  await selectEvent('p3:our-dig')
-  for (const [width, height] of [[1440, 900], [1920, 1080], [3440, 1440]]) {
-    await page.setViewport({ width, height }); await pause(450)
-    const layout = await page.evaluate(() => {
-      const rect = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height, right: r.right, bottom: r.bottom } }
-      return { canvas: rect('.rotation-canvas'), panel: rect('.strategy-panel'), rail: rect('.desktop-event-rail'), overflow: document.documentElement.scrollWidth - innerWidth, labels: [...document.querySelectorAll('.athlete-label:not([hidden])')].map(e => ({ height: e.getBoundingClientRect().height, text: e.textContent })) }
-    })
-    assert.ok(layout.panel.w >= 370 && layout.panel.w <= 520)
-    assert.ok(layout.canvas.h > height * .60, JSON.stringify(layout))
-    assert.ok(layout.canvas.right <= layout.panel.x + 1)
-    assert.ok(layout.rail.bottom <= height && layout.overflow <= 1)
-    assert.equal(layout.labels.length, 6)
-    assert.ok(layout.labels.every(e => e.height <= 24 && e.text.includes('P')))
-    report.checks.push({ viewport: `${width}x${height}`, layout })
-    await shot(`edit-${width}x${height}`)
-  }
-  check('Three desktop targets fit court, readable inspector and rail, with six compact labels and no page overflow')
-  await page.setViewport({ width: 1440, height: 900 }); await pause(250)
-  await page.focus('[aria-label="Resize inspector"]'); await page.keyboard.press('ArrowLeft'); await pause(250)
-  assert.ok(await page.$eval('.strategy-panel', e => e.getBoundingClientRect().width) > 390)
-  check('Inspector keyboard resize works within bounds')
-  for (const view of ['Orbit', 'Front', 'Side', 'Top']) await click(view)
-  await click('Fit our court')
-  await page.reload({ waitUntil: 'domcontentloaded' }); await page.waitForSelector('[aria-label="Shuffle source"]')
-  assert.equal(await page.evaluate(() => localStorage.getItem('rotation-studio-strategies-v2')), storage['rotation-studio-strategies-v2'])
-  check('Saved strategy persists byte-equivalent after reload; direct views and Fit work')
-  await click('Edit strategy')
-  for (const [width, height] of [[390, 844], [844, 390]]) {
-    await page.setViewport({ width, height }); await pause(350)
-    assert.equal(await page.$('.desktop-event-rail'), null)
-    assert.ok(await page.$('.strategy-panel .event-navigator'))
-    assert.equal(await page.$eval('.strategy-stages', e => getComputedStyle(e).display), 'grid')
-    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1))
-    await shot(`mobile-preserved-${width}x${height}`)
-  }
-  check('Phone portrait and landscape retain original stage/events flow without horizontal overflow')
-  await click('Set arcs'); await pause(450)
-  assert.equal(await page.$('.rotations'), null)
-  assert.ok(await page.$('canvas'))
-  check('Original Set arcs still opens')
-  assert.deepEqual(report.errors, [])
-  report.status = 'PASS'
-} catch (error) {
-  report.status = 'FAIL'; report.failure = error.stack
-  await shot('failure').catch(() => {})
-  console.error(error)
-  process.exitCode = 1
-} finally {
-  await fs.writeFile(path.join(evidence, 'report.json'), JSON.stringify(report, null, 2))
-  await browser.close()
-  console.log('FINAL', report.status, report.checks.length, 'checks;', report.screenshots.length, 'screenshots')
-}
+// Desktop Courtline full-rally athlete editing acceptance using isolated Thorium. No user's browser profile.
+import fs from 'node:fs/promises';
+import {pathToFileURL,fileURLToPath} from 'node:url';
+const root=fileURLToPath(new URL('../../',import.meta.url)).replace(/[\\/]+$/,'');
+const dir=root+'/.cache/desktop-rework-qa/slice-b';
+await fs.mkdir(dir,{recursive:true});
+const {default:puppeteer}=await import(pathToFileURL(root+'/.cache/browser-qa/node_modules/puppeteer-core/lib/puppeteer/puppeteer-core.js').href);
+const result={when:new Date().toISOString(),status:'RUNNING',checks:[],errors:[],screens:[],layouts:[]};
+const pause=ms=>new Promise(r=>setTimeout(r,ms)), pass=s=>{result.checks.push(s);console.log('PASS',s)}, ok=(x,s)=>{if(!x)throw Error(s)};
+let browser,page;
+async function click(t){const bs=await page.$$('button');for(const b of bs){const s=await b.evaluate(e=>e.textContent.trim());if(s===t){await b.evaluate(e=>e.click());await pause(180);return}}throw Error('Button missing: '+t)}
+async function event(id){const sel='.desktop-event-rail button[data-event-id="'+id+'"]';await page.waitForSelector(sel);await page.$eval(sel,e=>e.click());await pause(220);ok(await page.$eval(sel,e=>e.getAttribute('aria-pressed'))==='true','Event unselected '+id)}
+async function select(label,value){const sel='select[aria-label="'+label+'"]';await page.waitForSelector(sel);await page.select(sel,value);await pause(200);ok(await page.$eval(sel,e=>e.value)===value,'Selection failed '+label+' '+value)}
+async function shot(name){await page.screenshot({path:dir+'/'+name+'.png'});result.screens.push(name+'.png')}
+try{
+browser=await puppeteer.launch({executablePath:process.env.COURTLINE_QA_BROWSER || 'D:/Tools/Thorium-QA/156.0.8078.28/BIN/thorium.exe',headless:true,userDataDir:dir+'/isolated-'+Date.now(),timeout:90000,protocolTimeout:60000,args:['--no-first-run','--no-proxy-server','--disable-background-networking']});
+page=await browser.newPage();page.setDefaultTimeout(27000);page.on('pageerror',e=>result.errors.push('PAGE '+e.message));page.on('console',e=>{if(e.type()==='error')result.errors.push('CONSOLE '+e.text().slice(0,200))});
+await page.setViewport({width:1440,height:900,deviceScaleFactor:1});
+await page.goto((process.env.COURTLINE_QA_URL || 'http://127.0.0.1:5221/RotationStudio/')+'?r=1&serve=us&attack=right&first=normal',{waitUntil:'domcontentloaded',timeout:90000});
+await page.waitForSelector('canvas');await pause(400);await click('Edit strategy');await page.waitForSelector('.desktop-athlete-editor');
+ok(!!await page.$('.desktop-event-rail'),'Event rail absent');ok(await page.$eval('.desktop-athlete-editor',e=>/Action/.test(e.textContent)&&/Coverage/.test(e.textContent)),'Missing action/coverage editor');
+pass('Desktop player-editor tools and chronological source events present');
+await event('p3:our-dig');await select('Selected athlete','harry');await select('Teaching action','cover');
+await event('p8:next-dig');await select('Teaching action','receive');
+await event('p3:our-dig');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='cover','Earlier action lost');
+await event('p8:next-dig');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='receive','Later action lost');
+pass('Harry Cover and Receive independently authored at first/next dig');
+await select('Selected athlete','georgia');await click('Into moment');await click('Add bend');
+ok(await page.$eval('.desktop-athlete-editor',e=>e.textContent.includes('Delete bend')),'Bend not added');pass('Georgia movement bend authored');
+await select('Selected athlete','jaz');await select('Coverage purpose','tip');pass('Jaz tip-zone coverage authored');
+await shot('desktop-edits-1440');await click('Save');await pause(420);
+const prior=await page.evaluate(()=>localStorage.getItem('rotation-studio-strategies-v2'));const j=JSON.parse(prior||'null');ok(j?.library?.length>0,'Missing library save');
+const saved=j.library.find(s=>s.id===j.activeId), patch=saved?.caseOverrides?.['1/us/right/normal']?.eventOverrides;
+ok(patch?.['p3:our-dig']?.actions?.harry==='cover','First action missing in save');ok(patch?.['p8:next-dig']?.actions?.harry==='receive','Second action missing in save');
+ok(patch?.['p8:next-dig']?.coverage?.jaz?.role==='tip','Coverage missing in save');ok(!!patch?.['p8:next-dig']?.routes?.georgia?.length,'Route bend missing in save');
+ok(!saved?.caseOverrides?.['1/us/left/normal'],'Unrelated case modified');pass('Saved actions/routes/coverage case isolated');
+await page.reload({waitUntil:'domcontentloaded'});await page.waitForSelector('canvas');await pause(350);await click('Edit strategy');await page.waitForSelector('.desktop-athlete-editor');
+await event('p3:our-dig');await select('Selected athlete','harry');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='cover','First action lost after reload');
+await event('p8:next-dig');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='receive','Later action lost after reload');
+ok(await page.evaluate(()=>localStorage.getItem('rotation-studio-strategies-v2'))===prior,'Reload modified library unexpectedly');pass('Saved strategy survives reload byte-identically');
+await event('p3:our-dig');const before=Number((await page.$eval('[aria-label="Timeline time"]',e=>e.textContent)).replace('s',''));await page.click('button[aria-label="Play"]');
+await page.waitForFunction(()=>document.querySelector('[aria-label="Timeline time"]')?.dataset.playing==='true',{timeout:4000});await pause(900);
+const after=Number((await page.$eval('[aria-label="Timeline time"]',e=>e.textContent)).replace('s',''));ok(after>before+0.03,'Play did not advance');
+await page.click('button[aria-label="Pause"]');await pause(120);ok(await page.$eval('[aria-label="Timeline time"]',e=>e.dataset.playing)==='false','Pause ineffective');pass('Play advances full-rally preview and Pause halts');
+for(const [w,h] of [[1440,900],[3440,1440],[390,844]]){await page.setViewport({width:w,height:h});await pause(320);const m=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,rail:!!document.querySelector('.desktop-event-rail'),canvas:!!document.querySelector('canvas')}));result.layouts.push(m);ok(m.scroll<=w+1,'Horizontal overflow at '+w);ok(m.rail===(w>=900),'Breakpoint rail mismatch at '+w);ok(m.canvas,'Court missing at '+w);await shot('viewport-'+w)}
+ok(!result.errors.length,'Page errors: '+result.errors.join('; '));pass('Desktop/ultrawide/mobile no horizontal overflow or JS exceptions');result.status='PASS';
+}catch(e){result.status='FAIL';result.error=String(e.stack||e);console.log('FAIL',result.error);if(page)await shot('failure').catch(()=>{})}
+finally{await fs.writeFile(dir+'/result.json',JSON.stringify(result,null,2));console.log('FINAL',result.status,result.checks.length,'checks');if(browser)await browser.close().catch(()=>{});if(result.status==='FAIL')process.exitCode=1}

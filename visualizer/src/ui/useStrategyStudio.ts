@@ -58,7 +58,7 @@ export function useStrategyStudio() {
         if (state.scope && state.scope !== scenarioCaseKey(scenario)) state.setScope(scenarioCaseKey(scenario)!)
         if (state.laterDefend && laterDefendTime(scenario) === undefined) state.setLaterDefend(null)
         const player = !state.event && state.stage === 'Set' && r.selected === scenario.secondContact.player ? 'target' : r.selected
-        if (!(state.laterDefend && player === 'target')) state.move(key, player, spot)
+        if (!(state.laterDefend && player === 'target')) state.move(key, player, spot, !!state.event && window.matchMedia('(min-width: 900px)').matches)
       } })
   }, [studio.editing, studio.stage, studio.scope, studio.laterDefend, studio.event, applied, s.published, s.rotation, s.serve, s.opponentAttack, s.firstTouch])
   return { studio, warnings: applied?.warnings ?? [] }

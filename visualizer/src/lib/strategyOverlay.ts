@@ -5,6 +5,7 @@ import { isFront, positionOf, sampleTrack } from './rotationModel.ts'
 import { validateBundle } from './rotationValidation.ts'
 import { EXAMPLE_SCREEN } from './receiveExample.ts'
 import { applyEventOverrides, sourceEndpointOwners, validateStrategyEvents } from './strategyEvents.ts'
+import { actionWarning } from './athletePlan.ts'
 
 // Merge sparse player maps, replacing each route as a whole (including []).
 // Resolve once against source, then apply once: a shared route must never leave
@@ -33,8 +34,13 @@ export function resolveStrategyRotation(draft: StrategyDraft, s: Scenario): Stra
     for (const [id, patch] of Object.entries(exact.eventOverrides ?? {})) {
       const inherited = shared.eventOverrides?.[id]
       merged.eventOverrides[id] = {}
-      for (const field of ['anchors', 'routes', 'coverage'] as const) if (inherited?.[field] || patch[field]) {
+      for (const field of ['anchors', 'routes', 'coverage', 'actions', 'preservePath'] as const) if (inherited?.[field] || patch[field]) {
         Object.assign(merged.eventOverrides[id], { [field]: { ...inherited?.[field], ...patch[field] } })
+      }
+      // A legacy case-specific placement or route keeps its original semantics
+      // even if the shared foundation later receives a modern boundary edit.
+      for (const player of new Set([...Object.keys(patch.anchors ?? {}), ...Object.keys(patch.routes ?? {})])) {
+        if (!patch.preservePath?.[player as PlayerId]) delete merged.eventOverrides[id].preservePath?.[player as PlayerId]
       }
     }
   }
@@ -165,6 +171,9 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
     const changes = resolveStrategyRotation(draft, s)
     if (!Object.keys(changes).length) continue
     const tag = scenarioCaseKey(s) ?? `${s.rotation}/${s.serve}`
+    for (const [event, patch] of Object.entries(changes.eventOverrides ?? {})) for (const [player, action] of Object.entries(patch.actions ?? {})) {
+      warnings.push(...actionWarning(s, bundle.team, event, player, action ?? undefined).map(w => `${tag}: ${player}: ${w}`))
+    }
     for (const [stage, players] of [...Object.entries(changes.coverage ?? {}), ['Later Defend', changes.laterDefend?.coverage] as const,
       ...Object.entries(changes.eventOverrides ?? {}).map(([id, patch]) => [id, patch.coverage] as const)]) {
       for (const [id, zone] of Object.entries(players ?? {})) if (zone.role === 'block' && !isFront(positionOf(bundle.team, s.rotation, id))) {

@@ -2,6 +2,7 @@ import type { Bundle, Scenario, Spot } from './rotationTypes.ts'
 import type { LaterDefend, StrategyDraft, StrategyRotation } from './strategyDraft.ts'
 import { sampleTrack } from './rotationModel.ts'
 import { EXAMPLE_SCREEN } from './receiveExample.ts'
+import { splitTrack } from './trackSplit.ts'
 
 export type SourceEvent = {
   id: string; label: string; time: number; phaseOrdinal: number; occurrence: number; caseKey: string
@@ -62,6 +63,9 @@ export function requireSourceEvent(s: Scenario, id: string): SourceEvent {
 
 export function validateEventPatch(s: Scenario, id: string, patch: LaterDefend) {
   const event = requireSourceEvent(s, id), serve = s.ball[0].start
+  for (const player of Object.keys(patch.actions ?? {})) {
+    if (!s.tracks[player]) throw new Error('Unknown athlete in plan.')
+  }
   for (const [player, point] of Object.entries(patch.anchors ?? {})) {
     const server = s.serve === 'us' && sourceEndpointOwners(s)[0][0] === player && event.time <= serve
     if (!s.tracks[player] || point.z > (server ? 12 : 9) || (server && point.z <= 9)) throw new Error(`${id}: event position must stay on our court (server behind endline through contact).`)
@@ -92,7 +96,8 @@ export function eventRouteInterval(s: Scenario, id: string, player: string): { s
 }
 
 export function applyEventOverrides(source: Scenario, s: Scenario, changes: StrategyRotation, warnings: string[]) {
-  for (const event of sourceEvents(source)) {
+  const events = sourceEvents(source)
+  for (const event of events) {
     const patch = changes.eventOverrides?.[event.id]
     if (!patch) continue
     const ids = new Set([...Object.keys(patch.anchors ?? {}), ...Object.keys(patch.routes ?? {})])
@@ -103,14 +108,19 @@ export function applyEventOverrides(source: Scenario, s: Scenario, changes: Stra
         if (point) for (const frame of track.filter(f => f.time <= s.ball[0].start)) Object.assign(frame, point)
         continue
       }
-      let frame = track.find(f => f.time === event.time)
-      if (!frame) {
-        const previous = track.filter(f => f.time < event.time).at(-1)!
-        // Preserve discrete source metadata; sampling's computed facing is not
-        // a new authored field. Only this boundary receives an inserted frame.
-        frame = { ...previous, ...xy(sampleTrack(track, event.time)), time: event.time }
-        delete frame.via
-        track.push(frame); track.sort((a, b) => a.time - b.time)
+      let frame
+      if (patch.preservePath?.[id as keyof NonNullable<LaterDefend['preservePath']>]) {
+        const previous = events[events.indexOf(event) - 1]
+        if (bends !== undefined && previous && previous.time >= s.ball[0].start) splitTrack(track, previous.time)
+        frame = splitTrack(track, event.time)
+      } else {
+        frame = track.find(f => f.time === event.time)
+        if (!frame) {
+          const previous = track.filter(f => f.time < event.time).at(-1)!
+          frame = { ...previous, ...xy(sampleTrack(track, event.time)), time: event.time }
+          delete frame.via
+          track.push(frame); track.sort((a, b) => a.time - b.time)
+        }
       }
       if (point) Object.assign(frame, point)
       if (bends !== undefined) frame.via = bends.map(xy)

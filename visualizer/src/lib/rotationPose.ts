@@ -1,10 +1,11 @@
 import type { Keyframe, Role, Scenario, Spot, Team } from './rotationTypes.ts'
 import { isFront, positionOf, sampleTrack } from './rotationModel.ts'
+import type { AthleteAction } from './strategyDraft.ts'
 
 type Contact = { time: number; kind: 'receive' | 'set' | 'attack' | 'serve' }
 export type PoseCues = { contacts: Contact[]; blocks: number[]; front: boolean; serviceTime: number }
 export type PlayerPose = {
-  x: number; z: number; facing: number; cue: Contact['kind'] | 'approach' | 'block' | 'ready'
+  x: number; z: number; facing: number; cue: Contact['kind'] | 'approach' | 'block' | 'ready' | 'cover' | 'recover'
   lift: number; crouch: number; lean: number
   leftArm: number; rightArm: number; armSpread: number; leftLeg: number; rightLeg: number
 }
@@ -51,7 +52,7 @@ const pulse = (time: number, contact: number, before: number, after: number) => 
 /** Deterministic animation-time sampling: pause/reverse/seek cannot retain a
  * stale gesture. Only the body is lifted; floor location always equals track.
  */
-export function playerPose(track: Keyframe[], cues: PoseCues, time: number, reduced = false): PlayerPose {
+export function playerPose(track: Keyframe[], cues: PoseCues, time: number, reduced = false, action?: AthleteAction): PlayerPose {
   const p = sampleTrack(track, time)
   const a = reduced ? p : sampleTrack(track, Math.max(track[0].time, time - .02))
   const b = reduced ? p : sampleTrack(track, Math.min(track[track.length - 1].time, time + .02))
@@ -109,6 +110,17 @@ export function playerPose(track: Keyframe[], cues: PoseCues, time: number, redu
       pose.leftLeg = pose.leftLeg * (1 - strength) || 0
       pose.rightLeg = pose.rightLeg * (1 - strength) || 0
     }
+  }
+  if (action) {
+    pose.cue = action
+    pose.lift = 0; pose.crouch = .12; pose.lean = 0; pose.armSpread = .12
+    pose.leftArm = .15; pose.rightArm = .15
+    if (action === 'receive') { pose.leftArm = pose.rightArm = 1.2; pose.armSpread = -.45; pose.crouch = .65; pose.lean = -.22 }
+    if (action === 'set') { pose.leftArm = pose.rightArm = 2.65; pose.armSpread = -.08 }
+    if (action === 'attack') { pose.leftArm = 1.25; pose.rightArm = 3 }
+    if (action === 'block') { pose.leftArm = pose.rightArm = cues.front ? 2.85 : .7; pose.crouch = cues.front ? .1 : .35 }
+    if (action === 'cover') { pose.leftArm = pose.rightArm = .65; pose.armSpread = .5; pose.crouch = .5; pose.lean = -.15 }
+    if (action === 'recover') { pose.leftArm = .4 - swing; pose.rightArm = .4 + swing; pose.lean = -.1 }
   }
   return pose
 }

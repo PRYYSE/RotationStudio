@@ -150,6 +150,12 @@
   .court-first .editor-history button { font-size: 13px; min-height: 34px; padding: 6px 9px; border: 1px solid var(--line); }
   .court-first .editor-history button:first-child { color: #fff; background: #344753; }
   .court-first .editor-history button:disabled { opacity: .35; }
+  .court-first .desktop-athlete-editor .athlete-section { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .court-first .desktop-athlete-editor .athlete-section h3 { margin: 0 0 6px; font-size: 16px; }
+  .court-first .desktop-athlete-editor .athlete-section p { margin: 7px 0; font-size: 13px; }
+  .court-first .desktop-athlete-editor .athlete-section select { width: 100%; }
+  .court-first .desktop-athlete-editor .athlete-section button { min-height: 32px; padding: 5px 9px; font-size: 12px; }
+  .court-first .desktop-athlete-editor .action-badge { display: inline-block; color: #ffe3bf; background: #59452e; border-radius: 4px; padding: 4px 9px; }
   .court-first :is(.editor-disclosure, .coverage-editor, .case-impact) { margin: 0; padding: 0; border: 0; border-bottom: 1px solid var(--line); }
   .court-first :is(.editor-disclosure, .coverage-editor, .case-impact) > summary { cursor: pointer; min-height: 48px; padding: 14px 0; font-size: 14px; color: #c7d7df; }
   .court-first details[open] > summary { color: #f5c797; }

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { createStrategy, exportStrategy, isCaseKey, laterDefendTime, PLAYER_IDS } from '../lib/strategyDraft.ts'
 import { parseStrategyImport } from '../lib/strategyShare.ts'
-import type { CaseKey, CoverageZone, PlayerId, RotationKey, StrategyDraftV2, StrategyStage } from '../lib/strategyDraft.ts'
+import type { AthleteAction, CaseKey, CoverageZone, PlayerId, RotationKey, StrategyDraftV2, StrategyStage } from '../lib/strategyDraft.ts'
 import type { Bundle, Scenario, Spot } from '../lib/rotationTypes.ts'
 import { loadStrategyLibrary, STRATEGY_STORAGE_KEY } from '../lib/strategyLibrary.ts'
 import type { StrategyStorage } from '../lib/strategyLibrary.ts'
@@ -14,6 +14,7 @@ type StrategyDraft = StrategyDraftV2
 type State = {
   library: StrategyDraft[]; working: StrategyDraft | null; preview: boolean; saved: boolean; error: string
   editing: boolean; stage: StrategyStage; routeVisible: boolean
+  routeDirection: 'into' | 'out'
   scope: CaseKey | null; laterDefend: boolean
   event: { id: string; source: Scenario; contexts: Scenario[] } | null
   setEvent: (source: Scenario, id: string, base?: Bundle) => void; resetEvent: (key: RotationKey) => void
@@ -29,15 +30,16 @@ type State = {
   metadata: (name: string, author: string) => void; save: () => void; remove: (id: string) => void
   previewImport: (json: string, base?: Bundle) => void; setStage: (stage: StrategyStage) => void
   beginGesture: () => void; endGesture: (cancel?: boolean) => void
-  move: (key: RotationKey, player: string, spot: Spot) => void
+  move: (key: RotationKey, player: string, spot: Spot, preservePath?: boolean) => void
+  setAction: (key: RotationKey, player: PlayerId, action: AthleteAction | null) => void
   bend: (key: RotationKey, player: string, points: Spot[]) => void
+  bendAt: (key: RotationKey, player: string, id: string, points: Spot[]) => void
   prepareHitters: (key: RotationKey) => void
   resetStage: (key: RotationKey) => void; resetRotation: (key: RotationKey) => void
   undo: () => void; redo: () => void
 }
 export function createStrategyStore(storage?: StrategyStorage) {
-  const { library, active, error, migrating } = loadStrategyLibrary(storage)
-  let migrationPending = migrating
+  const { library, active, error } = loadStrategyLibrary(storage)
   const initial = library.find(d => d.id === active) ?? null
   return create<State>((set, get) => {
     const persist = (next: StrategyDraft[], activeId: string | null): boolean => {
@@ -50,7 +52,6 @@ export function createStrategyStore(storage?: StrategyStorage) {
         if (next.length > 50) throw new Error('Library limit: 50 strategies')
         next.forEach(d => exportStrategy(d))
         storage.setItem(STRATEGY_STORAGE_KEY, JSON.stringify({ schemaVersion: 2, library: next, activeId }))
-        migrationPending = false
         set({ error: '' }); return true
       } catch { set({ saved: false, error: 'Could not save locally (storage unavailable, full, or 50-strategy limit). Your work is still here; export JSON to keep it.' }); return false }
     }
@@ -80,14 +81,15 @@ export function createStrategyStore(storage?: StrategyStorage) {
       const map = overrides as Record<string, NonNullable<StrategyDraft['overrides'][RotationKey]>>
       return create ? map[k] ??= {} : map[k]
     }
-    const eventPatch = (d: StrategyDraft, key: RotationKey, patch: LaterDefend) => {
+    const eventPatch = (d: StrategyDraft, key: RotationKey, patch: LaterDefend, id?: string) => {
       const event = get().event!
       if (`${event.source.rotation}/${event.source.serve}` !== key || (get().scope && get().scope !== `${key}/${event.source.tactics?.opponentAttack}/${event.source.tactics?.firstTouch}`)) throw new Error('Source event does not match this case.')
       const scope = get().scope
       if (!scope && event.contexts.length !== 4) throw new Error('Shared event editing requires all four authored source cases. Select an exact case or reload the source.')
-      for (const source of scope ? [event.source] : event.contexts) validateEventPatch(source, event.id, patch)
-      const map = rotation(d, key).eventOverrides ??= {}, current = map[event.id] ??= {}
-      for (const field of ['anchors', 'routes', 'coverage'] as const) if (patch[field]) Object.assign(current, { [field]: { ...current[field], ...patch[field] } })
+      const selectedId = id ?? event.id
+      for (const source of scope ? [event.source] : event.contexts) validateEventPatch(source, selectedId, patch)
+      const map = rotation(d, key).eventOverrides ??= {}, current = map[selectedId] ??= {}
+      for (const field of ['anchors', 'routes', 'coverage', 'actions', 'preservePath'] as const) if (patch[field]) Object.assign(current, { [field]: { ...current[field], ...patch[field] } })
     }
     const freshId = (excluded?: string) => {
       for (let i = 0; i < 10; i++) {
@@ -98,7 +100,7 @@ export function createStrategyStore(storage?: StrategyStorage) {
     }
     return {
       library, working: initial ? structuredClone(initial) : null, preview: false, saved: !!initial && !error, error,
-      editing: false, stage: 'Start', routeVisible: true, scope: null, laterDefend: false, event: null, past: [], future: [], gesture: null,
+      editing: false, stage: 'Start', routeVisible: true, routeDirection: 'into', scope: null, laterDefend: false, event: null, past: [], future: [], gesture: null,
       coverageDisplay: 'all', coverageHidden: [], cameraCommand: null,
       zoomCamera: action => set({ cameraCommand: { action, serial: (get().cameraCommand?.serial ?? 0) + 1 } }),
       newStrategy: (fromCurrent, base) => {
@@ -113,7 +115,6 @@ export function createStrategyStore(storage?: StrategyStorage) {
       select: (id) => {
         const working = get().library.find(d => d.id === id) ?? null
         set({ working: working ? structuredClone(working) : null, preview: false, saved: !!working && !error, scope: null, laterDefend: false, event: null, past: [], future: [], gesture: null, error })
-        if (!migrationPending) persist(get().library, working?.id ?? null)
       },
       metadata: (name, author) => update(d => { d.name = name; d.author = author }),
       save: () => {
@@ -166,15 +167,18 @@ export function createStrategyStore(storage?: StrategyStorage) {
       endGesture: (cancel = false) => {
         const s = get(), before = s.gesture
         if (!before) return
-        if (cancel) { set({ working: before, gesture: null }); autosave(); return }
-        set({ gesture: null, ...(JSON.stringify(before) !== JSON.stringify(s.working) ? { past: [...s.past.slice(-49), before], future: [] } : {}) })
-        autosave()
+        const wasSaved = !s.preview && !s.error && s.library.some(d => d.id === before.id && JSON.stringify(d) === JSON.stringify(before))
+        if (cancel) { set({ working: before, gesture: null, saved: wasSaved }); return }
+        const changed = JSON.stringify(before) !== JSON.stringify(s.working)
+        set({ gesture: null, ...(changed ? { past: [...s.past.slice(-49), before], future: [] } : { saved: wasSaved }) })
+        if (changed) autosave()
       },
-      move: (key, player, point) => update(d => {
+      move: (key, player, point, preservePath = false) => update(d => {
         const r = rotation(d, key), p = { x: point.x, z: point.z }
         if (get().event) {
           if (!PLAYER_IDS.includes(player as PlayerId)) throw new Error('Select an athlete; event timing and touch ownership are read-only.')
-          eventPatch(d, key, { anchors: { [player]: p } }); return
+          if (preservePath) d.coachingVersion = 1
+          eventPatch(d, key, { anchors: { [player]: p }, ...(preservePath ? { preservePath: { [player]: true } } : {}) }); return
         }
         if (get().laterDefend) {
           if (player === 'target' || key.split('/')[1] !== 'us' || !PLAYER_IDS.includes(player as PlayerId)) throw new Error('Choose an athlete in our later defence.')
@@ -189,6 +193,10 @@ export function createStrategyStore(storage?: StrategyStorage) {
           stage[player as PlayerId] = p
         }
       }),
+      setAction: (key, player, action) => update(d => {
+        if (!get().event || !PLAYER_IDS.includes(player)) throw new Error('Choose an athlete and moment first.')
+        d.coachingVersion = 1; eventPatch(d, key, { actions: { [player]: action } })
+      }),
       bend: (key, player, points) => update(d => {
         if (!PLAYER_IDS.includes(player as PlayerId)) throw new Error('Choose an athlete for a route.')
         if (get().event) { eventPatch(d, key, { routes: { [player]: points.map(p => ({ x: p.x, z: p.z })) } }); return }
@@ -201,6 +209,11 @@ export function createStrategyStore(storage?: StrategyStorage) {
         }
         const routes = r.routes ??= {}, stage = routes[get().stage] ??= {}
         stage[player as PlayerId] = points.map(p => ({ x: p.x, z: p.z }))
+      }),
+      bendAt: (key, player, id, points) => update(d => {
+        if (!get().event || !PLAYER_IDS.includes(player as PlayerId)) throw new Error('Choose an athlete and moment first.')
+        d.coachingVersion = 1
+        eventPatch(d, key, { routes: { [player]: points.map(p => ({ x: p.x, z: p.z })) }, preservePath: { [player]: true } }, id)
       }),
       prepareHitters: key => update(d => { rotation(d, key).readyOptions = true }),
       setCoverage: (key, player, zone) => update(d => {

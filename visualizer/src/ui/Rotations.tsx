@@ -8,7 +8,7 @@ import { sourceEvents } from '../lib/strategyEvents'
 import { RotationEditor } from './RotationEditor'
 import { FirstBallExamples } from './FirstBallExamples'
 import type { RotationView } from '../lib/rotationTypes'
-import { selectedEvent, stageOrder, stageTimes } from '../lib/strategyDraft'
+import { scenarioCaseKey, selectedEvent, stageOrder, stageTimes } from '../lib/strategyDraft'
 import { useStrategyStudio } from './useStrategyStudio'
 import { StrategyLibrary } from './StrategyLibrary'
 import { StrategyEditor } from './StrategyEditor'
@@ -107,6 +107,8 @@ export function Rotations() {
           if (!bundle.team.players.some(p => p.id === s.selected)) useRotations.setState({ selected: 'harry' })
           useStrategies.setState({ editing: true }); s.setEditor(true); setSettings(false); setLibraryOpen(false)
           if (desktop && source) {
+            studio.setScope(scenarioCaseKey(source) ?? null)
+            useStrategies.setState({ coverageDisplay: 'selected', routeVisible: true })
             const destination = sourceEvents(source).find(e => e.time === s.time) ?? sourceEvents(source).find(e => e.time === times[currentStage]) ?? sourceEvents(source)[0]
             selectDesktopEvent(source, destination.id)
           }

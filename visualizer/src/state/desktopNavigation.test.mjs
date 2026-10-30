@@ -32,3 +32,15 @@ test('desktop selection instantly targets distinct source dig edits without anim
   assert.equal(useRotations.getState().playing, true, 'explicit preview can still animate')
   useRotations.setState({ playing: false, transitionTarget: null })
 })
+
+test('desktop Play crosses successive source moments and stops at rally end', async () => {
+  const { playDesktopRally } = await import('./desktopNavigation.ts')
+  const source = base.plans.scenarios.find(s => s.rotation === 1 && s.serve === 'us')
+  useRotations.setState({ published: base, draft: null, rotation: 1, serve: 'us', opponentAttack: 'left', firstTouch: 'normal', editor: true, strategyMode: true, playing: false, time: 5.4, rate: 1, exampleResult: null })
+  useStrategies.setState({ gesture: null })
+  playDesktopRally()
+  assert.equal(useRotations.getState().transitionTarget, source.duration)
+  for (let i = 0; i < 100 && useRotations.getState().playing; i++) useRotations.getState().tick(1)
+  assert.equal(useRotations.getState().time, source.duration)
+  assert.equal(useRotations.getState().playing, false)
+})

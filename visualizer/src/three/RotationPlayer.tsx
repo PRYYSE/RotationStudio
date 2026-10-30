@@ -5,11 +5,23 @@ import type { Scenario, Team } from '../lib/rotationTypes'
 import { createPoseCues, playerPose } from '../lib/rotationPose'
 import { useRotations } from '../state/rotationStore'
 import { useStrategies } from '../state/strategyStore'
+import { selectScenario } from '../lib/rotationModel'
+import { sourceEvents } from '../lib/strategyEvents'
+import { resolveStrategyRotation } from '../lib/strategyOverlay'
+import type { PlayerId } from '../lib/strategyDraft'
 
 type Player = Team['players'][number]
 const floor = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
 export function RotationPlayer({ player, scenario, team, reducedMotion = false }: { player: Player; scenario: Scenario; team: Team; reducedMotion?: boolean }) {
   const track = scenario.tracks[player.id]
+  const published = useRotations(s => s.published), working = useStrategies(s => s.working)
+  const actions = useMemo(() => {
+    const root = published?.plans.scenarios.find(s => s.rotation === scenario.rotation && s.serve === scenario.serve)
+    if (!root || !working || scenario.teachingOnly) return []
+    const source = selectScenario(root, scenario.tactics!.opponentAttack, scenario.tactics!.firstTouch)
+    const changes = resolveStrategyRotation(working, source)
+    return sourceEvents(source).map(e => ({ time: e.time, action: changes.eventOverrides?.[e.id]?.actions?.[player.id as PlayerId] }))
+  }, [published, working, scenario, player.id])
   const cues = useMemo(() => createPoseCues(scenario, team, player.id), [scenario, team, player.id])
   const group = useRef<THREE.Group>(null)
   const body = useRef<THREE.Group>(null), upper = useRef<THREE.Group>(null)
@@ -18,10 +30,11 @@ export function RotationPlayer({ player, scenario, team, reducedMotion = false }
   const leftLeg = useRef<THREE.Group>(null), rightLeg = useRef<THREE.Group>(null)
   const [hovered, setHovered] = useState(false)
   const selected = useRotations((s) => s.selected === player.id)
-  const dragging = useRef(false)
+  const dragging = useRef(false), dragStart = useRef({ x: 0, y: 0 })
   useFrame(() => {
     const s = useRotations.getState()
-    const p = playerPose(track, cues, s.time, reducedMotion)
+    const action = actions.filter(e => e.time <= s.time + 1e-7).at(-1)?.action ?? undefined
+    const p = playerPose(track, cues, s.time, reducedMotion, action)
     if (group.current) { group.current.position.set(p.x, 0, p.z); group.current.rotation.y = p.facing }
     if (body.current) body.current.position.y = p.lift
     if (upper.current) { upper.current.position.y = .82 - p.crouch * .08; upper.current.rotation.x = p.lean }
@@ -38,11 +51,13 @@ export function RotationPlayer({ player, scenario, team, reducedMotion = false }
     if (!s.editor || s.playing) return
     if (s.view !== 'top') return
     dragging.current = true
+    dragStart.current = { x: e.clientX, y: e.clientY }
     if (s.strategyMode) useStrategies.getState().beginGesture()
     ;(e.target as Element).setPointerCapture(e.pointerId)
   }
   const move = (e: ThreeEvent<PointerEvent>) => {
     if (!dragging.current) return
+    if (Math.hypot(e.clientX - dragStart.current.x, e.clientY - dragStart.current.y) < 4) return
     e.stopPropagation()
     const hit = e.ray.intersectPlane(floor, new THREE.Vector3())
     if (hit) useRotations.getState().edit({ x: Math.max(-4.5, Math.min(4.5, Math.round(hit.x * 100) / 100)), z: Math.max(0, Math.min(12, Math.round(hit.z * 100) / 100)) })

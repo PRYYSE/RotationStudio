@@ -18,7 +18,11 @@ export type LaterDefend = {
   anchors?: Partial<Record<PlayerId, Spot>>
   routes?: Partial<Record<PlayerId, Spot[]>>
   coverage?: Partial<Record<PlayerId, CoverageZone>>
+  actions?: Partial<Record<PlayerId, AthleteAction | null>>
+  preservePath?: Partial<Record<PlayerId, true>>
 }
+export const ATHLETE_ACTIONS = ['ready', 'receive', 'set', 'attack', 'block', 'cover', 'recover'] as const
+export type AthleteAction = typeof ATHLETE_ACTIONS[number]
 export type StrategyRotation = {
   readyOptions?: boolean // Set formation: prepare eligible front hitters, retaining the active setter.
   anchors?: Partial<Record<StrategyStage, Partial<Record<PlayerId, Spot>>>>
@@ -44,6 +48,7 @@ type StrategyFields = {
 export type StrategyDraftV1 = StrategyFields & { schemaVersion: 1 }
 export type StrategyDraftV2 = StrategyFields & {
   schemaVersion: 2
+  coachingVersion?: 1 // Optional, strictly validated athlete-plan extension; old files remain unchanged.
   caseOverrides?: Partial<Record<CaseKey, StrategyRotation>>
   notes?: CoachNotes
 }
@@ -92,7 +97,9 @@ function checkPlayers(players: unknown, field: string) {
   if (!record(players)) throw new Error('Expected athlete overrides.')
   allowed(players, PLAYER_IDS)
   for (const point of Object.values(players)) {
-    if (field === 'anchors') checkSpot(point)
+    if (field === 'actions') { if (point !== null && !ATHLETE_ACTIONS.includes(point as AthleteAction)) throw new Error('Unknown athlete action.') }
+    else if (field === 'preservePath') { if (point !== true) throw new Error('Invalid movement boundary.') }
+    else if (field === 'anchors') checkSpot(point)
     else if (field === 'coverage') {
       if (!record(point)) throw new Error('Expected a coverage zone.')
       allowed(point, ['role', 'radiusX', 'radiusZ', 'offsetX', 'offsetZ'])
@@ -109,7 +116,7 @@ function checkPlayers(players: unknown, field: string) {
     }
   }
 }
-function checkRotations(overrides: unknown, version: number, cases = false) {
+function checkRotations(overrides: unknown, version: number, cases = false, coaching = false) {
   if (!record(overrides) || Object.keys(overrides).length > (cases ? 48 : 12)) throw new Error('Expected bounded rotation/serve overrides.')
   for (const [key, value] of Object.entries(overrides)) {
     if (!(cases ? isCaseKey(key) : /^[1-6]\/(they|us)$/.test(key)) || !record(value)) throw new Error('Invalid rotation/serve or case override.')
@@ -133,8 +140,9 @@ function checkRotations(overrides: unknown, version: number, cases = false) {
       allowed(value.eventOverrides, Object.keys(value.eventOverrides))
       for (const [id, patch] of Object.entries(value.eventOverrides)) {
         if (!isSourceEventId(id) || !record(patch)) throw new Error('Invalid source event ID or patch.')
-        allowed(patch, ['anchors', 'routes', 'coverage'])
-        for (const field of ['anchors', 'routes', 'coverage']) if (patch[field] !== undefined) checkPlayers(patch[field], field)
+        const fields = ['anchors', 'routes', 'coverage', ...(coaching ? ['actions', 'preservePath'] : [])]
+        allowed(patch, fields)
+        for (const field of fields) if (patch[field] !== undefined) checkPlayers(patch[field], field)
         const points = [...Object.values((patch.anchors ?? {}) as Record<string, Spot>), ...Object.values((patch.routes ?? {}) as Record<string, Spot[]>).flat()]
         if (!/^p[01]:(legal-start|serve-hit)$/.test(id) && points.some(p => p.z > 9)) throw new Error('Event positions and routes must stay on our court: Z 0–9.')
       }
@@ -173,11 +181,12 @@ function checkNotes(notes: unknown) {
 }
 export function validateStrategy(v: unknown): asserts v is StrategyDraft {
   if (!record(v)) throw new Error('Expected a sparse strategy object.')
-  allowed(v, ['kind', 'schemaVersion', 'id', 'name', 'author', 'baseRevision', 'overrides', ...(v.schemaVersion === 2 ? ['caseOverrides', 'notes'] : [])])
+  allowed(v, ['kind', 'schemaVersion', 'id', 'name', 'author', 'baseRevision', 'overrides', ...(v.schemaVersion === 2 ? ['caseOverrides', 'notes', 'coachingVersion'] : [])])
   if (v.kind !== 'rotation-studio-strategy' || (v.schemaVersion !== 1 && v.schemaVersion !== 2)) throw new Error('Unsupported strategy format/version.')
   if (typeof v.id !== 'string' || !/^[a-zA-Z0-9-]{1,80}$/.test(v.id) || v.id === 'team-v3' || !text(v.name, 80) || !text(v.author, 80) || !text(v.baseRevision, 80)) throw new Error('Strategy requires a safe ID, name, author and base revision (1–80 characters).')
-  checkRotations(v.overrides, v.schemaVersion)
-  if (v.schemaVersion === 2 && v.caseOverrides !== undefined) checkRotations(v.caseOverrides, 2, true)
+  if (v.coachingVersion !== undefined && v.coachingVersion !== 1) throw new Error('Unsupported athlete plan extension.')
+  checkRotations(v.overrides, v.schemaVersion, false, v.coachingVersion === 1)
+  if (v.schemaVersion === 2 && v.caseOverrides !== undefined) checkRotations(v.caseOverrides, 2, true, v.coachingVersion === 1)
   if (v.schemaVersion === 2 && v.notes !== undefined) checkNotes(v.notes)
   if (new TextEncoder().encode(JSON.stringify(v)).length > MAX_STRATEGY_BYTES) throw new Error('Strategy file must be at most 100 KB.')
 }

@@ -12,6 +12,7 @@ import { CoverageEditor } from './CoverageEditor'
 import { EventNavigator } from './EventNavigator'
 import { eventRouteInterval, sourceEvents } from '../lib/strategyEvents'
 import { selectDesktopEvent } from '../state/desktopNavigation'
+import { DesktopAthleteEditor } from './DesktopAthleteEditor'
 
 function EditorDisclosure({ desktop, title, children }: { desktop: boolean; title: string; children: ReactNode }) {
   return desktop ? <details className="editor-disclosure"><summary>{title}</summary>{children}</details> : <>{children}</>
@@ -68,6 +69,10 @@ function ImpactInspector({ review, rotationKey }: { review: ReviewProjection | n
 }
 
 export function StrategyEditor({ review, desktop = false }: { review: ReviewProjection | null; desktop?: boolean }) {
+  return desktop ? <DesktopAthleteEditor review={review} /> : <LegacyStrategyEditor review={review} />
+}
+
+function LegacyStrategyEditor({ review, desktop = false }: { review: ReviewProjection | null; desktop?: boolean }) {
   const studio = useStrategies(), s = useRotations(), scenario = activeScenario(s)!, team = activeBundle(s)!.team
   const [reset, setReset] = useState<'case' | 'rotation' | null>(null)
   const key = `${s.rotation}/${s.serve}` as RotationKey, caseKey = scenarioCaseKey(scenario)!

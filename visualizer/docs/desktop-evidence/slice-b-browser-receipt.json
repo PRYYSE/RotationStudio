@@ -1,0 +1,41 @@
+{
+  "when": "2026-10-30T07:20:45.123Z",
+  "status": "PASS",
+  "checks": [
+    "Desktop player-editor tools and chronological source events present",
+    "Harry Cover and Receive independently authored at first/next dig",
+    "Georgia movement bend authored",
+    "Jaz tip-zone coverage authored",
+    "Saved actions/routes/coverage case isolated",
+    "Saved strategy survives reload byte-identically",
+    "Play advances full-rally preview and Pause halts",
+    "Desktop/ultrawide/mobile no horizontal overflow or JS exceptions"
+  ],
+  "errors": [],
+  "screens": [
+    "desktop-edits-1440.png",
+    "viewport-1440.png",
+    "viewport-3440.png",
+    "viewport-390.png"
+  ],
+  "layouts": [
+    {
+      "width": 1440,
+      "scroll": 1440,
+      "rail": true,
+      "canvas": true
+    },
+    {
+      "width": 3440,
+      "scroll": 3440,
+      "rail": true,
+      "canvas": true
+    },
+    {
+      "width": 390,
+      "scroll": 390,
+      "rail": false,
+      "canvas": true
+    }
+  ]
+}
