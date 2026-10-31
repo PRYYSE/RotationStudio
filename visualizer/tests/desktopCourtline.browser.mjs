@@ -37,7 +37,7 @@ ok((await page.$$('.all-source-events-open button')).length>=14,'Detailed source
 await page.click('.source-moments-toggle');await pause(90);
 ok(!await page.$('.all-source-events-open'),'Extra moments did not collapse');
 const toolBounds=await page.$eval('.athlete-tool-switcher',e=>{const r=e.getBoundingClientRect();return {top:r.top,bottom:r.bottom,h:innerHeight}});
-ok(toolBounds.bottom<=toolBounds.h,'Athlete tools below desktop viewport');ok(await page.$eval('.desktop-athlete-editor',e=>/Action/.test(e.textContent)&&/Coverage/.test(e.textContent)),'Missing action/coverage editor');
+ok(toolBounds.bottom<=toolBounds.h,'Athlete tools below desktop viewport');ok(await page.$eval('.athlete-tool-switcher',e=>['Place','Route','Action','Zone'].every(t=>[...e.querySelectorAll('button')].some(b=>b.textContent.trim()===t))),'Missing Place/Route/Action/Zone tools');
 pass('Desktop player-editor tools and chronological source events present');
 await event('p3:our-dig');await select('Selected athlete','harry');await click('Action');await select('Teaching action','cover');
 await event('p8:next-dig');await select('Teaching action','receive');
