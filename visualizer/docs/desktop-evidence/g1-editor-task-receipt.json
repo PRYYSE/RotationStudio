@@ -1,0 +1,20 @@
+{
+  "checks": [
+    "Four primary editing tools above the lower inspector fold",
+    "Detailed coaching cue is preserved but initially collapsed",
+    "Redundant unsaved status hidden from quick history; top strategy status retained",
+    "Stage-first editing still available",
+    "No generic uncustomised coverage warning at top",
+    "Desktop editor no horizontal overflow",
+    "Coaching cue expands on demand",
+    "Stage navigation remains instant without unwanted animation",
+    "Phone keeps original mobile strategy editor",
+    "Phone no horizontal overflow",
+    "No JavaScript page errors"
+  ],
+  "errors": [],
+  "screens": [
+    "editor-task-first-1440.jpg"
+  ],
+  "status": "PASS"
+}

@@ -55,8 +55,7 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
     <div className="editor-athlete-heading" style={{ '--athlete-color': player.color } as CSSProperties}>
       <p className="editor-eyebrow">ATHLETE PLAN <span>{event.label} · {time.toFixed(2)} s</span></p>
       <h2>{player.name} <span>P{positionOf(team, r.rotation, id)}</span></h2>
-      <p className="athlete-compact-status" aria-label="Current athlete action">{action ? ACTION_LABELS[action] : roleNames[role] ?? role} · {zone?.role ? coverageNames[zone.role] + ' zone' : 'Coverage not customised'}</p>
-      <p className="editor-current-task">{review?.explanation.player || review?.explanation.team || 'Choose what this athlete should do at this moment.'}</p>
+      <p className="athlete-compact-status" aria-label="Current athlete action">{action ? ACTION_LABELS[action] : roleNames[role] ?? role}{zone?.role ? ` · ${coverageNames[zone.role]} responsibility` : ''}</p>
       <label>Selected athlete<select aria-label="Selected athlete" value={id} onChange={e => useRotations.setState({ selected: e.target.value })}>
         {team.players.map(p => <option value={p.id} key={p.id}>{p.name} · P{positionOf(team, r.rotation, p.id)}</option>)}
       </select></label>
@@ -77,6 +76,7 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
         {tool === 'position' ? 'Place' : tool === 'movement' ? 'Route' : tool === 'action' ? 'Action' : 'Zone'}
       </button>)}
     </div>
+    <details className="athlete-coaching-cue"><summary>Coaching cue for this moment</summary><p className="editor-current-task">{review?.explanation.player || review?.explanation.team || 'Choose what this athlete should do at this moment.'}</p></details>
     <div className="athlete-quick-history" role="group" aria-label="Edit history">
       <button disabled={!studio.past.length || r.playing} onClick={studio.undo}>Undo</button>
       <button disabled={!studio.future.length || r.playing} onClick={studio.redo}>Redo</button>

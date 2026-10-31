@@ -1,5 +1,17 @@
 # RotationStudio — Courtline desktop rework
 
+## G1.4 — Desktop editor hierarchy and tool-first access (31 October 2026)
+
+**Observed at 1440×900:** The selected-athlete inspector buried Place/Route/Action/Zone below a long generic coaching note, repeated "Coverage not customised" and save-status labels. Users needed tools first, not a larger developer information panel.
+
+**Implemented desktop-only:** Keep selected player/P-number, current source moment and case-specific vs shared scope visible, then show the four actual editing tools sooner. Move the unchanged original coaching note to an optional **Coaching cue for this moment** disclosure just beneath tool tabs. Show athlete action (and actual assigned coverage purpose only when present) without an empty "Coverage not customised" warning. Remove a repeated "Unsaved changes" message from the history row, since the strategy selector already shows its save state. The actual stage→drag→auto-path→optional bend and explicit Play logic are unchanged. Mobile uses a separate LegacyStrategyEditor and is not restyled.
+
+**Evidence:** fresh isolated Thorium **11/11 PASS**: four tool buttons at Y=540, collapsed coaching cue containing the original action text, no duplicate unsaved/uncustomised messaging, stage selection instant, phone original editor/no overflow, and no JS errors. [Screenshot](desktop-evidence/g1-editor-task-first-1440.jpg), [browser receipt](desktop-evidence/g1-editor-task-receipt.json). **161/161 unit tests PASS, production Pages-base build PASS**; source tactics and original Set arcs untouched.
+
+**Remaining:** G1 full novice teammate/coach visual review remains open. G2 later improves real action/route/coverage fidelity; G3/G4 improve the underlying tactical coaching content.
+
+---
+
 ## G1.3 — Desktop strategy management organised around tasks (31 October 2026)
 
 **Observed in a real 1440×900 screenshot:** New, duplicate, rename, save, delete, import/export/share/review/print appeared as equally ranked actions, many disabled under a read-only source, obscuring what an ordinary teammate should do.

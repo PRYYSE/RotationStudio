@@ -169,6 +169,11 @@
   .court-first .editor-history button:first-child { color: #fff; background: #344753; }
   .court-first .editor-history button:disabled { opacity: .35; }
   .court-first .athlete-compact-status { margin: 6px 0 8px; font-size: 12px; font-weight: 600; color: #e6c394; }
+  .court-first .desktop-athlete-editor .editor-athlete-heading { padding-top: 10px; padding-bottom: 9px; }
+  .court-first .desktop-athlete-editor .athlete-coaching-cue { margin: 10px 0 2px; padding: 0 0 9px; border-bottom: 1px solid #3b4b56; }
+  .court-first .desktop-athlete-editor .athlete-coaching-cue summary { cursor: pointer; padding: 5px 0; font-size: 13px; color: #bdcfd9; }
+  .court-first .desktop-athlete-editor .athlete-coaching-cue[open] .editor-current-task { margin: 7px 0 4px; font-size: 13px; line-height: 1.5; color: #c9dce5; }
+  .court-first .desktop-athlete-editor .athlete-quick-history span { display: none; }
   .court-first .athlete-tool-switcher { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; margin: 12px 0 0; padding-bottom: 8px; border-bottom: 1px solid #425665; }
   .court-first .athlete-tool-switcher button { min-height: 40px; padding: 8px 3px; border-radius: 3px; border-bottom: 3px solid transparent; background: #26353f; color: #cedbe3; font-size: 13px; font-weight: 600; }
   .court-first .athlete-tool-switcher button:hover { background: #354955; color: #fff; }
