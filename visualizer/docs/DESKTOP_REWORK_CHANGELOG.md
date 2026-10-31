@@ -1,5 +1,18 @@
 # RotationStudio — Courtline desktop rework
 
+## G1.1 — Coach View clarity (31 October 2026)
+
+**User intent:** normal desktop **View** should tell an actual teammate what to do, not lead with technical coordinates, raw source case IDs, or empty coaching fallbacks. Preserve detailed precision for people who deliberately expand it. This is a **bounded desktop-only** usability improvement; it is not a claim that the full player instructions or team tactics are complete.
+
+- **Now · Your responsibility** visually dominates the selected-player panel; **Coming up** identifies the next actual authored rally event, not an invented contact or athletic instruction.
+- Normal desktop Player Focus shows P-number/front-back/role without raw X/Z; precise coordinates, source details and incomplete fallback alerts remain in **Tactical details & full roster**. A real authored conditional fallback remains visible when it exists.
+- Desktop practice variant text is human-readable, e.g. attack toward our left / first touch Caleb, instead of exposing a case key. The old diagnostic data remains in source and DOM case attributes. Do not silently change phone layout or data.
+- **Validation:** 161/161 unit tests and production Pages-base build PASS. Fresh isolated Thorium against the real local Vite server: 7/7 focused browser checks PASS covering Now hierarchy, coordinates only in details, human scenario text, desktop overflow, untouched mobile Player Focus/practice text and mobile overflow. [Desktop screenshot](desktop-evidence/g1-view-1440.jpg), [browser receipt](desktop-evidence/g1-focus-receipt.json). No modification of personal saved strategies, source Team V3 or original Set arcs.
+
+**Open:** more substantial initial-user readability, full tactic specificity, case/branch teaching notes and plan-management UX remain part of [G1](https://github.com/PRYYSE/Volleyball/issues/3), [G3](https://github.com/PRYYSE/Volleyball/issues/5) and [G4](https://github.com/PRYYSE/Volleyball/issues/6); do not replace them with this small patch.
+
+---
+
 ## Slice D — Simple stage-first placement and automatic movement (30 October 2026)
 
 **User-requested course correction:** Restore the easy V4 authoring model. Author selects Start, Receive/Dig, Set, Attack, Defend/Recover, Block/Defend or Next Dig as appropriate; selects a player and drags them to their position. The underlying track connects the player to other authored positions and displays their path. Route editing is **optional** for a selected incoming/outgoing interval: Add bend, drag/remove bend, straighten. Do not expose a mandatory timeline or force manual path drawing. "More moments" expands the full authoritative source event list for later/alternate contacts without burying normal stage navigation in 16 technical events.

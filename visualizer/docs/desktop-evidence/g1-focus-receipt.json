@@ -1,0 +1,18 @@
+{
+  "checks": [
+    "Desktop Now hierarchy present",
+    "Desktop detailed coordinates are not shown at top level",
+    "Precise coordinates preserved in advanced details",
+    "Desktop practice scenario is human-readable",
+    "Desktop no horizontal overflow",
+    "Phone original PlayerFocus and practice text unchanged",
+    "Phone no horizontal overflow"
+  ],
+  "errors": [],
+  "screens": [
+    "g1-view-after-1440x900.jpg",
+    "g1-mobile-preserved-390x844.jpg"
+  ],
+  "run": "2026-10-31T02:02:27.515Z",
+  "status": "PASS"
+}

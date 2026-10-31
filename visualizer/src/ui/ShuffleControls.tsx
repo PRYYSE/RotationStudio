@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import { activeBundle, activeScenario, useRotations } from '../state/rotationStore'
 import { shuffleCases } from '../lib/rotationShuffle'
+import { useDesktopWorkbench } from './useDesktopWorkbench'
 
 export function ShuffleControls() {
   const s = useRotations(), bundle = activeBundle(s), scenario = activeScenario(s)
+  const desktop = useDesktopWorkbench()
   useEffect(() => {
     const hidden = () => { if (document.hidden) useRotations.getState().stopShuffle() }
     document.addEventListener('visibilitychange', hidden)
@@ -29,7 +31,7 @@ export function ShuffleControls() {
       </details>
     </div>
     <p className="shuffle-source" aria-label="Shuffle source" data-case={caseId} data-receiver={scenario.firstContact.player}>
-      {s.example ? 'Teaching sample outside Shuffle' : s.draft ? 'Authored V3 + local draft' : 'Authored V3'} · {caseId} · our {s.opponentAttack} · {receiver} first · DRAFT
+      {desktop ? 'Scenario · Attack toward our ' + s.opponentAttack + ' · First touch: ' + receiver : s.example ? 'Teaching sample outside Shuffle' : s.draft ? 'Authored V3 + local draft' : 'Authored V3'}{!desktop && <> · {caseId} · our {s.opponentAttack} · {receiver} first · DRAFT</>}
     </p>
     {s.shuffleNotice && <p className="shuffle-notice" role="status">{s.shuffleNotice}</p>}
   </section>
