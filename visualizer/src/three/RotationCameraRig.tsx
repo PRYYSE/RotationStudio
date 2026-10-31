@@ -24,23 +24,30 @@ export function RotationCameraRig() {
   const gesture = useStrategies(s => !!s.gesture)
   const command = useStrategies(s => s.cameraCommand)
   const fitDistance = useRef(30)
-  // Their server needs the far half at Start. Once the first ball arrives,
-  // devote the view to our full 9x9 floor instead of the empty opposing half.
+  const previousDesktopPreset = useRef<string | null>(null)
+  // Phone retains the original service-contact focus change. Desktop camera
+  // position belongs to the coach: timeline/playback must never reframe it.
   const ourHalf = useRotations(s => s.strategyMode || s.serve === 'us' || s.time >= (activeScenario(s)?.firstContact.time ?? Infinity))
   const target = useRef(new THREE.Vector3())
   const destination = useRef(new THREE.Vector3())
   useEffect(() => {
+    // Canvas height changes when the expanded moment rail opens. Do not reset
+    // user panning/zoom/orbit for that resize or when the rally advances.
+    const preset = `${view}/${editing}/${desktop}`
+    if (desktop && previousDesktopPreset.current === preset) return
+    previousDesktopPreset.current = preset
     const original = framings[view]
+    const focus = !desktop && ourHalf
     const f = view === 'top' ? { target: EDITOR_TARGET, dir: [0, 1, .001] as const, halfW: desktop ? 5.2 : 5.8, halfH: desktop ? 5.6 : 6.8 }
-      : ourHalf ? { ...original, target: [0, .5, 4.5] as const, halfW: view === 'side' ? 6.8 : 6, halfH: 6.8 } : original
+      : focus ? { ...original, target: [0, .5, 4.5] as const, halfW: view === 'side' ? 6.8 : 6, halfH: 6.8 } : original
     target.current.set(f.target[0], f.target[1], f.target[2])
     const aspect = size.width / size.height
     const tan = Math.tan(42 * Math.PI / 360)
     // Reserve chrome space, especially the lower timeline on portrait phones.
     const portrait = size.width < 600
-    const halfW = !ourHalf && portrait && (view === 'orbit' || view === 'front') ? 6.2 : f.halfW
-    const halfH = !ourHalf && portrait && (view === 'orbit' || view === 'front') ? 9.5 : f.halfH
-    if (!editing && !ourHalf && portrait && view === 'orbit') target.current.set(0, 0.6, 2.5)
+    const halfW = !focus && portrait && (view === 'orbit' || view === 'front') ? 6.2 : f.halfW
+    const halfH = !focus && portrait && (view === 'orbit' || view === 'front') ? 9.5 : f.halfH
+    if (!editing && !focus && portrait && view === 'orbit') target.current.set(0, 0.6, 2.5)
     const distance = Math.max(halfH / tan, halfW / (tan * aspect)) * 1.05
     destination.current.copy(target.current).addScaledVector((portrait && view === 'orbit' ? new THREE.Vector3(0, 1.25, 1) : new THREE.Vector3(...f.dir)).normalize(), distance)
     fitDistance.current = distance

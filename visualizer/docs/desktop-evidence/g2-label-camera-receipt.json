@@ -1,0 +1,594 @@
+{
+  "date": "2026-10-31T07:01:24.069Z",
+  "checks": [
+    "Six consistently named athletes visible in R1",
+    "All tags use compact fixed-height full-name/P# identity",
+    "Manual Receive jump is instantaneous and does not start playback",
+    "Animated player labels track feet without jumping to unrelated collision slots",
+    "Animated labels never switch to initials or change identity",
+    "1920 desktop still has no horizontal overflow",
+    "3440 desktop still has no horizontal overflow",
+    "Mobile label renderer and layout remain present without overflow",
+    "No JavaScript errors"
+  ],
+  "errors": [],
+  "labelTraces": [
+    {
+      "harry": {
+        "x": 513.8943481445312,
+        "y": 473.0890197753906,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 451.31884765625,
+        "y": 566.7120361328125,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 437.0374450683594,
+        "y": 420.9064025878906,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 464.1580810546875,
+        "y": 461.1985778808594,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 549.552734375,
+        "y": 465.8188781738281,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 346.1336669921875,
+        "y": 533.7536010742188,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 513.8943481445312,
+        "y": 473.0890197753906,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 451.31884765625,
+        "y": 566.7120361328125,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 437.0374450683594,
+        "y": 420.9064025878906,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 464.1580810546875,
+        "y": 461.1985778808594,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 549.552734375,
+        "y": 465.8188781738281,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 346.1336669921875,
+        "y": 533.7536010742188,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 513.8943481445312,
+        "y": 473.0890197753906,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 451.31884765625,
+        "y": 566.7120361328125,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 437.0374450683594,
+        "y": 420.9064025878906,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 464.1580810546875,
+        "y": 461.1985778808594,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 549.552734375,
+        "y": 465.8188781738281,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 346.1336669921875,
+        "y": 533.7536010742188,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 514.49462890625,
+        "y": 471.7067565917969,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 450.713623046875,
+        "y": 565.6669921875,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 438.26556396484375,
+        "y": 421.181884765625,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 462.52508544921875,
+        "y": 460.1119689941406,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 549.4446411132812,
+        "y": 466.091796875,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 346.1336669921875,
+        "y": 533.7536010742188,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 516.8264770507812,
+        "y": 466.337158203125,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 448.35772705078125,
+        "y": 561.5989990234375,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 443.0751647949219,
+        "y": 422.2607727050781,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 456.1728210449219,
+        "y": 455.8851623535156,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 549.021240234375,
+        "y": 467.16064453125,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 346.1336669921875,
+        "y": 533.7536010742188,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 519.9491577148438,
+        "y": 459.14642333984375,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 445.1907043457031,
+        "y": 556.1304321289062,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 449.6144104003906,
+        "y": 423.7276611328125,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 447.6444091796875,
+        "y": 450.2103271484375,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 548.4457397460938,
+        "y": 468.6136169433594,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 346.1336669921875,
+        "y": 533.7536010742188,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 522.8643798828125,
+        "y": 452.4333801269531,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 442.221435546875,
+        "y": 551.0032958984375,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 455.8233947753906,
+        "y": 425.1204528808594,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 439.6600646972656,
+        "y": 444.89752197265625,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 547.8993530273438,
+        "y": 469.9930114746094,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 346.1336669921875,
+        "y": 533.7536010742188,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 524.6643676757812,
+        "y": 448.28839111328125,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 440.3819274902344,
+        "y": 547.8270263671875,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 459.70849609375,
+        "y": 425.991943359375,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 434.71923828125,
+        "y": 441.60986328125,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 547.5574951171875,
+        "y": 470.85601806640625,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 346.1336669921875,
+        "y": 533.7536010742188,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 524.9569091796875,
+        "y": 447.61480712890625,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 440.0030517578125,
+        "y": 547.3785400390625,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 460.6165466308594,
+        "y": 426.1979064941406,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 433.5771789550781,
+        "y": 440.8532409667969,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 547.4764404296875,
+        "y": 471.06072998046875,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 346.84490966796875,
+        "y": 532.9833984375,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 525.4681396484375,
+        "y": 446.4375,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 439.0337829589844,
+        "y": 546.8578491210938,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 463.2614440917969,
+        "y": 426.80389404296875,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 430.2814636230469,
+        "y": 438.6786193847656,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 547.2369995117188,
+        "y": 471.6650695800781,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 350.8149108886719,
+        "y": 528.6844482421875,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 526.3339233398438,
+        "y": 444.4437561035156,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 437.38916015625,
+        "y": 545.974365234375,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 467.76263427734375,
+        "y": 427.8352355957031,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 424.7156677246094,
+        "y": 435.006103515625,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 546.8296508789062,
+        "y": 472.6935119628906,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 357.4871520996094,
+        "y": 521.4593505859375,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 528.058349609375,
+        "y": 440.4728698730469,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 434.1016845703125,
+        "y": 544.2083740234375,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 476.8112487792969,
+        "y": 429.9084777832031,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 413.6878356933594,
+        "y": 427.72955322265625,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 546.0108642578125,
+        "y": 474.7606506347656,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 370.5887451171875,
+        "y": 507.2721862792969,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 528.728271484375,
+        "y": 438.9302062988281,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 432.8202209472656,
+        "y": 543.5199584960938,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 480.35699462890625,
+        "y": 430.7209167480469,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 409.4240417480469,
+        "y": 424.9161682128906,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 545.6900634765625,
+        "y": 475.570556640625,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 375.612548828125,
+        "y": 501.83209228515625,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 529.0096435546875,
+        "y": 438.2823486328125,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 432.2813415527344,
+        "y": 543.23046875,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 481.8511657714844,
+        "y": 431.0632629394531,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 407.6368713378906,
+        "y": 423.7369079589844,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 545.5548706054688,
+        "y": 475.9118347167969,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 377.7114562988281,
+        "y": 499.55926513671875,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    },
+    {
+      "harry": {
+        "x": 529.0108642578125,
+        "y": 438.2794494628906,
+        "text": "Harry · P1",
+        "opacity": "1"
+      },
+      "caleb": {
+        "x": 432.2789306640625,
+        "y": 543.2291870117188,
+        "text": "Caleb · P6",
+        "opacity": "1"
+      },
+      "trent": {
+        "x": 481.8578186035156,
+        "y": 431.0647888183594,
+        "text": "Trent · P4",
+        "opacity": "1"
+      },
+      "logan": {
+        "x": 407.62890625,
+        "y": 423.7316589355469,
+        "text": "Logan · P3",
+        "opacity": "1"
+      },
+      "georgia": {
+        "x": 545.5542602539062,
+        "y": 475.9133605957031,
+        "text": "Georgia · P2",
+        "opacity": "1"
+      },
+      "jaz": {
+        "x": 381.1198425292969,
+        "y": 495.83587646484375,
+        "text": "Jaz · P5",
+        "opacity": "1"
+      }
+    }
+  ],
+  "screens": [
+    "identity-desktop-1440.png",
+    "camera-zoomed-before-receive.png",
+    "camera-zoomed-after-receive.png",
+    "identity-during-rally.png"
+  ],
+  "status": "PASS"
+}

@@ -3,6 +3,7 @@ import type { Scenario, Team } from './rotationTypes.ts'
 import { requireSourceEvent, sourceEvents } from './strategyEvents.ts'
 import { isFront, positionOf, sampleTrack } from './rotationModel.ts'
 import { splitTrack } from './trackSplit.ts'
+import { EXAMPLE_SCREEN } from './receiveExample.ts'
 
 export const ACTION_LABELS: Record<AthleteAction, string> = {
   ready: 'Ready', receive: 'Receive/Dig', set: 'Set', attack: 'Attack', block: 'Block', cover: 'Cover', recover: 'Recover',
@@ -33,4 +34,22 @@ export function routeBends(s: Scenario, source: Scenario, eventId: string, playe
   const previous = events[events.indexOf(event) - 1], track = structuredClone(s.tracks[player])
   if (previous && previous.time >= source.ball[0].start) splitTrack(track, previous.time)
   return splitTrack(track, event.time).via ?? []
+}
+
+
+/** Preview-only movement screen, using the same conservative acceleration
+ * multiplier as authored-strategy warnings. Not a player-specific speed model. */
+export function movementReview(s: Scenario, player: string, start: number, end: number) {
+  const seconds = end - start
+  const metres = seconds > 0 ? routeMetres(s, player, start, end) : 0
+  const requiredPace = seconds > 0 ? 1.5 * metres / seconds : 0
+  const review = seconds <= 0 || !Number.isFinite(requiredPace)
+    ? 'unavailable'
+    : metres < .15 ? 'stationary'
+    : requiredPace > EXAMPLE_SCREEN.peakSpeed ? 'check' : 'normal'
+  const label = review === 'unavailable' ? 'No timed path'
+    : review === 'stationary' ? 'Holding position'
+    : review === 'check' ? 'Check this move: it may be too fast for a practical rally'
+    : 'Within the rough teaching movement screen'
+  return { metres, seconds, requiredPace, review, label }
 }

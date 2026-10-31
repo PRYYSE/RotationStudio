@@ -6,7 +6,7 @@ import { ATHLETE_ACTIONS, COVERAGE_ROLES, scenarioCaseKey } from '../lib/strateg
 import type { AthleteAction, CoverageZone, PlayerId, RotationKey } from '../lib/strategyDraft'
 import { resolveStrategyRotation } from '../lib/strategyOverlay'
 import { sourceEvents } from '../lib/strategyEvents'
-import { ACTION_LABELS, actionWarning, routeBends, routeMetres } from '../lib/athletePlan'
+import { ACTION_LABELS, actionWarning, movementReview, routeBends } from '../lib/athletePlan'
 import { coverageAreas, coverageZoneAt } from '../lib/coverage'
 import type { ReviewProjection } from '../lib/reviewTypes'
 
@@ -49,8 +49,10 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
   useEffect(() => { if (studio.working) useStrategies.getState().setScope(caseKey) }, [studio.working?.id])
   if (!player || !point || !baseline || !event) return <p>Select an athlete and a moment on the rally below.</p>
   const warnings = actionWarning(source, team, event.id, id, action ?? undefined)
+  const incoming = previous ? movementReview(scenario, id, previous.time, event.time) : null
+  const outgoing = next ? movementReview(scenario, id, event.time, next.time) : null
   const routeText = (a: typeof event | undefined, b: typeof event | undefined) => a && b
-    ? `${a.label} → ${b.label} · ${routeMetres(scenario, id, a.time, b.time).toFixed(1)} m / ${(b.time - a.time).toFixed(2)} s` : 'No movement at this end of the rally.'
+    ? `${a.label} → ${b.label} · ${movementReview(scenario, id, a.time, b.time).metres.toFixed(1)} m / ${(b.time - a.time).toFixed(2)} s` : 'No movement at this end of the rally.'
   return <section className="strategy-editor desktop-athlete-editor" aria-label="Athlete editor">
     <div className="editor-athlete-heading" style={{ '--athlete-color': player.color } as CSSProperties}>
       <p className="editor-eyebrow">ATHLETE PLAN <span>{event.label} · {time.toFixed(2)} s</span></p>
@@ -87,10 +89,12 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
         <p>{r.view === 'top' ? 'Drag the athlete on court to move them.' : 'Choose Top view to drag the athlete.'}</p>
         <p className="auto-path-guidance">Set their position here, choose the next stage and move them again. Their path connects automatically. Open Route only if you need a bend.</p>
         <p className="edit-change-summary">{Math.hypot(point.x - baseline.x, point.z - baseline.z).toFixed(2)} m from original position · the faint marker shows the original.</p>
+        {[incoming, outgoing].some(v => v?.review === 'check') && <p className="strategy-warning" role="status">One connected movement looks demanding. Select Route to review distance and time before relying on this tactic.</p>}
       </section>}
       {activeTool === 'movement' && <section className="athlete-section"><h3>Movement</h3>
         <p className="auto-path-guidance">The path is already drawn between stages. Select the arriving or leaving section, then add a bend only where needed.</p>
-        <p>Into: {routeText(previous, event)}</p><p>Out: {routeText(event, next)}</p>
+        <p>Into: {routeText(previous, event)}{incoming?.review === 'check' && <strong className="route-movement-flag"> · Check pace</strong>}</p><p>Out: {routeText(event, next)}{outgoing?.review === 'check' && <strong className="route-movement-flag"> · Check pace</strong>}</p>
+        <p className="route-assessment-note">A rough movement screen, not a measured speed for {player.name}. Adjust positions or add a bend if the actual route is impractical.</p>
         <div className="rotation-row" aria-label="Route to edit"><button aria-pressed={studio.routeDirection === 'into'} onClick={() => useStrategies.setState({ routeDirection: 'into' })}>Arriving path</button><button aria-pressed={studio.routeDirection === 'out'} onClick={() => useStrategies.setState({ routeDirection: 'out' })}>Leaving path</button></div>
         <div className="rotation-row"><button disabled={!canRoute || bends.length >= 8} onClick={() => {
           if (!target || !start) return

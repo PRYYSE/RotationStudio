@@ -1,5 +1,31 @@
 # RotationStudio — Courtline desktop rework
 
+## G1.6–G1.7 + G2.2–G2.4 — Major desktop editing/playback repair (31 October 2026)
+
+**User's new high-priority reports:** Full-name player tags still obstructed the court, jittered and jumped around as play advanced; camera forcibly cut/reframed after contacts even when deliberately positioned; moving a player in Edit strategy was **extremely laggy**. Keep the simple stage→move players→automatic route→optional bend workflow.
+
+### Stable compact player identity (G1.6)
+Desktop identities now use **small, predictable, translucent full-name + P-number tags at the player's projected feet**, without dynamic collision-slot searching, priority-based teleportation, changing first initials or coarse 80ms position updates. They follow the athlete each rendered frame with GPU transform and do not intercept mouse input. Original mobile layout algorithm remains unchanged. Dense net formations may still have labels physically close together; do not claim full owner aesthetic acceptance. **Browser:** six named/P# labels, 9/9 checks, sampled maximum move **19.31 px per ~90 ms** during playback rather than collision-teleporting; 1440/1920/3440 and unchanged 390px mobile tested. Pure collision-independence and fractional motion unit tests added.
+
+### Camera remains where the coach put it (G1.7)
+Desktop contact timing, event seeking, playback advancement and canvas/inspector resizing no longer auto-reset the 3D camera. The user's **manual zoom and Orbit positioning remain in force**. Explicit Top/Orbit/Front/Side selection and editor Fit remain valid camera preset actions. Mobile's existing service-contact framing logic intentionally unchanged. Isolated 1440×900 screenshots before and after selecting Receive from a manually zoomed view retain court framing (only approximately 2.72% of the broad canvas region changed from player/ball movement, rather than a hard court jump).
+
+### Smooth editable-player dragging (G2.2)
+**Root cause verified:** During every pointer-move, the old editor cloned and validated the entire user strategy, reapplied sparse changes to the complete authored set, rerendered the court and wrote state repeatedly. The measured identical **75-step headless drag** required **46.19s overall / 44.55s JavaScript**. Desktop dragging now previews the avatar **and name tag directly** via a transient, non-persisted coordinate; it commits **one undoable strategy edit only on release**. On cancel/unmount the preview clears. Mobile Editor keeps its original drag logic.
+
+**Repeat benchmark on same isolated headless Thorium:** **20.75s overall / 1.76s JavaScript**, roughly **25.3× less JavaScript execution** during the 75-step drag, and ~2.23× shorter overall test. The residual total includes headless WebGL/input overhead, **not a measured user-visible RTX desktop FPS**; judge feel in a real normal-speed browser. The actual Edit mouse test verified preview follows finger/mouse while the saved position remains unchanged during drag, release commits ~0.96m, **one Undo** restores, **one Redo** reapplies, Receive/Dig remains independent. The original mobile View and real saved R1/R2 browser profile were never accessed.
+
+### Coverage continuity and honest route feasibility (G2.3–G2.4)
+A case-specific player responsibility formerly appeared **only at the exact source-event timestamp** and vanished between frames. It now remains visible through its authored phase and expires at the next phase, keeping separate first/later contacts distinct. Tests exercise all **48 case variants**. The Route tool now presents per-interval distance/time and flags demanding required travel against the application's conservative rough speed screen, labelled **approximate teaching guidance**, never a real measurement of an individual's speed or a guarantee of volleyball legality. No source contact/ball path or original strategy overwritten.
+
+### Acceptance / boundaries
+- **168/168 unit tests PASS** including new label, drag-preview, 48-case movement and coverage continuity tests; production Pages-base build PASS.
+- **9/9 browser** identity/camera/viewport tests, **8/8 real mouse drag and Undo/Redo** checks, **10/10 full editing integration** (case-scope/save/reload/bends/coverage/playback/multiple digs/phone compatibility) PASS.
+- [Player label screenshot](desktop-evidence/g2-stable-identity-1440.png), [before/after camera zoom framing](desktop-evidence/g2-camera-before.png) and [after](desktop-evidence/g2-camera-after.png), [drag screenshot](desktop-evidence/g2-fast-drag-1440.jpg), [label/camera receipt](desktop-evidence/g2-label-camera-receipt.json), [drag receipt](desktop-evidence/g2-drag-receipt.json), [performance comparison](desktop-evidence/g2-drag-performance.json).
+- Genuine 3D SetOptics and original Set arcs, published 48 source scenarios, Team V3 tactical DRAFT, browser-local user strategies/legacy import/export and exact-case editing unchanged. **This does not finish all G1 visual polish or G2 tactical/animation fidelity**; specific owner acceptance of tags, framing and drag feel is still pending.
+
+---
+
 ## G2.1 — Edited athlete actions settle naturally after the authored moment (31 October 2026)
 
 **Observed from real animation code and user request:** An athlete explicitly marked Block / Receive / Set / Attack / Cover / Recover at one rally event retained that static pose while their authored route continued to move toward the next event. This produced sliding and unnatural frozen arms, undermining simple full-rally playback.

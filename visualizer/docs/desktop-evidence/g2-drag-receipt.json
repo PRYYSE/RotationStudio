@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "Selected-athlete editor is available in real browser",
+    "Selected athlete name follows pointer before commit",
+    "Working strategy panel remains unchanged until pointer release",
+    "Mouse release commits actual edited athlete position",
+    "One Undo restores original start position",
+    "One Redo restores precisely the authored position",
+    "Independent Receive/Dig stage untouched by Start drag",
+    "No JavaScript page errors"
+  ],
+  "errors": [],
+  "date": "2026-10-31T07:07:14.274Z",
+  "status": "PASS"
+}

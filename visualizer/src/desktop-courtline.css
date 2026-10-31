@@ -90,22 +90,27 @@
   .court-first .editor-zoom button { font-size: 14px; min-height: 36px; min-width: 36px; }
   .court-first .editor-zoom button:first-child { font-size: 20px; }
   .court-first .court-labels .athlete-label {
-    height: 23px;
+    height: 17px;
     display: flex;
     align-items: center;
-    padding: 1px 6px;
-    font-size: 12px;
+    justify-content: center;
+    padding: 0 2px;
+    font-size: 10px;
     font-weight: 600;
-    line-height: 20px;
-    color: #f4f8fc;
-    background: #101b23e8;
+    line-height: 16px;
+    color: #f2f7fa;
+    background: #101b23b3;
     border: 0;
-    border-bottom: 2px solid;
+    border-bottom: 1px solid;
     border-radius: 2px;
-    box-shadow: 0 2px 5px #0004;
-    text-shadow: none;
+    box-shadow: none;
+    text-shadow: 0 1px 2px #071017;
+    overflow: hidden;
+    white-space: nowrap;
+    pointer-events: none;
+    will-change: transform;
   }
-  .court-first .court-labels .athlete-label.selected { color: #fff0da; background: #25231e; outline: 1px solid var(--warm); }
+  .court-first .court-labels .athlete-label.selected { color: #fff0da; background: #222d34d9; outline: 1px solid var(--warm); }
   .court-first .court-labels [hidden] { display: none; }
   .court-first :is(.viewer-panel, .strategy-panel) {
     grid-column: 2;

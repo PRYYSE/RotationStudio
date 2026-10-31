@@ -23,8 +23,14 @@ export function coverageStage(s: Scenario, time: number): StrategyStage {
 
 export function coverageZoneAt(changes: StrategyRotation | undefined, s: Scenario, time: number, id: PlayerId): CoverageZone | undefined {
   const stage = coverageStage(s, time), later = laterDefendTime(s)
-  const event = !s.teachingOnly && !!s.tactics && changes?.eventOverrides && sourceEvents(s).find(e => Math.abs(e.time - time) < 1e-6)
-  return (event ? changes?.eventOverrides?.[event.id]?.coverage?.[id] : undefined)
+  // An edited responsibility applies for the current authored phase, not
+  // only the single exact event frame. Keep it visible during Play between
+  // moments, but never leak the old assignment into a new phase.
+  const phaseOrdinal = s.phases.map(p => p.time <= time + 1e-7).lastIndexOf(true)
+  const assigned = !s.teachingOnly && !!s.tactics && changes?.eventOverrides
+    ? sourceEvents(s).filter(e => e.phaseOrdinal === phaseOrdinal && e.time <= time + 1e-7
+      && changes.eventOverrides?.[e.id]?.coverage?.[id]).at(-1) : undefined
+  return (assigned ? changes?.eventOverrides?.[assigned.id]?.coverage?.[id] : undefined)
     ?? (stage === 'Defend' && later !== undefined && time >= later ? changes?.laterDefend?.coverage?.[id] : undefined)
     ?? changes?.coverage?.[stage]?.[id]
 }

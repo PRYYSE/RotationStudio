@@ -1,0 +1,32 @@
+{
+  "name": "Isolated Thorium 1440x900 75-step authentic Jaz Edit drag, identical local test input",
+  "environment": "Headless Thorium/WebGL on Windows; absolute browser dispatch time is not the FPS of an interactive GPU-powered user session",
+  "baselineApp": "G2 before temporary drag preview",
+  "baseline": {
+    "elapsedMs": 46193.4176,
+    "perInputMs": 615.9122346666667,
+    "scriptMs": 44550.097,
+    "layoutMs": 8.361,
+    "taskMs": 44648.71400000001,
+    "frames": 0,
+    "workingMemoryMB": 86,
+    "before": "0.00 m from original position · the faint marker shows the original.",
+    "after": "0.96 m from original position · the faint marker shows the original."
+  },
+  "after": {
+    "elapsedMs": 20745.782100000004,
+    "perInputMs": 276.61042800000007,
+    "scriptMs": 1764.0620000000001,
+    "layoutMs": 0.46900000000000003,
+    "taskMs": 1821.321,
+    "frames": 0,
+    "workingMemoryMB": 22,
+    "before": "0.00 m from original position · the faint marker shows the original.",
+    "after": "0.96 m from original position · the faint marker shows the original."
+  },
+  "ratio": {
+    "javascriptReduction": 25.25,
+    "overallReduction": 2.23
+  },
+  "verifiedUserBehavior": "Player follows pointer during drag; no authored position change before release; on release one undoable change; independent Receive/Dig stage unchanged"
+}

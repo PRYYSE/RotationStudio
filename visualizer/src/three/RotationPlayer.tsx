@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useFrame, type ThreeEvent } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { Scenario, Team } from '../lib/rotationTypes'
@@ -9,6 +9,7 @@ import { selectScenario } from '../lib/rotationModel'
 import { sourceEvents } from '../lib/strategyEvents'
 import { resolveStrategyRotation } from '../lib/strategyOverlay'
 import type { PlayerId } from '../lib/strategyDraft'
+import { clearDragPreview, dragPreviewAt, showDragPreview } from './dragPreview'
 
 type Player = Team['players'][number]
 const floor = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
@@ -31,11 +32,15 @@ export function RotationPlayer({ player, scenario, team, reducedMotion = false }
   const [hovered, setHovered] = useState(false)
   const selected = useRotations((s) => s.selected === player.id)
   const dragging = useRef(false), dragStart = useRef({ x: 0, y: 0 })
+  const pendingDrag = useRef<{ x: number; z: number } | null>(null)
+  useEffect(() => () => clearDragPreview(player.id), [player.id])
   useFrame(() => {
     const s = useRotations.getState()
     const current = actions.filter(e => e.time <= s.time + 1e-7).at(-1)
     const p = playerPose(track, cues, s.time, reducedMotion, current?.action ?? undefined, current?.time)
-    if (group.current) { group.current.position.set(p.x, 0, p.z); group.current.rotation.y = p.facing }
+    // Render the preview directly, with no strategy rebuild between mouse moves.
+    const preview = s.strategyMode ? dragPreviewAt(player.id) : undefined
+    if (group.current) { group.current.position.set(preview?.x ?? p.x, 0, preview?.z ?? p.z); group.current.rotation.y = p.facing }
     if (body.current) body.current.position.y = p.lift
     if (upper.current) { upper.current.position.y = .82 - p.crouch * .08; upper.current.rotation.x = p.lean }
     if (leftLeg.current) leftLeg.current.rotation.x = p.leftLeg
@@ -51,6 +56,8 @@ export function RotationPlayer({ player, scenario, team, reducedMotion = false }
     if (!s.editor || s.playing) return
     if (s.view !== 'top') return
     dragging.current = true
+    pendingDrag.current = null
+    clearDragPreview(player.id)
     dragStart.current = { x: e.clientX, y: e.clientY }
     if (s.strategyMode) useStrategies.getState().beginGesture()
     ;(e.target as Element).setPointerCapture(e.pointerId)
@@ -60,12 +67,30 @@ export function RotationPlayer({ player, scenario, team, reducedMotion = false }
     if (Math.hypot(e.clientX - dragStart.current.x, e.clientY - dragStart.current.y) < 4) return
     e.stopPropagation()
     const hit = e.ray.intersectPlane(floor, new THREE.Vector3())
-    if (hit) useRotations.getState().edit({ x: Math.max(-4.5, Math.min(4.5, Math.round(hit.x * 100) / 100)), z: Math.max(0, Math.min(12, Math.round(hit.z * 100) / 100)) })
+    if (hit) {
+      const point = { x: Math.max(-4.5, Math.min(4.5, Math.round(hit.x * 100) / 100)), z: Math.max(0, Math.min(12, Math.round(hit.z * 100) / 100)) }
+      if (useRotations.getState().strategyMode && window.matchMedia('(min-width: 900px)').matches) {
+        // Commit a single undoable desktop strategy mutation at pointer-up. The avatar
+        // and its identity label follow the preview at full frame rate.
+        pendingDrag.current = point
+        showDragPreview(player.id, point)
+      } else useRotations.getState().edit(point)
+    }
   }
   const up = (e: ThreeEvent<PointerEvent>) => {
     if (!dragging.current) return
     dragging.current = false
-    if (useRotations.getState().strategyMode) useStrategies.getState().endGesture(e.type === 'pointercancel')
+    const coached = useRotations.getState().strategyMode
+    if (coached) {
+      const cancel = e.type === 'pointercancel'
+      if (!cancel && pendingDrag.current) useRotations.getState().edit(pendingDrag.current)
+      useStrategies.getState().endGesture(cancel)
+      // Hold the visual preview through the one React render applying the
+      // committed scenario, so release cannot snap briefly to its old spot.
+      if (cancel) clearDragPreview(player.id)
+      else requestAnimationFrame(() => clearDragPreview(player.id))
+    }
+    pendingDrag.current = null
     ;(e.target as Element).releasePointerCapture(e.pointerId)
   }
   const skin = '#e9bea5'

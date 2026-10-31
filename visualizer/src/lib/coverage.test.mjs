@@ -1,7 +1,8 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { coverageAreas } from './coverage.ts'
+import { coverageAreas, coverageZoneAt } from './coverage.ts'
+import { sourceEvents } from './strategyEvents.ts'
 import { applyStrategy, createStrategy, stageTimes, stageOrder } from './strategyDraft.ts'
 import { isFront, positionOf, sampleTrack } from './rotationModel.ts'
 
@@ -72,4 +73,28 @@ test('six canonical high contrast identities survive the data-driven generator s
   const generator = readFileSync(new URL('../../scripts/author_tactics_v2.py', import.meta.url), 'utf8')
   assert.match(generator, /TEAM=json.loads\(\(ROOT\/"team.json"\).read_text\(\)\)/)
   assert.doesNotMatch(generator, /athlete\["color"\]\s*=/)
+})
+
+test('edited coverage stays visible throughout an edited phase and expires at the next phase', () => {
+  for (const s of scenarios(base)) {
+    const events = sourceEvents(s)
+    const first = events.find(e => e.label === 'Our dig' || e.label === 'First pass')
+    if (!first) continue
+    const nextPhase = s.phases.find(p => p.time > first.time)
+    if (!nextPhase) continue
+    const checkTime = first.time + Math.min(.025, (nextPhase.time - first.time) / 3)
+    const id = base.team.players.find(p => p.id !== s.secondContact.player).id
+    const area = { role: 'tip', radiusX: 1.25, radiusZ: .8 }
+    const changes = { eventOverrides: { [first.id]: { coverage: { [id]: area } } } }
+    assert.deepEqual(coverageZoneAt(changes, s, first.time, id), area)
+    assert.deepEqual(coverageZoneAt(changes, s, checkTime, id), area,
+      `R${s.rotation}/${s.serve} edited zone vanished during playback`)
+    assert.notDeepEqual(coverageZoneAt(changes, s, nextPhase.time, id), area,
+      'Previous responsibility must not be presented as current after another phase begins')
+    const drawn = coverageAreas(base.team, s, checkTime, true, changes).find(a => a.player === id)
+    assert.equal(drawn.responsibility, 'tip')
+    assert.equal(drawn.assigned, true)
+    const point = sampleTrack(s.tracks[id], checkTime)
+    assert.deepEqual(drawn.center, { x: point.x, z: point.z })
+  }
 })
