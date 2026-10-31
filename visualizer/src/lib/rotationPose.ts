@@ -52,7 +52,7 @@ const pulse = (time: number, contact: number, before: number, after: number) => 
 /** Deterministic animation-time sampling: pause/reverse/seek cannot retain a
  * stale gesture. Only the body is lifted; floor location always equals track.
  */
-export function playerPose(track: Keyframe[], cues: PoseCues, time: number, reduced = false, action?: AthleteAction): PlayerPose {
+export function playerPose(track: Keyframe[], cues: PoseCues, time: number, reduced = false, action?: AthleteAction, actionTime?: number): PlayerPose {
   const p = sampleTrack(track, time)
   const a = reduced ? p : sampleTrack(track, Math.max(track[0].time, time - .02))
   const b = reduced ? p : sampleTrack(track, Math.min(track[track.length - 1].time, time + .02))
@@ -112,15 +112,23 @@ export function playerPose(track: Keyframe[], cues: PoseCues, time: number, redu
     }
   }
   if (action) {
+    // A coached action describes what happens at one authored moment, not a
+    // pose to hold while the athlete travels toward the next moment.
+    const weight = actionTime === undefined ? 1 : smooth(1 - Math.max(0, time - actionTime) / .6)
+    const before = { ...pose }
     pose.cue = action
     pose.lift = 0; pose.crouch = .12; pose.lean = 0; pose.armSpread = .12
     pose.leftArm = .15; pose.rightArm = .15
     if (action === 'receive') { pose.leftArm = pose.rightArm = 1.2; pose.armSpread = -.45; pose.crouch = .65; pose.lean = -.22 }
     if (action === 'set') { pose.leftArm = pose.rightArm = 2.65; pose.armSpread = -.08 }
     if (action === 'attack') { pose.leftArm = 1.25; pose.rightArm = 3 }
-    if (action === 'block') { pose.leftArm = pose.rightArm = cues.front ? 2.85 : .7; pose.crouch = cues.front ? .1 : .35 }
+    if (action === 'block') { pose.leftArm = pose.rightArm = cues.front ? 2.85 : .7; pose.crouch = cues.front ? .1 : .35; pose.lift = cues.front && !reduced && time >= cues.serviceTime ? .1 : 0 }
     if (action === 'cover') { pose.leftArm = pose.rightArm = .65; pose.armSpread = .5; pose.crouch = .5; pose.lean = -.15 }
     if (action === 'recover') { pose.leftArm = .4 - swing; pose.rightArm = .4 + swing; pose.lean = -.1 }
+    if (weight < 1) {
+      for (const key of ['lift', 'crouch', 'lean', 'armSpread', 'leftArm', 'rightArm'] as const) pose[key] = before[key] + (pose[key] - before[key]) * weight
+      if (weight === 0) pose.cue = before.cue
+    }
   }
   return pose
 }

@@ -33,8 +33,8 @@ export function RotationPlayer({ player, scenario, team, reducedMotion = false }
   const dragging = useRef(false), dragStart = useRef({ x: 0, y: 0 })
   useFrame(() => {
     const s = useRotations.getState()
-    const action = actions.filter(e => e.time <= s.time + 1e-7).at(-1)?.action ?? undefined
-    const p = playerPose(track, cues, s.time, reducedMotion, action)
+    const current = actions.filter(e => e.time <= s.time + 1e-7).at(-1)
+    const p = playerPose(track, cues, s.time, reducedMotion, current?.action ?? undefined, current?.time)
     if (group.current) { group.current.position.set(p.x, 0, p.z); group.current.rotation.y = p.facing }
     if (body.current) body.current.position.y = p.lift
     if (upper.current) { upper.current.position.y = .82 - p.crouch * .08; upper.current.rotation.x = p.lean }

@@ -168,3 +168,31 @@ test('ambiguous or broken contact links never manufacture a contact actor; pose 
   }
   assert.equal(JSON.stringify(plans), before)
 })
+
+test('edited athlete actions cue a real moment then settle into travel without permanent frozen arms', () => {
+  const track = [
+    { time: 0, x: 0, z: 5, role: 'help' },
+    { time: 2, x: 2, z: 5, role: 'help' },
+    { time: 4, x: 2, z: 5, role: 'help' },
+  ]
+  const cues = { contacts: [], blocks: [], front: true, serviceTime: .5 }
+  for (const action of ['receive', 'set', 'attack', 'block', 'cover', 'recover']) {
+    const moment = playerPose(track, cues, 1, false, action, 1)
+    assert.equal(moment.cue, action, action)
+    const halfway = playerPose(track, cues, 1.3, false, action, 1)
+    const baseline = playerPose(track, cues, 1.3)
+    assert.equal(halfway.cue, action)
+    assert.notEqual(halfway.leftArm, moment.leftArm)
+    near(halfway.x, baseline.x)
+    near(halfway.z, baseline.z)
+    const finished = playerPose(track, cues, 1.7, false, action, 1)
+    assert.deepEqual(finished, playerPose(track, cues, 1.7), action + ' should not freeze during next movement')
+  }
+  const block = playerPose(track, cues, 1, false, 'block', 1)
+  assert.ok(block.lift > 0 && block.lift <= .11)
+  assert.equal(playerPose(track, { ...cues, front: false }, 1, false, 'block', 1).lift, 0)
+  assert.equal(playerPose(track, cues, 1, true, 'block', 1).lift, 0)
+  const t1 = playerPose(track, cues, 1.599, false, 'receive', 1)
+  const t2 = playerPose(track, cues, 1.601, false, 'receive', 1)
+  assert.ok(Math.abs(t1.leftArm - t2.leftArm) < .01, 'pose fades smoothly at end of teaching action')
+})

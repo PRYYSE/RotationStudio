@@ -1,5 +1,17 @@
 # RotationStudio — Courtline desktop rework
 
+## G2.1 — Edited athlete actions settle naturally after the authored moment (31 October 2026)
+
+**Observed from real animation code and user request:** An athlete explicitly marked Block / Receive / Set / Attack / Cover / Recover at one rally event retained that static pose while their authored route continued to move toward the next event. This produced sliding and unnatural frozen arms, undermining simple full-rally playback.
+
+**Fix:** At the selected source event, the original authored **teaching action is fully visible**. Its pose then **eases out over 0.6 seconds** into the player's already-computed locomotion/contact pose, so legs and direction still follow the real saved track without an artificial permanent action lock. The selected edited action and case scope remain exactly the same; this changes only **how it is drawn during playback**, not strategy saved data, contacts, who touches the ball, path positions, stage timings or branch logic. Front-row Block can show a small bounded rise (.1m) after serve contact, never for back-row or reduced-motion preview. No new timeline, animation control or invented ball trajectory.
+
+**Acceptance:** New pure pose unit test checks all six edited action cues are explicit at their event, unwind smoothly with no frozen arms 0.6s later, retain original x/z travel, block front-row bounded lift only, back-row and reduced motion no jump. **162/162 unit PASS**, production Pages-base build PASS, full browser editor acceptance re-run covering source events, independent first/next actions, route bends, zones, case-only save, reload and Play/Pause. [Code](../src/lib/rotationPose.ts), [pose unit](../src/lib/rotationPose.test.mjs).
+
+**Known limits:** simplified player geometry and teaching poses remain stylised. G2 still requires broader realism/coverage testing and cannot infer real athletic speed or alternate ball contact from a displayed action.
+
+---
+
 ## G1.5 — Instant manual navigation throughout desktop View (31 October 2026)
 
 **Real bug found by integrated teammate walkthrough:** On the published app, clicking **Receive** in desktop View started `playing=true` with destination 2.75s while the court still showed 0.00s. This contradicts the user-approved rule **manual stage/event navigation is instant; Play alone animates**. Earlier edit-only tests missed the View behaviour.
