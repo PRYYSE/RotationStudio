@@ -127,6 +127,24 @@
   .court-first .strategy-panel p, .court-first .player-focus { font-size: 14px; line-height: 1.55; }
   .court-first .strategy-panel label { font-size: 13px; font-weight: 500; gap: 7px; }
   .court-first .strategy-panel :is(h2, h3), .court-first .player-focus h2 { font-size: 18px; font-weight: 600; line-height: 1.35; }
+  .court-first .strategy-library > label { display: block; font-size: 13px; font-weight: 600; color: #dce9ee; }
+  .court-first .strategy-library > label select { display: block; width: 100%; margin-top: 8px; font-weight: 500; }
+  .court-first .strategy-library .strategy-status { margin: 10px 0 8px; font-size: 12px; color: #e1c49b; }
+  .court-first .strategy-library .plan-local-notice { margin: 12px 0 0; font-size: 13px; color: #afc3cd; line-height: 1.5; }
+  .court-first .strategy-library .plan-task-heading { display: flex; flex-direction: column; gap: 5px; border-top: 1px solid #3d4c56; margin: 22px 0 12px; padding-top: 18px; }
+  .court-first .strategy-library .plan-task-heading strong { font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: #f0bd83; }
+  .court-first .strategy-library .plan-task-heading span { font-size: 13px; line-height: 1.45; color: #b6cad4; }
+  .court-first .strategy-library :is(.plan-create-actions, .plan-manage-actions, .plan-share-actions) { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; align-items: stretch; }
+  .court-first .strategy-library :is(.plan-create-actions, .plan-manage-actions, .plan-share-actions) button { min-height: 44px; height: auto; padding: 9px 10px; white-space: normal; background: #293943; border: 1px solid #415560; border-radius: 5px; color: #e1ecf0; text-align: center; font-weight: 550; }
+  .court-first .strategy-library .plan-share-actions button:disabled { display: none; }
+  .court-first .strategy-library .plan-create-actions button:first-child { background: #e8b273; border-color: #e8b273; color: #1e272e; font-weight: 700; }
+  .court-first .strategy-library .plan-create-actions button:first-child:hover { background: #f3c791; color: #152028; }
+  .court-first .strategy-library .plan-edit-cta { display: block; width: 100%; margin: 0 0 9px; min-height: 46px; background: #e8b273; border: 1px solid #e8b273; color: #1e272e; font-size: 15px; font-weight: 700; }
+  .court-first .strategy-library .plan-edit-cta:hover:not(:disabled) { background: #f3c791; color: #152028; }
+  .court-first .strategy-library .plan-manage-actions button:last-child { color: #dfb6aa; border-color: #6e4d4a; }
+  .court-first .strategy-library .strategy-form { border-color: #465c67; background: #222f38; }
+  .court-first .strategy-library .strategy-confirm { border-color: #b98956; }
+  .court-first .strategy-library .strategy-message { overflow-wrap: anywhere; }
   .court-first .strategy-selection { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; align-items: end; padding: 0 0 16px; border-bottom: 1px solid var(--line); position: sticky; top: -20px; z-index: 5; background: #1c252d; }
   .court-first .strategy-selection > label { grid-column: 1; padding-top: 12px; }
   .court-first .strategy-selection > button { grid-column: 2; grid-row: 1; background: var(--warm); color: #192128; min-width: 64px; }

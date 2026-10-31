@@ -9,6 +9,7 @@ import type { TeamReferenceData } from '../lib/teamReference'
 import type { Scenario } from '../lib/rotationTypes'
 import { TeamReference } from './TeamReference'
 import { rotationLink } from '../lib/rotationModel'
+import { useDesktopWorkbench } from './useDesktopWorkbench'
 
 function download(json: string, filename: string) {
   const url = URL.createObjectURL(new Blob([json], { type: 'application/json' }))
@@ -16,7 +17,8 @@ function download(json: string, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
-export function StrategyLibrary({ compact = false }: { compact?: boolean }) {
+export function StrategyLibrary({ compact = false, onEdit }: { compact?: boolean; onEdit?: () => void }) {
+  const desktop = useDesktopWorkbench()
   const s = useStrategies(), r = useRotations(), published = r.published
   const file = useRef<HTMLInputElement>(null)
   const [message, setMessage] = useState(''), [naming, setNaming] = useState(false)
@@ -51,21 +53,26 @@ export function StrategyLibrary({ compact = false }: { compact?: boolean }) {
       {s.library.map(d => <option value={d.id} key={d.id}>{d.name} · {d.author}</option>)}
     </select></label>
     <p className="strategy-status" role="status">{working ? `${working.author} · ${s.preview ? 'Preview — Save a copy to keep' : s.saved ? 'Saved locally' : 'Unsaved'} · Needs review` : 'Team V3 · immutable published tactics'}</p>
-    {!compact && <p>Source: {working?.baseRevision ?? 'Team V3'} · {s.library.length}/50 local drafts</p>}
+    {!compact && !desktop && <p>Source: {working?.baseRevision ?? 'Team V3'} · {s.library.length}/50 local drafts</p>}
     {compact && working && <button disabled={!!s.gesture || s.saved} onClick={save}>{s.preview ? 'Save a copy' : 'Save'}</button>}
     {pendingSelect !== undefined && <div role="alert" className="strategy-confirm">This strategy has unsaved changes. Save or export to keep them.
       <button onClick={() => { select(pendingSelect); setPendingSelect(undefined) }}>Discard and switch</button><button onClick={() => setPendingSelect(undefined)}>Keep editing</button>
     </div>}
     {!compact && <>
-    <p>This browser only. Save a copy of a shared preview. Share JSON or a link for another coach; changes do not sync. DRAFT; not match-approved.</p>
-    <div className="rotation-row">
+    {desktop ? <p className="plan-local-notice">Personal plans live in this browser. Share a copy when teammates need to use or edit them. All plans remain tactical drafts.</p> : <p>This browser only. Save a copy of a shared preview. Share JSON or a link for another coach; changes do not sync. DRAFT; not match-approved.</p>}
+    {desktop && <div className="plan-task-heading"><strong>01 / Start a plan</strong><span>Begin with the team baseline, or copy the currently selected positions.</span></div>}
+    <div className={desktop ? 'rotation-row plan-create-actions' : 'rotation-row'}>
       <button onClick={() => { if (working && !s.saved) { setMessage('Save or export the current unsaved strategy before starting another.'); return } s.newStrategy(false, published ?? undefined) }}>New from baseline</button>
       <button onClick={() => { if (working && !s.saved) { setMessage('Save or export the current unsaved strategy before making a copy.'); return } s.newStrategy(true, published ?? undefined) }}>New from current</button>
+    </div>
+    {desktop && <div className="plan-task-heading"><strong>02 / Work on a plan</strong><span>{working ? `Selected: ${working.name}` : 'Choose or create a personal plan to enable editing and saving.'}</span></div>}
+    {desktop && working && <button className="plan-edit-cta" disabled={!onEdit} onClick={onEdit}>Edit on court</button>}
+    {(!desktop || !!working) && <div className={desktop ? 'rotation-row plan-manage-actions' : 'rotation-row'}>
       <button disabled={!working} onClick={() => { if (!s.saved) { setMessage('Save or export this strategy before duplicating.'); return } s.newStrategy(true) }}>Duplicate</button>
       <button disabled={!working} onClick={beginName}>Rename / author</button>
       <button disabled={!working || !!s.gesture || (s.saved && !s.preview)} onClick={save}>{s.preview ? 'Save a copy' : 'Save'}</button>
       <button disabled={!stored} onClick={() => setConfirmDelete(true)}>Delete</button>
-    </div>
+    </div>}
     {naming && <form className="strategy-form" onSubmit={e => {
       e.preventDefault(); s.metadata(name.trim(), author.trim()); if (name.trim() && author.trim()) setNaming(false)
     }}>
@@ -76,7 +83,8 @@ export function StrategyLibrary({ compact = false }: { compact?: boolean }) {
     {confirmDelete && working && <div role="alert" className="strategy-confirm">Delete “{working.name}” from this browser?
       <button onClick={() => { s.remove(working.id); setConfirmDelete(false) }}>Confirm delete</button><button onClick={() => setConfirmDelete(false)}>Cancel</button>
     </div>}
-    <div className="rotation-row">
+    {desktop && <div className="plan-task-heading"><strong>03 / Share &amp; back up</strong><span>Import a strategy, send a copy or create a teammate reference.</span></div>}
+    <div className={desktop ? 'rotation-row plan-share-actions' : 'rotation-row'}>
       <button onClick={() => file.current?.click()}>Import strategy</button>
       <button disabled={!working} onClick={() => {
         if (!working) return

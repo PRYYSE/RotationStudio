@@ -77,6 +77,23 @@ export function Rotations() {
   const source = sourceRoot && selectScenario(sourceRoot, s.opponentAttack, s.firstTouch)
   const events = source?.tactics ? sourceEvents(source) : []
   const currentEvent = [...events].reverse().find(e => e.time <= s.time)
+  const openEditor = () => {
+    s.stopShuffle()
+    if (!studio.working) studio.newStrategy(false, s.published ?? undefined)
+    const root = s.published?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
+    const source = root && selectScenario(root, s.opponentAttack, s.firstTouch)
+    const event = source?.tactics && sourceEvents(source).find(e => Math.abs(e.time - s.time) < .005)
+    if (source && event && s.time !== times[currentStage]) studio.setEvent(source, event.id, s.published ?? undefined)
+    else studio.setStage(currentStage)
+    if (!bundle.team.players.some(p => p.id === s.selected)) useRotations.setState({ selected: 'harry' })
+    useStrategies.setState({ editing: true }); s.setEditor(true); setSettings(false); setLibraryOpen(false)
+    if (desktop && source) {
+      studio.setScope(scenarioCaseKey(source) ?? null)
+      useStrategies.setState({ coverageDisplay: 'selected', routeVisible: true })
+      const destination = sourceEvents(source).find(e => e.time === s.time) ?? sourceEvents(source).find(e => e.time === times[currentStage]) ?? sourceEvents(source)[0]
+      selectDesktopEvent(source, destination.id)
+    }
+  }
   return <main className={`rotations court-first ${panel ? 'strategy-open' : ''} ${studio.editing ? 'strategy-editing' : ''} ${settings ? 'settings-open' : ''}`} style={desktop && inspectorWidth ? { '--inspector-width': `${inspectorWidth}px` } as CSSProperties : undefined} aria-label="Rotation studio">
     <div className="rotation-canvas" aria-label="Interactive volleyball court">
       <RotationScene labelHost={labelHost} lowMotion={lowMotion} />
@@ -96,23 +113,7 @@ export function Rotations() {
     <div className="rotation-top">
       <nav className="rotation-row glass" aria-label="Strategy mode">
         <button aria-pressed={!studio.editing && !libraryOpen} onClick={() => { leaveEditor(); setLibraryOpen(false) }}>View</button>
-        <button aria-pressed={studio.editing} onClick={() => {
-          s.stopShuffle()
-          if (!studio.working) studio.newStrategy(false, s.published ?? undefined)
-          const root = s.published?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
-          const source = root && selectScenario(root, s.opponentAttack, s.firstTouch)
-          const event = source?.tactics && sourceEvents(source).find(e => Math.abs(e.time - s.time) < .005)
-          if (source && event && s.time !== times[currentStage]) studio.setEvent(source, event.id, s.published ?? undefined)
-          else studio.setStage(currentStage)
-          if (!bundle.team.players.some(p => p.id === s.selected)) useRotations.setState({ selected: 'harry' })
-          useStrategies.setState({ editing: true }); s.setEditor(true); setSettings(false); setLibraryOpen(false)
-          if (desktop && source) {
-            studio.setScope(scenarioCaseKey(source) ?? null)
-            useStrategies.setState({ coverageDisplay: 'selected', routeVisible: true })
-            const destination = sourceEvents(source).find(e => e.time === s.time) ?? sourceEvents(source).find(e => e.time === times[currentStage]) ?? sourceEvents(source)[0]
-            selectDesktopEvent(source, destination.id)
-          }
-        }}>Edit strategy</button>
+        <button aria-pressed={studio.editing} onClick={openEditor}>Edit strategy</button>
         <button aria-pressed={libraryOpen && !studio.editing} aria-expanded={libraryOpen && !studio.editing} onClick={() => { s.stopShuffle(); if (studio.editing) leaveEditor(); setLibraryOpen(!libraryOpen) }}>Strategies</button>
       </nav>
       <div className="rotation-selectors glass">
@@ -127,7 +128,7 @@ export function Rotations() {
     </div>
     {panel && <aside className="strategy-panel glass" aria-label="Strategy studio controls">
       {!studio.editing && <p className="library-preview-context" aria-label="Current preview focus">{currentStage} · {bundle.team.players.find(p => p.id === s.selected)?.name ?? 'Whole team'} · {phase.label} · {s.time.toFixed(2)}s</p>}
-      <StrategyLibrary compact={studio.editing} />
+      <StrategyLibrary compact={studio.editing} onEdit={openEditor} />
       {warnings.filter(w => w.startsWith('Event edits were not applied:')).map(w => <p className="strategy-warning" role="alert" key={w}>{w}</p>)}
       {studio.editing && <StrategyEditor key={`${s.rotation}/${s.serve}/${s.opponentAttack}/${s.firstTouch}`} review={review} desktop={desktop} />}
       {!studio.editing && studio.working && <p className="strategy-warning">Foundation needs tactical review. View plays the V3 timing template with your foundation edits.</p>}

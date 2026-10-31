@@ -1,5 +1,15 @@
 # RotationStudio — Courtline desktop rework
 
+## G1.3 — Desktop strategy management organised around tasks (31 October 2026)
+
+**Observed in a real 1440×900 screenshot:** New, duplicate, rename, save, delete, import/export/share/review/print appeared as equally ranked actions, many disabled under a read-only source, obscuring what an ordinary teammate should do.
+
+**Implemented, desktop only:** Selected source and saved strategies stay in the same safe browser-local store. A progressive task hierarchy displays **01 Start a plan** (New from baseline / New from current), **02 Work on a plan** (when a local draft exists: prominent **Edit on court**, duplicate, rename, save, delete), and **03 Share & back up** (import, export/share where available, team reference, review packet). Empty baseline no longer shows unavailable destructive/editing options. The everyday panel hides raw revision hashes while preserving all underlying data and review/export functions. The same existing `openEditor` handler is used by the top navigation and new **Edit on court** button; stage-first positioning and automatic paths remain unchanged. Mobile browser renders original action list, no desktop headings; no user saves or source tactics modified.
+
+**Acceptance:** fresh isolated Thorium at 1440×900, **10/10 workflow checks PASS**: clear three stages, no unavailable editing controls on source, import/reference remain reachable, create editable local plan, edit management appears, **Edit on court** enters Start/Receive/Set/Attack/Defend stage-first editor without replacing the working plan; 390px phone still renders original actions without overflow, no page errors. **161/161 unit tests PASS, production Pages-base build PASS.** [Screenshot](desktop-evidence/g1-strategies-start-1440.jpg) and [browser receipt](desktop-evidence/g1-strategies-receipt.json). This is a bounded usability improvement, **not** full G1 visual acceptance, a new cloud sync system, or final review of plan-sharing quality.
+
+---
+
 ## G1.2 — Non-overlapping desktop athlete tags (31 October 2026)
 
 **Observed:** Real 1440×900 desktop View still stacked player identity tags on top of each other near the net despite the earlier small under-foot styling. This directly conflicts with the requirement for legible player/P identities during tactical study.
