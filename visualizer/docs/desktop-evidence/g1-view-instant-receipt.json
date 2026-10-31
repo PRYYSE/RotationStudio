@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-31T05:57:45.690Z",
+  "checks": [
+    "Desktop View stage selection jumps instantly without playback",
+    "Desktop View Next jumps immediately",
+    "Desktop View Previous jumps immediately",
+    "All source events remain accessible",
+    "Detailed source event selection jumps instantly",
+    "Play explicitly advances rally time",
+    "Pause stops movement without resetting the stage",
+    "No overflow and controls visible at 1920×1080",
+    "No overflow and controls visible at 3440×1440",
+    "Existing mobile View transition behaviour is unchanged",
+    "No JavaScript page errors in desktop View"
+  ],
+  "errors": [],
+  "screens": [
+    "desktop-view-event-1440.jpg"
+  ],
+  "status": "PASS"
+}

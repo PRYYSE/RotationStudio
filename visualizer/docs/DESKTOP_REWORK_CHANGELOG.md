@@ -1,5 +1,17 @@
 # RotationStudio — Courtline desktop rework
 
+## G1.5 — Instant manual navigation throughout desktop View (31 October 2026)
+
+**Real bug found by integrated teammate walkthrough:** On the published app, clicking **Receive** in desktop View started `playing=true` with destination 2.75s while the court still showed 0.00s. This contradicts the user-approved rule **manual stage/event navigation is instant; Play alone animates**. Earlier edit-only tests missed the View behaviour.
+
+**Fix, desktop-only:** View stage buttons, Previous/Next arrow controls, keyboard Left/Right phase changes and expanded **All source events** selections now jump straight to the exact authored moment and stop motion. The actual Play/Pause controls continue animating the full rally; on phone the existing transition behaviour is left untouched. No event timestamps, tactics, source contact ownership, strategy saves or Stage→position→automatic path editing logic was changed. The All Events explanation no longer misleadingly tells people they must use Jump to complete a transition.
+
+**Evidence:** Fresh isolated real Thorium **11/11 acceptance checks PASS**: Receive instant at 2.75s, Next/Previous instant, full source list with explicit selected event at exact 5.38s, explicit Play actually advances, Pause holds, no overflow at 1920×1080 and 3440×1440, phone unchanged, no JS errors. The baseline before code changes was independently recorded `VIEW_MANUAL_STAGE {"playing":"true","target":"2.75","time":"0.00s"}`. **161/161 unit tests PASS** and Pages-base build. [View screenshot](desktop-evidence/g1-view-instant-1440.jpg), [browser receipt](desktop-evidence/g1-view-instant-receipt.json).
+
+This closes a real inconsistency, **not** the whole G1 visual/usability acceptance gate. Continue remaining integrated novice/teammate and coach walkthroughs before marking G1 fully complete.
+
+---
+
 ## G1.4 — Desktop editor hierarchy and tool-first access (31 October 2026)
 
 **Observed at 1440×900:** The selected-athlete inspector buried Place/Route/Action/Zone below a long generic coaching note, repeated "Coverage not customised" and save-status labels. Users needed tools first, not a larger developer information panel.

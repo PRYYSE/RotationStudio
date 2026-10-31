@@ -175,7 +175,7 @@ export function Rotations() {
       <div className="rotation-timeline glass">
         {desktop && studio.editing && source && <DesktopEventRail events={events} selectedId={currentEvent?.id} disabled={!!studio.gesture} onSelect={id => selectDesktopEvent(source, id)} />}
         <div className="rotation-markers" aria-label="Timeline markers">{stageOrder(s.serve).map(stage => <button key={stage} aria-label={`Seek ${stage}`} aria-pressed={selected === stage} onClick={() => {
-          if (!studio.editing) { s.navigate(times[stage]); return }
+          if (!studio.editing) { s.navigate(times[stage], desktop); return }
           if (desktop && source) { const event = events.find(e => e.time === times[stage]); if (event) selectDesktopEvent(source, event.id) }
           else if (s.reducedMotion || Math.abs(s.time - times[stage]) < .005) { studio.setStage(stage); s.navigate(times[stage], true) }
           else s.navigate(times[stage])

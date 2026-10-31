@@ -32,12 +32,13 @@ export function useRotationPlayback() {
 }
 
 export function ViewerEvents() {
+  const desktop = useDesktopWorkbench()
   const s = useRotations(), scenario = authoredScenario(s)
   if (!scenario?.tactics || s.example) return null
   const events = sourceEvents(scenario), current = [...events].reverse().find(e => e.time <= s.time)
   return <EventNavigator events={events} selectedId={current?.id} readOnly onSelect={id => {
     const event = events.find(e => e.id === id)
-    if (event) s.navigate(event.time)
+    if (event) s.navigate(event.time, desktop)
   }} />
 }
 
@@ -59,7 +60,7 @@ export function RotationPlayback() {
       const event = events.find(e => e.time === time)!
       studio.setEvent(source, event.id, s.published ?? undefined)
       s.navigate(time, true)
-    } else s.navigate(time, instant)
+    } else s.navigate(time, instant || desktop)
   }
   const play = () => {
     // Resolve playback state at click time: the renderer can commit a new frame
