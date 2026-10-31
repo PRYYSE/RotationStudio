@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { Vector3 } from 'three'
 import { activeBundle, activeScenario, useRotations } from '../state/rotationStore'
 import { positionOf, sampleTrack, selectScenario } from '../lib/rotationModel'
-import { layoutLabels } from './labelLayout'
+import { layoutDesktopLabels, layoutLabels } from './labelLayout'
 import { useStrategies } from '../state/strategyStore'
 import { resolveStrategyRotation } from '../lib/strategyOverlay'
 import { sourceEvents, type SourceEvent } from '../lib/strategyEvents'
@@ -46,7 +46,7 @@ export function RotationLabels({ host }: { host: RefObject<HTMLDivElement | null
     previous.current = key
     const target = new Vector3(scenario.setterTarget.x, .06, scenario.setterTarget.z).project(camera)
     const targetX = (target.x + 1) * size.width / 2, targetY = (1 - target.y) * size.height / 2
-    const tags = desktop ? anchors.map(a => ({ id: a.id, x: a.x - a.width / 2, y: a.y + 12, width: a.width, height: 24, compact: false }))
+    const tags = desktop ? layoutDesktopLabels(anchors, size.width, size.height, [{ x: targetX - 16, y: targetY - 12, width: 32, height: 24 }])
       : layoutLabels(anchors, size.width, size.height, [{ x: targetX - 16, y: targetY - 12, width: 32, height: 24 }])
     for (const p of bundle.team.players) {
       const element = host.current.querySelector<HTMLElement>(`[data-player="${p.id}"]`)
@@ -59,7 +59,7 @@ export function RotationLabels({ host }: { host: RefObject<HTMLDivElement | null
       element.style.transform = `translate(${tag.x}px, ${tag.y}px)`
       element.style.width = `${tag.width}px`
       element.classList.toggle('selected', s.selected === p.id)
-      element.textContent = `${tag.compact ? p.name[0] : p.name} · P${positionOf(bundle.team, s.rotation, p.id)}${anchor.actionLabel ? ` · ${anchor.actionLabel}` : ''}`
+      element.textContent = `${tag.compact ? (desktop ? p.name.slice(0, 3) : p.name[0]) : p.name} · P${positionOf(bundle.team, s.rotation, p.id)}${anchor.actionLabel ? ` · ${anchor.actionLabel}` : ''}`
       line.setAttribute('x1', String(anchor.x)); line.setAttribute('y1', String(anchor.y))
       line.setAttribute('x2', String(tag.x + tag.width / 2)); line.setAttribute('y2', String(tag.y + tag.height / 2))
     }

@@ -31,3 +31,36 @@ export function layoutLabels(anchors: Anchor[], width: number, height: number, o
   }
   return placed
 }
+
+
+/** Prefer feet-anchored desktop identity, resolving nearby net congestion.
+ * Only local candidate positions are considered during playback. */
+export function layoutDesktopLabels(anchors: Anchor[], width: number, height: number, obstacles: Obstacle[] = []): Tag[] {
+  const gap = 4, h = 24, placed: Tag[] = []
+  const sorted = [...anchors].sort((a, b) => a.priority - b.priority || a.id.localeCompare(b.id))
+  const offsets = [
+    [0, 14], [0, 40], [-35, 14], [35, 14], [-35, 40], [35, 40],
+    [0, -32], [-35, -32], [35, -32], [0, 66], [-65, 14], [65, 14],
+    [-65, 40], [65, 40], [-65, -32], [65, -32], [0, -60],
+    [-95, 14], [95, 14], [-95, 40], [95, 40], [-95, -32], [95, -32],
+    [-45, 66], [45, 66], [-45, -60], [45, -60]
+  ]
+  for (const a of sorted) {
+    let candidate: Tag | undefined
+    // Full labels when close, compact P labels instead of distant full names.
+    for (const [compact, end] of [[false, 9], [true, 17], [false, offsets.length], [true, offsets.length]] as const) {
+      const w = compact ? 70 : a.width
+      for (const [dx, dy] of offsets.slice(0, end)) {
+        const x = Math.round(Math.min(Math.max(a.x - w / 2 + dx, gap), width - w - gap))
+        const y = Math.round(a.y + dy)
+        if (x < gap || x + w + gap > width || y < gap || y + h + gap > height) continue
+        const overlaps = [...placed, ...obstacles].some(b => x < b.x + b.width + gap && x + w + gap > b.x &&
+          y < b.y + b.height + gap && y + h + gap > b.y)
+        if (!overlaps) { candidate = { id: a.id, x, y, width: w, height: h, compact }; break }
+      }
+      if (candidate) break
+    }
+    if (candidate) placed.push(candidate)
+  }
+  return placed
+}

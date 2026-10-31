@@ -1,0 +1,171 @@
+{
+  "date": "2026-10-31T02:08:40.652Z",
+  "checks": [
+    "All six desktop player labels remain visible",
+    "R1 desktop labels do not overlap each other",
+    "R3 desktop labels do not overlap",
+    "Ultrawide desktop labels do not overlap",
+    "Phone existing six labels preserved",
+    "No page errors"
+  ],
+  "samples": [
+    {
+      "state": "view-r1",
+      "w": 1440,
+      "h": 900,
+      "count": 6,
+      "boxes": [
+        {
+          "text": "Harry · P1",
+          "x": 504,
+          "y": 474,
+          "w": 83,
+          "h": 23
+        },
+        {
+          "text": "Caleb · P6",
+          "x": 445,
+          "y": 562,
+          "w": 83,
+          "h": 23
+        },
+        {
+          "text": "Trent · P4",
+          "x": 396,
+          "y": 450,
+          "w": 83,
+          "h": 23
+        },
+        {
+          "text": "Logan · P3",
+          "x": 422,
+          "y": 417,
+          "w": 83,
+          "h": 23
+        },
+        {
+          "text": "Geo · P2",
+          "x": 585,
+          "y": 421,
+          "w": 70,
+          "h": 23
+        },
+        {
+          "text": "Jaz · P5",
+          "x": 347,
+          "y": 531,
+          "w": 69,
+          "h": 23
+        }
+      ],
+      "collisions": [],
+      "documentWidth": 1440
+    },
+    {
+      "state": "view-r3",
+      "w": 1440,
+      "h": 900,
+      "count": 6,
+      "boxes": [
+        {
+          "text": "Harry · P5",
+          "x": 427,
+          "y": 464,
+          "w": 83,
+          "h": 23
+        },
+        {
+          "text": "Caleb · P4",
+          "x": 398,
+          "y": 435,
+          "w": 83,
+          "h": 23
+        },
+        {
+          "text": "Tre · P2",
+          "x": 521,
+          "y": 508,
+          "w": 70,
+          "h": 23
+        },
+        {
+          "text": "Logan · P1",
+          "x": 497,
+          "y": 589,
+          "w": 83,
+          "h": 23
+        },
+        {
+          "text": "Georgia · P6",
+          "x": 399,
+          "y": 554,
+          "w": 97,
+          "h": 23
+        },
+        {
+          "text": "Jaz · P3",
+          "x": 525,
+          "y": 457,
+          "w": 69,
+          "h": 23
+        }
+      ],
+      "collisions": [],
+      "documentWidth": 1440
+    },
+    {
+      "state": "view-r3",
+      "w": 3440,
+      "h": 1440,
+      "count": 6,
+      "boxes": [
+        {
+          "text": "Harry · P5",
+          "x": 1308,
+          "y": 780,
+          "w": 83,
+          "h": 23
+        },
+        {
+          "text": "Caleb · P4",
+          "x": 1251,
+          "y": 723,
+          "w": 83,
+          "h": 23
+        },
+        {
+          "text": "Trent · P2",
+          "x": 1513,
+          "y": 764,
+          "w": 83,
+          "h": 23
+        },
+        {
+          "text": "Logan · P1",
+          "x": 1442,
+          "y": 1022,
+          "w": 83,
+          "h": 23
+        },
+        {
+          "text": "Georgia · P6",
+          "x": 1260,
+          "y": 955,
+          "w": 97,
+          "h": 23
+        },
+        {
+          "text": "Jaz · P3",
+          "x": 1422,
+          "y": 768,
+          "w": 69,
+          "h": 23
+        }
+      ],
+      "collisions": [],
+      "documentWidth": 3440
+    }
+  ],
+  "errors": [],
+  "status": "PASS"
+}

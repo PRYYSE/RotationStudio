@@ -1,5 +1,15 @@
 # RotationStudio — Courtline desktop rework
 
+## G1.2 — Non-overlapping desktop athlete tags (31 October 2026)
+
+**Observed:** Real 1440×900 desktop View still stacked player identity tags on top of each other near the net despite the earlier small under-foot styling. This directly conflicts with the requirement for legible player/P identities during tactical study.
+
+**Implemented:** Desktop-only lightweight screen-position collision placement, considering the selected athlete and first/second contact player first. Try full names close to projected feet; in crowded spots use a **three-letter player identifier plus P number**, then only nearby alternate positions; preserve the actual player colour and source geometry. Avoid all six large floating cards/leader lines. The original mobile `layoutLabels` algorithm and mobile identity style were not changed.
+
+**Real browser checks:** six visible labels, zero tag intersections on **R1 at 1440×900**, **R3 at 1440×900**, and **R3 at 3440×1440**, mobile still renders all six and no page errors. Independent [1440 screenshot](desktop-evidence/g1-label-r1-1440.jpg), [QA receipt](desktop-evidence/g1-label-receipt.json). **161/161 tests PASS** and Pages-base build PASS; this is a focused visible readability fix, not coach approval of placement or team tactics.
+
+---
+
 ## G1.1 — Coach View clarity (31 October 2026)
 
 **User intent:** normal desktop **View** should tell an actual teammate what to do, not lead with technical coordinates, raw source case IDs, or empty coaching fallbacks. Preserve detailed precision for people who deliberately expand it. This is a **bounded desktop-only** usability improvement; it is not a claim that the full player instructions or team tactics are complete.
