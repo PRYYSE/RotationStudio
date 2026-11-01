@@ -210,6 +210,33 @@
 .reference-court text { fill: #172d43; font-family: system-ui, sans-serif; }
 .reference-roster { list-style: none; padding: 0; }
 .reference-roster > li { padding: 8px 0; border-bottom: 1px solid #cad6e0; }
+.reference-view-switch { display: flex; gap: 2px; }
+.reference-view-switch button[aria-pressed="true"] { color: white; background: #172d43; border-color: #172d43; }
+.reference-actions :is(button,select):focus-visible { outline: 3px solid #087d9e; outline-offset: 2px; }
+.reference-quick .reference-document { max-width: 960px; }
+.reference-quick header p { margin: 3px 0; }
+.reference-legend { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px 14px; list-style: none; margin: 16px 0 10px; padding: 0; }
+.reference-legend li { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.reference-legend li[data-focused="true"] strong { text-decoration: underline; text-underline-offset: 3px; }
+.reference-legend span { flex: 0 0 auto; border: 1px solid #172d43; border-radius: 50%; padding: 3px; min-width: 32px; text-align: center; font-weight: 800; color: #172d43; }
+.reference-reading { font-size: 13px; }
+.reference-quick-stages { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; margin-top: 16px; }
+.reference-quick-stage { min-width: 0; border-top: 2px solid #71879b; padding-top: 8px; break-inside: avoid; }
+.reference-quick-stage h2 { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; font-size: 18px; }
+.reference-quick-stage h2 span { font-size: 13px; font-weight: 500; white-space: nowrap; }
+.reference-quick-stage .reference-event { margin: 0; font-size: 13px; }
+.reference-mini-court { display: block; width: 100%; max-width: 290px; height: auto; margin: 4px auto; background: white; }
+.reference-mini-court text { fill: #172d43; font: 600 13px system-ui, sans-serif; }
+.reference-mini-court .reference-mini-number { font-size: 14px; font-weight: 800; }
+.reference-quick-roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px 8px; list-style: none; padding: 0; margin: 6px 0; }
+.reference-player-note p { margin: 4px 0; }
+.reference-quick-cue { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+@media (max-width: 600px) {
+  .reference-quick-stages { grid-template-columns: minmax(0, 1fr); }
+  .reference-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reference-document { padding: 14px; }
+  .reference-actions { position: static; }
+}
 @media print {
   @page { size: A4 portrait; margin: 12mm; }
   body:has(> .team-reference), html:has(.team-reference) { height: auto !important; overflow: visible !important; background: white; }
@@ -219,11 +246,27 @@
   .reference-document { max-width: none; padding: 0; margin: 0; }
   .reference-document h1 { font-size: 17pt; }
   .reference-document h2 { font-size: 14pt; }
-  .team-reference-stage { margin: 0; padding-top: 6mm; border: 0; break-before: page; }
-  .team-reference-stage:first-of-type { break-before: auto; }
+  .reference-full .team-reference-stage { margin: 0; padding-top: 6mm; border: 0; break-before: page; }
+  .reference-full .team-reference-stage:first-of-type { break-before: auto; }
   .reference-formation { break-inside: avoid; }
   .reference-court { max-width: 100mm; max-height: none; }
   .reference-roster > li { break-inside: avoid; }
+  .reference-quick { font-size: 10pt; line-height: 1.35; }
+  .reference-quick .reference-document { max-width: none; }
+  .reference-quick header { break-inside: avoid; }
+  .reference-quick .reference-legend { grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 3mm 0 2mm; gap: 1.5mm 3mm; break-inside: avoid; }
+  .reference-quick .reference-legend span { min-width: 7mm; padding: 0.5mm; }
+  .reference-quick .reference-reading { font-size: 9pt; margin: 2mm 0; }
+  .reference-quick-stages { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4mm 6mm; margin-top: 3mm; }
+  .reference-quick-stage { padding-top: 2mm; }
+  .reference-quick-stage h2 { font-size: 12pt; }
+  .reference-quick-stage h2 span, .reference-quick-stage .reference-event { font-size: 9pt; }
+  .reference-quick-body { display: grid; grid-template-columns: 53mm minmax(0, 1fr); gap: 2mm; align-items: start; }
+  .reference-mini-court { max-width: 53mm; margin: 1mm auto; }
+  .reference-mini-court .reference-mini-number { font-size: 16px; }
+  .reference-quick-roles { grid-template-columns: minmax(0, 1fr); gap: 0; margin: 1mm 0; }
+  .reference-quick-stage .reference-quick-cue { display: block; overflow: visible; font-size: 9pt; }
+  .reference-player-note p, .reference-quick-stage .reference-quick-cue { margin: 1mm 0; }
 }
 .court-first .rotation-canvas { grid-column: 1; grid-row: 2; position: relative; inset: auto; width: 100%; height: 100%; min-height: 0; margin: 0; overflow: hidden; isolation: isolate; z-index: 0; }
 .court-first .rotation-top { grid-column: 1; grid-row: 1; position: relative; inset: auto; transform: none; width: auto; flex-direction: row; justify-content: center; align-items: center; align-self: end; padding: 4px 12px; gap: 10px; }
