@@ -1,5 +1,15 @@
 # RotationStudio — Courtline desktop rework
 
+## G2.5 — Only the selected athlete's incoming path in desktop Edit (31 October 2026)
+
+**Direct user requirement:** When a teammate is selected in the editor, show **only the path from that player's previous position into the selected moment**, not a separate future/outgoing path. Keep the V4 stage-first workflow simple: move athlete at Start, choose Receive/Dig, move them, see automatic route and optionally drag/add a bend. The outgoing path appears only when selecting its destination moment next.
+
+**Implementation:** Desktop detailed-event route scene no longer draws the next/outgoing segment or its separate direction arrow. The incoming path and its optional existing bend handles remain editable. The Route inspector has a single **From previous** distance/time assessment, with **Add bend / Straighten / Delete bend** controls and explicit guidance to choose the next event to adjust the next movement. Removed **Arriving path / Leaving path** toggle and outgoing movement warnings from the current-stage Place view. At the first authored event, no fabricated preceding route appears. The normal stage-only route renderer already displayed just the incoming path and is preserved. No strategy data or tactics/schema/contact/ball ownership modifications; an outgoing bend saved previously is **still retained** and is editable as incoming when its destination stage is selected. Desktop only; mobile View unchanged.
+
+**Evidence:** [Real selected Harry/Set incoming path screenshot](desktop-evidence/g2-incoming-only-harry-set-1440.jpg). Focused isolated Thorium **7/7 PASS**: incoming-only Route text and controls, stage switch showing next segment as its incoming path, no invented Start path, phone no overflow and no JS errors. Full independent 1440/3440/390px integrated editor **10/10 PASS** including Harry different first/next actions, selected Georgia incoming bend, coverage, case-isolated save, reload byte-identical and Play/Pause. **168/168 unit tests PASS**, production Pages-base build PASS. [Browser receipt](desktop-evidence/g2-incoming-only-receipt.json). G1/G2 broader user/tactical acceptance remain OPEN.
+
+---
+
 ## G1.6–G1.7 + G2.2–G2.4 — Major desktop editing/playback repair (31 October 2026)
 
 **User's new high-priority reports:** Full-name player tags still obstructed the court, jittered and jumped around as play advanced; camera forcibly cut/reframed after contacts even when deliberately positioned; moving a player in Edit strategy was **extremely laggy**. Keep the simple stage→move players→automatic route→optional bend workflow.

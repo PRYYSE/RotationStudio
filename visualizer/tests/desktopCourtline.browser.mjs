@@ -46,8 +46,10 @@ ok(harryTag.includes('Harry')&&/P\d/.test(harryTag)&&!harryTag.includes('Receive
 await event('p3:our-dig');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='cover','Earlier action lost');
 await event('p8:next-dig');ok(await page.$eval('select[aria-label="Teaching action"]',e=>e.value)==='receive','Later action lost');
 pass('Harry Cover and Receive independently authored at first/next dig');
-await select('Selected athlete','georgia');await click('Route');await click('Arriving path');await click('Add bend');
-ok(await page.$eval('.desktop-athlete-editor',e=>e.textContent.includes('Delete bend')),'Bend not added');pass('Georgia movement bend authored');
+await select('Selected athlete','georgia');await click('Route');
+ok(await page.$eval('#athlete-tool-panel',e=>e.textContent.includes('Only the path from the previous moment') && e.textContent.includes('From previous:') && !e.textContent.includes('Leaving path')),'Selected player route must show incoming path only');
+await click('Add bend');
+ok(await page.$eval('.desktop-athlete-editor',e=>e.textContent.includes('Delete bend')),'Incoming bend not added');pass('Georgia incoming movement bend authored without outgoing clutter');
 await select('Selected athlete','jaz');await click('Zone');await select('Coverage purpose','tip');pass('Jaz tip-zone coverage authored');
 await shot('desktop-edits-1440');await click('Save');await pause(420);
 const prior=await page.evaluate(()=>localStorage.getItem('rotation-studio-strategies-v2'));const j=JSON.parse(prior||'null');ok(j?.library?.length>0,'Missing library save');

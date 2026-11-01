@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-31T07:23:43.291Z",
+  "checks": [
+    "Selected player Route explains previous-to-current path only",
+    "No outgoing route or outgoing edit choice in inspector",
+    "Incoming route retains bend/straighten editing",
+    "Switching to Set shows only its incoming path",
+    "First stage has no invented path from a non-existent previous stage",
+    "Phone View remains without horizontal overflow",
+    "No JavaScript page errors"
+  ],
+  "errors": [],
+  "sceneInfo": [
+    {
+      "panel": "MovementOnly the path from the previous moment to this one is shown. Add a bend if the automatic route needs adjusting. To edit the next movement, select the next moment.From previous: Defence ready → Our dig · 0.0 m / 1.22 sThis is a rough movement screen, not a measured speed for Harry. Move the athlete or add a bend if the actual route is impractical.Add bendStraighten",
+      "routeButtons": [
+        "This case",
+        "Shared foundation",
+        "Place",
+        "Route",
+        "Action",
+        "Zone",
+        "Undo",
+        "Redo",
+        "Add bend",
+        "Straighten"
+      ],
+      "r3f": false,
+      "scenePaths": [],
+      "canvasKeys": [
+        "__reactFiber$71u7nrk9ou3",
+        "__reactProps$71u7nrk9ou3"
+      ]
+    }
+  ],
+  "screens": [
+    "incoming-only-receive-1440.jpg"
+  ],
+  "status": "PASS"
+}

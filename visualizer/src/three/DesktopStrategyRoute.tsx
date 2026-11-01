@@ -41,22 +41,22 @@ export function DesktopStrategyRoute() {
   const source = selectScenario(root, r.opponentAttack, r.firstTouch), events = sourceEvents(source)
   const index = events.findIndex(e => e.id === studio.event!.id), current = events[index]
   if (!current) return null
-  const spans = [{ from: events[index - 1], to: current, direction: 'into' }, { from: current, to: events[index + 1], direction: 'out' }] as const
-  return <group>{spans.map(({ from, to, direction }) => {
-    if (!from || !to || to.time <= from.time) return null
-    const points = Array.from({ length: 64 }, (_, i) => {
-      const p = sampleTrack(scenario.tracks[r.selected], from.time + (to.time - from.time) * i / 63)
-      return new THREE.Vector3(p.x, .12, p.z)
-    })
-    const tip = points[points.length - 1], before = points[points.length - 4]
-    const handles = !r.playing && r.view === 'top' && studio.routeDirection === direction && from.time >= source.ball[0].start
-      ? routeBends(scenario, source, to.id, r.selected) : []
-    return <group key={direction}>
-      <Line name={`route-${direction}`} points={points} color={direction === 'into' ? '#ffe2aa' : '#93e5d1'} lineWidth={3} depthTest={false} raycast={() => null} />
-      <mesh position={[tip.x, .16, tip.z]} rotation={[Math.PI / 2, 0, -Math.atan2(tip.x - before.x, tip.z - before.z)]} raycast={() => null}>
-        <coneGeometry args={[.14, .32, 3]} /><meshBasicMaterial color={direction === 'into' ? '#ffe2aa' : '#93e5d1'} depthTest={false} />
-      </mesh>
-      {handles.map((p, i) => <Handle key={`${to.id}/${i}`} point={p} index={i} targetId={to.id} />)}
-    </group>
-  })}</group>
+  // Only the path arriving at the selected moment belongs on the court.
+  // The next movement is shown when the coach selects that next moment.
+  const from = events[index - 1], to = current
+  if (!from || to.time <= from.time) return null
+  const points = Array.from({ length: 64 }, (_, i) => {
+    const p = sampleTrack(scenario.tracks[r.selected], from.time + (to.time - from.time) * i / 63)
+    return new THREE.Vector3(p.x, .12, p.z)
+  })
+  const tip = points[points.length - 1], before = points[points.length - 4]
+  const handles = !r.playing && r.view === 'top' && from.time >= source.ball[0].start
+    ? routeBends(scenario, source, to.id, r.selected) : []
+  return <group>
+    <Line name="route-into" points={points} color="#ffe2aa" lineWidth={3} depthTest={false} raycast={() => null} />
+    <mesh position={[tip.x, .16, tip.z]} rotation={[Math.PI / 2, 0, -Math.atan2(tip.x - before.x, tip.z - before.z)]} raycast={() => null}>
+      <coneGeometry args={[.14, .32, 3]} /><meshBasicMaterial color="#ffe2aa" depthTest={false} />
+    </mesh>
+    {handles.map((p, i) => <Handle key={`${to.id}/${i}`} point={p} index={i} targetId={to.id} />)}
+  </group>
 }

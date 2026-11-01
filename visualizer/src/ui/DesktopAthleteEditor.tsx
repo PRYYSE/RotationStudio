@@ -26,9 +26,8 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
   const key = `${r.rotation}/${r.serve}` as RotationKey, caseKey = scenarioCaseKey(source)!
   const id = r.selected as PlayerId, player = team.players.find(p => p.id === id)
   const time = event?.time ?? r.time, changes = studio.working ? resolveStrategyRotation(studio.working, source) : undefined
-  const index = event ? events.indexOf(event) : -1, previous = events[index - 1], next = events[index + 1]
-  const target = studio.routeDirection === 'into' ? event : next
-  const start = studio.routeDirection === 'into' ? previous : event
+  const index = event ? events.indexOf(event) : -1, previous = events[index - 1]
+  const target = event, start = previous
   const canRoute = !!player && !!target && !!start && start.time >= source.ball[0].start
   const bends = canRoute ? routeBends(scenario, source, target!.id, id) : []
   const point = player ? sampleTrack(scenario.tracks[id], time) : null
@@ -50,7 +49,6 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
   if (!player || !point || !baseline || !event) return <p>Select an athlete and a moment on the rally below.</p>
   const warnings = actionWarning(source, team, event.id, id, action ?? undefined)
   const incoming = previous ? movementReview(scenario, id, previous.time, event.time) : null
-  const outgoing = next ? movementReview(scenario, id, event.time, next.time) : null
   const routeText = (a: typeof event | undefined, b: typeof event | undefined) => a && b
     ? `${a.label} → ${b.label} · ${movementReview(scenario, id, a.time, b.time).metres.toFixed(1)} m / ${(b.time - a.time).toFixed(2)} s` : 'No movement at this end of the rally.'
   return <section className="strategy-editor desktop-athlete-editor" aria-label="Athlete editor">
@@ -89,13 +87,12 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
         <p>{r.view === 'top' ? 'Drag the athlete on court to move them.' : 'Choose Top view to drag the athlete.'}</p>
         <p className="auto-path-guidance">Set their position here, choose the next stage and move them again. Their path connects automatically. Open Route only if you need a bend.</p>
         <p className="edit-change-summary">{Math.hypot(point.x - baseline.x, point.z - baseline.z).toFixed(2)} m from original position · the faint marker shows the original.</p>
-        {[incoming, outgoing].some(v => v?.review === 'check') && <p className="strategy-warning" role="status">One connected movement looks demanding. Select Route to review distance and time before relying on this tactic.</p>}
+        {incoming?.review === 'check' && <p className="strategy-warning" role="status">The incoming movement looks demanding. Select Route to review distance and time before relying on this tactic.</p>}
       </section>}
       {activeTool === 'movement' && <section className="athlete-section"><h3>Movement</h3>
-        <p className="auto-path-guidance">The path is already drawn between stages. Select the arriving or leaving section, then add a bend only where needed.</p>
-        <p>Into: {routeText(previous, event)}{incoming?.review === 'check' && <strong className="route-movement-flag"> · Check pace</strong>}</p><p>Out: {routeText(event, next)}{outgoing?.review === 'check' && <strong className="route-movement-flag"> · Check pace</strong>}</p>
-        <p className="route-assessment-note">A rough movement screen, not a measured speed for {player.name}. Adjust positions or add a bend if the actual route is impractical.</p>
-        <div className="rotation-row" aria-label="Route to edit"><button aria-pressed={studio.routeDirection === 'into'} onClick={() => useStrategies.setState({ routeDirection: 'into' })}>Arriving path</button><button aria-pressed={studio.routeDirection === 'out'} onClick={() => useStrategies.setState({ routeDirection: 'out' })}>Leaving path</button></div>
+        <p className="auto-path-guidance">Only the path from the previous moment to this one is shown. Add a bend if the automatic route needs adjusting. To edit the next movement, select the next moment.</p>
+        <p>From previous: {routeText(previous, event)}{incoming?.review === 'check' && <strong className="route-movement-flag"> · Check pace</strong>}</p>
+        <p className="route-assessment-note">This is a rough movement screen, not a measured speed for {player.name}. Move the athlete or add a bend if the actual route is impractical.</p>
         <div className="rotation-row"><button disabled={!canRoute || bends.length >= 8} onClick={() => {
           if (!target || !start) return
           const a = sampleTrack(scenario.tracks[id], start.time), b = sampleTrack(scenario.tracks[id], target.time)
