@@ -187,7 +187,7 @@ export function Rotations() {
       </section>}
     </aside>}
     <div className="rotation-bottom">
-      <div className="rotation-cue" aria-live="off"><strong>{selected} · {bundle.team.players.find(p => p.id === s.selected)?.name ?? 'Whole team'} · {unavailable ? 'Sample unavailable · playback paused' : phase.label === 'Legal start' ? 'At serve contact' : phase.label}</strong></div>
+      <div className="rotation-cue" aria-live="off"><strong>{selected} · {bundle.team.players.find(p => p.id === s.selected)?.name ?? 'Whole team'} · {unavailable ? 'Sample unavailable · playback paused' : phase.label === 'Legal start' ? (desktop ? 'Before serve contact' : 'At serve contact') : phase.label}</strong></div>
       {!desktop && <CourtTools />}
       <div className="rotation-timeline glass">
         {desktop && studio.editing && source && <DesktopEventRail events={events} selectedId={currentEvent?.id} disabled={!!studio.gesture} onSelect={id => selectDesktopEvent(source, id)} />}

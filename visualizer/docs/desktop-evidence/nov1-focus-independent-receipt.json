@@ -1,0 +1,151 @@
+{
+  "checks": [
+    "R1 Harry clear three-line story",
+    "R1 Harry actionable/legal current phase",
+    "Desktop Start correctly precedes actual service hit",
+    "R1 next role is different and available",
+    "Generic old start filler is gone",
+    "R1 paused and no horizontal overflow",
+    "Current action responds to stage and selected player",
+    "Manual Receive seek does not start playback",
+    "R3 Harry-first Trent focused",
+    "R3 Trent current setting action grounded",
+    "R3 If names the genuinely different authored normal branch",
+    "Short desktop no overflow or playback",
+    "Player change actually updates Now and Next",
+    "Ultrawide no overflow",
+    "Phone retains original Player Focus markup",
+    "Phone retains original pre-serve caption pending mobile redesign",
+    "No JavaScript errors: "
+  ],
+  "errors": [],
+  "states": [
+    {
+      "label": "r1-us-start-harry-1440",
+      "rows": [
+        {
+          "label": "Now",
+          "text": "You serve in this example. Wait behind the endline until serve contact.Displayed position: deep right."
+        },
+        {
+          "label": "Next",
+          "text": "Serve hitHold that position; displayed deep right · serve."
+        },
+        {
+          "label": "If",
+          "text": "If Harry takes first contact instead, Georgia makes second contact in the other authored branch."
+        }
+      ],
+      "player": "harry",
+      "moment": "Before serve contact",
+      "position": "P1 · Back row · start",
+      "playing": "false",
+      "t": "0.00s",
+      "body": "Whole team\nHarry · P1\nCaleb · P6\nTrent · P4\nLogan · P3\nGeorgia · P2\nJaz · P5\n\nBefore serve contact\n\nP1 · Back row · start\n\nNow\n\nYou serve in this example. Wait behind the endline until serve contact.\n\nDisplayed position: deep right.\n\nNext\nServe hit\n\nHold that position; displayed deep right · serve.\n\nIf\nIf Harry takes first contact instead, Georgia makes second contact in the other authored branch.\nTactical details",
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    {
+      "label": "r1-us-receive-caleb-1440",
+      "rows": [
+        {
+          "label": "Now",
+          "text": "Named first contact in this example.Displayed position: deep middle."
+        },
+        {
+          "label": "Next",
+          "text": "Second contactHold that position; displayed deep middle · support position."
+        },
+        {
+          "label": "If",
+          "text": "If Harry takes first contact instead, Georgia makes second contact in the other authored branch."
+        }
+      ],
+      "player": "caleb",
+      "moment": "Our dig",
+      "position": "P6 · Back row · pass",
+      "playing": "false",
+      "t": "5.40s",
+      "body": "Whole team\nHarry · P1\nCaleb · P6\nTrent · P4\nLogan · P3\nGeorgia · P2\nJaz · P5\n\nOur dig\n\nP6 · Back row · pass\n\nNow\n\nNamed first contact in this example.\n\nDisplayed position: deep middle.\n\nNext\nSecond contact\n\nHold that position; displayed deep middle · support position.\n\nIf\nIf Harry takes first contact instead, Georgia makes second contact in the other authored branch.\nTactical details",
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    {
+      "label": "r3-they-harry-first-trent-1366",
+      "rows": [
+        {
+          "label": "Now",
+          "text": "Makes second contact in this example.Displayed position: near-net middle."
+        },
+        {
+          "label": "Next",
+          "text": "Our attackHold that position; displayed near-net middle · set."
+        },
+        {
+          "label": "If",
+          "text": "If Georgia takes first contact instead, Harry makes second contact in the other authored branch."
+        }
+      ],
+      "player": "trent",
+      "moment": "Second contact",
+      "position": "P2 · Front eligible · set",
+      "playing": "false",
+      "t": "4.70s",
+      "body": "Whole team\nHarry · P5\nCaleb · P4\nTrent · P2\nLogan · P1\nGeorgia · P6\nJaz · P3\n\nSecond contact\n\nP2 · Front eligible · set\n\nNow\n\nMakes second contact in this example.\n\nDisplayed position: near-net middle.\n\nNext\nOur attack\n\nHold that position; displayed near-net middle · set.\n\nIf\nIf Georgia takes first contact instead, Harry makes second contact in the other authored branch.\nTactical details",
+      "viewport": 1366,
+      "scroll": 1366
+    },
+    {
+      "label": "r3-they-harry-first-jaz-1366",
+      "rows": [
+        {
+          "label": "Now",
+          "text": "Shown in a support position.Displayed position: near-net right."
+        },
+        {
+          "label": "Next",
+          "text": "Our attackHold that position; displayed near-net right · attack."
+        },
+        {
+          "label": "If",
+          "text": "If Georgia takes first contact instead, Harry makes second contact in the other authored branch."
+        }
+      ],
+      "player": "jaz",
+      "moment": "Second contact",
+      "position": "P3 · Front eligible · support position",
+      "playing": "false",
+      "t": "4.70s",
+      "body": "Whole team\nHarry · P5\nCaleb · P4\nTrent · P2\nLogan · P1\nGeorgia · P6\nJaz · P3\n\nSecond contact\n\nP3 · Front eligible · support position\n\nNow\n\nShown in a support position.\n\nDisplayed position: near-net right.\n\nNext\nOur attack\n\nHold that position; displayed near-net right · attack.\n\nIf\nIf Georgia takes first contact instead, Harry makes second contact in the other authored branch.\nTactical details",
+      "viewport": 1366,
+      "scroll": 1366
+    },
+    {
+      "label": "r3-ultrawide-3440",
+      "rows": [
+        {
+          "label": "Now",
+          "text": "Shown in a support position.Displayed position: near-net right."
+        },
+        {
+          "label": "Next",
+          "text": "Our attackHold that position; displayed near-net right · attack."
+        },
+        {
+          "label": "If",
+          "text": "If Georgia takes first contact instead, Harry makes second contact in the other authored branch."
+        }
+      ],
+      "player": "jaz",
+      "moment": "Second contact",
+      "position": "P3 · Front eligible · support position",
+      "playing": "false",
+      "t": "4.70s",
+      "body": "Whole team\nHarry · P5\nCaleb · P4\nTrent · P2\nLogan · P1\nGeorgia · P6\nJaz · P3\n\nSecond contact\n\nP3 · Front eligible · support position\n\nNow\n\nShown in a support position.\n\nDisplayed position: near-net right.\n\nNext\nOur attack\n\nHold that position; displayed near-net right · attack.\n\nIf\nIf Georgia takes first contact instead, Harry makes second contact in the other authored branch.\nTactical details",
+      "viewport": 3440,
+      "scroll": 3440
+    }
+  ],
+  "status": "PASS",
+  "url": "http://127.0.0.1:5221/RotationStudio/"
+}
