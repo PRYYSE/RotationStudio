@@ -1,0 +1,145 @@
+{
+  "checks": [
+    "Tools visible at 3440",
+    "Selected athlete picker visible at 3440",
+    "No document overflow at 3440",
+    "Exact case is default at 3440",
+    "Menu does not resize court at 3440",
+    "Compact menu dimensions at 3440",
+    "Menu stays on screen at 3440",
+    "All authentic source moments available at 3440",
+    "No console/page errors"
+  ],
+  "failures": [],
+  "metrics": [
+    {
+      "w": 3440,
+      "h": 1440,
+      "initial": {
+        "court": {
+          "x": 0,
+          "y": 112,
+          "w": 2920,
+          "h": 1144,
+          "bottom": 1256,
+          "right": 2920
+        },
+        "bottom": {
+          "x": 0,
+          "y": 1256,
+          "w": 2920,
+          "h": 184,
+          "bottom": 1440,
+          "right": 2920
+        },
+        "menu": null,
+        "toggle": {
+          "x": 2755,
+          "y": 1268,
+          "w": 145,
+          "h": 30,
+          "bottom": 1298,
+          "right": 2900
+        },
+        "tools": {
+          "x": 2949,
+          "y": 406.578125,
+          "w": 463,
+          "h": 49,
+          "bottom": 455.578125,
+          "right": 3412
+        },
+        "picker": {
+          "x": 2949,
+          "y": 241.09375,
+          "w": 463,
+          "h": 47,
+          "bottom": 288.09375,
+          "right": 3412
+        },
+        "inspector": {
+          "x": 2920,
+          "y": 58,
+          "w": 520,
+          "h": 1382,
+          "bottom": 1440,
+          "right": 3440
+        },
+        "docWidth": 3440,
+        "viewport": [
+          3440,
+          1440
+        ]
+      },
+      "opened": {
+        "court": {
+          "x": 0,
+          "y": 112,
+          "w": 2920,
+          "h": 1144,
+          "bottom": 1256,
+          "right": 2920
+        },
+        "bottom": {
+          "x": 0,
+          "y": 1256,
+          "w": 2920,
+          "h": 184,
+          "bottom": 1440,
+          "right": 2920
+        },
+        "menu": {
+          "x": 2460,
+          "y": 820,
+          "w": 440,
+          "h": 440,
+          "bottom": 1260,
+          "right": 2900
+        },
+        "toggle": {
+          "x": 2755,
+          "y": 1268,
+          "w": 145,
+          "h": 30,
+          "bottom": 1298,
+          "right": 2900
+        },
+        "tools": {
+          "x": 2949,
+          "y": 406.578125,
+          "w": 463,
+          "h": 49,
+          "bottom": 455.578125,
+          "right": 3412
+        },
+        "picker": {
+          "x": 2949,
+          "y": 241.09375,
+          "w": 463,
+          "h": 47,
+          "bottom": 288.09375,
+          "right": 3412
+        },
+        "inspector": {
+          "x": 2920,
+          "y": 58,
+          "w": 520,
+          "h": 1382,
+          "bottom": 1440,
+          "right": 3440
+        },
+        "docWidth": 3440,
+        "viewport": [
+          3440,
+          1440
+        ]
+      }
+    }
+  ],
+  "screens": [
+    "closed-3440.png",
+    "open-3440.png"
+  ],
+  "errors": [],
+  "status": "PASS"
+}

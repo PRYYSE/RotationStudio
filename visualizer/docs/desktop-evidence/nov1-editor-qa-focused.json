@@ -1,0 +1,196 @@
+{
+  "when": "2026-11-01T04:13:14.735Z",
+  "status": "PASS",
+  "checks": [
+    "One athlete/stage header, visible tools/history/Save and confirmed shared scope",
+    "All 16 moments readable above court; fixed court height and no overflow at 1366/1440/3440",
+    "Toggle, Escape, outside click and keyboard Tab work",
+    "Every authored moment jumps instantly and closes the chooser",
+    "Off-strip moment stays clear; reopening focuses and reveals it",
+    "Real non-zero drag, Undo and Redo",
+    "Phone editor retains existing event controls; no JS errors"
+  ],
+  "errors": [],
+  "screens": [
+    "edit-first-1440.png",
+    "moments-open-1440.png",
+    "moments-open-1366.png",
+    "moments-open-3440.png",
+    "detail-selected-1440.png",
+    "drag-redone-1440.png",
+    "phone-editor-390.png"
+  ],
+  "layouts": [
+    {
+      "athlete": {
+        "top": 233.09375,
+        "bottom": 280.09375
+      },
+      "stage": {
+        "top": 287.09375,
+        "bottom": 308.78125
+      },
+      "tools": {
+        "top": 398.578125,
+        "bottom": 447.578125
+      },
+      "history": {
+        "top": 447.578125,
+        "bottom": 492.578125
+      },
+      "save": {
+        "top": 120.5,
+        "bottom": 156.5
+      },
+      "scroll": 0
+    },
+    {
+      "width": 1440,
+      "scroll": 1440,
+      "court": 604,
+      "top": 280,
+      "bottom": 720,
+      "left": 591.203125,
+      "right": 1031.203125,
+      "navScroll": 438,
+      "navWidth": 438,
+      "focused": true,
+      "onTop": true,
+      "labels": [
+        "Legal start",
+        "Serve hit",
+        "Ball serve boundary",
+        "Ball return boundary",
+        "Ball set boundary",
+        "Defence ready",
+        "Our dig",
+        "Second contact",
+        "Our attack",
+        "Defend again",
+        "Ball return boundary",
+        "Their next attack",
+        "Track frame",
+        "Next dig",
+        "Next set ready",
+        "Track frame"
+      ],
+      "captions": [
+        "0.00 s",
+        "1.40 s · Serve contact",
+        "2.55 s · Serve arrival · Return contact",
+        "3.28 s · Return arrival · Set contact",
+        "3.95 s · Set arrival · Attack contact",
+        "4.18 s",
+        "5.40 s · First dig / receive",
+        "7.77 s · Pass arrival · Set contact",
+        "8.63 s · Set arrival · Attack contact",
+        "9.50 s · Attack arrival · Return contact",
+        "10.25 s · Return arrival · Set contact",
+        "10.97 s · Set arrival · Attack contact",
+        "11.17 s",
+        "12.29 s · Second dig / receive",
+        "14.71 s · Pass arrival",
+        "15.07 s"
+      ]
+    },
+    {
+      "width": 1366,
+      "scroll": 1366,
+      "court": 472,
+      "top": 148,
+      "bottom": 588,
+      "left": 536,
+      "right": 976,
+      "navScroll": 438,
+      "navWidth": 438,
+      "focused": true,
+      "onTop": true,
+      "labels": [
+        "Legal start",
+        "Serve hit",
+        "Ball serve boundary",
+        "Ball return boundary",
+        "Ball set boundary",
+        "Defence ready",
+        "Our dig",
+        "Second contact",
+        "Our attack",
+        "Defend again",
+        "Ball return boundary",
+        "Their next attack",
+        "Track frame",
+        "Next dig",
+        "Next set ready",
+        "Track frame"
+      ],
+      "captions": [
+        "0.00 s",
+        "1.40 s · Serve contact",
+        "2.55 s · Serve arrival · Return contact",
+        "3.28 s · Return arrival · Set contact",
+        "3.95 s · Set arrival · Attack contact",
+        "4.18 s",
+        "5.40 s · First dig / receive",
+        "7.77 s · Pass arrival · Set contact",
+        "8.63 s · Set arrival · Attack contact",
+        "9.50 s · Attack arrival · Return contact",
+        "10.25 s · Return arrival · Set contact",
+        "10.97 s · Set arrival · Attack contact",
+        "11.17 s",
+        "12.29 s · Second dig / receive",
+        "14.71 s · Pass arrival",
+        "15.07 s"
+      ]
+    },
+    {
+      "width": 3440,
+      "scroll": 3440,
+      "court": 1144,
+      "top": 820,
+      "bottom": 1260,
+      "left": 2460,
+      "right": 2900,
+      "navScroll": 438,
+      "navWidth": 438,
+      "focused": true,
+      "onTop": true,
+      "labels": [
+        "Legal start",
+        "Serve hit",
+        "Ball serve boundary",
+        "Ball return boundary",
+        "Ball set boundary",
+        "Defence ready",
+        "Our dig",
+        "Second contact",
+        "Our attack",
+        "Defend again",
+        "Ball return boundary",
+        "Their next attack",
+        "Track frame",
+        "Next dig",
+        "Next set ready",
+        "Track frame"
+      ],
+      "captions": [
+        "0.00 s",
+        "1.40 s · Serve contact",
+        "2.55 s · Serve arrival · Return contact",
+        "3.28 s · Return arrival · Set contact",
+        "3.95 s · Set arrival · Attack contact",
+        "4.18 s",
+        "5.40 s · First dig / receive",
+        "7.77 s · Pass arrival · Set contact",
+        "8.63 s · Set arrival · Attack contact",
+        "9.50 s · Attack arrival · Return contact",
+        "10.25 s · Return arrival · Set contact",
+        "10.97 s · Set arrival · Attack contact",
+        "11.17 s",
+        "12.29 s · Second dig / receive",
+        "14.71 s · Pass arrival",
+        "15.07 s"
+      ]
+    }
+  ],
+  "phase": "browser-checks"
+}

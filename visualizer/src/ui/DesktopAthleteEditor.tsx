@@ -53,15 +53,12 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
     ? `${a.label} → ${b.label} · ${movementReview(scenario, id, a.time, b.time).metres.toFixed(1)} m / ${(b.time - a.time).toFixed(2)} s` : 'No movement at this end of the rally.'
   return <section className="strategy-editor desktop-athlete-editor" aria-label="Athlete editor">
     <div className="editor-athlete-heading" style={{ '--athlete-color': player.color } as CSSProperties}>
-      <p className="editor-eyebrow">ATHLETE PLAN <span>{event.label} · {time.toFixed(2)} s</span></p>
-      <h2>{player.name} <span>P{positionOf(team, r.rotation, id)}</span></h2>
-      <p className="athlete-compact-status" aria-label="Current athlete action">{action ? ACTION_LABELS[action] : roleNames[role] ?? role}{zone?.role ? ` · ${coverageNames[zone.role]} responsibility` : ''}</p>
-      <label>Selected athlete<select aria-label="Selected athlete" value={id} onChange={e => useRotations.setState({ selected: e.target.value })}>
+      <label className="editor-athlete-picker"><span>Athlete</span><select aria-label="Selected athlete" value={id} onChange={e => useRotations.setState({ selected: e.target.value })}>
         {team.players.map(p => <option value={p.id} key={p.id}>{p.name} · P{positionOf(team, r.rotation, p.id)}</option>)}
       </select></label>
-      <p className="editor-scope">R{r.rotation} · {r.serve === 'us' ? 'Our' : 'Their'} serve · {r.opponentAttack === 'left' ? 'Attack from our left' : 'Attack from our right'} · {r.firstTouch === 'harry' ? 'Harry first' : 'Normal first touch'}</p>
-      <p className="editor-scope">{studio.scope ? 'This case · 1 of 4 versions' : 'Shared foundation · up to 4 versions'}</p>
-      <div className="editor-scope-actions"><button aria-pressed={!!studio.scope} onClick={() => { studio.setScope(caseKey); setConfirmShared(false) }}>This case</button>
+      <p className="editor-selected-moment">{event.label} · {time.toFixed(2)} s</p>
+      <p className="editor-scope" aria-label="Selected case">R{r.rotation} · {r.serve === 'us' ? 'Our' : 'Their'} serve · Attack: our {r.opponentAttack} · {r.firstTouch === 'harry' ? 'Harry first' : 'Normal first'}</p>
+      <div className="editor-scope-actions" role="group" aria-label="Edit scope"><button aria-pressed={!!studio.scope} onClick={() => { studio.setScope(caseKey); setConfirmShared(false) }}>This case</button>
         <button aria-pressed={!studio.scope} onClick={() => setConfirmShared(true)}>Shared foundation</button></div>
       {confirmShared && studio.scope && <div className="strategy-confirm">Shared changes apply to these 4 versions. Case-specific edits take precedence.
         <ul>{[root, ...Object.values(root.alternates ?? {})].map(c => {
@@ -76,23 +73,20 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
         {tool === 'position' ? 'Place' : tool === 'movement' ? 'Route' : tool === 'action' ? 'Action' : 'Zone'}
       </button>)}
     </div>
-    <details className="athlete-coaching-cue"><summary>Coaching cue for this moment</summary><p className="editor-current-task">{review?.explanation.player || review?.explanation.team || 'Choose what this athlete should do at this moment.'}</p></details>
     <div className="athlete-quick-history" role="group" aria-label="Edit history">
       <button disabled={!studio.past.length || r.playing} onClick={studio.undo}>Undo</button>
       <button disabled={!studio.future.length || r.playing} onClick={studio.redo}>Redo</button>
-      <span>{studio.saved ? 'Saved locally' : 'Unsaved changes'}</span>
     </div>
     <fieldset className="editor-fields" id="athlete-tool-panel" disabled={!studio.working || r.playing}>
-      {activeTool === 'position' && <section className="athlete-section"><h3>Position</h3>
-        <p>{r.view === 'top' ? 'Drag the athlete on court to move them.' : 'Choose Top view to drag the athlete.'}</p>
-        <p className="auto-path-guidance">Set their position here, choose the next stage and move them again. Their path connects automatically. Open Route only if you need a bend.</p>
+      {activeTool === 'position' && <section className="athlete-section"><h3>Place</h3>
+        <p>{r.view === 'top' ? 'Drag the athlete to their spot for this moment; the route connects.' : 'Choose Top view, then drag the athlete to their spot for this moment.'}</p>
         <p className="edit-change-summary">{Math.hypot(point.x - baseline.x, point.z - baseline.z).toFixed(2)} m from original position · the faint marker shows the original.</p>
         {incoming?.review === 'check' && <p className="strategy-warning" role="status">The incoming movement looks demanding. Select Route to review distance and time before relying on this tactic.</p>}
       </section>}
       {activeTool === 'movement' && <section className="athlete-section"><h3>Movement</h3>
-        <p className="auto-path-guidance">Only the path from the previous moment to this one is shown. Add a bend if the automatic route needs adjusting. To edit the next movement, select the next moment.</p>
+        <p>Only the path from the previous moment to this one is shown. Choose the next moment to edit the next movement.</p>
         <p>From previous: {routeText(previous, event)}{incoming?.review === 'check' && <strong className="route-movement-flag"> · Check pace</strong>}</p>
-        <p className="route-assessment-note">This is a rough movement screen, not a measured speed for {player.name}. Move the athlete or add a bend if the actual route is impractical.</p>
+        {incoming?.review === 'check' && <p className="route-assessment-note">Rough movement screen, not a measured athlete speed. Review the route and available time.</p>}
         <div className="rotation-row"><button disabled={!canRoute || bends.length >= 8} onClick={() => {
           if (!target || !start) return
           const a = sampleTrack(scenario.tracks[id], start.time), b = sampleTrack(scenario.tracks[id], target.time)
@@ -123,6 +117,7 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
         {zone && <button disabled={!ownZone} onClick={() => studio.resetCoverage(key, id)}>Reset coverage</button>}
       </section>}
     </fieldset>
+    <details className="athlete-coaching-cue"><summary>Coaching cue for this moment</summary><p className="editor-current-task">{review?.explanation.player || review?.explanation.team || 'Choose what this athlete should do at this moment.'}</p></details>
     {studio.error && <p className="strategy-warning" role="alert">{studio.error}</p>}
   </section>
 }

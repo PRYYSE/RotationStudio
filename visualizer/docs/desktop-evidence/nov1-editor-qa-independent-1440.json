@@ -1,0 +1,153 @@
+{
+  "checks": [
+    "Tools visible at 1440",
+    "Selected athlete picker visible at 1440",
+    "No document overflow at 1440",
+    "Exact case is default at 1440",
+    "Menu does not resize court at 1440",
+    "Compact menu dimensions at 1440",
+    "Menu stays on screen at 1440",
+    "All authentic source moments available at 1440",
+    "Distinct next dig present",
+    "Escape closes menu",
+    "Outside click closes menu",
+    "At least one non-primary authentic source moment available",
+    "Detailed selection closes menu",
+    "Non-primary detailed moment identified on rail",
+    "Detailed selection is instant not play",
+    "No console/page errors"
+  ],
+  "failures": [],
+  "metrics": [
+    {
+      "w": 1440,
+      "h": 900,
+      "initial": {
+        "court": {
+          "x": 0,
+          "y": 112,
+          "w": 1051.203125,
+          "h": 604,
+          "bottom": 716,
+          "right": 1051.203125
+        },
+        "bottom": {
+          "x": 0,
+          "y": 716,
+          "w": 1051.203125,
+          "h": 184,
+          "bottom": 900,
+          "right": 1051.203125
+        },
+        "menu": null,
+        "toggle": {
+          "x": 886.203125,
+          "y": 728,
+          "w": 145,
+          "h": 30,
+          "bottom": 758,
+          "right": 1031.203125
+        },
+        "tools": {
+          "x": 1072.203125,
+          "y": 398.578125,
+          "w": 347.796875,
+          "h": 49,
+          "bottom": 447.578125,
+          "right": 1420
+        },
+        "picker": {
+          "x": 1072.203125,
+          "y": 233.09375,
+          "w": 347.796875,
+          "h": 47,
+          "bottom": 280.09375,
+          "right": 1420
+        },
+        "inspector": {
+          "x": 1051.203125,
+          "y": 58,
+          "w": 388.796875,
+          "h": 842,
+          "bottom": 900,
+          "right": 1440
+        },
+        "docWidth": 1440,
+        "viewport": [
+          1440,
+          900
+        ]
+      },
+      "opened": {
+        "court": {
+          "x": 0,
+          "y": 112,
+          "w": 1051.203125,
+          "h": 604,
+          "bottom": 716,
+          "right": 1051.203125
+        },
+        "bottom": {
+          "x": 0,
+          "y": 716,
+          "w": 1051.203125,
+          "h": 184,
+          "bottom": 900,
+          "right": 1051.203125
+        },
+        "menu": {
+          "x": 591.203125,
+          "y": 280,
+          "w": 440,
+          "h": 440,
+          "bottom": 720,
+          "right": 1031.203125
+        },
+        "toggle": {
+          "x": 886.203125,
+          "y": 728,
+          "w": 145,
+          "h": 30,
+          "bottom": 758,
+          "right": 1031.203125
+        },
+        "tools": {
+          "x": 1072.203125,
+          "y": 398.578125,
+          "w": 347.796875,
+          "h": 49,
+          "bottom": 447.578125,
+          "right": 1420
+        },
+        "picker": {
+          "x": 1072.203125,
+          "y": 233.09375,
+          "w": 347.796875,
+          "h": 47,
+          "bottom": 280.09375,
+          "right": 1420
+        },
+        "inspector": {
+          "x": 1051.203125,
+          "y": 58,
+          "w": 388.796875,
+          "h": 842,
+          "bottom": 900,
+          "right": 1440
+        },
+        "docWidth": 1440,
+        "viewport": [
+          1440,
+          900
+        ]
+      }
+    }
+  ],
+  "screens": [
+    "closed-1440.png",
+    "open-1440.png",
+    "selected-nonprimary-moment.png"
+  ],
+  "errors": [],
+  "status": "PASS"
+}

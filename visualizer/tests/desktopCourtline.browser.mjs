@@ -3,16 +3,92 @@ import fs from 'node:fs/promises';
 import {pathToFileURL,fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../../',import.meta.url)).replace(/[\\/]+$/,'');
 const viewMode=process.env.COURTLINE_QA_VIEW;
-const dir=root+(viewMode?'/.cache/desktop-view-v1-20261101/'+viewMode:'/.cache/desktop-rework-qa/slice-b');
+const editorMode=process.env.COURTLINE_QA_EDITOR;
+const dir=root+(editorMode?'/.cache/g1-9-editor-20261101/'+editorMode:viewMode?'/.cache/desktop-view-v1-20261101/'+viewMode:'/.cache/desktop-rework-qa/slice-b');
 await fs.mkdir(dir,{recursive:true});
 const {default:puppeteer}=await import(pathToFileURL(root+'/.cache/browser-qa/node_modules/puppeteer-core/lib/puppeteer/puppeteer-core.js').href);
 const result={when:new Date().toISOString(),status:'RUNNING',checks:[],errors:[],screens:[],layouts:[]};
 const pause=ms=>new Promise(r=>setTimeout(r,ms)), pass=s=>{result.checks.push(s);console.log('PASS',s)}, ok=(x,s)=>{if(!x)throw Error(s)};
 let browser,page;
 async function click(t){const bs=await page.$$('button');for(const b of bs){const s=await b.evaluate(e=>e.textContent.trim());if(s===t){await b.evaluate(e=>e.click());await pause(180);return}}throw Error('Button missing: '+t)}
-async function event(id){const sel='.desktop-event-rail button[data-event-id="'+id+'"]';await page.waitForSelector(sel);await page.$eval(sel,e=>e.click());await pause(220);ok(await page.$eval(sel,e=>e.getAttribute('aria-pressed'))==='true','Event unselected '+id)}
+async function event(id){
+  const sel='.desktop-event-rail button[data-event-id="'+id+'"]';
+  if(!await page.$(sel))await page.click('.source-moments-toggle');
+  await page.waitForSelector(sel);const time=await page.$eval(sel,e=>parseFloat(e.querySelector('.event-caption').textContent));
+  await page.$eval(sel,e=>e.click());await pause(220);
+  ok(Math.abs(parseFloat(await page.$eval('[aria-label="Timeline time"]',e=>e.textContent))-time)<.02,'Event unselected '+id);
+  ok(await page.$eval('[aria-label="Timeline time"]',e=>e.dataset.playing)==='false','Event selection played '+id);
+}
 async function select(label,value){const sel='select[aria-label="'+label+'"]';await page.waitForSelector(sel);await page.select(sel,value);await pause(200);ok(await page.$eval(sel,e=>e.value)===value,'Selection failed '+label+' '+value)}
 async function shot(name){await page.screenshot({path:dir+'/'+name+'.png'});result.screens.push(name+'.png')}
+async function editorCheck(){
+  await page.setViewport({width:1440,height:900,deviceScaleFactor:1});
+  await page.goto((process.env.COURTLINE_QA_URL||'http://127.0.0.1:5221/RotationStudio/')+'?r=1&serve=us&attack=right&first=normal',{waitUntil:'domcontentloaded'});
+  await page.waitForSelector('canvas');await click('Edit strategy');await page.waitForSelector('.desktop-athlete-editor');await pause(700);
+  await shot('edit-first-1440');
+  const first=await page.evaluate(()=>{
+    const bounds=s=>{const r=document.querySelector(s).getBoundingClientRect();return{top:r.top,bottom:r.bottom}};
+    const panel=document.querySelector('.strategy-panel');
+    return{athlete:bounds('[aria-label="Selected athlete"]'),stage:bounds('.editor-selected-moment'),tools:bounds('.athlete-tool-switcher'),history:bounds('.athlete-quick-history'),save:bounds('.strategy-selection > button'),scroll:panel.scrollTop};
+  });result.layouts.push(first);
+  ok(first.scroll===0&&['athlete','stage','tools','history','save'].every(k=>first[k].top>=58&&first[k].bottom<900),'First-screen editing controls require scrolling');
+  ok(!await page.$('.editor-athlete-heading h2')&&!await page.$('.editor-eyebrow'),'Duplicate athlete heading remains');
+  ok(await page.$eval('[aria-label="Edit scope"] button',e=>e.getAttribute('aria-pressed'))==='true','This case is not default');
+  await click('Shared foundation');ok(await page.$('.strategy-confirm'),'Shared scope needs confirmation');
+  ok(await page.$eval('[aria-label="Edit scope"] button',e=>e.getAttribute('aria-pressed'))==='true','Shared scope applied before confirmation');
+  await click('Cancel');pass('One athlete/stage header, visible tools/history/Save and confirmed shared scope');
+  for(const [w,h] of [[1440,900],[1366,768],[3440,1440]]){
+    await page.setViewport({width:w,height:h});await pause(400);
+    const court=await page.$eval('.rotation-canvas',e=>e.getBoundingClientRect().height);
+    await page.click('.source-moments-toggle');await page.waitForSelector('.all-source-events-open');
+    const m=await page.evaluate(()=>{
+      const nav=document.querySelector('.all-source-events-open'),r=nav.getBoundingClientRect(),current=nav.querySelector('[aria-pressed="true"]'),b=current.getBoundingClientRect();
+      return{width:innerWidth,scroll:document.documentElement.scrollWidth,court:document.querySelector('.rotation-canvas').getBoundingClientRect().height,top:r.top,bottom:r.bottom,left:r.left,right:r.right,navScroll:nav.scrollWidth,navWidth:nav.clientWidth,focused:document.activeElement===current,onTop:nav.contains(document.elementFromPoint(b.left+b.width/2,b.top+b.height/2)),labels:[...nav.querySelectorAll('strong')].map(e=>e.textContent),captions:[...nav.querySelectorAll('.event-caption')].map(e=>e.textContent)};
+    });result.layouts.push(m);
+    ok(m.court===court&&m.scroll<=w&&m.top>=58&&m.bottom<h&&m.left>=0&&m.right<=w&&m.navScroll<=m.navWidth,'Chooser changes court height or overflows at '+w);
+    ok(m.focused&&m.onTop&&m.labels.length===16,'Chooser lost selection, source moments or stacking at '+w);
+    ok(m.captions.some(t=>t.includes('First dig'))&&m.captions.some(t=>t.includes('Second dig')),'Dig contact sequence missing');
+    await shot('moments-open-'+w);await page.keyboard.press('Escape');
+    ok(!await page.$('.all-source-events-open'),'Escape did not dismiss');
+    ok(await page.$eval('.source-moments-toggle',e=>e===document.activeElement),'Escape lost focus');
+  }pass('All 16 moments readable above court; fixed court height and no overflow at 1366/1440/3440');
+  await page.setViewport({width:1440,height:900});await pause(250);
+  await page.click('.source-moments-toggle');await page.click('.source-moments-toggle');ok(!await page.$('.all-source-events-open'),'Toggle did not dismiss');
+  await page.click('.source-moments-toggle');await page.click('.sequence-heading > strong');ok(!await page.$('.all-source-events-open'),'Click beside toggle did not dismiss');
+  await page.click('.source-moments-toggle');await page.click('.desktop-camera-views button');ok(!await page.$('.all-source-events-open'),'Outside click did not dismiss');
+  await page.focus('.source-moments-toggle');await page.keyboard.press('Enter');await pause(100);await page.keyboard.press('Tab');
+  ok(await page.$eval('.all-source-events-open',e=>e.contains(document.activeElement)),'Tab cannot reach moments');
+  await page.keyboard.press('Escape');pass('Toggle, Escape, outside click and keyboard Tab work');
+  await page.click('.source-moments-toggle');
+  const moments=await page.$$eval('.all-source-events-open button',es=>es.map(e=>({id:e.dataset.eventId,label:e.querySelector('strong').textContent,time:parseFloat(e.querySelector('.event-caption').textContent)})));
+  for(const moment of moments){
+    if(!await page.$('.all-source-events-open'))await page.click('.source-moments-toggle');
+    await page.click('.all-source-events-open [data-event-id="'+moment.id+'"]');await pause(70);
+    ok(!await page.$('.all-source-events-open'),'Selection did not close '+moment.id);
+    ok(await page.$eval('.editor-selected-moment',e=>e.textContent).then(t=>t.includes(moment.label)),'Selected stage header missing '+moment.id);
+    const time=await page.$eval('[aria-label="Timeline time"]',e=>({value:parseFloat(e.textContent),playing:e.dataset.playing}));
+    ok(Math.abs(time.value-moment.time)<.02&&time.playing==='false','Moment seek not instant '+moment.id);
+  }pass('Every authored moment jumps instantly and closes the chooser');
+  await page.click('.source-moments-toggle');
+  const detail=await page.$$eval('.all-source-events-open button',es=>es.find(e=>!document.querySelector('.stage-quick-list [data-event-id="'+e.dataset.eventId+'"]')).dataset.eventId);
+  await page.click('.all-source-events-open [data-event-id="'+detail+'"]');
+  ok(await page.$('.selected-detail-moment')&&!await page.$('.all-source-events-open'),'Detailed selection not communicated while closed');
+  await page.click('.source-moments-toggle');
+  ok(await page.$eval('.all-source-events-open [aria-pressed="true"]',(e,id)=>e.dataset.eventId===id&&e===document.activeElement,detail),'Reopening lost selected detailed moment');
+  await shot('detail-selected-1440');await page.keyboard.press('Escape');pass('Off-strip moment stays clear; reopening focuses and reveals it');
+  // A genuine pointer drag must commit a non-zero edit and remain one undoable action.
+  await click('Top');await event('p0:legal-start');await select('Selected athlete','jaz');await click('Place');await pause(300);
+  const loc=await page.$eval('[data-player="jaz"].athlete-label',e=>{const r=e.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y-12}});
+  await page.mouse.move(loc.x,loc.y);await page.mouse.down();await page.mouse.move(loc.x+44,loc.y-24,{steps:12});await page.mouse.up();await pause(300);
+  const changed=await page.$eval('.edit-change-summary',e=>parseFloat(e.textContent));ok(changed>.15,'Real drag did not move athlete');
+  await click('Undo');ok(await page.$eval('.edit-change-summary',e=>parseFloat(e.textContent))<.015,'Undo did not restore position');
+  await click('Redo');ok(Math.abs(await page.$eval('.edit-change-summary',e=>parseFloat(e.textContent))-changed)<.03,'Redo did not restore drag');
+  await shot('drag-redone-1440');pass('Real non-zero drag, Undo and Redo');
+  await page.setViewport({width:390,height:844});await pause(300);await shot('phone-editor-390');
+  ok(!await page.$('.desktop-event-rail')&&!await page.$('.athlete-tool-switcher'),'Desktop controls leaked to phone');
+  ok(await page.$('.event-navigator')&&await page.$('canvas'),'Phone event controls or court missing');
+  ok(!result.errors.length,'Browser errors: '+result.errors.join('; '));pass('Phone editor retains existing event controls; no JS errors');
+}
 async function viewCheck(){
   const baseline=viewMode==='baseline', reference=root+'/.cache/desktop-view-v1-20261101/baseline';
   const visible=sel=>page.$eval(sel,e=>e.checkVisibility());
@@ -98,9 +174,11 @@ async function viewCheck(){
   ok(!result.errors.length,'JS errors '+result.errors.join('; '));pass('Phone View/settings markup and Set arcs controls unchanged; no JS errors or viewport overflow');
 }
 try{
-browser=await puppeteer.launch({executablePath:process.env.COURTLINE_QA_BROWSER || 'D:/Tools/Thorium-QA/156.0.8078.28/BIN/thorium.exe',headless:true,userDataDir:dir+'/isolated-'+Date.now(),timeout:90000,protocolTimeout:60000,args:['--no-first-run','--no-proxy-server','--disable-background-networking']});
+result.phase='isolated-browser-launch';
+browser=await puppeteer.launch({executablePath:process.env.COURTLINE_QA_BROWSER || 'D:/Tools/Thorium-QA/156.0.8078.28/BIN/thorium.exe',headless:true,userDataDir:dir+'/isolated-'+Date.now(),timeout:Number(process.env.COURTLINE_QA_LAUNCH_TIMEOUT||30000),protocolTimeout:60000,args:['--no-first-run','--no-proxy-server','--disable-background-networking']});
 page=await browser.newPage();page.setDefaultTimeout(27000);page.on('pageerror',e=>result.errors.push('PAGE '+e.message));page.on('console',e=>{if(e.type()==='error')result.errors.push('CONSOLE '+e.text().slice(0,200))});
-if(viewMode){await viewCheck();result.status='PASS'}else{
+result.phase='browser-checks';
+if(editorMode){await editorCheck();result.status='PASS'}else if(viewMode){await viewCheck();result.status='PASS'}else{
 await page.setViewport({width:1440,height:900,deviceScaleFactor:1});
 await page.goto((process.env.COURTLINE_QA_URL || 'http://127.0.0.1:5221/RotationStudio/')+'?r=1&serve=us&attack=right&first=normal',{waitUntil:'domcontentloaded',timeout:90000});
 await page.waitForSelector('canvas');await pause(400);await click('Edit strategy');await page.waitForSelector('.desktop-athlete-editor');
@@ -116,8 +194,8 @@ ok(await page.$eval('button[aria-label="Edit Start stage"]',e=>e.getAttribute('a
 await page.click('button[aria-label="Edit Receive / dig stage"]');await pause(180);
 ok(await page.$eval('button[aria-label="Edit Receive / dig stage"]',e=>e.getAttribute('aria-pressed'))==='true','Receive stage selection failed');
 ok(await page.$eval('[aria-label="Timeline time"]',e=>e.dataset.playing)==='false','Changing stages unexpectedly animates');
-ok(await page.$eval('.desktop-athlete-editor',e=>e.textContent.includes('Their path connects automatically')),'Stage editing guidance missing');
-pass('Simple Start -> Receive stage navigation is instant; automatic path guidance visible');
+ok(await page.$eval('.desktop-athlete-editor',e=>e.textContent.includes('drag the athlete to their spot')||e.textContent.includes('Drag the athlete to their spot')),'Concise Place guidance missing');
+pass('Simple Start -> Receive stage navigation is instant; concise Place guidance visible');
 await page.click('.source-moments-toggle');await page.waitForSelector('.all-source-events-open');
 ok((await page.$$('.all-source-events-open button')).length>=14,'Detailed source moments lost');
 await page.click('.source-moments-toggle');await pause(90);
