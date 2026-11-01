@@ -75,9 +75,8 @@
   .court-first .demo-tag { font-size: 11px; padding: 6px; color: #c6b28e; letter-spacing: .06em; }
   .court-first .rotation-canvas { border-bottom: 1px solid var(--line); }
   .court-workbench-caption { position: absolute; top: 20px; left: 24px; pointer-events: none; color: #a7bfc9; }
-  .court-workbench-caption > span { font-size: 11px; font-weight: 600; letter-spacing: .15em; }
-  .court-workbench-caption strong { display: block; font-size: 27px; font-weight: 600; letter-spacing: -.04em; margin-top: 4px; color: #edf6fa; }
-  .court-workbench-caption strong span { font-size: 17px; font-weight: 400; letter-spacing: -.02em; color: #adc0ca; }
+  .court-workbench-caption strong { display: block; font-size: 21px; font-weight: 600; letter-spacing: -.02em; color: #edf6fa; }
+  .court-workbench-caption strong span { font-size: 16px; font-weight: 400; letter-spacing: 0; color: #adc0ca; }
   .court-workbench-caption small { display: block; font-size: 12px; margin-top: 2px; }
   .court-first .rotation-canvas > .court-tools { position: absolute; inset: 18px 20px auto auto; display: flex; padding: 4px; gap: 6px; z-index: 4; }
   .court-first .court-tools > label, .court-first .court-tools > button[aria-label="Cycle camera view"] { display: none; }
@@ -242,13 +241,30 @@
   .court-first .rotation-footer { margin-top: 6px; }
   .court-first .rotation-footer > span, .court-first .demo-disclaimer { font-size: 12px; }
   .court-first .rotation-footer button { font-size: 12px; min-height: 28px; padding: 4px 9px; }
-  .court-first .viewer-panel .focus-source { display: none; }
+  .court-first .rotation-footer:not(:has(> span)) { justify-content: flex-end; }
+  .court-first .viewer-panel .focus-source { color: #c6b28e; }
   .court-first .viewer-panel .shuffle-source { color: #b5c8d0; font-size: 12px; line-height: 1.45; margin: 8px 0 16px; }
-  .court-first .player-focus .focus-now-label { margin: 16px 0 5px; color: #f1bb81; font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
-  .court-first .player-focus .focus-primary { margin: 0 0 14px; padding: 13px 14px; border-left: 3px solid #eab071; border-radius: 0 5px 5px 0; background: #26343e; font-size: 16px; font-weight: 550; line-height: 1.55; color: #f5f9fc; }
+  .court-first .player-focus .focus-identity-select { display: block; margin: 0 0 4px; }
+  .court-first .player-focus .focus-identity-select select { width: 100%; min-height: 42px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; color: #f5f9fc; color-scheme: dark; padding: 0 24px 4px 0; font-size: 26px; font-weight: 600; letter-spacing: -.02em; cursor: pointer; }
+  .court-first .player-focus .focus-identity-select select:focus-visible { outline: 2px solid var(--warm); outline-offset: 2px; }
+  .court-first .player-focus .focus-moment { margin: 0 0 6px; font-size: 15px; color: #d2e0e8; }
+  .court-first .player-focus .focus-now-label { margin: 20px 0 6px; color: #f1bb81; font-size: 14px; font-weight: 600; }
+  .court-first .player-focus .focus-primary { margin: 0 0 14px; font-size: 16px; font-weight: 400; line-height: 1.55; color: #f5f9fc; }
   .court-first .player-focus .focus-next-moment { margin: 10px 0 16px; font-size: 13px; color: #b4cbd7; }
   .court-first .player-focus .focus-next-moment strong { color: #e6f0f5; }
   .court-first .viewer-panel .focus-position { font-size: 12px; color: #a9bfcd; line-height: 1.4; }
+  .court-first .player-focus > details { border-top: 1px solid var(--line); margin-top: 20px; }
+  .court-first .player-focus > details > summary { font-size: 14px; color: #c2d2dc; }
+  .court-first .rotation-settings > .tactics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 22px 0; }
+  .court-first .tactics-row > span { grid-column: 1 / -1; font-size: 15px; font-weight: 600; margin-bottom: 2px; color: #edf3f6; }
+  .court-first .tactics-row > button { min-height: 42px; border: 1px solid var(--line); }
+  .court-first .rotation-settings > details { border-top: 1px solid var(--line); margin-top: 18px; }
+  .court-first .rotation-settings > details > summary { cursor: pointer; padding: 15px 0; font-size: 14px; }
+  .court-first .practice-tools .shuffle-controls { padding: 0 0 12px; }
+  .court-first .first-ball-examples { margin-top: 18px; min-width: 0; }
+  .court-first .first-ball-examples p { font-size: 12px; line-height: 1.5; color: #b8c9d3; }
+  .court-first .first-ball-grid button { white-space: normal; min-height: 42px; }
+  .court-first .scenario-display-options .options-row { display: grid; }
   .court-first .viewer-heading { background: #1c252d; top: -20px; padding: 8px 0 12px; border-bottom: 1px solid var(--line); }
   .court-first .viewer-heading > strong { font-size: 18px; }
   .court-first .viewer-heading button { font-size: 13px; }
@@ -263,7 +279,6 @@
     .court-first, .court-first.strategy-open, .court-first.strategy-editing { grid-template-rows: 154px minmax(0, 1fr) 184px; }
     .court-first .rotation-top button { font-size: 13px; }
     .court-workbench-caption { top: 72px; left: 16px; }
-    .court-workbench-caption > span { display: none; }
     .court-workbench-caption strong { font-size: 21px; }
     .court-first .rotation-canvas > .court-tools { left: 16px; right: auto; }
     .court-first .rotation-bottom { padding-inline: 12px; }
@@ -272,7 +287,7 @@
     .court-first :is(.strategy-panel, .viewer-panel) { padding: 28px; }
     .court-first .strategy-selection { top: -28px; }
     .court-workbench-caption { top: 32px; left: 36px; }
-    .court-workbench-caption strong { font-size: 36px; }
+    .court-workbench-caption strong { font-size: 24px; }
     .court-first .desktop-event-rail strong { font-size: 14px; }
     .court-first .desktop-event-rail .event-caption { font-size: 12px; }
   }

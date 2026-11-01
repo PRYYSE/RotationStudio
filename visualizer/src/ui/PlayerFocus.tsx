@@ -14,28 +14,31 @@ export function PlayerFocus({ review }: { review: ReviewProjection | null }) {
   const caseKey = `${s.rotation}/${s.serve}/${s.opponentAttack}/${s.firstTouch}`
   const finding = review?.reviewFindings.find(f => f.affectedCases.some(key => key === caseKey) && (!f.playerId || f.playerId === actor?.id))
   const meaningfulFallback = !!explanation?.fallback && !/needs coaching note|specific responsibility needs coaching review/i.test(explanation.fallback)
-  return <section className="player-focus" aria-label="Player focus">
-    <label className="focus-selector">{actor ? `Focus: ${name(actor.id)}` : 'Whole team'}
+  const selector = <label className={desktop ? 'focus-selector focus-identity-select' : 'focus-selector'}>{!desktop && (actor ? `Focus: ${name(actor.id)}` : 'Whole team')}
       <select aria-label="Whole team or player" value={actor?.id ?? ''} onChange={e => useRotations.setState({ selected: e.target.value })}>
         <option value="">Whole team</option>
         {team.players.map(p => <option key={p.id} value={p.id}>{p.name} · P{positionOf(team, s.rotation, p.id)}</option>)}
       </select>
     </label>
-    <p className="focus-source">{s.example ? s.exampleResult?.ok === false ? 'No feasible authored example · previous animation retained' : 'Teaching example · read-only'
+  const provenance = <p className="focus-source">{s.example ? s.exampleResult?.ok === false ? 'No feasible authored example · previous animation retained' : 'Teaching example · read-only'
       : s.draft && !working ? 'Advanced V3 draft · original-source coaching prompts · Needs review'
         : review?.caseSource === 'published' ? 'Published V3 example · DRAFT' : review?.caseSource === 'case-specific' ? 'Explicitly edited case · Needs review' : 'Edited foundation · Needs review'}</p>
+  return <section className="player-focus" aria-label="Player focus">
+    {desktop ? selector : <>{selector}{provenance}</>}
     {review && <>
-      <h2>{review.eventLabel === 'Legal start' ? 'At serve contact' : review.eventLabel} · {review.eventTime.toFixed(2)}s</h2>
+      {desktop ? <p className="focus-moment">{review.eventLabel === 'Legal start' ? 'At serve contact' : review.eventLabel}</p>
+        : <h2>{review.eventLabel === 'Legal start' ? 'At serve contact' : review.eventLabel} · {review.eventTime.toFixed(2)}s</h2>}
       {actor && <p className="focus-position">P{actor.number} · {actor.frontEligible ? 'Front eligible' : 'Back row'} · {actor.role}
         {!desktop && <><br />X {actor.point.x.toFixed(2)} · Z {actor.point.z.toFixed(2)} m</>}</p>}
-      {desktop && <p className="focus-now-label">Now · Your responsibility</p>}
+      {desktop && <p className="focus-now-label">Now</p>}
       <p className="focus-primary" data-source={explanation?.playerSource ?? explanation?.teamSource}>{explanation?.player || explanation?.team || explanation?.core || 'No specific action is authored for this moment.'}</p>
       {desktop && review.nextEvent && <p className="focus-next-moment"><strong>Coming up</strong> · {review.nextEvent.label}</p>}
       {explanation?.conditional && <p><strong>If different: </strong>{explanation.conditional}</p>}
       {(!desktop || meaningfulFallback) && <p className="focus-fallback"><strong>Fallback: </strong>{explanation?.fallback || 'Specific responsibility needs coaching review.'}</p>}
       {explanation?.teamCall && <p>Team call: {explanation.teamCall}</p>}
       {finding && <p className="focus-fallback">{finding.severity} · {finding.summary} {finding.suggestedCheck}</p>}
-      <details><summary>{desktop ? 'Tactical details & full roster' : 'Contact facts & full roster'}</summary>
+      <details><summary>{desktop ? 'Tactical details' : 'Contact facts & full roster'}</summary>
+        {desktop && <>{provenance}<p>R{s.rotation} · {s.serve === 'us' ? 'Our serve' : 'Their serve'} · Attack toward our {s.opponentAttack} · {s.firstTouch === 'harry' ? 'Harry first' : 'Normal first touch'}</p></>}
         {desktop && actor && <p>Precise position · X {actor.point.x.toFixed(2)} · Z {actor.point.z.toFixed(2)} m</p>}
         {desktop && !meaningfulFallback && <p>Alternative not yet coached for this moment. This play remains a tactical draft.</p>}
         <p>{explanation?.core}</p>

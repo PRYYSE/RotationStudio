@@ -112,10 +112,10 @@ export const RotationScene = memo(function RotationScene({ labelHost, lowMotion 
     <fog attach="fog" args={[BRAND.bg, 45, 100]} />
     <ambientLight intensity={0.75} />
     <hemisphereLight args={['#b8d8ff', '#090a12', 0.8]} />
-    <directionalLight position={[7, 13, 9]} intensity={1.8} castShadow={budget.shadows} shadow-mapSize={[1024, 1024]} shadow-camera-left={-12} shadow-camera-right={12} shadow-camera-top={12} shadow-camera-bottom={-12} />
+    <directionalLight position={[7, 13, 9]} intensity={1.8} castShadow={!desktop && budget.shadows} shadow-mapSize={[1024, 1024]} shadow-camera-left={-12} shadow-camera-right={12} shadow-camera-top={12} shadow-camera-bottom={-12} />
     <StageBox /><Court courtFormat={FORMATS.indoor6s} courtline={desktop} /><Net courtFormat={{ ...FORMATS.indoor6s, netHeight }} />
     <Players key={scenarioKey} secondary={budget.secondary} />
-    {budget.shadows && <ContactShadows position={[0, 0.02, 0]} scale={28} resolution={512} blur={2.4} opacity={0.35} far={5} />}
+    {budget.shadows && <ContactShadows position={[0, 0.02, 0]} scale={28} resolution={512} blur={desktop ? 1.8 : 2.4} opacity={desktop ? 0.22 : 0.35} far={desktop ? 1.6 : 5} />}
     <RotationCameraRig />
     <RotationLabels host={labelHost} />
   </Canvas>

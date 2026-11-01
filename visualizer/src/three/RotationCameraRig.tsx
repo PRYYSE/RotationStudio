@@ -39,7 +39,9 @@ export function RotationCameraRig() {
     const original = framings[view]
     const focus = !desktop && ourHalf
     const f = view === 'top' ? { target: EDITOR_TARGET, dir: [0, 1, .001] as const, halfW: desktop ? 5.2 : 5.8, halfH: desktop ? 5.6 : 6.8 }
-      : focus ? { ...original, target: [0, .5, 4.5] as const, halfW: view === 'side' ? 6.8 : 6, halfH: 6.8 } : original
+      : focus ? { ...original, target: [0, .5, 4.5] as const, halfW: view === 'side' ? 6.8 : 6, halfH: 6.8 }
+      : desktop && view === 'orbit' ? { ...original, target: [0, .5, useRotations.getState().serve === 'us' ? 2 : .6] as const, halfH: 9.3 }
+      : original
     target.current.set(f.target[0], f.target[1], f.target[2])
     const aspect = size.width / size.height
     const tan = Math.tan(42 * Math.PI / 360)

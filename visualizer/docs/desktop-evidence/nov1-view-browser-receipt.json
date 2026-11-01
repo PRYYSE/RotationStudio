@@ -1,0 +1,53 @@
+{
+  "when": "2026-11-01T03:15:59.096Z",
+  "status": "PASS",
+  "checks": [
+    "One-click player switching, authored action and next moment lead; source available in Tactical details",
+    "Practice exposes 3x3 samples, Shuffle, Next and History without automatic animation",
+    "All 48 authored cases switch with the expected first contact",
+    "Manual stages are instant; Play animates; all four court cameras remain accessible",
+    "Phone View/settings markup and Set arcs controls unchanged; no JS errors or viewport overflow"
+  ],
+  "errors": [],
+  "screens": [
+    "view-r1-us-1440.png",
+    "view-r1-us-1366.png",
+    "view-r1-us-3440.png",
+    "view-r1-they-1440.png",
+    "view-r3-they-1440.png",
+    "edit-r3-1440.png",
+    "scenario-1440.png",
+    "mobile-390.png",
+    "mobile-settings-390.png",
+    "set-arcs-1440.png",
+    "set-arcs-court-1440.png",
+    "practice-history-1440.png",
+    "scenario-r6-harry-first-1440.png"
+  ],
+  "layouts": [
+    {
+      "width": 1440,
+      "scroll": 1440,
+      "actionBottom": 390.921875,
+      "action": "Harry begins P1. After contact you may move to your next displayed responsibility. Serve from behind the baseline, then recover to the displayed role.",
+      "footerBottom": 881,
+      "playing": "false"
+    },
+    {
+      "width": 1366,
+      "scroll": 1366,
+      "actionBottom": 390.921875,
+      "action": "Harry begins P1. After contact you may move to your next displayed responsibility. Serve from behind the baseline, then recover to the displayed role.",
+      "footerBottom": 749,
+      "playing": "false"
+    },
+    {
+      "width": 3440,
+      "scroll": 3440,
+      "actionBottom": 374.125,
+      "action": "Harry begins P1. After contact you may move to your next displayed responsibility. Serve from behind the baseline, then recover to the displayed role.",
+      "footerBottom": 1421,
+      "playing": "false"
+    }
+  ]
+}

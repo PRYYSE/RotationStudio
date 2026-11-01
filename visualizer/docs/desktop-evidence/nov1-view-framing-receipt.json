@@ -1,0 +1,398 @@
+{
+  "started": "2026-11-01T03:14:45.394Z",
+  "cases": [
+    {
+      "viewport": "1366x768",
+      "serve": "us",
+      "canvas": {
+        "x": 0,
+        "y": 112,
+        "right": 996,
+        "bottom": 558
+      },
+      "labels": [
+        {
+          "name": "Harry · P1",
+          "left": 477.7861633300781,
+          "right": 542.7861328125,
+          "top": 529.8221435546875,
+          "bottom": 546.8221435546875,
+          "shown": true
+        },
+        {
+          "name": "Caleb · P6",
+          "left": 444.4532470703125,
+          "right": 509.4532470703125,
+          "top": 444.3694152832031,
+          "bottom": 461.3694152832031,
+          "shown": true
+        },
+        {
+          "name": "Trent · P4",
+          "left": 431.4753723144531,
+          "right": 496.4753723144531,
+          "top": 330.3492126464844,
+          "bottom": 347.3492126464844,
+          "shown": true
+        },
+        {
+          "name": "Logan · P3",
+          "left": 453.6481628417969,
+          "right": 518.648193359375,
+          "top": 361.72198486328125,
+          "bottom": 378.72198486328125,
+          "shown": true
+        },
+        {
+          "name": "Georgia · P2",
+          "left": 521.1146240234375,
+          "right": 597.7083740234375,
+          "top": 365.3260498046875,
+          "bottom": 382.3260498046875,
+          "shown": true
+        },
+        {
+          "name": "Jaz · P5",
+          "left": 360.5521545410156,
+          "right": 413.9427795410156,
+          "top": 418.47674560546875,
+          "bottom": 435.47674560546875,
+          "shown": true
+        }
+      ],
+      "allInside": true,
+      "overflow": false,
+      "onePicker": true,
+      "selected": "caleb -> harry",
+      "image": "review-us-1366.png"
+    },
+    {
+      "viewport": "1366x768",
+      "serve": "they",
+      "canvas": {
+        "x": 0,
+        "y": 112,
+        "right": 996,
+        "bottom": 558
+      },
+      "labels": [
+        {
+          "name": "Harry · P1",
+          "left": 482.7593078613281,
+          "right": 547.75927734375,
+          "top": 396.4527282714844,
+          "bottom": 413.4527282714844,
+          "shown": true
+        },
+        {
+          "name": "Caleb · P6",
+          "left": 430.571044921875,
+          "right": 495.571044921875,
+          "top": 475.0880126953125,
+          "bottom": 492.0880126953125,
+          "shown": true
+        },
+        {
+          "name": "Trent · P4",
+          "left": 419.1458435058594,
+          "right": 484.1458435058594,
+          "top": 353.10406494140625,
+          "bottom": 370.10406494140625,
+          "shown": true
+        },
+        {
+          "name": "Logan · P3",
+          "left": 441.4966735839844,
+          "right": 506.4966735839844,
+          "top": 386.54522705078125,
+          "bottom": 403.54522705078125,
+          "shown": true
+        },
+        {
+          "name": "Georgia · P2",
+          "left": 511.3439636230469,
+          "right": 587.937744140625,
+          "top": 390.39288330078125,
+          "bottom": 407.39288330078125,
+          "shown": true
+        },
+        {
+          "name": "Jaz · P5",
+          "left": 343.91021728515625,
+          "right": 397.30084228515625,
+          "top": 447.2784729003906,
+          "bottom": 464.2784729003906,
+          "shown": true
+        }
+      ],
+      "allInside": true,
+      "overflow": false,
+      "onePicker": true,
+      "selected": "caleb -> harry",
+      "image": "review-they-1366.png"
+    },
+    {
+      "viewport": "1440x900",
+      "serve": "us",
+      "canvas": {
+        "x": 0,
+        "y": 112,
+        "right": 1051.203125,
+        "bottom": 690
+      },
+      "labels": [
+        {
+          "name": "Harry · P1",
+          "left": 509.03216552734375,
+          "right": 574.0321655273438,
+          "top": 650.7941284179688,
+          "bottom": 667.7941284179688,
+          "shown": true
+        },
+        {
+          "name": "Caleb · P6",
+          "left": 465.8117370605469,
+          "right": 530.811767578125,
+          "top": 539.99365234375,
+          "bottom": 556.99365234375,
+          "shown": true
+        },
+        {
+          "name": "Trent · P4",
+          "left": 448.9842224121094,
+          "right": 513.9842529296875,
+          "top": 392.15167236328125,
+          "bottom": 409.15167236328125,
+          "shown": true
+        },
+        {
+          "name": "Logan · P3",
+          "left": 477.734130859375,
+          "right": 542.734130859375,
+          "top": 432.83050537109375,
+          "bottom": 449.83050537109375,
+          "shown": true
+        },
+        {
+          "name": "Georgia · P2",
+          "left": 566.93359375,
+          "right": 643.52734375,
+          "top": 437.5036926269531,
+          "bottom": 454.5036926269531,
+          "shown": true
+        },
+        {
+          "name": "Jaz · P5",
+          "left": 355.30267333984375,
+          "right": 408.69329833984375,
+          "top": 506.42041015625,
+          "bottom": 523.42041015625,
+          "shown": true
+        }
+      ],
+      "allInside": true,
+      "overflow": false,
+      "onePicker": true,
+      "selected": "caleb -> harry",
+      "image": "review-us-1440.png"
+    },
+    {
+      "viewport": "1440x900",
+      "serve": "they",
+      "canvas": {
+        "x": 0,
+        "y": 112,
+        "right": 1051.203125,
+        "bottom": 690
+      },
+      "labels": [
+        {
+          "name": "Harry · P1",
+          "left": 515.48046875,
+          "right": 580.48046875,
+          "top": 477.8634338378906,
+          "bottom": 494.8634338378906,
+          "shown": true
+        },
+        {
+          "name": "Caleb · P6",
+          "left": 447.8116760253906,
+          "right": 512.8116455078125,
+          "top": 579.82421875,
+          "bottom": 596.82421875,
+          "shown": true
+        },
+        {
+          "name": "Trent · P4",
+          "left": 432.9974060058594,
+          "right": 497.9974060058594,
+          "top": 421.65631103515625,
+          "bottom": 438.65631103515625,
+          "shown": true
+        },
+        {
+          "name": "Logan · P3",
+          "left": 461.9781494140625,
+          "right": 526.9781494140625,
+          "top": 465.0170593261719,
+          "bottom": 482.0170593261719,
+          "shown": true
+        },
+        {
+          "name": "Georgia · P2",
+          "left": 554.2646484375,
+          "right": 630.8583984375,
+          "top": 470.00604248046875,
+          "bottom": 487.00604248046875,
+          "shown": true
+        },
+        {
+          "name": "Jaz · P5",
+          "left": 333.7242431640625,
+          "right": 387.1148681640625,
+          "top": 543.765625,
+          "bottom": 560.765625,
+          "shown": true
+        }
+      ],
+      "allInside": true,
+      "overflow": false,
+      "onePicker": true,
+      "selected": "caleb -> harry",
+      "image": "review-they-1440.png"
+    },
+    {
+      "viewport": "3440x1440",
+      "serve": "us",
+      "canvas": {
+        "x": 0,
+        "y": 112,
+        "right": 2920,
+        "bottom": 1230
+      },
+      "labels": [
+        {
+          "name": "Harry · P1",
+          "left": 1458.339599609375,
+          "right": 1523.339599609375,
+          "top": 1145.679443359375,
+          "bottom": 1162.679443359375,
+          "shown": true
+        },
+        {
+          "name": "Caleb · P6",
+          "left": 1374.6702880859375,
+          "right": 1439.6702880859375,
+          "top": 931.1834716796875,
+          "bottom": 948.1834716796875,
+          "shown": true
+        },
+        {
+          "name": "Trent · P4",
+          "left": 1342.0943603515625,
+          "right": 1407.0943603515625,
+          "top": 644.9799194335938,
+          "bottom": 661.9799194335938,
+          "shown": true
+        },
+        {
+          "name": "Logan · P3",
+          "left": 1397.75048828125,
+          "right": 1462.75048828125,
+          "top": 723.7290649414062,
+          "bottom": 740.7290649414062,
+          "shown": true
+        },
+        {
+          "name": "Georgia · P2",
+          "left": 1575.857666015625,
+          "right": 1652.451416015625,
+          "top": 732.7757568359375,
+          "bottom": 749.7757568359375,
+          "shown": true
+        },
+        {
+          "name": "Jaz · P5",
+          "left": 1155.310546875,
+          "right": 1208.701171875,
+          "top": 866.18994140625,
+          "bottom": 883.18994140625,
+          "shown": true
+        }
+      ],
+      "allInside": true,
+      "overflow": false,
+      "onePicker": true,
+      "selected": "caleb -> harry",
+      "image": "review-us-3440.png"
+    },
+    {
+      "viewport": "3440x1440",
+      "serve": "they",
+      "canvas": {
+        "x": 0,
+        "y": 112,
+        "right": 2920,
+        "bottom": 1230
+      },
+      "labels": [
+        {
+          "name": "Harry · P1",
+          "left": 1470.82275390625,
+          "right": 1535.82275390625,
+          "top": 810.9071655273438,
+          "bottom": 827.9071655273438,
+          "shown": true
+        },
+        {
+          "name": "Caleb · P6",
+          "left": 1339.824462890625,
+          "right": 1404.824462890625,
+          "top": 1008.2905883789062,
+          "bottom": 1025.29052734375,
+          "shown": true
+        },
+        {
+          "name": "Trent · P4",
+          "left": 1311.1458740234375,
+          "right": 1376.1458740234375,
+          "top": 702.0972290039062,
+          "bottom": 719.0972290039062,
+          "shown": true
+        },
+        {
+          "name": "Logan · P3",
+          "left": 1367.2489013671875,
+          "right": 1432.2489013671875,
+          "top": 786.0382080078125,
+          "bottom": 803.0382080078125,
+          "shown": true
+        },
+        {
+          "name": "Georgia · P2",
+          "left": 1551.3321533203125,
+          "right": 1627.9259033203125,
+          "top": 795.6962890625,
+          "bottom": 812.6962890625,
+          "shown": true
+        },
+        {
+          "name": "Jaz · P5",
+          "left": 1113.537353515625,
+          "right": 1166.927978515625,
+          "top": 938.4855346679688,
+          "bottom": 955.4855346679688,
+          "shown": true
+        }
+      ],
+      "allInside": true,
+      "overflow": false,
+      "onePicker": true,
+      "selected": "caleb -> harry",
+      "image": "review-they-3440.png"
+    }
+  ],
+  "errors": [],
+  "status": "PASS",
+  "finished": "2026-11-01T03:15:06.071Z"
+}

@@ -34,6 +34,7 @@ export function Rotations() {
   const [share, setShare] = useState('')
   const [inspectorWidth, setInspectorWidth] = useState<number>()
   const labelHost = useRef<HTMLDivElement>(null)
+  const viewerPanel = useRef<HTMLElement>(null)
   const currentStage = studio.editing && !s.playing ? studio.stage : scenario
     ? selectedEvent(scenario, s.time) ?? coverageStage(scenario, s.time)
     : 'Start'
@@ -51,6 +52,7 @@ export function Rotations() {
     if (!useRotations.getState().published) load()
     return () => { useRotations.getState().stopShuffle(); useRotations.setState({ playing: false }) }
   }, [])
+  useEffect(() => { if (desktop) viewerPanel.current?.scrollTo(0, 0) }, [desktop, settings])
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName
@@ -69,6 +71,7 @@ export function Rotations() {
   const status = bundle.plans.status
   const demo = status === 'TRAINING DEMO / UNAPPROVED'
   const unavailable = s.exampleResult?.ok === false
+  const repeatDraft = desktop && !s.example && !s.draft && status === 'DRAFT'
   const hasAlternates = !!bundle.plans.scenarios.find((p) => p.rotation === s.rotation && p.serve === s.serve)?.alternates
   const times = stageTimes(scenario)
   const selected = currentStage
@@ -94,11 +97,23 @@ export function Rotations() {
       selectDesktopEvent(source, destination.id)
     }
   }
+  const displayOptions = <>
+    <div className="rotation-row options-row">
+      <label><input type="checkbox" checked={s.labels} onChange={(e) => useRotations.setState({ labels: e.target.checked })} /> Names</label>
+      <label><input type="checkbox" checked={s.trails} onChange={(e) => useRotations.setState({ trails: e.target.checked })} /> Paths</label>
+      <label><input type="checkbox" checked={s.receiveAreas} onChange={(e) => useRotations.setState({ receiveAreas: e.target.checked })} /> Coverage areas</label>
+      <label><input type="checkbox" checked={lowMotion} onChange={(e) => setLowMotion(e.target.checked)} /> Low motion / phone performance</label>
+      {!studio.editing && !studio.working && <label><input type="checkbox" checked={s.editor} onChange={(e) => s.setEditor(e.target.checked)} /> Advanced V3 Coach draft</label>}
+    </div>
+    {s.receiveAreas && <p className="coverage-note">Colour areas follow athletes at every stage. Approximate responsibilities, not measured reach: compact block/tip lanes, broader backcourt cover. On their serve, original receive proportions apply. Call MINE on overlaps.</p>}
+    {s.editor && !studio.editing && <RotationEditor />}
+  </>
   return <main className={`rotations court-first ${panel ? 'strategy-open' : ''} ${studio.editing ? 'strategy-editing' : ''} ${settings ? 'settings-open' : ''}`} style={desktop && inspectorWidth ? { '--inspector-width': `${inspectorWidth}px` } as CSSProperties : undefined} aria-label="Rotation studio">
     <div className="rotation-canvas" aria-label="Interactive volleyball court">
       <RotationScene labelHost={labelHost} lowMotion={lowMotion} />
       {desktop && <CourtTools />}
-      <div className="court-workbench-caption desktop-only"><span>PRYYSE / COURTLINE STUDIO</span><strong>R{s.rotation} <span>/{s.serve === 'us' ? ' Our serve' : ' Their serve'}</span></strong><small>{studio.editing ? 'Position editor · 9 × 9 m' : 'Rotation study · 9 × 18 m'}</small></div>
+      {desktop ? <div className="court-workbench-caption desktop-only"><strong>R{s.rotation} <span>· {s.serve === 'us' ? 'Our serve' : 'Their serve'}</span></strong>{studio.editing && <small>Editing strategy</small>}</div>
+        : <div className="court-workbench-caption desktop-only"><span>PRYYSE / COURTLINE STUDIO</span><strong>R{s.rotation} <span>/{s.serve === 'us' ? ' Our serve' : ' Their serve'}</span></strong><small>{studio.editing ? 'Position editor · 9 × 9 m' : 'Rotation study · 9 × 18 m'}</small></div>}
       {studio.editing && <div className="editor-zoom glass" role="group" aria-label="Edit court zoom">
         <button aria-label="Zoom in" onClick={() => studio.zoomCamera('in')}>+</button>
         <button aria-label="Zoom out" onClick={() => studio.zoomCamera('out')}>−</button>
@@ -134,17 +149,19 @@ export function Rotations() {
       {!studio.editing && studio.working && <p className="strategy-warning">Foundation needs tactical review. View plays the V3 timing template with your foundation edits.</p>}
       {!studio.editing && <ViewerEvents />}
     </aside>}
-    {!panel && <aside className="viewer-panel glass" aria-label="Court context">
+    {!panel && <aside ref={viewerPanel} className="viewer-panel glass" aria-label="Court context">
       <div className="viewer-heading"><strong>{settings ? 'Scenario Explorer' : 'Player Focus'}</strong>
         <button aria-expanded={settings} onClick={() => setSettings(!settings)}>{settings ? 'Player Focus' : 'Scenario Explorer'}</button>
         {!settings && review && <p className="viewer-mobile-role-call" aria-label="Quick player instruction">
           <strong>{bundle.team.players.find(p => p.id === s.selected)?.name ?? 'Team'} · {review.eventLabel}:</strong> {review.explanation.player || review.explanation.team || review.explanation.core || 'Needs coaching note'}
         </p>}</div>
-      <ShuffleControls />
-      <PlayerFocus review={review} />
-      <ViewerEvents />
-      {settings && <section className="rotation-settings" aria-label="Rotation settings">
-        <div className="settings-heading"><strong>Scenario Explorer & settings</strong><button aria-label="Close settings" onClick={() => setSettings(false)}>Close</button></div>
+      {!desktop && <ShuffleControls />}
+      {(!desktop || !settings) && <PlayerFocus review={review} />}
+      {(!desktop || !settings) && <ViewerEvents />}
+      {desktop && unavailable && <p className="example-notice" role="status">No feasible authored example. {s.exampleResult?.ok === false && s.exampleResult.message} Showing {s.exampleScenario ? 'previous valid teaching example' : 'authored example'}; playback paused.</p>}
+      {desktop && s.exampleNotice && <p className="example-notice" role="status">{s.exampleNotice}</p>}
+      {(desktop || settings) && <section className="rotation-settings" aria-label="Rotation settings" hidden={!settings}>
+        {!desktop && <div className="settings-heading"><strong>Scenario Explorer & settings</strong><button aria-label="Close settings" onClick={() => setSettings(false)}>Close</button></div>}
           {hasAlternates && <>
             <div className="rotation-row tactics-row" role="group" aria-label="Their attack"><span>Their attack:</span>
               <button aria-pressed={s.opponentAttack === 'left'} onClick={() => s.chooseTactics('left', s.firstTouch)}>Our left</button>
@@ -155,18 +172,18 @@ export function Rotations() {
               <button aria-pressed={s.firstTouch === 'harry'} onClick={() => s.chooseTactics(s.opponentAttack, 'harry')}>Harry first</button>
             </div>
           </>}
-          {hasAlternates && <FirstBallExamples review={review} />}
-          {s.exampleNotice && <p className="example-notice" role="status">{s.exampleNotice}</p>}
-          <nav className="rotation-row" aria-label="Camera view">{(['front', 'side', 'orbit', 'top'] as RotationView[]).map((view) => <button key={view} aria-pressed={s.view === view} onClick={() => useRotations.setState({ view })}>{view[0].toUpperCase() + view.slice(1)}</button>)}</nav>
-          <div className="rotation-row options-row">
-            <label><input type="checkbox" checked={s.labels} onChange={(e) => useRotations.setState({ labels: e.target.checked })} /> Names</label>
-            <label><input type="checkbox" checked={s.trails} onChange={(e) => useRotations.setState({ trails: e.target.checked })} /> Paths</label>
-            <label><input type="checkbox" checked={s.receiveAreas} onChange={(e) => useRotations.setState({ receiveAreas: e.target.checked })} /> Coverage areas</label>
-            <label><input type="checkbox" checked={lowMotion} onChange={(e) => setLowMotion(e.target.checked)} /> Low motion / phone performance</label>
-            {!studio.editing && !studio.working && <label><input type="checkbox" checked={s.editor} onChange={(e) => s.setEditor(e.target.checked)} /> Advanced V3 Coach draft</label>}
-          </div>
-          {s.receiveAreas && <p className="coverage-note">Colour areas follow athletes at every stage. Approximate responsibilities, not measured reach: compact block/tip lanes, broader backcourt cover. On their serve, original receive proportions apply. Call MINE on overlaps.</p>}
-          {s.editor && !studio.editing && <RotationEditor />}
+          {desktop ? <>
+            <details className="practice-tools"><summary>Practice / first-ball</summary>
+              <ShuffleControls />
+              {hasAlternates && <FirstBallExamples review={review} />}
+            </details>
+            <details className="scenario-display-options"><summary>Display & advanced settings</summary>{displayOptions}</details>
+          </> : <>
+            {hasAlternates && <FirstBallExamples review={review} />}
+            {s.exampleNotice && <p className="example-notice" role="status">{s.exampleNotice}</p>}
+            <nav className="rotation-row" aria-label="Camera view">{(['front', 'side', 'orbit', 'top'] as RotationView[]).map((view) => <button key={view} aria-pressed={s.view === view} onClick={() => useRotations.setState({ view })}>{view[0].toUpperCase() + view.slice(1)}</button>)}</nav>
+            {displayOptions}
+          </>}
       </section>}
     </aside>}
     <div className="rotation-bottom">
@@ -181,16 +198,16 @@ export function Rotations() {
           else s.navigate(times[stage])
         }}>{stage}</button>)}</div>
         <RotationPlayback />
-        <div className="rotation-footer"><span>{s.example ? 'TEACHING SAMPLE · UNAPPROVED' : s.draft ? 'LOCAL DRAFT · not shared' : status}</span><div>
+        <div className="rotation-footer">{!repeatDraft && <span>{s.example ? 'TEACHING SAMPLE · UNAPPROVED' : s.draft ? 'LOCAL DRAFT · not shared' : status}</span>}<div>
           <button onClick={async () => {
             const url = rotationLink(window.location.href, s.rotation, s.serve, s.time, s.opponentAttack, s.firstTouch, s.example)
             try { await navigator.clipboard.writeText(url); setShare('Published view link copied. Draft edits are excluded.') }
             catch { setShare(url) }
-          }}>Share view</button><button disabled={panel} aria-expanded={settings} onClick={() => setSettings(!settings)}>Settings</button>
+          }}>Share view</button>{!desktop && <button disabled={panel} aria-expanded={settings} onClick={() => setSettings(!settings)}>Settings</button>}
         </div></div>
         {share && <div className="share-feedback" role="status">{share}<button aria-label="Dismiss share message" onClick={() => setShare('')}>×</button></div>}
       </div>
-      <p className="demo-disclaimer">{s.example ? 'Teaching example — not approved match positions.' : demo ? 'DEMO · Demonstration movements — not approved match positions.' : s.draft || status === 'DRAFT' ? 'Tactical positions are team-specific. Review before match play.' : 'Coach-approved plan · structural checks are not referee certification.'}</p>
+      {!repeatDraft && <p className="demo-disclaimer">{s.example ? 'Teaching example — not approved match positions.' : demo ? 'DEMO · Demonstration movements — not approved match positions.' : s.draft || status === 'DRAFT' ? 'Tactical positions are team-specific. Review before match play.' : 'Coach-approved plan · structural checks are not referee certification.'}</p>}
     </div>
   </main>
 }
