@@ -1,0 +1,492 @@
+{
+  "status": "PASS",
+  "checks": [
+    "baseline-1440: no horizontal overflow or initial scroll",
+    "baseline-1440: selection, status, current actions and creation above fold",
+    "baseline-1440: two closed task disclosures, no wizard",
+    "baseline-1366: no horizontal overflow or initial scroll",
+    "baseline-1366: selection, status, current actions and creation above fold",
+    "baseline-1366: two closed task disclosures, no wizard",
+    "baseline-3440: no horizontal overflow or initial scroll",
+    "baseline-3440: selection, status, current actions and creation above fold",
+    "baseline-3440: two closed task disclosures, no wizard",
+    "Immutable baseline has no edit pseudo-control",
+    "Local browser storage and no sync explained",
+    "Share disclosure opens with keyboard",
+    "Tab reaches import",
+    "Share disclosure closes with keyboard",
+    "Baseline creates an unsaved independent plan",
+    "unsaved-1440: no horizontal overflow or initial scroll",
+    "unsaved-1440: selection, status, current actions and creation above fold",
+    "unsaved-1440: two closed task disclosures, no wizard",
+    "unsaved-1366: no horizontal overflow or initial scroll",
+    "unsaved-1366: selection, status, current actions and creation above fold",
+    "unsaved-1366: two closed task disclosures, no wizard",
+    "unsaved-3440: no horizontal overflow or initial scroll",
+    "unsaved-3440: selection, status, current actions and creation above fold",
+    "unsaved-3440: two closed task disclosures, no wizard",
+    "Unsaved creation guard retains current plan",
+    "Unsaved baseline creation guard retains current plan",
+    "Unsaved selection requires explicit decision",
+    "Visible Save stores plan locally",
+    "saved-1440: no horizontal overflow or initial scroll",
+    "saved-1440: selection, status, current actions and creation above fold",
+    "saved-1440: two closed task disclosures, no wizard",
+    "saved-1366: no horizontal overflow or initial scroll",
+    "saved-1366: selection, status, current actions and creation above fold",
+    "saved-1366: two closed task disclosures, no wizard",
+    "saved-3440: no horizontal overflow or initial scroll",
+    "saved-3440: selection, status, current actions and creation above fold",
+    "saved-3440: two closed task disclosures, no wizard",
+    "Rename and author preserve existing autosave",
+    "Duplicate creates independent unsaved copy",
+    "Duplicate unsaved guard",
+    "Delete waits for explicit confirmation",
+    "Delete cancellation keeps both plans",
+    "Confirmed delete only removes selected copy",
+    "New from current retains copy behaviour",
+    "Explicit discard switches to saved selection",
+    "Edit handoff uses original compact selector",
+    "Primary reference opens existing printable modal",
+    "Reference closes with Escape",
+    "Reference returns keyboard focus to primary action",
+    "JSON download is lossless",
+    "Review packet contains exact draft and DRAFT provenance",
+    "Import opens preview without overwriting existing local plan",
+    "File input cleared after import",
+    "Same file can be chosen again; unsaved import guard retains work",
+    "Preview cannot delete a local plan with the same ID",
+    "Preview metadata never autosaves",
+    "Saving import creates independent copy",
+    "Clipboard rejection exposes usable preview URL",
+    "Shared recipient starts preview with no automatic storage write",
+    "Recipient preview status is explicit",
+    "recipient-preview-1366: no horizontal overflow or initial scroll",
+    "recipient-preview-1366: selection, status, current actions and creation above fold",
+    "recipient-preview-1366: two closed task disclosures, no wizard",
+    "Recipient saves independent copy and clears shared address",
+    "Leaving recipient preview requires unsaved-selection decision",
+    "Explicit preview exit clears address and retains saved library",
+    "Cleared shared address does not restore preview on reload",
+    "Oversized JSON cannot replace current work or storage",
+    "Invalid JSON retains work and library",
+    "Oversized share URL offers JSON fallback",
+    "Original saved plan survives copy, preview, invalid import and reload",
+    "Storage quota failure leaves work unsaved and existing bytes intact",
+    "50-plan limit retains all saved plans and unsaved working copy",
+    "390 View retains phone layout with no horizontal overflow",
+    "390 library retains original structure and label",
+    "Phone action order and original labels unchanged",
+    "Original Set arcs opens from phone",
+    "No JavaScript page errors"
+  ],
+  "errors": [],
+  "layouts": [
+    {
+      "name": "baseline-1440",
+      "width": 1440,
+      "height": 900,
+      "scroll": 1440,
+      "panelScroll": 0,
+      "panelOverflow": 0,
+      "bounds": [
+        {
+          "sel": ".strategy-library > label",
+          "top": 125.6875,
+          "bottom": 193.1875
+        },
+        {
+          "sel": ".strategy-status",
+          "top": 203.1875,
+          "bottom": 221.78125
+        },
+        {
+          "sel": ".plan-create-actions",
+          "top": 229.78125,
+          "bottom": 273.78125
+        },
+        {
+          "sel": ".plan-primary-actions"
+        }
+      ],
+      "numbered": false,
+      "disclosures": [
+        {
+          "open": false,
+          "title": "Manage plan"
+        },
+        {
+          "open": false,
+          "title": "Share & backup"
+        }
+      ]
+    },
+    {
+      "name": "baseline-1366",
+      "width": 1366,
+      "height": 768,
+      "scroll": 1366,
+      "panelScroll": 0,
+      "panelOverflow": 0,
+      "bounds": [
+        {
+          "sel": ".strategy-library > label",
+          "top": 125.6875,
+          "bottom": 193.1875
+        },
+        {
+          "sel": ".strategy-status",
+          "top": 203.1875,
+          "bottom": 221.78125
+        },
+        {
+          "sel": ".plan-create-actions",
+          "top": 229.78125,
+          "bottom": 273.78125
+        },
+        {
+          "sel": ".plan-primary-actions"
+        }
+      ],
+      "numbered": false,
+      "disclosures": [
+        {
+          "open": false,
+          "title": "Manage plan"
+        },
+        {
+          "open": false,
+          "title": "Share & backup"
+        }
+      ]
+    },
+    {
+      "name": "baseline-3440",
+      "width": 3440,
+      "height": 1440,
+      "scroll": 3440,
+      "panelScroll": 0,
+      "panelOverflow": 0,
+      "bounds": [
+        {
+          "sel": ".strategy-library > label",
+          "top": 133.6875,
+          "bottom": 201.1875
+        },
+        {
+          "sel": ".strategy-status",
+          "top": 211.1875,
+          "bottom": 229.78125
+        },
+        {
+          "sel": ".plan-create-actions",
+          "top": 237.78125,
+          "bottom": 281.78125
+        },
+        {
+          "sel": ".plan-primary-actions"
+        }
+      ],
+      "numbered": false,
+      "disclosures": [
+        {
+          "open": false,
+          "title": "Manage plan"
+        },
+        {
+          "open": false,
+          "title": "Share & backup"
+        }
+      ]
+    },
+    {
+      "name": "unsaved-1440",
+      "width": 1440,
+      "height": 900,
+      "scroll": 1440,
+      "panelScroll": 0,
+      "panelOverflow": 0,
+      "bounds": [
+        {
+          "sel": ".strategy-library > label",
+          "top": 125.6875,
+          "bottom": 193.1875
+        },
+        {
+          "sel": ".strategy-status",
+          "top": 203.1875,
+          "bottom": 221.78125
+        },
+        {
+          "sel": ".plan-create-actions",
+          "top": 340.921875,
+          "bottom": 384.921875
+        },
+        {
+          "sel": ".plan-primary-actions",
+          "top": 235.78125,
+          "bottom": 279.78125
+        }
+      ],
+      "numbered": false,
+      "disclosures": [
+        {
+          "open": false,
+          "title": "Manage plan"
+        },
+        {
+          "open": false,
+          "title": "Share & backup"
+        }
+      ]
+    },
+    {
+      "name": "unsaved-1366",
+      "width": 1366,
+      "height": 768,
+      "scroll": 1366,
+      "panelScroll": 0,
+      "panelOverflow": 0,
+      "bounds": [
+        {
+          "sel": ".strategy-library > label",
+          "top": 125.6875,
+          "bottom": 193.1875
+        },
+        {
+          "sel": ".strategy-status",
+          "top": 203.1875,
+          "bottom": 221.78125
+        },
+        {
+          "sel": ".plan-create-actions",
+          "top": 340.921875,
+          "bottom": 384.921875
+        },
+        {
+          "sel": ".plan-primary-actions",
+          "top": 235.78125,
+          "bottom": 279.78125
+        }
+      ],
+      "numbered": false,
+      "disclosures": [
+        {
+          "open": false,
+          "title": "Manage plan"
+        },
+        {
+          "open": false,
+          "title": "Share & backup"
+        }
+      ]
+    },
+    {
+      "name": "unsaved-3440",
+      "width": 3440,
+      "height": 1440,
+      "scroll": 3440,
+      "panelScroll": 0,
+      "panelOverflow": 0,
+      "bounds": [
+        {
+          "sel": ".strategy-library > label",
+          "top": 133.6875,
+          "bottom": 201.1875
+        },
+        {
+          "sel": ".strategy-status",
+          "top": 211.1875,
+          "bottom": 229.78125
+        },
+        {
+          "sel": ".plan-create-actions",
+          "top": 348.921875,
+          "bottom": 392.921875
+        },
+        {
+          "sel": ".plan-primary-actions",
+          "top": 243.78125,
+          "bottom": 287.78125
+        }
+      ],
+      "numbered": false,
+      "disclosures": [
+        {
+          "open": false,
+          "title": "Manage plan"
+        },
+        {
+          "open": false,
+          "title": "Share & backup"
+        }
+      ]
+    },
+    {
+      "name": "saved-1440",
+      "width": 1440,
+      "height": 900,
+      "scroll": 1440,
+      "panelScroll": 0,
+      "panelOverflow": 0,
+      "bounds": [
+        {
+          "sel": ".strategy-library > label",
+          "top": 125.6875,
+          "bottom": 193.1875
+        },
+        {
+          "sel": ".strategy-status",
+          "top": 203.1875,
+          "bottom": 221.78125
+        },
+        {
+          "sel": ".plan-create-actions",
+          "top": 340.921875,
+          "bottom": 384.921875
+        },
+        {
+          "sel": ".plan-primary-actions",
+          "top": 235.78125,
+          "bottom": 279.78125
+        }
+      ],
+      "numbered": false,
+      "disclosures": [
+        {
+          "open": false,
+          "title": "Manage plan"
+        },
+        {
+          "open": false,
+          "title": "Share & backup"
+        }
+      ]
+    },
+    {
+      "name": "saved-1366",
+      "width": 1366,
+      "height": 768,
+      "scroll": 1366,
+      "panelScroll": 0,
+      "panelOverflow": 0,
+      "bounds": [
+        {
+          "sel": ".strategy-library > label",
+          "top": 125.6875,
+          "bottom": 193.1875
+        },
+        {
+          "sel": ".strategy-status",
+          "top": 203.1875,
+          "bottom": 221.78125
+        },
+        {
+          "sel": ".plan-create-actions",
+          "top": 340.921875,
+          "bottom": 384.921875
+        },
+        {
+          "sel": ".plan-primary-actions",
+          "top": 235.78125,
+          "bottom": 279.78125
+        }
+      ],
+      "numbered": false,
+      "disclosures": [
+        {
+          "open": false,
+          "title": "Manage plan"
+        },
+        {
+          "open": false,
+          "title": "Share & backup"
+        }
+      ]
+    },
+    {
+      "name": "saved-3440",
+      "width": 3440,
+      "height": 1440,
+      "scroll": 3440,
+      "panelScroll": 0,
+      "panelOverflow": 0,
+      "bounds": [
+        {
+          "sel": ".strategy-library > label",
+          "top": 133.6875,
+          "bottom": 201.1875
+        },
+        {
+          "sel": ".strategy-status",
+          "top": 211.1875,
+          "bottom": 229.78125
+        },
+        {
+          "sel": ".plan-create-actions",
+          "top": 348.921875,
+          "bottom": 392.921875
+        },
+        {
+          "sel": ".plan-primary-actions",
+          "top": 243.78125,
+          "bottom": 287.78125
+        }
+      ],
+      "numbered": false,
+      "disclosures": [
+        {
+          "open": false,
+          "title": "Manage plan"
+        },
+        {
+          "open": false,
+          "title": "Share & backup"
+        }
+      ]
+    },
+    {
+      "name": "recipient-preview-1366",
+      "width": 1366,
+      "height": 768,
+      "scroll": 1366,
+      "panelScroll": 0,
+      "panelOverflow": 0,
+      "bounds": [
+        {
+          "sel": ".strategy-library > label",
+          "top": 125.6875,
+          "bottom": 193.1875
+        },
+        {
+          "sel": ".strategy-status",
+          "top": 203.1875,
+          "bottom": 240.375
+        },
+        {
+          "sel": ".plan-create-actions",
+          "top": 411.515625,
+          "bottom": 455.515625
+        },
+        {
+          "sel": ".plan-primary-actions",
+          "top": 254.375,
+          "bottom": 350.375
+        }
+      ],
+      "numbered": false,
+      "disclosures": [
+        {
+          "open": false,
+          "title": "Manage plan"
+        },
+        {
+          "open": false,
+          "title": "Share & backup"
+        }
+      ]
+    }
+  ],
+  "dir": "D:\\Projects\\RotationStudio-V4/.cache/g1-10-plans-1793507260837",
+  "url": "http://127.0.0.1:5231/RotationStudio/"
+}
