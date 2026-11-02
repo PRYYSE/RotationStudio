@@ -98,3 +98,49 @@ test('edited coverage stays visible throughout an edited phase and expires at th
     assert.deepEqual(drawn.center, { x: point.x, z: point.z })
   }
 })
+
+test('first receive, set and our first defence areas never become later-occurrence assignments', () => {
+  const original = JSON.stringify(base)
+  for (const s of scenarios(base)) {
+    const times = stageTimes(s), id = s.firstContact.player
+    const zone = { role: 'receive', radiusX: 2.11, radiusZ: 1.22 }
+    const changes = { coverage: Object.fromEntries(['Receive', 'Set', 'Defend'].map(stage => [stage, { [id]: zone }])) }
+    for (const stage of ['Receive', 'Set', 'Defend']) {
+      assert.deepEqual(coverageZoneAt(changes, s, times[stage], id), zone)
+    }
+    for (const label of ['Next dig', 'Next set ready', ...(s.serve === 'us' ? ['Defend again'] : [])]) {
+      const phase = s.phases.find(p => p.label === label)
+      for (const t of [phase.time, phase.time + .05]) {
+        assert.equal(coverageZoneAt(changes, s, t, id), undefined,
+          `R${s.rotation}/${s.serve}/${s.tactics.firstTouch} ${label} must not inherit first-occurrence coverage`)
+        assert.ok(!coverageAreas(base.team, s, t, true, changes).find(a => a.player === id).assigned)
+      }
+    }
+  }
+  assert.equal(JSON.stringify(base), original)
+})
+
+test('their next dig uses a dig approximation rather than recycling the serve-receive plan', () => {
+  for (const s of scenarios(base).filter(s => s.serve === 'they')) {
+    const t = s.phases.find(p => p.label === 'Next dig').time
+    const areas = coverageAreas(base.team, s, t, true)
+    for (const authored of s.tactics.receiveZones) {
+      const area = areas.find(a => a.player === authored.player)
+      assert.ok(['Dig lane', 'Second contact', 'Block lane'].includes(area.responsibility),
+        `R${s.rotation} ${authored.player}: next dig incorrectly shows ${area.responsibility}`)
+      assert.ok(!area.assigned)
+    }
+  }
+})
+
+test('later defence coverage survives its defence sequence but expires before the next dig', () => {
+  for (const s of scenarios(base).filter(s => s.serve === 'us')) {
+    const id = s.firstContact.player, zone = { role: 'deep', radiusX: 1.1, radiusZ: 1.3 }
+    const changes = { laterDefend: { coverage: { [id]: zone } } }
+    assert.equal(coverageZoneAt(changes, s, stageTimes(s).Defend, id), undefined)
+    for (const label of ['Defend again', 'Their next attack']) {
+      assert.deepEqual(coverageZoneAt(changes, s, s.phases.find(p => p.label === label).time + .05, id), zone)
+    }
+    assert.equal(coverageZoneAt(changes, s, s.phases.find(p => p.label === 'Next dig').time, id), undefined)
+  }
+})

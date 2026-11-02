@@ -30,9 +30,13 @@ export function coverageZoneAt(changes: StrategyRotation | undefined, s: Scenari
   const assigned = !s.teachingOnly && !!s.tactics && changes?.eventOverrides
     ? sourceEvents(s).filter(e => e.phaseOrdinal === phaseOrdinal && e.time <= time + 1e-7
       && changes.eventOverrides?.[e.id]?.coverage?.[id]).at(-1) : undefined
-  return (assigned ? changes?.eventOverrides?.[assigned.id]?.coverage?.[id] : undefined)
-    ?? (stage === 'Defend' && later !== undefined && time >= later ? changes?.laterDefend?.coverage?.[id] : undefined)
-    ?? changes?.coverage?.[stage]?.[id]
+  if (assigned) return changes?.eventOverrides?.[assigned.id]?.coverage?.[id]
+  // Legacy stage edits describe the first occurrence. Later contacts and our
+  // second defence need their own assignment, even when the stage name repeats.
+  if (stage === 'Defend' && later !== undefined && time >= later) return changes?.laterDefend?.coverage?.[id]
+  if ((stage === 'Receive' && time >= s.secondContact.time)
+    || (stage === 'Set' && time >= stageTimes(s).Attack)) return undefined
+  return changes?.coverage?.[stage]?.[id]
 }
 export function assignedCoverage(player: string, p: Spot, zone: CoverageZone): CoverageArea {
   // Retain authored metre dimensions. Clamp the centre so the entire ellipse
@@ -50,7 +54,7 @@ export function coverageAreas(team: Team, s: Scenario, time: number, enabled: bo
     if (zone) return assignedCoverage(player.id, p, zone)
     const center = { x: p.x, z: p.z }
     const front = isFront(positionOf(team, s.rotation, player.id))
-    const authored = s.serve === 'they' && (stage === 'Start' || stage === 'Receive')
+    const authored = s.serve === 'they' && time < s.secondContact.time && (stage === 'Start' || stage === 'Receive')
       ? s.tactics?.receiveZones.find(z => z.player === player.id) : undefined
     if (authored) return { ...authored, center, responsibility: authored.label }
     const mobility = player.skills?.mobility ?? 3, receive = player.skills?.receive ?? 3
@@ -75,7 +79,7 @@ export function coverageAreas(team: Team, s: Scenario, time: number, enabled: bo
         radiusZ = .8 + breadth * (front ? .4 : .8)
         responsibility = front ? 'Short hit cover' : 'Deep hit cover'; duty = 'assist'
       }
-    } else if (s.serve === 'us' || !s.tactics?.receiveZones.length) {
+    } else if (stage === 'Receive' || s.serve === 'us' || !s.tactics?.receiveZones.length) {
       radiusX = .8 + breadth * .8; radiusZ = .9 + breadth * .8
       responsibility = p.role === 'set' ? 'Second contact' : 'Dig lane'; duty = 'assist'
     } else responsibility = 'Receive support'

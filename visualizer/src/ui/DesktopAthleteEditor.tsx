@@ -104,6 +104,7 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
         {action === 'block' && !isFront(positionOf(team, r.rotation, id)) && <p>Back-row athletes may defend near the net without blocking above it.</p>}
       </section>}
       {activeTool === 'coverage' && <section className="athlete-section"><h3>Coverage</h3><p>The space {player.name} is responsible for, separate from their action. Drag the two diamonds to resize.</p>
+        <p>{zone ? 'Coach-assigned area, not measured reach.' : `Approximate area · ${area?.responsibility ?? 'Support'}. Choose a purpose to assign this moment's coverage.`}</p>
         <label>Coverage purpose<select aria-label="Coverage purpose" value={zone?.role ?? ''} onChange={e => setZone({ role: e.target.value as CoverageZone['role'] })}>
           <option value="" disabled>Choose a purpose</option>{COVERAGE_ROLES.map(v => <option value={v} key={v}>{coverageNames[v]}</option>)}
         </select></label>

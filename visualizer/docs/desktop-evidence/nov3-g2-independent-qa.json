@@ -1,0 +1,23 @@
+{
+  "checks": [
+    "Initial first dig area has no local assignment",
+    "First dig area becomes assigned",
+    "Next dig does not inherit first dig area",
+    "Next dig approximation honestly indicates dig responsibility",
+    "Next dig can receive independent deep coverage",
+    "First dig retains its independent assignment",
+    "Later dig retains its independent assignment",
+    "First set coverage can be authored",
+    "Next set has no inherited first-set coverage",
+    "Short desktop no horizontal overflow",
+    "No browser/page JS errors: "
+  ],
+  "errors": [],
+  "snapshots": [
+    "our-first-dig",
+    "our-next-dig-no-bleed",
+    "next-set-no-bleed",
+    "short-desktop-next-set"
+  ],
+  "status": "PASS"
+}

@@ -88,7 +88,11 @@ test('sparse event coverage is occurrence-specific and exact case wins over shar
     assert.equal(coverageZoneAt(changes, v, 7.77, 'caleb'), undefined, 'event assignment does not leak into next event')
   }
   delete draft.overrides['1/us'].eventOverrides['p8:next-dig'].coverage
-  assert.equal(coverageZoneAt(resolveStrategyRotation(draft, s), s, 12.29, 'caleb').radiusX, 2, 'fallback Receive stage coverage')
+  assert.equal(coverageZoneAt(resolveStrategyRotation(draft, s), s, 12.29, 'caleb'), undefined,
+    'Removing next-dig coverage restores an approximation, not the first Receive assignment')
+  const exact = find(base, '1/us/right/harry')
+  assert.equal(coverageZoneAt(resolveStrategyRotation(draft, exact), exact, 12.29, 'caleb').radiusX, 1.5,
+    'Removing shared coverage preserves the independent exact-case assignment')
   assert.deepEqual(parseStrategy(exportStrategy(draft)), draft)
 })
 
