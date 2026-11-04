@@ -66,7 +66,13 @@ try{
       await page.getByRole("button",{name:"Set arcs",exact:true}).click();
       await page.locator("canvas").first().waitFor({timeout:15000});
       actions.push({step:"Switch to original Set arcs view",result:"PASS"});
-      await save("06-set-arcs");
+      await save("06-set-arcs-onboarding");
+      const tutorialSkip=page.getByRole("button",{name:"Skip",exact:true});
+      if(await tutorialSkip.count()===1 && await tutorialSkip.isVisible()){
+        await tutorialSkip.click();
+        actions.push({step:"Dismiss first-time original Set arcs tutorial via Skip",result:"PASS"});
+        await save("07-set-arcs-after-tutorial");
+      }
       await page.getByRole("button",{name:"Rotations",exact:true}).click();
       await page.getByRole("main",{name:"Rotation studio"}).waitFor();
       actions.push({step:"Return from Set arcs to RotationStudio",result:"PASS"});
