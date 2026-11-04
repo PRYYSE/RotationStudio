@@ -1,0 +1,65 @@
+name: RotationStudio Candidate Validation
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+    paths:
+      - 'visualizer/**'
+      - '.github/workflows/validate-rotation-studio.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rotation-candidate-validation
+  cancel-in-progress: false
+
+jobs:
+  test-build-browser:
+    name: Candidate unit, build, rendered browser evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out exact candidate
+        uses: actions/checkout@v4
+      - name: Node 22 with npm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: visualizer/package-lock.json
+      - name: Install app dependencies
+        working-directory: visualizer
+        run: npm ci
+      - name: Run existing substantive unit/rotation tests
+        working-directory: visualizer
+        run: npm test
+      - name: Build exact GitHub Pages base
+        working-directory: visualizer
+        run: npm run build -- --base=/RotationStudio/
+      - name: Install isolated open-source Playwright browser tooling
+        working-directory: visualizer
+        run: |
+          npm install --no-save --package-lock=false playwright@1.64.1
+          npx playwright install --with-deps chromium
+      - name: Capture real rendered user-journey evidence
+        working-directory: visualizer
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 --strictPort > review-preview.log 2>&1 &
+          for n in $(seq 1 35); do
+            if curl -fsS -o /dev/null http://127.0.0.1:4173/RotationStudio/; then break; fi
+            sleep 1
+          done
+          node scripts/capture-review-evidence.mjs
+      - name: Upload screenshots, trace and manifest for independent reviewer
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rotation-review-evidence
+          path: |
+            visualizer/review-evidence/
+            visualizer/review-preview.log
+          retention-days: 3
+          if-no-files-found: warn
