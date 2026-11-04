@@ -47,7 +47,7 @@ jobs:
       - name: Capture real rendered user-journey evidence
         working-directory: visualizer
         run: |
-          npm run preview -- --host 127.0.0.1 --port 4173 --strictPort > review-preview.log 2>&1 &
+          npm run preview -- --host 127.0.0.1 --port 4173 --strictPort --base=/RotationStudio/ > review-preview.log 2>&1 &
           for n in $(seq 1 35); do
             if curl -fsS -o /dev/null http://127.0.0.1:4173/RotationStudio/; then break; fi
             sleep 1
