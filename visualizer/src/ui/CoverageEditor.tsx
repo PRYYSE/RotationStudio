@@ -7,6 +7,7 @@ import { resolveStrategyRotation } from '../lib/strategyOverlay'
 import { coverageAreas, coverageZoneAt } from '../lib/coverage'
 import { isFront, positionOf } from '../lib/rotationModel'
 import { commitMetres } from '../lib/metreDraft'
+import { CoveragePolygonEditor } from './CoveragePolygonEditor'
 
 function CoverageMetres({ label, value, min, max, commit }: { label: string; value: number; min: number; max: number; commit: (n: number) => void }) {
   const [draft, setDraft] = useState<string | null>(null), [invalid, setInvalid] = useState(false)
@@ -32,7 +33,7 @@ export function CoverageEditor() {
   const player = team.players.find(p => p.id === id)
   const changes = studio.working ? resolveStrategyRotation(studio.working, scenario) : undefined
   const zone = coverageZoneAt(changes, scenario, s.time, id)
-  const approximate = coverageAreas(team, scenario, s.time, true).find(a => a.player === id)
+  const approximate = coverageAreas(team, scenario, s.time, true, changes).find(a => a.player === id)
   const own = studio.scope ? studio.working?.caseOverrides?.[studio.scope] : studio.working?.overrides[key]
   const ownZone = studio.event ? own?.eventOverrides?.[studio.event.id]?.coverage?.[id] : studio.laterDefend ? own?.laterDefend?.coverage?.[id] : own?.coverage?.[studio.stage]?.[id]
   const set = (patch: Partial<CoverageZone>) => studio.setCoverage(key, id, {
@@ -40,7 +41,7 @@ export function CoverageEditor() {
   })
   return <details className="coverage-editor">
     <summary>Coverage responsibility{player ? ` · ${player.name}` : ''}</summary>
-    <p>Coach-assigned area, not measured reach. Width/depth are full ellipse spans; offsets are relative to this athlete at this stage and case. At court edges the centre is clamped to keep the full ellipse on our 9×9 m floor.</p>
+    <p>Coach-assigned area, not measured reach. Start with an ellipse or convert it to a freely shaped zone with independent corners. Ellipse dimensions are relative to the athlete; polygon corners are fixed court coordinates at this moment.</p>
     <div className="rotation-row" role="group" aria-label="Coverage display">{(['all', 'selected', 'off'] as const).map(mode => <button key={mode}
       aria-pressed={(s.receiveAreas ? studio.coverageDisplay : 'off') === mode} onClick={() => {
         useRotations.setState({ receiveAreas: mode !== 'off' }); useStrategies.setState({ coverageDisplay: mode })
@@ -52,14 +53,19 @@ export function CoverageEditor() {
         <option value="" disabled>Choose responsibility to author</option>
         {COVERAGE_ROLES.map(role => <option key={role} value={role}>{role}</option>)}
       </select></label>
-      {zone && <div className="editor-grid" key={`${id}/${studio.scope}/${studio.stage}/${studio.event?.id}/${studio.laterDefend}`}>
+      {zone && !zone.vertices && <div className="editor-grid" key={`${id}/${studio.scope}/${studio.stage}/${studio.event?.id}/${studio.laterDefend}`}>
         <CoverageMetres label="Width" value={zone.radiusX * 2} min={.2} max={9} commit={n => set({ radiusX: n / 2 })} />
         <CoverageMetres label="Depth" value={zone.radiusZ * 2} min={.2} max={9} commit={n => set({ radiusZ: n / 2 })} />
         <CoverageMetres label="X offset" value={zone.offsetX ?? 0} min={-4.5} max={4.5} commit={n => set({ offsetX: n })} />
         <CoverageMetres label="Z offset" value={zone.offsetZ ?? 0} min={-4.5} max={4.5} commit={n => set({ offsetZ: n })} />
       </div>}
+      <CoveragePolygonEditor zone={zone} area={approximate} onCommit={next => {
+        studio.setCoverage(key, id, next)
+        useRotations.setState({ receiveAreas: true })
+        useStrategies.setState({ coverageDisplay: 'selected', coverageHidden: studio.coverageHidden.filter(p => p !== id) })
+      }} />
       {zone?.role === 'block' && !isFront(positionOf(team, s.rotation, id)) && <p role="alert" className="strategy-warning">REVIEW: {player.name} is back-row. A block responsibility needs coaching review; this does not change existing contact, ball or track roles.</p>}
-      <p>Choose a role to start from the displayed approximate dimensions. Then edit metres or drag the two diamond radius handles. One field edit or drag is one Undo.</p>
+      <p>Choose a role to assign responsibility. In ellipse mode, resize using width/depth or the two diamonds. In freeform mode, drag individual court corners or edit their coordinates. Every completed drag is one Undo.</p>
       <div className="rotation-row"><button disabled={!ownZone} onClick={() => studio.resetCoverage(key, id)}>Reset coverage</button>
         <button disabled={!studio.past.length || !!studio.gesture} onClick={studio.undo}>Undo coverage edit</button></div>
       <p>Reset removes this athlete's coverage in the current scope/occurrence and restores inherited or approximate coverage.</p>

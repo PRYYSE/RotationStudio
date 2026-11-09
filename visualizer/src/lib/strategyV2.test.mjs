@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { createHash } from 'node:crypto'
-import { applyStrategy, createStrategy, laterDefendTime, parseStrategy, exportStrategy, strategyLink, readStrategyLink, stageTimes } from './strategyDraft.ts'
+import { applyStrategy, createStrategy, MAX_STRATEGY_BYTES, laterDefendTime, parseStrategy, exportStrategy, strategyLink, readStrategyLink, stageTimes } from './strategyDraft.ts'
 import { sampleTrack } from './rotationModel.ts'
 import { resolveStrategyRotation } from './strategyOverlay.ts'
 
@@ -110,9 +110,14 @@ test('notes aggregate and UTF-8 strategy budgets reject pathological input and n
   assert.throws(() => parseStrategy(JSON.stringify(draft)), /20,000/)
   const large = v2()
   large.caseOverrides = Object.fromEntries(all(base).map(s => [`${s.rotation}/${s.serve}/${s.tactics.opponentAttack}/${s.tactics.firstTouch}`, { routes: Object.fromEntries(['Start','Receive','Set','Attack','Defend'].map(stage => [stage, Object.fromEntries(base.team.players.map(p => [p.id, Array(8).fill({ x: 1.123456789, z: 5.123456789 })]))])) }]))
-  assert.throws(() => exportStrategy(large), /100 KB/)
+  const compact = JSON.stringify(large), pretty = JSON.stringify(large, null, 2) + '\n'
+  assert.ok(Buffer.byteLength(compact) > 100_000)
+  if (Buffer.byteLength(compact) <= MAX_STRATEGY_BYTES) assert.deepEqual(parseStrategy(compact).caseOverrides, large.caseOverrides)
+  else assert.throws(() => parseStrategy(compact), /1 MB/)
+  if (Buffer.byteLength(pretty) <= MAX_STRATEGY_BYTES) assert.doesNotThrow(() => exportStrategy(large))
+  else assert.throws(() => exportStrategy(large), /1 MB/)
   const raw = JSON.stringify(v2())
-  assert.throws(() => parseStrategy(raw + ' '.repeat(100_000 - raw.length - 1) + '🏐'), /100 KB/, 'UTF-8 bytes, not JS length')
+  assert.throws(() => parseStrategy(raw + ' '.repeat(MAX_STRATEGY_BYTES - raw.length - 2) + '🏐'), /1 MB/, 'UTF-8 bytes, not JS length')
   const hostile = v2(); hostile.overrides = Object.create({ '3/us': {} })
   assert.throws(() => applyStrategy(base, hostile), /overrides/)
 })

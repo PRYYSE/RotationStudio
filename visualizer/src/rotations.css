@@ -398,3 +398,21 @@
   .court-first .rotation-footer button { min-height: 28px; font-size: 10px; padding: 2px 8px; }
   .court-first .rotation-cue { text-align: left; margin-bottom: 2px; padding-right: 140px; }
 }
+
+
+/* Independent court-metre coverage vertices; ellipse controls remain a fallback. */
+.coverage-polygon-editor { margin-block: 10px; }
+.coverage-polygon-editor .rotation-row { gap: 8px; }
+.coverage-polygon-editor .rotation-row span { font-size: 11px; color: #bad0e2; }
+.coverage-corner-details > summary { cursor: pointer; min-height: 44px; padding: 11px 0; color: #d7e5f1; }
+.coverage-corner-list { display: grid; gap: 6px; }
+.coverage-corner-row { display: grid; grid-template-columns: minmax(48px, 1fr) minmax(0, 1fr) minmax(0, 1fr) auto; align-items: end; gap: 7px; padding: 8px 0; border-bottom: 1px solid #394a60; }
+.coverage-corner-row > span { font-size: 12px; color: #c7d7e6; align-self: center; }
+.coverage-corner-row label { display: flex; flex-direction: column; min-width: 0; gap: 3px; font-size: 11px; color: #c7d7e6; }
+.coverage-corner-row input { width: 100%; min-width: 0; min-height: 44px; padding: 7px; border: 1px solid #526985; border-radius: 7px; color: #f0f6ff; background: #101c2e; font-variant-numeric: tabular-nums; }
+.coverage-corner-row button, .court-first .desktop-athlete-editor .coverage-corner-row button { min-height: 44px; padding: 6px 9px; }
+@media (max-width: 640px) {
+  .coverage-corner-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .coverage-corner-row > span { grid-column: 1; grid-row: 1; }
+  .coverage-corner-row > button { grid-column: 2; grid-row: 1; justify-self: end; }
+}

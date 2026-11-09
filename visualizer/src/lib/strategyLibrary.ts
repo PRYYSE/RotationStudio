@@ -6,7 +6,7 @@ export const STRATEGY_STORAGE_KEY = 'rotation-studio-strategies-v2'
 export type StrategyStorage = Pick<globalThis.Storage, 'getItem' | 'setItem'>
 
 function readLibrary(raw: string, version: 1 | 2) {
-  if (raw.length > 5_100_000 || new TextEncoder().encode(raw).length > 5_100_000) throw new Error('Library too large')
+  if (raw.length > 20_100_000 || new TextEncoder().encode(raw).length > 20_100_000) throw new Error('Library too large')
   const data = JSON.parse(raw)
   if (!data || typeof data !== 'object' || Array.isArray(data) || Object.keys(data).some(k => !['schemaVersion', 'library', 'activeId'].includes(k)) ||
     data.schemaVersion !== version || !Array.isArray(data.library) || data.library.length > 50 || (data.activeId !== null && typeof data.activeId !== 'string')) throw new Error('Invalid library')
