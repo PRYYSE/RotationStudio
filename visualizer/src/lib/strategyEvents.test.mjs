@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { applyStrategy, createStrategy, exportStrategy, parseStrategy, scenarioCaseKey, stageTimes } from './strategyDraft.ts'
+import { applyStrategy, createStrategy, MAX_STRATEGY_BYTES, exportStrategy, parseStrategy, scenarioCaseKey, stageTimes } from './strategyDraft.ts'
 import * as events from './strategyEvents.ts'
 import { resolveStrategyRotation } from './strategyOverlay.ts'
 import { coverageAreas, coverageZoneAt } from './coverage.ts'
@@ -173,8 +173,12 @@ test('both event layers accept richer drafts, bounded keys, canonical source ref
         coverage: Object.fromEntries(Object.keys(s.tracks).map(id => [id, { ...zone, offsetX: 1.23456789 }]))
       }])) }
     }
-    assert.ok(Buffer.byteLength(JSON.stringify(draft)) > 100000)
-    assert.doesNotThrow(() => exportStrategy(draft)); assert.doesNotThrow(() => parseStrategy(JSON.stringify(draft)))
+    const compact = JSON.stringify(draft), pretty = JSON.stringify(draft, null, 2) + '\n'
+    assert.ok(Buffer.byteLength(compact) > 100_000)
+    if (Buffer.byteLength(compact) <= MAX_STRATEGY_BYTES) assert.doesNotThrow(() => parseStrategy(compact))
+    else assert.throws(() => parseStrategy(compact), /1 MB/)
+    if (Buffer.byteLength(pretty) <= MAX_STRATEGY_BYTES) assert.doesNotThrow(() => exportStrategy(draft))
+    else assert.throws(() => exportStrategy(draft), /1 MB/)
     const small = createStrategy(), value = { eventOverrides: { 'p8:next-dig': { coverage: { caleb: { ...zone, offsetZ: NaN } } } } }
     if (exact) small.caseOverrides = { '1/us/left/normal': value }; else small.overrides['1/us'] = value
     assert.throws(() => applyStrategy(base, small))
