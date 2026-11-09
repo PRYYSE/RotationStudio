@@ -174,7 +174,7 @@ test('both event layers enforce UTF-8 cap, bounded keys, canonical source refere
       }])) }
     }
     assert.ok(Buffer.byteLength(JSON.stringify(draft)) > 100000)
-    assert.throws(() => exportStrategy(draft), /100 KB/); assert.throws(() => parseStrategy(JSON.stringify(draft)), /100 KB/)
+    assert.throws(() => exportStrategy(draft), /1 MB/); assert.throws(() => parseStrategy(JSON.stringify(draft)), /1 MB/)
     const small = createStrategy(), value = { eventOverrides: { 'p8:next-dig': { coverage: { caleb: { ...zone, offsetZ: NaN } } } } }
     if (exact) small.caseOverrides = { '1/us/left/normal': value }; else small.overrides['1/us'] = value
     assert.throws(() => applyStrategy(base, small))
