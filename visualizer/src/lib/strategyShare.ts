@@ -29,7 +29,7 @@ function selectionCase(value: unknown) {
   return `${value.rotation}/${value.serve}/${value.attackSide}/${value.firstTouch}`
 }
 function bounded(json: string) {
-  if (json.length > MAX_STRATEGY_BYTES || new TextEncoder().encode(json).length > MAX_STRATEGY_BYTES) throw new Error('Import/export file must be at most 100 KB. Export a smaller strategy if needed.')
+  if (json.length > MAX_STRATEGY_BYTES || new TextEncoder().encode(json).length > MAX_STRATEGY_BYTES) throw new Error('Import/export file must be at most 1 MB. Export a smaller strategy if needed.')
 }
 // Packet annotations are untrusted JSON evidence, never code, HTML, settings or
 // instructions to the app. Only the separately validated draft is imported.
