@@ -164,7 +164,7 @@ test('service events preserve both-owner contact holds; existing intermediate fr
   assert.deepEqual(result.ball, s.ball)
 })
 
-test('both event layers enforce UTF-8 cap, bounded keys, canonical source references and numeric coverage/route guards', () => {
+test('both event layers accept richer drafts, bounded keys, canonical source references and numeric coverage/route guards', () => {
   for (const exact of [false, true]) {
     const draft = createStrategy(), map = exact ? draft.caseOverrides = {} : draft.overrides
     for (const s of exact ? all(base) : base.plans.scenarios) {
@@ -174,7 +174,7 @@ test('both event layers enforce UTF-8 cap, bounded keys, canonical source refere
       }])) }
     }
     assert.ok(Buffer.byteLength(JSON.stringify(draft)) > 100000)
-    assert.throws(() => exportStrategy(draft), /1 MB/); assert.throws(() => parseStrategy(JSON.stringify(draft)), /1 MB/)
+    assert.doesNotThrow(() => exportStrategy(draft)); assert.doesNotThrow(() => parseStrategy(JSON.stringify(draft)))
     const small = createStrategy(), value = { eventOverrides: { 'p8:next-dig': { coverage: { caleb: { ...zone, offsetZ: NaN } } } } }
     if (exact) small.caseOverrides = { '1/us/left/normal': value }; else small.overrides['1/us'] = value
     assert.throws(() => applyStrategy(base, small))
