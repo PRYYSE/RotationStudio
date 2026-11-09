@@ -35,5 +35,5 @@ test('a complete six-rotation coverage library may exceed the old 100 KB ceiling
   assert.ok(Buffer.byteLength(saved) > 100_000, 'regression fixture must exceed old limit')
   assert.ok(Buffer.byteLength(saved) < MAX_STRATEGY_BYTES)
   const restored = parseStrategy(saved)
-  assert.deepEqual(restored.overrides, draft.overrides)
+  assert.equal(JSON.stringify(restored.overrides), JSON.stringify(draft.overrides))
 })
