@@ -9,6 +9,7 @@ import { sourceEvents } from '../lib/strategyEvents'
 import { ACTION_LABELS, actionWarning, movementReview, routeBends } from '../lib/athletePlan'
 import { coverageAreas, coverageZoneAt } from '../lib/coverage'
 import type { ReviewProjection } from '../lib/reviewTypes'
+import { CoveragePolygonEditor } from './CoveragePolygonEditor'
 
 const coverageNames: Record<CoverageZone['role'], string> = {
   receive: 'Receive / dig', tip: 'Short ball / tips', block: 'Block lane', deep: 'Deep court',
@@ -103,18 +104,19 @@ export function DesktopAthleteEditor({ review }: { review: ReviewProjection | nu
         {warnings.map(w => <p className="strategy-warning" role="alert" key={w}>{w}</p>)}
         {action === 'block' && !isFront(positionOf(team, r.rotation, id)) && <p>Back-row athletes may defend near the net without blocking above it.</p>}
       </section>}
-      {activeTool === 'coverage' && <section className="athlete-section"><h3>Coverage</h3><p>The space {player.name} is responsible for, separate from their action. Drag the two diamonds to resize.</p>
+      {activeTool === 'coverage' && <section className="athlete-section"><h3>Coverage</h3><p>The space {player.name} is responsible for, separate from their action. Resize an ellipse or drag individual corners of a freeform zone.</p>
         <p>{zone ? 'Coach-assigned area, not measured reach.' : `Approximate area · ${area?.responsibility ?? 'Support'}. Choose a purpose to assign this moment's coverage.`}</p>
         <label>Coverage purpose<select aria-label="Coverage purpose" value={zone?.role ?? ''} onChange={e => setZone({ role: e.target.value as CoverageZone['role'] })}>
           <option value="" disabled>Choose a purpose</option>{COVERAGE_ROLES.map(v => <option value={v} key={v}>{coverageNames[v]}</option>)}
         </select></label>
-        {zone && <details><summary>Advanced · precise area</summary><div className="editor-grid">
+        {zone && !zone.vertices && <details><summary>Advanced · precise ellipse</summary><div className="editor-grid">
           {(['radiusX', 'radiusZ', 'offsetX', 'offsetZ'] as const).map(field => <label key={field}>{field === 'radiusX' ? 'Width' : field === 'radiusZ' ? 'Depth' : field === 'offsetX' ? 'Side offset' : 'Depth offset'} (m)
             <input key={`${id}/${field}/${zone[field]}`} type="number" step="0.1" min={field.startsWith('radius') ? .2 : -4.5} max={field.startsWith('radius') ? 9 : 4.5} defaultValue={field.startsWith('radius') ? (zone[field] ?? 0) * 2 : zone[field] ?? 0} onBlur={e => {
               const n = Number(e.target.value), radius = field.startsWith('radius')
               if (e.target.value !== '' && Number.isFinite(n) && n >= (radius ? .2 : -4.5) && n <= (radius ? 9 : 4.5)) setZone({ [field]: radius ? n / 2 : n })
             }} /></label>)}
         </div></details>}
+        <CoveragePolygonEditor zone={zone} area={area} onCommit={setZone} />
         {zone && <button disabled={!ownZone} onClick={() => studio.resetCoverage(key, id)}>Reset coverage</button>}
       </section>}
     </fieldset>
