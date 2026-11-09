@@ -6,6 +6,7 @@ import { sourceEvents } from './strategyEvents.ts'
 
 export type CoverageArea = {
   player: string; center: Spot; radiusX: number; radiusZ: number
+  polygon?: Spot[]
   duty: 'primary' | 'assist' | 'compact'; responsibility: string
   assigned?: boolean
 }
@@ -39,6 +40,13 @@ export function coverageZoneAt(changes: StrategyRotation | undefined, s: Scenari
   return changes?.coverage?.[stage]?.[id]
 }
 export function assignedCoverage(player: string, p: Spot, zone: CoverageZone): CoverageArea {
+  if (zone.vertices) {
+    const xs = zone.vertices.map(v => v.x), zs = zone.vertices.map(v => v.z)
+    return { player, assigned: true, duty: 'primary', responsibility: zone.role,
+      polygon: zone.vertices.map(v => ({ x: v.x, z: v.z })),
+      center: { x: (Math.min(...xs) + Math.max(...xs)) / 2, z: (Math.min(...zs) + Math.max(...zs)) / 2 },
+      radiusX: (Math.max(...xs) - Math.min(...xs)) / 2, radiusZ: (Math.max(...zs) - Math.min(...zs)) / 2 }
+  }
   // Retain authored metre dimensions. Clamp the centre so the entire ellipse
   // fits our 9×9 floor, including an athlete serving beyond the endline.
   return { player, radiusX: zone.radiusX, radiusZ: zone.radiusZ, assigned: true, duty: 'primary', responsibility: zone.role,
