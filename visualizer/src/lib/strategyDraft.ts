@@ -1,9 +1,10 @@
 import type { Bundle, FirstTouch, OpponentAttack, Scenario, ServeOwner, Spot } from './rotationTypes.ts'
 import { applyStrategyOverlay } from './strategyOverlay.ts'
 import { isSourceEventId } from './strategyEvents.ts'
+import { coveragePolygonError } from './coveragePolygon.ts'
 
 export const BASE_REVISION = '8c0fb5d'
-export const MAX_STRATEGY_BYTES = 100_000
+export const MAX_STRATEGY_BYTES = 1_000_000
 export const PLAYER_IDS = ['harry', 'caleb', 'trent', 'logan', 'georgia', 'jaz'] as const
 export type PlayerId = typeof PLAYER_IDS[number]
 export const STAGES = ['Start', 'Receive', 'Set', 'Attack', 'Defend'] as const
@@ -13,6 +14,8 @@ export type CaseKey = `${RotationKey}/${OpponentAttack}/${FirstTouch}`
 export const COVERAGE_ROLES = ['receive', 'tip', 'block', 'deep', 'attack-cover', 'setter-support', 'custom'] as const
 export type CoverageZone = {
   role: typeof COVERAGE_ROLES[number]; radiusX: number; radiusZ: number; offsetX?: number; offsetZ?: number
+  /** Exact court-metre polygon; legacy ellipse fields remain for lossless backward compatibility. */
+  vertices?: Spot[]
 }
 export type LaterDefend = {
   anchors?: Partial<Record<PlayerId, Spot>>
@@ -102,12 +105,16 @@ function checkPlayers(players: unknown, field: string) {
     else if (field === 'anchors') checkSpot(point)
     else if (field === 'coverage') {
       if (!record(point)) throw new Error('Expected a coverage zone.')
-      allowed(point, ['role', 'radiusX', 'radiusZ', 'offsetX', 'offsetZ'])
+      allowed(point, ['role', 'radiusX', 'radiusZ', 'offsetX', 'offsetZ', 'vertices'])
       if (!COVERAGE_ROLES.includes(point.role as CoverageZone['role'])) throw new Error('Unknown coverage responsibility.')
       for (const axis of ['radiusX', 'radiusZ', 'offsetX', 'offsetZ']) {
         const radius = axis.startsWith('radius'), value = point[axis]
         if (!radius && value === undefined) continue
         if (typeof value !== 'number' || !Number.isFinite(value) || value < (radius ? .1 : -4.5) || value > 4.5) throw new Error('Coverage radii must be 0.1–4.5 m; offsets −4.5–4.5 m, all finite.')
+      }
+      if (point.vertices !== undefined) {
+        const issue = coveragePolygonError(point.vertices)
+        if (issue) throw new Error(issue)
       }
     }
     else {
@@ -188,10 +195,10 @@ export function validateStrategy(v: unknown): asserts v is StrategyDraft {
   checkRotations(v.overrides, v.schemaVersion, false, v.coachingVersion === 1)
   if (v.schemaVersion === 2 && v.caseOverrides !== undefined) checkRotations(v.caseOverrides, 2, true, v.coachingVersion === 1)
   if (v.schemaVersion === 2 && v.notes !== undefined) checkNotes(v.notes)
-  if (new TextEncoder().encode(JSON.stringify(v)).length > MAX_STRATEGY_BYTES) throw new Error('Strategy file must be at most 100 KB.')
+  if (new TextEncoder().encode(JSON.stringify(v)).length > MAX_STRATEGY_BYTES) throw new Error('Strategy file must be at most 1 MB.')
 }
 export function parseStrategy(json: string): StrategyDraftV2 {
-  if (json.length > MAX_STRATEGY_BYTES || new TextEncoder().encode(json).length > MAX_STRATEGY_BYTES) throw new Error('Strategy file must be at most 100 KB.')
+  if (json.length > MAX_STRATEGY_BYTES || new TextEncoder().encode(json).length > MAX_STRATEGY_BYTES) throw new Error('Strategy file must be at most 1 MB.')
   const value: unknown = JSON.parse(json)
   validateStrategy(value)
   return { ...value, schemaVersion: 2 }
@@ -199,7 +206,7 @@ export function parseStrategy(json: string): StrategyDraftV2 {
 export function exportStrategy(draft: StrategyDraft): string {
   validateStrategy(draft)
   const json = JSON.stringify(draft, null, 2) + '\n'
-  if (new TextEncoder().encode(json).length > MAX_STRATEGY_BYTES) throw new Error('Strategy exceeds 100 KB. Split it into smaller strategies.')
+  if (new TextEncoder().encode(json).length > MAX_STRATEGY_BYTES) throw new Error('Strategy exceeds 1 MB. Split it into smaller strategies.')
   return json
 }
 export function strategyLink(base: string, draft: StrategyDraft, maxLength = 8000): string | null {
