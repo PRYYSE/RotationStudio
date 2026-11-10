@@ -1,5 +1,12 @@
 # AGENTS.md
 
+## 10 November 2026 — CURRENT RotationStudio mobile/Court Mode reset
+
+The owner's first permanent mobile Court Mode implementation (commit `d19099ce`) failed real visual/product acceptance. It was archived at `archive/failed-court-mode-2026-11-10` and cleanly reverted on main at `8e974798` to preserve the last correct desktop Studio, polygon coverage editor, source tactics and Set arcs. **Do not reuse or extend the failed Court Mode UI.** The older responsive phone Full Studio layout is also explicitly REJECTED as a mobile/tablet UI reference; it remains intertwined with shared `visualizer/src/ui/Rotations.tsx` and `visualizer/src/rotations.css` for now, so it must be extracted/retired during the next clean-slate mobile implementation without deleting common model/data/playback/modern desktop animation code. Do not assert the legacy mobile source is already physically deleted. Never wipe localStorage or user strategies.
+
+**Authoritative next-chat note:** [Volleyball clean-slate reset](https://github.com/PRYYSE/Volleyball/blob/main/docs/work-handoffs/COURT_MODE_FAILED_BUILD_RESET_2026-11-10.md). Previous `ROTATIONSTUDIO_PRACTICE_VIEW_WORK_*.md` prompts are **RETIRED**. New mobile/tablet coaching workspace must be separately conceived with native-app-grade touch-first composition and complete strategy selection, sharing the **newer desktop rendering/pose/animation and domain/strategy engine**, not the historical responsive mobile UX. Preserve full desktop Studio. Do not author or approve the team's 12 separate tactical slices in this UI task. Practical visual product quality matters as much as a working build; use a focused real viewport review rather than extended UAT.
+
+
 Conventions for any agent (Claude Code, Cursor, Codex, Aider, autonomous
 or interactive) working inside this repository. Harness-agnostic.
 
