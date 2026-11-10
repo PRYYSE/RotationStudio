@@ -45,6 +45,23 @@ export function StrategyLibrary({ compact = false, onEdit }: { compact?: boolean
     if (working && !s.saved) { setPendingSelect(id); return }
     select(id)
   }
+  const openPublishedTeam = async () => {
+    if (working && !s.saved) { setMessage('Save or export your current changes first. Nothing has been replaced.'); return }
+    try {
+      const response = await fetch(new URL(import.meta.env.BASE_URL + 'strategies/pryyse-team-tactics-2026-v1.json', window.location.origin), { cache: 'no-cache' })
+      if (!response.ok) throw new Error('Published team strategy unavailable (' + response.status + ').')
+      const json = await response.text()
+      if (json.length > MAX_STRATEGY_BYTES) throw new Error('Published team strategy is too large.')
+      s.previewImport(json, published ?? undefined)
+      const loaded = useStrategies.getState()
+      if (loaded.error || loaded.working?.id !== 'pryyse-team-tactics-2026-v1') throw new Error(loaded.error || 'Could not load PRYYSE team strategy.')
+      loaded.save()
+      const savedCopy = useStrategies.getState()
+      if (!savedCopy.saved || savedCopy.preview) throw new Error(savedCopy.error || 'Could not save a local editable copy.')
+      r.choose(3, 'they')
+      setMessage('R1 + R3 saved as a separate editable local copy. R3 · They serve is selected. Choose Edit on court to adjust it. Export your JSON when finished so it can be incorporated into the published strategy.')
+    } catch (error) { setMessage(error instanceof Error ? error.message : 'Unable to load the team strategy.') }
+  }
   const beginName = () => { setName(working?.name ?? ''); setAuthor(working?.author ?? ''); setNaming(true) }
   const referenceAction = <button disabled={!activeScenario(r)} onClick={() => {
     try {
@@ -57,6 +74,7 @@ export function StrategyLibrary({ compact = false, onEdit }: { compact?: boolean
   }}>Team reference</button>
   const createActions = <>
     <div className={desktop ? 'rotation-row plan-create-actions' : 'rotation-row'}>
+      <button onClick={() => { void openPublishedTeam() }}>Open PRYYSE R1 + R3 to edit</button>
       <button onClick={() => { if (working && !s.saved) { setMessage('Save or export the current unsaved strategy before starting another.'); return } s.newStrategy(false, published ?? undefined) }}>New from baseline</button>
       <button onClick={() => { if (working && !s.saved) { setMessage('Save or export the current unsaved strategy before making a copy.'); return } s.newStrategy(true, published ?? undefined) }}>New from current</button>
     </div>
