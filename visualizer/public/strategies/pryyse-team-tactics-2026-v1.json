@@ -2304,9 +2304,6 @@
               "z": 6.9
             }
           },
-          "actions": {
-            "harry": "recover"
-          },
           "coverage": {
             "trent": {
               "role": "receive",
@@ -2892,9 +2889,6 @@
               "x": -2.95,
               "z": 6.9
             }
-          },
-          "actions": {
-            "harry": "recover"
           },
           "coverage": {
             "trent": {
@@ -3484,9 +3478,6 @@
               "z": 6.9
             }
           },
-          "actions": {
-            "harry": "recover"
-          },
           "coverage": {
             "trent": {
               "role": "receive",
@@ -4072,9 +4063,6 @@
               "x": -2.95,
               "z": 6.9
             }
-          },
-          "actions": {
-            "harry": "recover"
           },
           "coverage": {
             "trent": {
