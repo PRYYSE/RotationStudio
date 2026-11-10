@@ -171,7 +171,9 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
     const changes = resolveStrategyRotation(draft, s)
     if (!Object.keys(changes).length) continue
     const tag = scenarioCaseKey(s) ?? `${s.rotation}/${s.serve}`
-    for (const [event, patch] of Object.entries(changes.eventOverrides ?? {})) for (const [player, action] of Object.entries(patch.actions ?? {})) {
+    // Contact-owner changes are checked against the completed tactical scenario,
+    // rather than against the original V3 demonstration's now-superseded actors.
+    if (!changes.contacts) for (const [event, patch] of Object.entries(changes.eventOverrides ?? {})) for (const [player, action] of Object.entries(patch.actions ?? {})) {
       warnings.push(...actionWarning(s, bundle.team, event, player, action ?? undefined).map(w => `${tag}: ${player}: ${w}`))
     }
     for (const [stage, players] of [...Object.entries(changes.coverage ?? {}), ['Later Defend', changes.laterDefend?.coverage] as const,
@@ -182,11 +184,20 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
     }
     // Coverage is display-only. Do not run geometric/contact reconstruction for
     // a zone-only strategy: even source frame serialization must stay identical.
-    if (!changes.anchors && !changes.routes && changes.setterTarget === undefined && changes.readyOptions === undefined
+    if (!changes.contacts && !changes.anchors && !changes.routes && changes.setterTarget === undefined && changes.readyOptions === undefined
       && !Object.keys(changes.laterDefend?.anchors ?? {}).length && !Object.keys(changes.laterDefend?.routes ?? {}).length
       && !Object.values(changes.eventOverrides ?? {}).some(p => Object.keys(p.anchors ?? {}).length || Object.keys(p.routes ?? {}).length)) continue
     const source = structuredClone(s)
     const times = stageTimes(s)
+    const contacts = changes.contacts
+    const oldSecond = source.secondContact.player
+    const oldNextSetter = source.tactics?.nextSetter
+    const laterPass = source.ball.find(b => b.kind === 'pass' && b.start > source.secondContact.time)
+    if (contacts?.secondSetter === s.firstContact.player) throw new Error(`${tag}: one athlete cannot make the first and second regular contacts.`)
+    if (contacts && (contacts.nextReceiver || contacts.nextSetter) && !laterPass) throw new Error(`${tag}: a later dig and set must exist before assigning their owners.`)
+    if (contacts?.secondSetter) s.secondContact.player = contacts.secondSetter
+    if (s.tactics && contacts?.nextSetter) s.tactics.nextSetter = contacts.nextSetter
+    if (s.tactics && contacts?.fallbackSetter) s.tactics.fallbackSetter = contacts.fallbackSetter
     // Record endpoint owners from immutable authored geometry BEFORE edits.
     const owners = s.ball.map(b => (['from', 'to'] as const).map(side => {
       const time = side === 'from' ? b.start : b.end
@@ -205,18 +216,51 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
     const eventGeometry = Object.values(changes.eventOverrides ?? {}).some(p => Object.keys(p.anchors ?? {}).length || Object.keys(p.routes ?? {}).length)
     if (eventGeometry) applyEventOverrides(source, s, changes, warnings)
     const sourceOwners = eventGeometry ? sourceEndpointOwners(source) : owners
+    const oldReceiver = laterPass ? sourceOwners[source.ball.indexOf(laterPass)]?.[0] : undefined
+    // A named contact changes the real track pose and ball endpoint, not merely
+    // the decorative coaching action. Preserve every other source actor.
+    if (contacts?.secondSetter && contacts.secondSetter !== oldSecond) {
+      const previous = frameAt(s.tracks[oldSecond], s.secondContact.time)
+      if (previous.role === 'set') previous.role = 'help'
+      frameAt(s.tracks[contacts.secondSetter], s.secondContact.time).role = 'set'
+      s.setterTarget = xy(sampleTrack(s.tracks[contacts.secondSetter], s.secondContact.time))
+    }
+    if (laterPass && contacts?.nextReceiver && oldReceiver !== contacts.nextReceiver) {
+      if (oldReceiver) {
+        const previous = frameAt(s.tracks[oldReceiver], laterPass.start)
+        if (previous.role === 'pass') previous.role = 'defend'
+      }
+      frameAt(s.tracks[contacts.nextReceiver], laterPass.start).role = 'pass'
+    }
+    if (laterPass && contacts?.nextSetter && oldNextSetter !== contacts.nextSetter) {
+      if (oldNextSetter) {
+        const previous = frameAt(s.tracks[oldNextSetter], laterPass.end)
+        if (previous.role === 'set') previous.role = 'recover'
+      }
+      frameAt(s.tracks[contacts.nextSetter], laterPass.end).role = 'set'
+    }
+    const endpointOwner = (b: Scenario['ball'][number], i: number, side: 'from' | 'to', j: number) => {
+      if (contacts?.secondSetter && (side === 'from' ? b.start : b.end) === s.secondContact.time) return contacts.secondSetter
+      if (laterPass && contacts?.nextReceiver && (side === 'from' ? b.start : b.end) === laterPass.start &&
+        ((b.kind === 'pass' && side === 'from') || (b.kind === 'attack' && side === 'to'))) return contacts.nextReceiver
+      if (laterPass && contacts?.nextSetter && b === s.ball[source.ball.indexOf(laterPass)] && side === 'to') return contacts.nextSetter
+      return sourceOwners[i][j]
+    }
     s.ball.forEach((b, i) => (['from', 'to'] as const).forEach((side, j) => {
-      const id = sourceOwners[i][j]
+      const id = endpointOwner(b, i, side, j)
       if (id) Object.assign(b[side], xy(sampleTrack(s.tracks[id], side === 'from' ? b.start : b.end)))
     }))
     // V3 supports holds between flights; endpoint links stay exact even then.
     for (let i = 1; i < s.ball.length; i++) s.ball[i].from = { ...s.ball[i - 1].to }
     if (eventGeometry) s.ball.forEach((b, i) => (['from', 'to'] as const).forEach((side, j) => {
-      const id = sourceOwners[i][j], time = side === 'from' ? b.start : b.end
+      const id = endpointOwner(b, i, side, j), time = side === 'from' ? b.start : b.end
       if (!id) return
       const p = sampleTrack(s.tracks[id], time)
       if (Math.hypot(p.x - b[side].x, p.z - b[side].z) > 1e-6) warnings.push(`${tag}: source contact ${id} at ${time.toFixed(2)} s cannot be re-linked safely; timing and touch ownership remain read-only. Reset or review the event placement.`)
     }))
+    if (contacts) for (const [event, patch] of Object.entries(changes.eventOverrides ?? {})) for (const [player, action] of Object.entries(patch.actions ?? {})) {
+      warnings.push(...actionWarning(s, bundle.team, event, player, action ?? undefined).map(w => `${tag}: ${player}: ${w}`))
+    }
   }
   warnings.push(...validateBundle(bundle))
   return { bundle, warnings: [...new Set(warnings)] }
