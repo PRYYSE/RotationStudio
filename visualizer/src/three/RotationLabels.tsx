@@ -27,7 +27,7 @@ export function RotationLabels({ host }: { host: RefObject<HTMLDivElement | null
     last.current = clock.elapsedTime
     const s = useRotations.getState(), bundle = activeBundle(s), scenario = activeScenario(s)
     if (!bundle || !scenario) return
-    const working = useStrategies.getState().working
+    const working = s.reviewBundle ? null : useStrategies.getState().working
     const root = s.published?.plans.scenarios.find(v => v.rotation === s.rotation && v.serve === s.serve)
     const source = root && selectScenario(root, s.opponentAttack, s.firstTouch)
     if (desktop && source?.tactics && !s.example && working && (cache.current?.source !== source || cache.current?.working !== working)) {

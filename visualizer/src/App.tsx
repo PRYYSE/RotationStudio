@@ -1,3 +1,4 @@
+import { useCourt } from './state/courtStore'
 import { useState } from 'react'
 import { TopBar, type StudioMode } from './ui/TopBar'
 import { Rotations } from './ui/Rotations'
@@ -35,12 +36,13 @@ function SetArcs() {
 }
 
 export function App() {
+  const workspace=useCourt(s=>s.workspace)
   const [mode, setMode] = useState<StudioMode>(() => {
     const p = new URLSearchParams(window.location.search)
     return p.get('mode') === 'sets' || p.has('s') ? 'sets' : 'rotations'
   })
   return <div className="studio-app">
-    {mode === 'rotations' ? <Rotations /> : <SetArcs />}
-    <TopBar mode={mode} onModeChange={setMode} />
+    {mode === 'rotations' ? <Rotations onSets={()=>setMode('sets')} /> : <SetArcs />}
+    {(mode==='sets'||workspace==='studio') && <TopBar mode={mode} onModeChange={setMode} />}
   </div>
 }

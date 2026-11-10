@@ -1,3 +1,4 @@
+import { useCourt } from '../state/courtStore'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useFrame, type ThreeEvent } from '@react-three/fiber'
 import * as THREE from 'three'
@@ -18,7 +19,7 @@ export function RotationPlayer({ player, scenario, team, reducedMotion = false }
   const published = useRotations(s => s.published), working = useStrategies(s => s.working)
   const actions = useMemo(() => {
     const root = published?.plans.scenarios.find(s => s.rotation === scenario.rotation && s.serve === scenario.serve)
-    if (!root || !working || scenario.teachingOnly) return []
+    if (!root || !working || scenario.teachingOnly || useRotations.getState().reviewBundle) return []
     const source = selectScenario(root, scenario.tactics!.opponentAttack, scenario.tactics!.firstTouch)
     const changes = resolveStrategyRotation(working, source)
     return sourceEvents(source).map(e => ({ time: e.time, action: changes.eventOverrides?.[e.id]?.actions?.[player.id as PlayerId] }))
@@ -52,6 +53,8 @@ export function RotationPlayer({ player, scenario, team, reducedMotion = false }
   const down = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation()
     const s = useRotations.getState()
+    dragStart.current = { x: e.clientX, y: e.clientY }
+    if (useCourt.getState().workspace === 'court') return
     useRotations.setState({ selected: player.id })
     if (!s.editor || s.playing) return
     if (s.view !== 'top') return
@@ -78,6 +81,7 @@ export function RotationPlayer({ player, scenario, team, reducedMotion = false }
     }
   }
   const up = (e: ThreeEvent<PointerEvent>) => {
+    if (useCourt.getState().workspace === 'court' && e.type !== 'pointercancel' && Math.hypot(e.clientX-dragStart.current.x,e.clientY-dragStart.current.y)<6) useRotations.setState({selected:player.id})
     if (!dragging.current) return
     dragging.current = false
     const coached = useRotations.getState().strategyMode

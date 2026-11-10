@@ -7,7 +7,7 @@ import { useDesktopWorkbench } from '../ui/useDesktopWorkbench'
 export function RotationGuides() {
   const desktop = useDesktopWorkbench()
   const s = useRotations(), scenario = activeScenario(s)
-  const root = s.published?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
+  const root = (s.reviewBundle ?? s.published)?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
   if (!scenario || !root) return null
   const source = selectScenario(root, s.opponentAttack, s.firstTouch)
   const ghost = s.selected === 'target' ? source.setterTarget : source.tracks[s.selected] && sampleTrack(source.tracks[s.selected], s.time)

@@ -17,7 +17,7 @@ type State = {
   strategyMode: boolean; strategyEdit: ((spot: Spot) => void) | null
   example: FirstBallExample | null; exampleResult: ReceiveExampleResult | null; exampleScenario: Scenario | null; exampleNotice: string
   chooseExample: (example: FirstBallExample | null) => void; setEditor: (enabled: boolean) => void
-  published: Bundle | null; draft: Bundle | null; error: string; loading: boolean
+  publishedOnly: boolean; repeatRange: [number,number] | null; reviewScope: {rotation:number;serves:string[]} | null; reviewBundle: Bundle | null; published: Bundle | null; draft: Bundle | null; error: string; loading: boolean
   rotation: number; serve: ServeOwner; time: number; playing: boolean; rate: number
   transitionTarget: number | null; reducedMotion: boolean
   ballFlight: boolean; setterTargetVisible: boolean; legalHints: boolean; v3Ghost: boolean
@@ -30,8 +30,9 @@ type State = {
   seek: (time: number) => void; toggle: () => void; tick: (dt: number) => void
   edit: (spot: Spot) => void; importDraft: (bundle: Bundle) => void; resetDraft: () => void
 }
-export const activeBundle = (s: State) => s.draft ?? s.published
+export const activeBundle = (s: State) => s.reviewBundle ?? (s.publishedOnly ? s.published : s.draft ?? s.published)
 export const authoredScenario = (s: State) => {
+  if (s.reviewScope && (s.rotation !== s.reviewScope.rotation || !s.reviewScope.serves.includes(s.serve))) return undefined
   const base = activeBundle(s)?.plans.scenarios.find((p) => p.rotation === s.rotation && p.serve === s.serve)
   return base && selectScenario(base, s.opponentAttack, s.firstTouch)
 }
@@ -96,7 +97,7 @@ export const useRotations = create<State>((set, get) => ({
   },
   strategyMode: false, strategyEdit: null,
   example: null, exampleResult: null, exampleScenario: null, exampleNotice: '',
-  published: null, draft: null, error: '', loading: true,
+  publishedOnly: false, repeatRange: null, reviewScope: null, reviewBundle: null, published: null, draft: null, error: '', loading: true,
   ...link, playing: false, transitionTarget: null, reducedMotion: false, rate: 1, view: 'orbit', labels: true, trails: false, receiveAreas: true,
   ballFlight: false, setterTargetVisible: true, legalHints: false, v3Ghost: false,
   editor: false, selected: 'harry', editTime: 0,
@@ -115,6 +116,7 @@ export const useRotations = create<State>((set, get) => ({
     set({ ...patch, playing: false, transitionTarget: null, time: scenario?.firstContact.time ?? 0 })
   },
   setEditor: (editor) => {
+    if (editor && get().reviewBundle) return
     get().stopShuffle()
     const s = get(), hadExample = !!s.example
     const time = Math.min(s.time, authoredScenario(s)?.duration ?? 0)
@@ -123,6 +125,8 @@ export const useRotations = create<State>((set, get) => ({
       exampleNotice: editor && hadExample ? 'First-ball example cleared. Coach draft edits and exports use authored plans only.' : '' })
   },
   choose: (rotation, serve) => {
+    const scope=get().reviewScope
+    if (scope && (rotation!==scope.rotation || !scope.serves.includes(serve))) return
     get().stopShuffle()
     set({ shuffleHistory: [], shuffleCursor: -1, shuffleNotice: '' })
     const s = { ...get(), rotation, serve }, patch = examplePatch(s, s.example)
@@ -174,9 +178,10 @@ export const useRotations = create<State>((set, get) => ({
     set({ time, editTime: time, playing: false, transitionTarget: null, shuffleRunning: false })
   },
   toggle: () => { const s = get(); if (s.editor || s.exampleResult?.ok === false) return; const duration = activeScenario(s)?.duration ?? 0
-    set({ playing: !s.playing, shuffleRunning: s.shuffleEnabled && !s.playing, transitionTarget: null, time: s.time >= duration ? 0 : s.time }) },
+    set({ playing: !s.playing, shuffleRunning: s.shuffleEnabled && !s.playing, transitionTarget: null, time: s.repeatRange ? s.time >= s.repeatRange[1] || s.time < s.repeatRange[0] ? s.repeatRange[0] : s.time : s.time >= duration ? 0 : s.time }) },
   tick: (dt) => { const s = get(); if (!s.playing || s.exampleResult?.ok === false) return
-    const scenario = activeScenario(s), target = s.transitionTarget ?? scenario?.duration ?? 0
+    const scenario = activeScenario(s), target = s.transitionTarget ?? s.repeatRange?.[1] ?? scenario?.duration ?? 0
+    if (s.repeatRange && s.transitionTarget === null && s.time === target) { set({time:s.repeatRange[0]}); return }
     // Render the final authored frame before advancing on the following frame.
     // This is driven only by explicit playback, never a timer/background poll.
     if (s.shuffleRunning && s.shuffleEnabled && !s.editor && s.transitionTarget === null && s.time === target) {
@@ -192,14 +197,14 @@ export const useRotations = create<State>((set, get) => ({
       if (boundary !== undefined) time = direction > 0 ? Math.min(time, boundary) : Math.max(time, boundary)
     }
     time = direction > 0 ? Math.min(target, time) : Math.max(target, time)
-    const playing = time !== target || s.shuffleRunning
+    const playing = time !== target || s.shuffleRunning || !!s.repeatRange
     set({ time, playing, ...(!playing ? { transitionTarget: null, editTime: time } : {}) })
   },
   edit: (spot) => {
     const s = get(), current = activeBundle(s)
     if (s.playing) get().pause()
     if (s.editor && s.strategyMode) { s.strategyEdit?.(spot); return }
-    if (!s.editor || s.example || !current || !Number.isFinite(spot.x) || !Number.isFinite(spot.z)) return
+    if (s.reviewBundle || !s.editor || s.example || !current || !Number.isFinite(spot.x) || !Number.isFinite(spot.z)) return
     const draft = structuredClone(current)
     const scenario = activeScenario({ ...s, draft })!
     // Local changes cannot inherit a published approval; demo edits remain demos.

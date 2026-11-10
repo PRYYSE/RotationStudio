@@ -1,0 +1,122 @@
+/* Dedicated coaching workspace: independent from Full Studio layout. */
+.workspace-switch { display:flex; align-items:center; gap:2px; pointer-events:auto; border:1px solid #3a505b; border-radius:8px; padding:2px; background:#162630; }
+.workspace-switch button { min-height:40px; padding:5px 10px; color:#b4c6cf; border-radius:5px; white-space:nowrap; font-size:12px; }
+.workspace-switch button[aria-pressed=true] { background:#365259; color:#effffb; }
+.court-workspace { --court-line:#344955; --court-muted:#a8bbc6; height:100dvh; width:100%; display:grid; grid-template-rows:auto auto minmax(0,1fr) auto auto auto auto; background:#101b23; color:#edf5f7; overflow:hidden; isolation:isolate; padding:max(0px,env(safe-area-inset-top)) max(0px,env(safe-area-inset-right)) max(0px,env(safe-area-inset-bottom)) max(0px,env(safe-area-inset-left)); position:relative; font-size:13px; }
+.court-workspace button,.court-review-state button { min-height:44px; padding:7px 12px; border-radius:7px; white-space:nowrap; font-size:13px; }
+.court-workspace button:hover,.court-review-state button:hover { background:#2c444d; }
+.court-workspace button[aria-pressed=true] { background:#30534f; color:#bbfff0; }
+.court-workspace button:disabled { opacity:.4; cursor:default; }
+.court-workspace :focus-visible,.workspace-switch :focus-visible { outline:2px solid #73ded0; outline-offset:-2px; }
+.court-workspace select,.court-workspace input:not([type=checkbox]),.court-workspace textarea { background:#1b303b; color:#edf5f7; border:1px solid #3d5360; border-radius:6px; min-height:44px; padding:5px 8px; max-width:100%; font-size:13px; }
+.court-workspace option { background:#1b303b; }
+.court-header { display:flex; align-items:center; justify-content:space-between; padding:5px 12px; border-bottom:1px solid var(--court-line); gap:8px; }
+.court-identity { display:flex; flex-direction:column; line-height:1.3; }
+.court-identity strong { font-size:17px; letter-spacing:-.03em; }
+.court-identity small { color:var(--court-muted); font-size:10px; }
+.court-selection { display:flex; align-items:center; padding:3px 8px; gap:3px; background:#14252e; }
+.court-selection select { border:0; background:transparent; font-weight:600; }
+.court-selection select:first-child { width:64px; }
+.court-selection .court-fullscreen { margin-left:auto; }
+.court-stage { position:relative; min-height:0; min-width:0; overflow:hidden; touch-action:none; }
+.court-stage canvas { touch-action:none; user-select:none; }
+.court-stage .court-labels { position:absolute; inset:0; pointer-events:none; }
+.court-stage .athlete-label { font-size:12px; background:#14232eea; border-radius:4px; }
+.court-moment { position:absolute; top:10px; left:12px; display:flex; flex-direction:column; pointer-events:none; text-shadow:0 1px 3px #000; }
+.court-moment strong { font-size:15px; }
+.court-moment span { color:#bcd0d9; }
+.court-camera { display:flex; align-items:center; padding:0 8px; gap:2px; background:#14252e; overflow-x:auto; scrollbar-width:none; }
+.court-camera button { font-size:12px; padding-inline:11px; }
+.court-reset { margin-left:auto; }
+.court-actions { display:flex; justify-content:center; gap:3px; padding:2px 6px; border-top:1px solid var(--court-line); }
+.court-actions button { flex:1; max-width:160px; }
+.court-actions button:first-child { color:#a7f5e7; }
+.court-guidance { display:flex; justify-content:space-between; gap:8px; font-size:10px; color:var(--court-muted); padding:2px 12px 5px; white-space:nowrap; overflow:hidden; }
+.court-dock { background:#182b35; border-top:1px solid var(--court-line); min-width:0; padding:0 8px 4px; }
+.court-event-strip { display:flex; gap:3px; overflow-x:auto; scrollbar-width:thin; scrollbar-color:#52656b transparent; }
+.court-event-strip button { display:flex; align-items:center; gap:6px; font-size:12px; }
+.court-event-strip small { font-size:9px; color:#b4c9cf; }
+.court-transport { display:flex; align-items:center; gap:2px; min-width:0; }
+.court-transport button { padding:6px 9px; min-width:38px; }
+.court-transport .court-play { min-width:60px; background:#73ded0; color:#112e30; font-weight:700; }
+.court-transport input[type=range] { min-width:30px; flex:1; accent-color:#73ded0; border:0; padding:0; background:transparent; }
+.court-transport output { font-size:11px; font-variant-numeric:tabular-nums; min-width:43px; text-align:center; }
+.court-transport select { width:58px; border:0; padding:2px; font-size:11px; }
+.court-transport .court-loop { width:100px; }
+.court-sheet { position:absolute; z-index:15; bottom:112px; left:8px; right:8px; max-height:min(60%,520px); overflow:auto; overscroll-behavior:contain; border:1px solid #4a626d; border-radius:12px; padding:12px 16px 16px; background:#192e38; box-shadow:0 5px 25px #0008; }
+.court-sheet-heading { display:flex; justify-content:space-between; align-items:center; position:sticky; top:-12px; background:#192e38; z-index:1; }
+.court-sheet h2 { font-size:17px; font-weight:600; }
+.court-sheet p { color:#c2d1d8; line-height:1.55; margin:10px 0; }
+.court-sheet a { display:block; padding:12px 0; color:#91eee0; text-decoration:underline; }
+.court-row { display:flex; flex-wrap:wrap; align-items:center; gap:4px; }
+.court-story { display:grid; grid-template-columns:44px 1fr; gap:12px 8px; margin:18px 0; line-height:1.5; }
+.court-story dt { font-weight:700; color:#8ce7d8; }
+.court-story dd { margin:0; }
+.court-layer { display:flex; gap:12px; align-items:center; min-height:48px; }
+.court-workspace input[type=checkbox] { accent-color:#73ded0; height:20px; width:20px; }
+.court-note-row { border-top:1px solid #39515d; display:flex; flex-wrap:wrap; align-items:center; gap:3px; padding:6px 0; }
+.court-note-row > button:first-child { flex:1; white-space:normal; text-align:left; min-width:150px; }
+.court-note-row small { display:block; color:#acbdc7; }
+.court-note-edit { width:100%; }
+.court-note-edit textarea { width:100%; min-height:72px; }
+.court-note-edit label { display:flex; align-items:center; gap:8px; padding:8px 0; }
+.court-drawing { position:absolute; bottom:112px; left:8px; right:8px; background:#19343e; padding:8px; z-index:14; border:1px solid #62817c; border-radius:9px; }
+.court-drawing .court-row { flex-wrap:nowrap; overflow-x:auto; }
+.court-drawing input { flex:1; min-width:160px; }
+.court-drawing small { display:block; font-size:10px; padding-top:4px; color:#b9d7d3; }
+.court-note-pin { display:block; max-width:220px; width:max-content; white-space:pre-wrap; background:#503922ec; border:1px solid #ffac72; color:#fff2da; border-radius:5px; padding:5px 9px; font-size:13px; }
+.court-marks-indicator { position:absolute; right:10px; top:10px; pointer-events:none; color:#ffc990; font-size:10px; }
+.court-save-error { position:absolute; z-index:30; top:55px; left:8px; right:8px; padding:8px; background:#703b28; color:#fff; }
+.court-workspace.is-immersive { position:fixed; inset:0; z-index:100; grid-template-rows:minmax(0,1fr) auto; }
+.court-focus-tools { position:absolute; top:max(5px,env(safe-area-inset-top)); right:max(8px,env(safe-area-inset-right)); display:flex; gap:3px; background:#14252edd; border-radius:7px; }
+.court-workspace.is-immersive .court-speed,.court-workspace.is-immersive .court-loop { display:none; }
+.court-workspace.is-immersive .court-event-strip button { min-height:36px; }
+.court-review-state { display:flex; align-items:center; justify-content:center; flex-direction:column; gap:15px; padding:80px 20px 20px; height:100%; text-align:center; background:#101b23; }
+.court-review-state h1 { font-size:24px; }
+@media (min-width:900px) and (min-height:600px) {
+  .court-workspace { grid-template-rows:58px 52px minmax(0,1fr) 48px 48px 22px 110px; }
+  .court-header,.court-selection { padding-inline:24px; }
+  .court-camera,.court-actions,.court-dock { padding-inline:24px; }
+  .court-dock { display:flex; flex-direction:column; justify-content:center; }
+  .court-transport { gap:8px; }
+  .court-transport input[type=range] { margin-inline:10px; }
+  .court-sheet { left:auto; right:24px; width:390px; bottom:130px; max-height:65%; }
+  .court-drawing { left:24px; right:auto; width:min(720px,90%); bottom:130px; }
+  .court-workspace.is-immersive { grid-template-rows:minmax(0,1fr) 90px; }
+}
+@media (max-width:600px) {
+  .studio-header:has(.workspace-switch) { display:grid; grid-template-columns:1fr auto; }
+  .studio-header:has(.workspace-switch) .studio-brand { display:none; }
+  .studio-header .workspace-switch button { padding:4px 8px; font-size:11px; }
+  .court-transport .court-loop { width:69px; }
+  .court-event-strip small { display:none; }
+  .court-transport .court-speed { width:42px; }
+  .court-transport output { display:none; }
+  .court-header { padding-inline:8px; }
+  .court-identity strong { font-size:15px; }
+  .court-guidance span:nth-child(2) { display:none; }
+  .court-drawing { bottom:104px; }
+}
+@media (max-height:500px) and (min-width:600px) {
+  .court-workspace { grid-template-columns:minmax(0,1fr) 76px; grid-template-rows:48px minmax(0,1fr) 84px; }
+  .court-header { grid-area:1/1/2/3; border:0; padding-right:8px; }
+  .court-identity { display:none; }
+  .court-header .workspace-switch { margin-left:auto; }
+  .court-selection { position:absolute; z-index:2; top:0; left:5px; height:48px; padding:0; }
+  .court-selection .court-fullscreen { margin:0; }
+  .court-stage { grid-area:2/1/3/2; }
+  .court-camera { grid-area:2/2/3/3; flex-direction:column; padding:0; overflow:auto; gap:0; }
+  .court-camera button { min-height:35px; width:100%; padding:3px; font-size:11px; }
+  .court-reset { margin:0; }
+  .court-actions { position:absolute; left:8px; bottom:87px; z-index:3; border:0; background:#14252ee6; border-radius:8px; padding:0; }
+  .court-actions button { min-height:36px; padding:4px 10px; font-size:11px; }
+  .court-guidance { display:none; }
+  .court-dock { grid-area:3/1/4/3; }
+  .court-event-strip button { min-height:36px; }
+  .court-sheet { bottom:88px; max-height:calc(100% - 145px); left:auto; width:min(440px,80%); }
+  .court-drawing { bottom:88px; left:8px; right:85px; }
+  .court-drawing button,.court-drawing select,.court-drawing input { min-height:36px; }
+  .court-workspace.is-immersive { display:grid; grid-template-columns:1fr; grid-template-rows:minmax(0,1fr) 84px; }
+  .court-workspace.is-immersive .court-stage { grid-area:1/1/2/2; }
+  .court-workspace.is-immersive .court-dock { grid-area:2/1/3/2; }
+}

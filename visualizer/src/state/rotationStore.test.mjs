@@ -306,3 +306,20 @@ test('samples cannot bypass structural validation of an invalid local draft', ()
   assert.equal(get().exampleScenario, null)
   assert.equal(activeScenario(get()).teachingOnly, undefined)
 })
+test('Court repeat uses the source clock and manual scrubbing stays paused', () => {
+  const get=useRotations.getState
+  useRotations.setState({repeatRange:[2,4],time:2,playing:true})
+  get().tick(20);assert.equal(get().time,4);assert.equal(get().playing,true)
+  get().tick(.1);assert.equal(get().time,2)
+  get().seek(8);get().tick(1);assert.equal(get().time,8);assert.equal(get().playing,false)
+  get().toggle();assert.equal(get().time,2)
+  useRotations.setState({repeatRange:null,playing:false})
+})
+test('review scope blocks unrelated cases and all tactical coordinate edits', () => {
+  const get=useRotations.getState,base=get().published
+  useRotations.setState({reviewBundle:base,reviewScope:{rotation:1,serves:['they']},editor:true})
+  get().choose(2,'they');assert.equal(get().rotation,1)
+  get().choose(1,'us');assert.equal(get().serve,'they')
+  get().edit({x:1,z:2});assert.equal(get().draft,null);assert.deepEqual(get().published,base)
+  useRotations.setState({reviewBundle:null,reviewScope:null,editor:false})
+})

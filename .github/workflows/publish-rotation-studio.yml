@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Check out the fork
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Configure Node.js
         uses: actions/setup-node@v4
         with:
@@ -34,6 +36,11 @@ jobs:
       - name: Validate rotation plans and playback logic
         working-directory: visualizer
         run: npm test
+      - name: Validate immutable review publications
+        working-directory: visualizer
+        env:
+          REVIEW_BASE_REF: ${{ github.event.before }}
+        run: node --experimental-strip-types scripts/check-reviews.mjs
       - name: Build for GitHub Pages
         working-directory: visualizer
         run: npm run build -- --base=/RotationStudio/
