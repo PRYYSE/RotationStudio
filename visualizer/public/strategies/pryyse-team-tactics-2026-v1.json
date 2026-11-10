@@ -2,7 +2,7 @@
   "kind": "rotation-studio-strategy",
   "schemaVersion": 2,
   "id": "pryyse-team-tactics-2026-v1",
-  "name": "PRYYSE Team · R1 + R3 refined (FOR REVIEW)",
+  "name": "PRYYSE Team · R1 + R3 corrected roles (FOR REVIEW)",
   "author": "PRYYSE · coached proposal",
   "baseRevision": "8c0fb5d",
   "overrides": {},
@@ -6598,7 +6598,7 @@
     "3/they/left/normal": {
       "contacts": {
         "secondSetter": "harry",
-        "nextReceiver": "caleb",
+        "nextReceiver": "georgia",
         "nextSetter": "harry",
         "fallbackSetter": "georgia"
       },
@@ -6646,6 +6646,7 @@
             "georgia": true,
             "jaz": true
           },
+          "routes": {},
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -6723,6 +6724,7 @@
             "georgia": true,
             "jaz": true
           },
+          "routes": {},
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -6759,29 +6761,29 @@
         },
         "p2:first-pass": {
           "anchors": {
-            "harry": {
-              "x": -1.94,
-              "z": 2.27
-            },
             "caleb": {
               "x": -2.45,
               "z": 4.18
             },
             "trent": {
-              "x": 2.13,
-              "z": 2.47
+              "x": 0.4,
+              "z": 2.3
             },
-            "logan": {
-              "x": 2.84,
-              "z": 6.32
+            "jaz": {
+              "x": 2.62,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -1.12,
+              "z": 3.05
             },
             "georgia": {
               "x": -0.4,
               "z": 6.55
             },
-            "jaz": {
-              "x": 0.81,
-              "z": 3.79
+            "logan": {
+              "x": 2.9,
+              "z": 6.55
             }
           },
           "actions": {
@@ -6844,29 +6846,29 @@
         },
         "p3:second-contact": {
           "anchors": {
-            "harry": {
-              "x": -0.65,
-              "z": 0.83
-            },
             "caleb": {
               "x": -3.9,
               "z": 3.03
             },
             "trent": {
-              "x": 0.72,
-              "z": 1.89
-            },
-            "logan": {
-              "x": 2.52,
-              "z": 5.14
-            },
-            "georgia": {
-              "x": -1.23,
-              "z": 4.89
+              "x": 0.1,
+              "z": 1.55
             },
             "jaz": {
-              "x": 2.68,
-              "z": 2.37
+              "x": 3.05,
+              "z": 2.22
+            },
+            "harry": {
+              "x": -0.7,
+              "z": 1.18
+            },
+            "georgia": {
+              "x": -1.25,
+              "z": 4.85
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 5.8
             }
           },
           "actions": {
@@ -6875,7 +6877,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -6896,29 +6898,29 @@
         },
         "p4:our-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.27,
-              "z": 2.21
-            },
             "caleb": {
               "x": -3.07,
               "z": 1.07
             },
             "trent": {
-              "x": 1.07,
-              "z": 0.95
-            },
-            "logan": {
-              "x": 3.1,
-              "z": 6.7
-            },
-            "georgia": {
-              "x": -1.36,
-              "z": 5.21
+              "x": 0.1,
+              "z": 1.02
             },
             "jaz": {
-              "x": 3.25,
-              "z": 1.25
+              "x": 3.2,
+              "z": 1.82
+            },
+            "harry": {
+              "x": -0.85,
+              "z": 2.05
+            },
+            "georgia": {
+              "x": -1.3,
+              "z": 5.15
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 6.0
             }
           },
           "actions": {
@@ -6948,37 +6950,37 @@
         },
         "p5:defend-now": {
           "anchors": {
-            "harry": {
-              "x": -0.56,
-              "z": 2.93
-            },
             "caleb": {
-              "x": -2.81,
-              "z": 1.59
+              "x": -3.05,
+              "z": 1.12
             },
             "trent": {
-              "x": -0.11,
-              "z": 1.18
-            },
-            "logan": {
-              "x": 1.68,
-              "z": 5.36
-            },
-            "georgia": {
-              "x": -1.56,
-              "z": 5.74
+              "x": 0.05,
+              "z": 1.85
             },
             "jaz": {
-              "x": 2.89,
-              "z": 2.97
+              "x": 3.1,
+              "z": 2.45
+            },
+            "harry": {
+              "x": -1.45,
+              "z": 2.6
+            },
+            "georgia": {
+              "x": -1.35,
+              "z": 5.7
+            },
+            "logan": {
+              "x": 2.65,
+              "z": 6.25
             }
           },
           "actions": {
             "harry": "cover",
             "caleb": "recover",
             "trent": "recover",
-            "logan": "recover",
-            "georgia": "cover",
+            "logan": "cover",
+            "georgia": "recover",
             "jaz": "cover"
           },
           "preservePath": {
@@ -7000,35 +7002,35 @@
         },
         "p5:defend-now:t730": {
           "anchors": {
-            "harry": {
-              "x": -0.39,
-              "z": 2.77
-            },
             "caleb": {
-              "x": -3.1,
-              "z": 3.55
+              "x": -3.05,
+              "z": 0.8
             },
             "trent": {
-              "x": -1.1,
-              "z": 0.85
-            },
-            "logan": {
-              "x": 1.52,
-              "z": 6.45
-            },
-            "georgia": {
-              "x": -1.12,
-              "z": 6.1
+              "x": -0.15,
+              "z": 2.75
             },
             "jaz": {
-              "x": 2.73,
-              "z": 3.58
+              "x": 3.0,
+              "z": 3.05
+            },
+            "harry": {
+              "x": -1.9,
+              "z": 3.05
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.5
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "recover",
-            "trent": "ready",
+            "caleb": "ready",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -7052,35 +7054,35 @@
         },
         "p6:their-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.78,
-              "z": 2.48
-            },
             "caleb": {
               "x": -3.05,
-              "z": 5.12
+              "z": 0.62
             },
             "trent": {
-              "x": -1.55,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.65
+              "x": -0.12,
+              "z": 3.3
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.7
+              "x": 3.02,
+              "z": 3.3
+            },
+            "harry": {
+              "x": -2.1,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": -1.38,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.67
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "block",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -7102,78 +7104,70 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.15
-            },
             "caleb": {
-              "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
-            },
-            "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
             },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p7:defence-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.8,
-              "z": 2.55
-            },
             "caleb": {
-              "x": -3,
-              "z": 5.3
+              "x": -3.05,
+              "z": 0.62
             },
             "trent": {
-              "x": -1.56,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.65
+              "x": -0.12,
+              "z": 3.3
             },
             "jaz": {
-              "x": 2.73,
-              "z": 3.66
+              "x": 3.02,
+              "z": 3.3
+            },
+            "harry": {
+              "x": -2.1,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": -1.38,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.67
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "block",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -7195,80 +7189,72 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.15
-            },
             "caleb": {
-              "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
-            },
-            "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
             },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p8:next-dig": {
           "anchors": {
-            "harry": {
-              "x": -0.71,
-              "z": 1.32
-            },
             "caleb": {
-              "x": -2.8,
-              "z": 5.08
+              "x": -3.05,
+              "z": 1.25
             },
             "trent": {
-              "x": 0.65,
-              "z": 1.72
-            },
-            "logan": {
-              "x": 2.8,
-              "z": 6.3
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.55
+              "x": -0.1,
+              "z": 2.8
             },
             "jaz": {
-              "x": 3.13,
-              "z": 2.9
+              "x": 3.0,
+              "z": 2.75
+            },
+            "harry": {
+              "x": -1.45,
+              "z": 2.65
+            },
+            "georgia": {
+              "x": -1.08,
+              "z": 6.9
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.6
             }
           },
           "actions": {
             "harry": "ready",
-            "caleb": "receive",
+            "caleb": "recover",
             "trent": "recover",
             "logan": "cover",
-            "georgia": "cover",
+            "georgia": "receive",
             "jaz": "cover"
           },
           "preservePath": {
@@ -7290,38 +7276,38 @@
         },
         "p9:next-set-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -3.2,
+              "z": 2.15
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 5.5
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
             "harry": "set",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
-            "georgia": "cover",
-            "jaz": "cover"
+            "georgia": "recover",
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -7342,38 +7328,38 @@
         },
         "p9:next-set-ready:t1182": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -3.2,
+              "z": 2.15
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 5.5
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
             "harry": "set",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
-            "georgia": "cover",
-            "jaz": "cover"
+            "georgia": "recover",
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -7394,38 +7380,38 @@
         },
         "p9:next-set-ready:t1220": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -3.2,
+              "z": 2.15
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 5.5
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
             "harry": "set",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
-            "georgia": "cover",
-            "jaz": "cover"
+            "georgia": "recover",
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -7449,7 +7435,7 @@
     "3/they/left/harry": {
       "contacts": {
         "secondSetter": "georgia",
-        "nextReceiver": "caleb",
+        "nextReceiver": "georgia",
         "nextSetter": "harry",
         "fallbackSetter": "georgia"
       },
@@ -7497,6 +7483,7 @@
             "georgia": true,
             "jaz": true
           },
+          "routes": {},
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -7574,6 +7561,7 @@
             "georgia": true,
             "jaz": true
           },
+          "routes": {},
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -7610,29 +7598,29 @@
         },
         "p2:first-pass": {
           "anchors": {
-            "harry": {
-              "x": -1.75,
-              "z": 2.75
-            },
             "caleb": {
               "x": -2.55,
-              "z": 4.18
+              "z": 4.2
             },
             "trent": {
-              "x": 2.13,
-              "z": 2.47
-            },
-            "logan": {
-              "x": 2.84,
-              "z": 6.32
-            },
-            "georgia": {
-              "x": -0.15,
-              "z": 3.72
+              "x": 0.4,
+              "z": 2.3
             },
             "jaz": {
-              "x": 0.81,
-              "z": 3.79
+              "x": 2.62,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -1.7,
+              "z": 3.25
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 4.15
+            },
+            "logan": {
+              "x": 2.9,
+              "z": 6.55
             }
           },
           "actions": {
@@ -7695,29 +7683,29 @@
         },
         "p3:second-contact": {
           "anchors": {
-            "harry": {
-              "x": -1.35,
-              "z": 3.15
-            },
             "caleb": {
               "x": -3.9,
               "z": 3.03
             },
             "trent": {
-              "x": 0.72,
-              "z": 1.89
-            },
-            "logan": {
-              "x": 2.52,
-              "z": 5.14
-            },
-            "georgia": {
-              "x": -0.65,
-              "z": 0.83
+              "x": 0.1,
+              "z": 1.55
             },
             "jaz": {
-              "x": 2.68,
-              "z": 2.37
+              "x": 3.05,
+              "z": 2.22
+            },
+            "harry": {
+              "x": -1.9,
+              "z": 3.1
+            },
+            "georgia": {
+              "x": -0.7,
+              "z": 1.18
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 5.8
             }
           },
           "actions": {
@@ -7726,7 +7714,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "set",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -7747,29 +7735,29 @@
         },
         "p4:our-attack": {
           "anchors": {
-            "harry": {
-              "x": -1.15,
-              "z": 3.2
-            },
             "caleb": {
               "x": -3.07,
               "z": 1.07
             },
             "trent": {
-              "x": 1.07,
-              "z": 0.95
-            },
-            "logan": {
-              "x": 3.1,
-              "z": 6.7
-            },
-            "georgia": {
-              "x": -0.45,
-              "z": 1.92
+              "x": 0.1,
+              "z": 1.02
             },
             "jaz": {
-              "x": 3.25,
-              "z": 1.25
+              "x": 3.2,
+              "z": 1.82
+            },
+            "harry": {
+              "x": -1.95,
+              "z": 3.03
+            },
+            "georgia": {
+              "x": -0.85,
+              "z": 2.45
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 6.0
             }
           },
           "actions": {
@@ -7799,36 +7787,36 @@
         },
         "p5:defend-now": {
           "anchors": {
-            "harry": {
-              "x": -1.1,
-              "z": 3.13
-            },
             "caleb": {
-              "x": -2.81,
-              "z": 1.59
+              "x": -3.05,
+              "z": 1.12
             },
             "trent": {
-              "x": -0.11,
-              "z": 1.18
-            },
-            "logan": {
-              "x": 1.68,
-              "z": 5.36
-            },
-            "georgia": {
-              "x": -0.65,
-              "z": 2.83
+              "x": 0.05,
+              "z": 1.85
             },
             "jaz": {
-              "x": 2.89,
-              "z": 2.97
+              "x": 3.1,
+              "z": 2.45
+            },
+            "harry": {
+              "x": -1.95,
+              "z": 3.1
+            },
+            "georgia": {
+              "x": -1.0,
+              "z": 3.35
+            },
+            "logan": {
+              "x": 2.65,
+              "z": 6.25
             }
           },
           "actions": {
             "harry": "cover",
             "caleb": "recover",
             "trent": "recover",
-            "logan": "recover",
+            "logan": "cover",
             "georgia": "recover",
             "jaz": "cover"
           },
@@ -7851,35 +7839,35 @@
         },
         "p5:defend-now:t730": {
           "anchors": {
-            "harry": {
-              "x": -0.8,
-              "z": 2.75
-            },
             "caleb": {
-              "x": -3.1,
-              "z": 3.55
+              "x": -3.05,
+              "z": 0.8
             },
             "trent": {
-              "x": -1.1,
-              "z": 0.85
-            },
-            "logan": {
-              "x": 1.52,
-              "z": 6.45
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 4.35
+              "x": -0.15,
+              "z": 2.75
             },
             "jaz": {
-              "x": 2.73,
-              "z": 3.58
+              "x": 3.0,
+              "z": 3.05
+            },
+            "harry": {
+              "x": -2.0,
+              "z": 3.15
+            },
+            "georgia": {
+              "x": -1.25,
+              "z": 4.25
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.5
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "recover",
-            "trent": "ready",
+            "caleb": "ready",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -7903,35 +7891,35 @@
         },
         "p6:their-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.85,
-              "z": 2.6
-            },
             "caleb": {
               "x": -3.05,
-              "z": 5.12
+              "z": 0.62
             },
             "trent": {
-              "x": -1.55,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 5.45
+              "x": -0.12,
+              "z": 3.3
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.7
+              "x": 3.02,
+              "z": 3.3
+            },
+            "harry": {
+              "x": -2.1,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": -1.3,
+              "z": 5.35
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.67
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "block",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -7953,78 +7941,70 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.15
-            },
             "caleb": {
-              "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
-            },
-            "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
             },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p7:defence-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.8,
-              "z": 2.55
-            },
             "caleb": {
-              "x": -3,
-              "z": 5.3
+              "x": -3.05,
+              "z": 0.62
             },
             "trent": {
-              "x": -1.56,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 5.45
+              "x": -0.12,
+              "z": 3.3
             },
             "jaz": {
-              "x": 2.73,
-              "z": 3.66
+              "x": 3.02,
+              "z": 3.3
+            },
+            "harry": {
+              "x": -2.1,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": -1.3,
+              "z": 5.7
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.67
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "block",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -8046,80 +8026,72 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.15
-            },
             "caleb": {
-              "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
-            },
-            "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
             },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p8:next-dig": {
           "anchors": {
-            "harry": {
-              "x": -0.71,
-              "z": 1.32
-            },
             "caleb": {
-              "x": -2.8,
-              "z": 5.08
+              "x": -3.05,
+              "z": 1.25
             },
             "trent": {
-              "x": 0.65,
-              "z": 1.72
-            },
-            "logan": {
-              "x": 2.8,
-              "z": 6.3
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.55
+              "x": -0.1,
+              "z": 2.8
             },
             "jaz": {
-              "x": 3.13,
-              "z": 2.9
+              "x": 3.0,
+              "z": 2.75
+            },
+            "harry": {
+              "x": -1.45,
+              "z": 2.65
+            },
+            "georgia": {
+              "x": -1.08,
+              "z": 6.9
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.6
             }
           },
           "actions": {
             "harry": "ready",
-            "caleb": "receive",
+            "caleb": "recover",
             "trent": "recover",
             "logan": "cover",
-            "georgia": "cover",
+            "georgia": "receive",
             "jaz": "cover"
           },
           "preservePath": {
@@ -8141,38 +8113,38 @@
         },
         "p9:next-set-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -3.2,
+              "z": 2.15
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 5.5
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
             "harry": "set",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
-            "georgia": "cover",
-            "jaz": "cover"
+            "georgia": "recover",
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -8193,38 +8165,38 @@
         },
         "p9:next-set-ready:t1182": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -3.2,
+              "z": 2.15
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 5.5
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
             "harry": "set",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
-            "georgia": "cover",
-            "jaz": "cover"
+            "georgia": "recover",
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -8245,38 +8217,38 @@
         },
         "p9:next-set-ready:t1220": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -3.2,
+              "z": 2.15
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 5.5
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
             "harry": "set",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
-            "georgia": "cover",
-            "jaz": "cover"
+            "georgia": "recover",
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -8348,6 +8320,7 @@
             "georgia": true,
             "jaz": true
           },
+          "routes": {},
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -8425,6 +8398,7 @@
             "georgia": true,
             "jaz": true
           },
+          "routes": {},
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -8461,29 +8435,29 @@
         },
         "p2:first-pass": {
           "anchors": {
-            "harry": {
-              "x": -1.94,
-              "z": 2.27
-            },
             "caleb": {
               "x": -2.45,
               "z": 4.18
             },
             "trent": {
-              "x": 2.13,
-              "z": 2.47
+              "x": 0.4,
+              "z": 2.3
             },
-            "logan": {
-              "x": 2.84,
-              "z": 6.32
+            "jaz": {
+              "x": 2.62,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -1.12,
+              "z": 3.05
             },
             "georgia": {
               "x": -0.4,
               "z": 6.55
             },
-            "jaz": {
-              "x": 0.81,
-              "z": 3.79
+            "logan": {
+              "x": 2.9,
+              "z": 6.55
             }
           },
           "actions": {
@@ -8546,29 +8520,29 @@
         },
         "p3:second-contact": {
           "anchors": {
-            "harry": {
-              "x": -0.65,
-              "z": 0.83
-            },
             "caleb": {
               "x": -3.9,
               "z": 3.03
             },
             "trent": {
-              "x": 0.72,
-              "z": 1.89
-            },
-            "logan": {
-              "x": 2.52,
-              "z": 5.14
-            },
-            "georgia": {
-              "x": -1.23,
-              "z": 4.89
+              "x": 0.1,
+              "z": 1.55
             },
             "jaz": {
-              "x": 2.68,
-              "z": 2.37
+              "x": 3.05,
+              "z": 2.22
+            },
+            "harry": {
+              "x": -0.7,
+              "z": 1.18
+            },
+            "georgia": {
+              "x": -1.25,
+              "z": 4.85
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 5.8
             }
           },
           "actions": {
@@ -8577,7 +8551,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -8598,29 +8572,29 @@
         },
         "p4:our-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.27,
-              "z": 2.21
-            },
             "caleb": {
               "x": -3.07,
               "z": 1.07
             },
             "trent": {
-              "x": 1.07,
-              "z": 0.95
-            },
-            "logan": {
-              "x": 3.1,
-              "z": 6.7
-            },
-            "georgia": {
-              "x": -1.36,
-              "z": 5.21
+              "x": 0.1,
+              "z": 1.02
             },
             "jaz": {
-              "x": 3.25,
-              "z": 1.25
+              "x": 3.2,
+              "z": 1.82
+            },
+            "harry": {
+              "x": -0.85,
+              "z": 2.05
+            },
+            "georgia": {
+              "x": -1.3,
+              "z": 5.15
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 6.0
             }
           },
           "actions": {
@@ -8650,37 +8624,37 @@
         },
         "p5:defend-now": {
           "anchors": {
-            "harry": {
-              "x": -0.56,
-              "z": 2.93
-            },
             "caleb": {
-              "x": -2.81,
-              "z": 1.59
+              "x": -3.0,
+              "z": 2.45
             },
             "trent": {
-              "x": -0.11,
-              "z": 1.18
-            },
-            "logan": {
-              "x": 1.68,
-              "z": 5.36
-            },
-            "georgia": {
-              "x": -1.56,
-              "z": 5.74
+              "x": 1.1,
+              "z": 0.95
             },
             "jaz": {
-              "x": 2.89,
-              "z": 2.97
+              "x": 3.1,
+              "z": 2.45
+            },
+            "harry": {
+              "x": -0.5,
+              "z": 2.9
+            },
+            "georgia": {
+              "x": -1.25,
+              "z": 5.8
+            },
+            "logan": {
+              "x": 2.65,
+              "z": 6.25
             }
           },
           "actions": {
             "harry": "cover",
             "caleb": "recover",
             "trent": "recover",
-            "logan": "recover",
-            "georgia": "cover",
+            "logan": "cover",
+            "georgia": "recover",
             "jaz": "cover"
           },
           "preservePath": {
@@ -8702,34 +8676,34 @@
         },
         "p5:defend-now:t730": {
           "anchors": {
-            "harry": {
-              "x": -0.39,
-              "z": 2.77
-            },
             "caleb": {
-              "x": -3.1,
-              "z": 3.55
+              "x": -2.7,
+              "z": 4.25
             },
             "trent": {
-              "x": 1.55,
-              "z": 0.85
-            },
-            "logan": {
-              "x": 1.52,
-              "z": 6.45
-            },
-            "georgia": {
-              "x": -1.12,
-              "z": 6.1
+              "x": 2.2,
+              "z": 0.8
             },
             "jaz": {
-              "x": 2.73,
-              "z": 3.58
+              "x": 3.05,
+              "z": 3.15
+            },
+            "harry": {
+              "x": -0.3,
+              "z": 3.0
+            },
+            "georgia": {
+              "x": -0.45,
+              "z": 6.2
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.55
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
@@ -8754,29 +8728,29 @@
         },
         "p6:their-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.78,
-              "z": 2.48
-            },
             "caleb": {
-              "x": -2.95,
-              "z": 5.25
+              "x": -2.05,
+              "z": 5.65
             },
             "trent": {
-              "x": 2.55,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.65
+              "x": 2.72,
+              "z": 0.68
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.7
+              "x": 3.02,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -0.2,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": 0.05,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.7
             }
           },
           "actions": {
@@ -8804,72 +8778,63 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.2
-            },
             "caleb": {
               "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
+              "radiusX": 1.55,
+              "radiusZ": 1.9
             },
             "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
-            },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p7:defence-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.8,
-              "z": 2.55
-            },
             "caleb": {
-              "x": -2.95,
-              "z": 5.32
+              "x": -2.0,
+              "z": 5.8
             },
             "trent": {
-              "x": 2.55,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.65
+              "x": 2.72,
+              "z": 0.68
             },
             "jaz": {
-              "x": 2.73,
-              "z": 3.66
+              "x": 3.02,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -0.2,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": 0.05,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.7
             }
           },
           "actions": {
@@ -8897,72 +8862,63 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.2
-            },
             "caleb": {
               "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
+              "radiusX": 1.55,
+              "radiusZ": 1.9
             },
             "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
-            },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p8:next-dig": {
           "anchors": {
-            "harry": {
-              "x": -0.71,
-              "z": 1.32
-            },
             "caleb": {
-              "x": -2.15,
-              "z": 5.25
+              "x": -1.08,
+              "z": 6.9
             },
             "trent": {
-              "x": 1.65,
-              "z": 1.6
-            },
-            "logan": {
-              "x": 2.8,
-              "z": 6.3
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.55
+              "x": 1.2,
+              "z": 1.45
             },
             "jaz": {
-              "x": 3.13,
-              "z": 2.9
+              "x": 3.0,
+              "z": 2.75
+            },
+            "harry": {
+              "x": -0.95,
+              "z": 2.65
+            },
+            "georgia": {
+              "x": 0.05,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.6
             }
           },
           "actions": {
@@ -8992,29 +8948,29 @@
         },
         "p9:next-set-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -2.7,
+              "z": 3.4
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -0.15,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
@@ -9023,7 +8979,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -9044,29 +9000,29 @@
         },
         "p9:next-set-ready:t1182": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -2.7,
+              "z": 3.4
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -0.15,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
@@ -9075,7 +9031,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -9096,29 +9052,29 @@
         },
         "p9:next-set-ready:t1220": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -2.7,
+              "z": 3.4
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -0.15,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
@@ -9127,7 +9083,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -9199,6 +9155,7 @@
             "georgia": true,
             "jaz": true
           },
+          "routes": {},
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -9276,6 +9233,7 @@
             "georgia": true,
             "jaz": true
           },
+          "routes": {},
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -9312,29 +9270,29 @@
         },
         "p2:first-pass": {
           "anchors": {
-            "harry": {
-              "x": -1.75,
-              "z": 2.75
-            },
             "caleb": {
               "x": -2.55,
-              "z": 4.18
+              "z": 4.2
             },
             "trent": {
-              "x": 2.13,
-              "z": 2.47
-            },
-            "logan": {
-              "x": 2.84,
-              "z": 6.32
-            },
-            "georgia": {
-              "x": -0.15,
-              "z": 3.72
+              "x": 0.4,
+              "z": 2.3
             },
             "jaz": {
-              "x": 0.81,
-              "z": 3.79
+              "x": 2.62,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -1.7,
+              "z": 3.25
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 4.15
+            },
+            "logan": {
+              "x": 2.9,
+              "z": 6.55
             }
           },
           "actions": {
@@ -9397,29 +9355,29 @@
         },
         "p3:second-contact": {
           "anchors": {
-            "harry": {
-              "x": -1.35,
-              "z": 3.15
-            },
             "caleb": {
               "x": -3.9,
               "z": 3.03
             },
             "trent": {
-              "x": 0.72,
-              "z": 1.89
-            },
-            "logan": {
-              "x": 2.52,
-              "z": 5.14
-            },
-            "georgia": {
-              "x": -0.65,
-              "z": 0.83
+              "x": 0.1,
+              "z": 1.55
             },
             "jaz": {
-              "x": 2.68,
-              "z": 2.37
+              "x": 3.05,
+              "z": 2.22
+            },
+            "harry": {
+              "x": -1.9,
+              "z": 3.1
+            },
+            "georgia": {
+              "x": -0.7,
+              "z": 1.18
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 5.8
             }
           },
           "actions": {
@@ -9428,7 +9386,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "set",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -9449,29 +9407,29 @@
         },
         "p4:our-attack": {
           "anchors": {
-            "harry": {
-              "x": -1.15,
-              "z": 3.2
-            },
             "caleb": {
               "x": -3.07,
               "z": 1.07
             },
             "trent": {
-              "x": 1.07,
-              "z": 0.95
-            },
-            "logan": {
-              "x": 3.1,
-              "z": 6.7
-            },
-            "georgia": {
-              "x": -0.45,
-              "z": 1.92
+              "x": 0.1,
+              "z": 1.02
             },
             "jaz": {
-              "x": 3.25,
-              "z": 1.25
+              "x": 3.2,
+              "z": 1.82
+            },
+            "harry": {
+              "x": -1.95,
+              "z": 3.03
+            },
+            "georgia": {
+              "x": -0.85,
+              "z": 2.45
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 6.0
             }
           },
           "actions": {
@@ -9501,36 +9459,36 @@
         },
         "p5:defend-now": {
           "anchors": {
-            "harry": {
-              "x": -1.1,
-              "z": 3.13
-            },
             "caleb": {
-              "x": -2.81,
-              "z": 1.59
+              "x": -3.0,
+              "z": 2.45
             },
             "trent": {
-              "x": -0.11,
-              "z": 1.18
-            },
-            "logan": {
-              "x": 1.68,
-              "z": 5.36
-            },
-            "georgia": {
-              "x": -0.65,
-              "z": 2.83
+              "x": 1.1,
+              "z": 0.95
             },
             "jaz": {
-              "x": 2.89,
-              "z": 2.97
+              "x": 3.1,
+              "z": 2.45
+            },
+            "harry": {
+              "x": -1.3,
+              "z": 3.1
+            },
+            "georgia": {
+              "x": -0.7,
+              "z": 3.4
+            },
+            "logan": {
+              "x": 2.65,
+              "z": 6.25
             }
           },
           "actions": {
             "harry": "cover",
             "caleb": "recover",
             "trent": "recover",
-            "logan": "recover",
+            "logan": "cover",
             "georgia": "recover",
             "jaz": "cover"
           },
@@ -9553,34 +9511,34 @@
         },
         "p5:defend-now:t730": {
           "anchors": {
-            "harry": {
-              "x": -0.8,
-              "z": 2.75
-            },
             "caleb": {
-              "x": -3.1,
-              "z": 3.55
+              "x": -2.7,
+              "z": 4.25
             },
             "trent": {
-              "x": 1.55,
-              "z": 0.85
+              "x": 2.2,
+              "z": 0.8
             },
-            "logan": {
-              "x": 1.52,
-              "z": 6.45
+            "jaz": {
+              "x": 3.05,
+              "z": 3.15
+            },
+            "harry": {
+              "x": -1.05,
+              "z": 3.2
             },
             "georgia": {
               "x": -0.85,
-              "z": 4.35
+              "z": 4.4
             },
-            "jaz": {
-              "x": 2.73,
-              "z": 3.58
+            "logan": {
+              "x": 2.55,
+              "z": 6.55
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
@@ -9605,29 +9563,29 @@
         },
         "p6:their-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.85,
-              "z": 2.6
-            },
             "caleb": {
-              "x": -2.95,
-              "z": 5.25
+              "x": -2.05,
+              "z": 5.65
             },
             "trent": {
-              "x": 2.55,
-              "z": 0.65
+              "x": 2.72,
+              "z": 0.68
             },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
+            "jaz": {
+              "x": 3.02,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -0.55,
+              "z": 3.18
             },
             "georgia": {
               "x": -0.85,
               "z": 5.45
             },
-            "jaz": {
-              "x": 2.75,
-              "z": 3.7
+            "logan": {
+              "x": 2.55,
+              "z": 6.7
             }
           },
           "actions": {
@@ -9655,72 +9613,63 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.2
-            },
             "caleb": {
               "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
+              "radiusX": 1.55,
+              "radiusZ": 1.9
             },
             "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
-            },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p7:defence-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.8,
-              "z": 2.55
-            },
             "caleb": {
-              "x": -2.95,
-              "z": 5.32
+              "x": -2.0,
+              "z": 5.8
             },
             "trent": {
-              "x": 2.55,
-              "z": 0.65
+              "x": 2.72,
+              "z": 0.68
             },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
+            "jaz": {
+              "x": 3.02,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -0.55,
+              "z": 3.18
             },
             "georgia": {
               "x": -0.85,
-              "z": 5.45
+              "z": 5.75
             },
-            "jaz": {
-              "x": 2.73,
-              "z": 3.66
+            "logan": {
+              "x": 2.55,
+              "z": 6.7
             }
           },
           "actions": {
@@ -9748,72 +9697,63 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.2
-            },
             "caleb": {
               "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
+              "radiusX": 1.55,
+              "radiusZ": 1.9
             },
             "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
-            },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p8:next-dig": {
           "anchors": {
-            "harry": {
-              "x": -0.71,
-              "z": 1.32
-            },
             "caleb": {
-              "x": -2.15,
-              "z": 5.25
+              "x": -1.08,
+              "z": 6.9
             },
             "trent": {
-              "x": 1.65,
-              "z": 1.6
-            },
-            "logan": {
-              "x": 2.8,
-              "z": 6.3
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.55
+              "x": 1.2,
+              "z": 1.45
             },
             "jaz": {
-              "x": 3.13,
-              "z": 2.9
+              "x": 3.0,
+              "z": 2.75
+            },
+            "harry": {
+              "x": -0.95,
+              "z": 2.65
+            },
+            "georgia": {
+              "x": -0.55,
+              "z": 6.0
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.6
             }
           },
           "actions": {
@@ -9843,29 +9783,29 @@
         },
         "p9:next-set-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -2.7,
+              "z": 3.4
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -0.15,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
@@ -9874,7 +9814,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -9895,29 +9835,29 @@
         },
         "p9:next-set-ready:t1182": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -2.7,
+              "z": 3.4
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -0.15,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
@@ -9926,7 +9866,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -9947,29 +9887,29 @@
         },
         "p9:next-set-ready:t1220": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -2.7,
+              "z": 3.4
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -0.15,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
@@ -9978,7 +9918,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -10002,7 +9942,7 @@
     "3/us/left/normal": {
       "contacts": {
         "secondSetter": "harry",
-        "nextReceiver": "caleb",
+        "nextReceiver": "georgia",
         "nextSetter": "harry",
         "fallbackSetter": "georgia"
       },
@@ -10049,7 +9989,8 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          }
+          },
+          "routes": {}
         },
         "p1:serve-hit": {
           "anchors": {
@@ -10093,42 +10034,43 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          }
+          },
+          "routes": {}
         },
         "p1:serve-hit:t255": {
           "anchors": {
-            "harry": {
-              "x": -1.35,
-              "z": 4.35
-            },
             "caleb": {
-              "x": -2.87,
-              "z": 3.78
+              "x": -3.05,
+              "z": 2.4
             },
             "trent": {
-              "x": 0.9,
-              "z": 2.3
-            },
-            "logan": {
-              "x": 3.24,
-              "z": 8.43
-            },
-            "georgia": {
-              "x": 0.12,
-              "z": 5.95
+              "x": 0.85,
+              "z": 2.5
             },
             "jaz": {
-              "x": 1.2,
-              "z": 3.95
+              "x": 2.5,
+              "z": 3.45
+            },
+            "harry": {
+              "x": -1.45,
+              "z": 3.65
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 6.05
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 8.45
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "recover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -10149,35 +10091,35 @@
         },
         "p1:serve-hit:t328": {
           "anchors": {
-            "harry": {
-              "x": -1.15,
-              "z": 3.95
-            },
             "caleb": {
-              "x": -2.73,
-              "z": 4.15
+              "x": -3.05,
+              "z": 1.45
             },
             "trent": {
-              "x": -0.1,
-              "z": 1.58
-            },
-            "logan": {
-              "x": 3.21,
-              "z": 7.78
-            },
-            "georgia": {
-              "x": -0.1,
-              "z": 6.2
+              "x": 0.1,
+              "z": 2.75
             },
             "jaz": {
-              "x": 1.65,
-              "z": 3.85
+              "x": 2.85,
+              "z": 3.15
+            },
+            "harry": {
+              "x": -1.8,
+              "z": 3.1
+            },
+            "georgia": {
+              "x": -1.0,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 3.25,
+              "z": 7.75
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "ready",
+            "caleb": "ready",
+            "trent": "cover",
             "logan": "recover",
             "georgia": "cover",
             "jaz": "cover"
@@ -10201,35 +10143,35 @@
         },
         "p1:serve-hit:t395": {
           "anchors": {
-            "harry": {
-              "x": -0.95,
-              "z": 3.58
-            },
             "caleb": {
-              "x": -2.63,
-              "z": 4.55
+              "x": -3.05,
+              "z": 0.65
             },
             "trent": {
-              "x": -1,
-              "z": 1
-            },
-            "logan": {
-              "x": 3.17,
-              "z": 7.18
-            },
-            "georgia": {
-              "x": -0.32,
-              "z": 6.45
+              "x": -0.1,
+              "z": 3.35
             },
             "jaz": {
-              "x": 2.15,
-              "z": 3.75
+              "x": 3.0,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -2.05,
+              "z": 3.15
+            },
+            "georgia": {
+              "x": -1.35,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 3.2,
+              "z": 7.1
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "ready",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "recover",
             "georgia": "cover",
             "jaz": "cover"
@@ -10249,39 +10191,72 @@
             "logan": [],
             "georgia": [],
             "jaz": []
+          },
+          "coverage": {
+            "caleb": {
+              "role": "block",
+              "radiusX": 0.8,
+              "radiusZ": 0.6
+            },
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
+            },
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
+            }
           }
         },
         "p2:defence-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.85,
-              "z": 3.45
-            },
             "caleb": {
-              "x": -2.55,
-              "z": 4.85
+              "x": -3.05,
+              "z": 0.65
             },
             "trent": {
-              "x": -1.3,
-              "z": 0.85
-            },
-            "logan": {
-              "x": 3.16,
-              "z": 6.98
-            },
-            "georgia": {
-              "x": -0.5,
-              "z": 6.55
+              "x": -0.1,
+              "z": 3.35
             },
             "jaz": {
-              "x": 2.5,
-              "z": 3.7
+              "x": 3.0,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -2.05,
+              "z": 3.15
+            },
+            "georgia": {
+              "x": -1.35,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 3.2,
+              "z": 7.1
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "block",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -10303,78 +10278,70 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.15
-            },
             "caleb": {
-              "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
-            },
-            "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
             },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p3:our-dig": {
           "anchors": {
-            "harry": {
-              "x": -0.75,
-              "z": 2.8
-            },
             "caleb": {
-              "x": -2.5,
-              "z": 4.85
+              "x": -3.05,
+              "z": 1.05
             },
             "trent": {
-              "x": -1.1,
-              "z": 1.2
-            },
-            "logan": {
-              "x": 3.05,
-              "z": 6.9
-            },
-            "georgia": {
-              "x": -0.78,
-              "z": 6.5
+              "x": -0.05,
+              "z": 3.1
             },
             "jaz": {
-              "x": 2.55,
-              "z": 3.65
+              "x": 3.0,
+              "z": 3.2
+            },
+            "harry": {
+              "x": -1.7,
+              "z": 2.9
+            },
+            "georgia": {
+              "x": -1.08,
+              "z": 6.9
+            },
+            "logan": {
+              "x": 3.0,
+              "z": 6.85
             }
           },
           "actions": {
             "harry": "ready",
-            "caleb": "cover",
-            "trent": "recover",
+            "caleb": "recover",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "receive",
             "jaz": "cover"
@@ -10398,29 +10365,29 @@
         },
         "p4:second-contact": {
           "anchors": {
-            "harry": {
-              "x": -0.65,
-              "z": 0.83
-            },
             "caleb": {
               "x": -3.9,
               "z": 3.03
             },
             "trent": {
-              "x": 0.72,
-              "z": 1.89
-            },
-            "logan": {
-              "x": 2.52,
-              "z": 5.14
-            },
-            "georgia": {
-              "x": -1.23,
-              "z": 4.89
+              "x": 0.1,
+              "z": 1.55
             },
             "jaz": {
-              "x": 2.68,
-              "z": 2.37
+              "x": 3.05,
+              "z": 2.22
+            },
+            "harry": {
+              "x": -0.7,
+              "z": 1.18
+            },
+            "georgia": {
+              "x": -1.25,
+              "z": 4.85
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 5.8
             }
           },
           "actions": {
@@ -10429,7 +10396,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -10450,29 +10417,29 @@
         },
         "p5:our-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.27,
-              "z": 2.21
-            },
             "caleb": {
               "x": -3.07,
               "z": 1.07
             },
             "trent": {
-              "x": 1.07,
-              "z": 0.95
-            },
-            "logan": {
-              "x": 3.1,
-              "z": 6.7
-            },
-            "georgia": {
-              "x": -1.36,
-              "z": 5.21
+              "x": 0.1,
+              "z": 1.02
             },
             "jaz": {
-              "x": 3.25,
-              "z": 1.25
+              "x": 3.2,
+              "z": 1.82
+            },
+            "harry": {
+              "x": -0.85,
+              "z": 2.05
+            },
+            "georgia": {
+              "x": -1.3,
+              "z": 5.15
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 6.0
             }
           },
           "actions": {
@@ -10502,37 +10469,37 @@
         },
         "p6:defend-again": {
           "anchors": {
-            "harry": {
-              "x": -0.56,
-              "z": 2.93
-            },
             "caleb": {
-              "x": -2.81,
-              "z": 1.59
+              "x": -3.05,
+              "z": 1.12
             },
             "trent": {
-              "x": -0.11,
-              "z": 1.18
-            },
-            "logan": {
-              "x": 1.68,
-              "z": 5.36
-            },
-            "georgia": {
-              "x": -1.56,
-              "z": 5.74
+              "x": 0.05,
+              "z": 1.85
             },
             "jaz": {
-              "x": 2.89,
-              "z": 2.97
+              "x": 3.1,
+              "z": 2.45
+            },
+            "harry": {
+              "x": -1.45,
+              "z": 2.6
+            },
+            "georgia": {
+              "x": -1.35,
+              "z": 5.7
+            },
+            "logan": {
+              "x": 2.65,
+              "z": 6.25
             }
           },
           "actions": {
             "harry": "cover",
             "caleb": "recover",
             "trent": "recover",
-            "logan": "recover",
-            "georgia": "cover",
+            "logan": "cover",
+            "georgia": "recover",
             "jaz": "cover"
           },
           "preservePath": {
@@ -10554,35 +10521,35 @@
         },
         "p6:defend-again:t1025": {
           "anchors": {
-            "harry": {
-              "x": -0.42,
-              "z": 2.77
-            },
             "caleb": {
-              "x": -3.08,
-              "z": 3.5
+              "x": -3.05,
+              "z": 0.8
             },
             "trent": {
-              "x": -1.1,
-              "z": 0.85
-            },
-            "logan": {
-              "x": 1.7,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -1.12,
-              "z": 6.1
+              "x": -0.15,
+              "z": 2.75
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.6
+              "x": 3.0,
+              "z": 3.05
+            },
+            "harry": {
+              "x": -1.9,
+              "z": 3.05
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.5
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "recover",
-            "trent": "ready",
+            "caleb": "ready",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -10606,35 +10573,35 @@
         },
         "p7:their-next-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.78,
-              "z": 2.48
-            },
             "caleb": {
               "x": -3.05,
-              "z": 5.12
+              "z": 0.62
             },
             "trent": {
-              "x": -1.55,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.65
+              "x": -0.12,
+              "z": 3.3
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.7
+              "x": 3.02,
+              "z": 3.3
+            },
+            "harry": {
+              "x": -2.1,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": -1.38,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.67
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "block",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -10656,78 +10623,70 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.15
-            },
             "caleb": {
-              "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
-            },
-            "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
             },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p7:their-next-attack:t1117": {
           "anchors": {
-            "harry": {
-              "x": -0.78,
-              "z": 2.48
-            },
             "caleb": {
               "x": -3.05,
-              "z": 5.12
+              "z": 0.62
             },
             "trent": {
-              "x": -1.55,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.65
+              "x": -0.12,
+              "z": 3.3
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.7
+              "x": 3.02,
+              "z": 3.3
+            },
+            "harry": {
+              "x": -2.1,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": -1.38,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.67
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "block",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -10749,80 +10708,72 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.15
-            },
             "caleb": {
-              "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
-            },
-            "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
             },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p8:next-dig": {
           "anchors": {
-            "harry": {
-              "x": -0.71,
-              "z": 1.32
-            },
             "caleb": {
-              "x": -2.8,
-              "z": 5.08
+              "x": -3.05,
+              "z": 1.25
             },
             "trent": {
-              "x": 0.65,
-              "z": 1.72
-            },
-            "logan": {
-              "x": 2.8,
-              "z": 6.3
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.55
+              "x": -0.1,
+              "z": 2.8
             },
             "jaz": {
-              "x": 3.13,
-              "z": 2.9
+              "x": 3.0,
+              "z": 2.75
+            },
+            "harry": {
+              "x": -1.45,
+              "z": 2.65
+            },
+            "georgia": {
+              "x": -1.08,
+              "z": 6.9
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.6
             }
           },
           "actions": {
             "harry": "ready",
-            "caleb": "receive",
+            "caleb": "recover",
             "trent": "recover",
             "logan": "cover",
-            "georgia": "cover",
+            "georgia": "receive",
             "jaz": "cover"
           },
           "preservePath": {
@@ -10844,38 +10795,38 @@
         },
         "p9:next-set-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -3.2,
+              "z": 2.15
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 5.5
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
             "harry": "set",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
-            "georgia": "cover",
-            "jaz": "cover"
+            "georgia": "recover",
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -10896,38 +10847,38 @@
         },
         "p9:next-set-ready:t1507": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -3.2,
+              "z": 2.15
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 5.5
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
             "harry": "set",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
-            "georgia": "cover",
-            "jaz": "cover"
+            "georgia": "recover",
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -10951,7 +10902,7 @@
     "3/us/left/harry": {
       "contacts": {
         "secondSetter": "georgia",
-        "nextReceiver": "caleb",
+        "nextReceiver": "georgia",
         "nextSetter": "harry",
         "fallbackSetter": "georgia"
       },
@@ -10998,7 +10949,8 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          }
+          },
+          "routes": {}
         },
         "p1:serve-hit": {
           "anchors": {
@@ -11042,42 +10994,43 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          }
+          },
+          "routes": {}
         },
         "p1:serve-hit:t255": {
           "anchors": {
-            "harry": {
-              "x": -1.35,
-              "z": 4.35
-            },
             "caleb": {
-              "x": -2.87,
-              "z": 3.78
+              "x": -3.05,
+              "z": 2.4
             },
             "trent": {
-              "x": 0.9,
-              "z": 2.3
-            },
-            "logan": {
-              "x": 3.24,
-              "z": 8.43
-            },
-            "georgia": {
-              "x": 0.12,
-              "z": 5.95
+              "x": 0.85,
+              "z": 2.5
             },
             "jaz": {
-              "x": 1.2,
-              "z": 3.95
+              "x": 2.5,
+              "z": 3.45
+            },
+            "harry": {
+              "x": -1.45,
+              "z": 3.65
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 6.05
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 8.45
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "recover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -11098,35 +11051,35 @@
         },
         "p1:serve-hit:t328": {
           "anchors": {
-            "harry": {
-              "x": -1.15,
-              "z": 3.95
-            },
             "caleb": {
-              "x": -2.73,
-              "z": 4.15
+              "x": -3.05,
+              "z": 1.45
             },
             "trent": {
-              "x": -0.1,
-              "z": 1.58
-            },
-            "logan": {
-              "x": 3.21,
-              "z": 7.78
-            },
-            "georgia": {
-              "x": -0.1,
-              "z": 6.2
+              "x": 0.1,
+              "z": 2.75
             },
             "jaz": {
-              "x": 1.65,
-              "z": 3.85
+              "x": 2.85,
+              "z": 3.15
+            },
+            "harry": {
+              "x": -1.8,
+              "z": 3.1
+            },
+            "georgia": {
+              "x": -1.0,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 3.25,
+              "z": 7.75
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "ready",
+            "caleb": "ready",
+            "trent": "cover",
             "logan": "recover",
             "georgia": "cover",
             "jaz": "cover"
@@ -11150,35 +11103,35 @@
         },
         "p1:serve-hit:t395": {
           "anchors": {
-            "harry": {
-              "x": -0.95,
-              "z": 3.58
-            },
             "caleb": {
-              "x": -2.63,
-              "z": 4.55
+              "x": -3.05,
+              "z": 0.65
             },
             "trent": {
-              "x": -1,
-              "z": 1
-            },
-            "logan": {
-              "x": 3.17,
-              "z": 7.18
-            },
-            "georgia": {
-              "x": -0.32,
-              "z": 6.45
+              "x": -0.1,
+              "z": 3.35
             },
             "jaz": {
-              "x": 2.15,
-              "z": 3.75
+              "x": 3.0,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -2.05,
+              "z": 3.15
+            },
+            "georgia": {
+              "x": -1.0,
+              "z": 5.8
+            },
+            "logan": {
+              "x": 3.2,
+              "z": 7.1
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "ready",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "recover",
             "georgia": "cover",
             "jaz": "cover"
@@ -11198,39 +11151,72 @@
             "logan": [],
             "georgia": [],
             "jaz": []
+          },
+          "coverage": {
+            "caleb": {
+              "role": "block",
+              "radiusX": 0.8,
+              "radiusZ": 0.6
+            },
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
+            },
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
+            }
           }
         },
         "p2:defence-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.85,
-              "z": 3.45
-            },
             "caleb": {
-              "x": -2.55,
-              "z": 4.85
+              "x": -3.05,
+              "z": 0.65
             },
             "trent": {
-              "x": -1.3,
-              "z": 0.85
-            },
-            "logan": {
-              "x": 3.16,
-              "z": 6.98
-            },
-            "georgia": {
-              "x": -0.5,
-              "z": 6.55
+              "x": -0.1,
+              "z": 3.35
             },
             "jaz": {
-              "x": 2.5,
-              "z": 3.7
+              "x": 3.0,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -2.05,
+              "z": 3.15
+            },
+            "georgia": {
+              "x": -1.0,
+              "z": 5.8
+            },
+            "logan": {
+              "x": 3.2,
+              "z": 7.1
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "block",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -11252,78 +11238,70 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.15
-            },
             "caleb": {
-              "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
-            },
-            "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
             },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p3:our-dig": {
           "anchors": {
-            "harry": {
-              "x": -1.05,
-              "z": 3.1
-            },
             "caleb": {
-              "x": -2.5,
-              "z": 4.85
+              "x": -3.05,
+              "z": 1.05
             },
             "trent": {
-              "x": -1.1,
-              "z": 1.2
-            },
-            "logan": {
-              "x": 3.05,
-              "z": 6.9
-            },
-            "georgia": {
-              "x": -0.25,
-              "z": 3.95
+              "x": -0.05,
+              "z": 3.1
             },
             "jaz": {
-              "x": 2.55,
-              "z": 3.65
+              "x": 3.0,
+              "z": 3.2
+            },
+            "harry": {
+              "x": -2.0,
+              "z": 3.15
+            },
+            "georgia": {
+              "x": -0.9,
+              "z": 4.0
+            },
+            "logan": {
+              "x": 3.0,
+              "z": 6.85
             }
           },
           "actions": {
             "harry": "receive",
-            "caleb": "cover",
-            "trent": "recover",
+            "caleb": "recover",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "ready",
             "jaz": "cover"
@@ -11347,29 +11325,29 @@
         },
         "p4:second-contact": {
           "anchors": {
-            "harry": {
-              "x": -1.35,
-              "z": 3.15
-            },
             "caleb": {
               "x": -3.9,
               "z": 3.03
             },
             "trent": {
-              "x": 0.72,
-              "z": 1.89
-            },
-            "logan": {
-              "x": 2.52,
-              "z": 5.14
-            },
-            "georgia": {
-              "x": -0.65,
-              "z": 0.83
+              "x": 0.1,
+              "z": 1.55
             },
             "jaz": {
-              "x": 2.68,
-              "z": 2.37
+              "x": 3.05,
+              "z": 2.22
+            },
+            "harry": {
+              "x": -1.9,
+              "z": 3.1
+            },
+            "georgia": {
+              "x": -0.7,
+              "z": 1.18
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 5.8
             }
           },
           "actions": {
@@ -11378,7 +11356,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "set",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -11399,29 +11377,29 @@
         },
         "p5:our-attack": {
           "anchors": {
-            "harry": {
-              "x": -1.15,
-              "z": 3.2
-            },
             "caleb": {
               "x": -3.07,
               "z": 1.07
             },
             "trent": {
-              "x": 1.07,
-              "z": 0.95
-            },
-            "logan": {
-              "x": 3.1,
-              "z": 6.7
-            },
-            "georgia": {
-              "x": -0.45,
-              "z": 1.92
+              "x": 0.1,
+              "z": 1.02
             },
             "jaz": {
-              "x": 3.25,
-              "z": 1.25
+              "x": 3.2,
+              "z": 1.82
+            },
+            "harry": {
+              "x": -1.95,
+              "z": 3.03
+            },
+            "georgia": {
+              "x": -0.85,
+              "z": 2.45
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 6.0
             }
           },
           "actions": {
@@ -11451,36 +11429,36 @@
         },
         "p6:defend-again": {
           "anchors": {
-            "harry": {
-              "x": -1.1,
-              "z": 3.13
-            },
             "caleb": {
-              "x": -2.81,
-              "z": 1.59
+              "x": -3.05,
+              "z": 1.12
             },
             "trent": {
-              "x": -0.11,
-              "z": 1.18
-            },
-            "logan": {
-              "x": 1.68,
-              "z": 5.36
-            },
-            "georgia": {
-              "x": -0.65,
-              "z": 2.83
+              "x": 0.05,
+              "z": 1.85
             },
             "jaz": {
-              "x": 2.89,
-              "z": 2.97
+              "x": 3.1,
+              "z": 2.45
+            },
+            "harry": {
+              "x": -1.95,
+              "z": 3.1
+            },
+            "georgia": {
+              "x": -1.0,
+              "z": 3.35
+            },
+            "logan": {
+              "x": 2.65,
+              "z": 6.25
             }
           },
           "actions": {
             "harry": "cover",
             "caleb": "recover",
             "trent": "recover",
-            "logan": "recover",
+            "logan": "cover",
             "georgia": "recover",
             "jaz": "cover"
           },
@@ -11503,35 +11481,35 @@
         },
         "p6:defend-again:t1025": {
           "anchors": {
-            "harry": {
-              "x": -0.8,
-              "z": 2.75
-            },
             "caleb": {
-              "x": -3.08,
-              "z": 3.5
+              "x": -3.05,
+              "z": 0.8
             },
             "trent": {
-              "x": -1.1,
-              "z": 0.85
-            },
-            "logan": {
-              "x": 1.7,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 4.35
+              "x": -0.15,
+              "z": 2.75
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.6
+              "x": 3.0,
+              "z": 3.05
+            },
+            "harry": {
+              "x": -2.0,
+              "z": 3.15
+            },
+            "georgia": {
+              "x": -1.25,
+              "z": 4.25
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.5
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "recover",
-            "trent": "ready",
+            "caleb": "ready",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -11555,35 +11533,35 @@
         },
         "p7:their-next-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.85,
-              "z": 2.6
-            },
             "caleb": {
               "x": -3.05,
-              "z": 5.12
+              "z": 0.62
             },
             "trent": {
-              "x": -1.55,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 5.45
+              "x": -0.12,
+              "z": 3.3
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.7
+              "x": 3.02,
+              "z": 3.3
+            },
+            "harry": {
+              "x": -2.1,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": -1.3,
+              "z": 5.35
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.67
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "block",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -11605,78 +11583,70 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.15
-            },
             "caleb": {
-              "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
-            },
-            "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
             },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p7:their-next-attack:t1117": {
           "anchors": {
-            "harry": {
-              "x": -0.85,
-              "z": 2.6
-            },
             "caleb": {
               "x": -3.05,
-              "z": 5.12
+              "z": 0.62
             },
             "trent": {
-              "x": -1.55,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 5.45
+              "x": -0.12,
+              "z": 3.3
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.7
+              "x": 3.02,
+              "z": 3.3
+            },
+            "harry": {
+              "x": -2.1,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": -1.3,
+              "z": 5.7
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.67
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
-            "trent": "block",
+            "caleb": "block",
+            "trent": "cover",
             "logan": "cover",
             "georgia": "cover",
             "jaz": "cover"
@@ -11698,80 +11668,72 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.15
-            },
             "caleb": {
-              "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
-            },
-            "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
+            "trent": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.25
             },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.2,
+              "radiusZ": 1.35
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.25
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.8,
+              "offsetZ": 0.15
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p8:next-dig": {
           "anchors": {
-            "harry": {
-              "x": -0.71,
-              "z": 1.32
-            },
             "caleb": {
-              "x": -2.8,
-              "z": 5.08
+              "x": -3.05,
+              "z": 1.25
             },
             "trent": {
-              "x": 0.65,
-              "z": 1.72
-            },
-            "logan": {
-              "x": 2.8,
-              "z": 6.3
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.55
+              "x": -0.1,
+              "z": 2.8
             },
             "jaz": {
-              "x": 3.13,
-              "z": 2.9
+              "x": 3.0,
+              "z": 2.75
+            },
+            "harry": {
+              "x": -1.45,
+              "z": 2.65
+            },
+            "georgia": {
+              "x": -1.08,
+              "z": 6.9
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.6
             }
           },
           "actions": {
             "harry": "ready",
-            "caleb": "receive",
+            "caleb": "recover",
             "trent": "recover",
             "logan": "cover",
-            "georgia": "cover",
+            "georgia": "receive",
             "jaz": "cover"
           },
           "preservePath": {
@@ -11793,38 +11755,38 @@
         },
         "p9:next-set-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -3.2,
+              "z": 2.15
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 5.5
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
             "harry": "set",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
-            "georgia": "cover",
-            "jaz": "cover"
+            "georgia": "recover",
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -11845,38 +11807,38 @@
         },
         "p9:next-set-ready:t1507": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -3.2,
+              "z": 2.15
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -1.4,
+              "z": 5.5
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
             "harry": "set",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
-            "georgia": "cover",
-            "jaz": "cover"
+            "georgia": "recover",
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -11947,7 +11909,8 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          }
+          },
+          "routes": {}
         },
         "p1:serve-hit": {
           "anchors": {
@@ -11991,42 +11954,43 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          }
+          },
+          "routes": {}
         },
         "p1:serve-hit:t255": {
           "anchors": {
-            "harry": {
-              "x": -1.35,
-              "z": 4.35
-            },
             "caleb": {
-              "x": -2.87,
-              "z": 3.78
+              "x": -3.05,
+              "z": 2.4
             },
             "trent": {
-              "x": 2.35,
-              "z": 2.3
-            },
-            "logan": {
-              "x": 3.24,
-              "z": 8.43
-            },
-            "georgia": {
-              "x": 0.12,
-              "z": 5.95
+              "x": 0.85,
+              "z": 2.5
             },
             "jaz": {
-              "x": 1.2,
-              "z": 3.95
+              "x": 2.5,
+              "z": 3.45
+            },
+            "harry": {
+              "x": -1.45,
+              "z": 3.65
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 6.05
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 8.45
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "recover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -12047,34 +12011,34 @@
         },
         "p1:serve-hit:t328": {
           "anchors": {
-            "harry": {
-              "x": -1.15,
-              "z": 3.95
-            },
             "caleb": {
-              "x": -2.73,
-              "z": 4.15
+              "x": -2.95,
+              "z": 3.4
             },
             "trent": {
-              "x": 2.55,
-              "z": 1.6
-            },
-            "logan": {
-              "x": 3.21,
-              "z": 7.78
-            },
-            "georgia": {
-              "x": -0.1,
-              "z": 6.2
+              "x": 1.9,
+              "z": 1.3
             },
             "jaz": {
-              "x": 1.65,
-              "z": 3.85
+              "x": 2.9,
+              "z": 3.2
+            },
+            "harry": {
+              "x": -0.55,
+              "z": 3.2
+            },
+            "georgia": {
+              "x": -0.2,
+              "z": 6.2
+            },
+            "logan": {
+              "x": 3.25,
+              "z": 7.75
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "recover",
             "georgia": "cover",
@@ -12099,35 +12063,35 @@
         },
         "p1:serve-hit:t395": {
           "anchors": {
-            "harry": {
-              "x": -0.95,
-              "z": 3.58
-            },
             "caleb": {
-              "x": -2.63,
-              "z": 4.55
+              "x": -2.5,
+              "z": 4.4
             },
             "trent": {
-              "x": 2.65,
-              "z": 1.1
-            },
-            "logan": {
-              "x": 3.17,
-              "z": 7.18
-            },
-            "georgia": {
-              "x": -0.32,
-              "z": 6.45
+              "x": 2.7,
+              "z": 0.65
             },
             "jaz": {
-              "x": 2.15,
-              "z": 3.75
+              "x": 3.0,
+              "z": 3.4
+            },
+            "harry": {
+              "x": -0.15,
+              "z": 3.15
+            },
+            "georgia": {
+              "x": 0.05,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 3.2,
+              "z": 7.1
             }
           },
           "actions": {
             "harry": "cover",
             "caleb": "cover",
-            "trent": "ready",
+            "trent": "block",
             "logan": "recover",
             "georgia": "cover",
             "jaz": "cover"
@@ -12147,33 +12111,65 @@
             "logan": [],
             "georgia": [],
             "jaz": []
+          },
+          "coverage": {
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.55,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.8,
+              "radiusZ": 0.6
+            },
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
+            }
           }
         },
         "p2:defence-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.85,
-              "z": 3.45
-            },
             "caleb": {
-              "x": -2.55,
-              "z": 4.85
+              "x": -2.5,
+              "z": 4.4
             },
             "trent": {
               "x": 2.7,
-              "z": 0.85
-            },
-            "logan": {
-              "x": 3.16,
-              "z": 6.98
-            },
-            "georgia": {
-              "x": -0.5,
-              "z": 6.55
+              "z": 0.65
             },
             "jaz": {
-              "x": 2.5,
-              "z": 3.7
+              "x": 3.0,
+              "z": 3.4
+            },
+            "harry": {
+              "x": -0.15,
+              "z": 3.15
+            },
+            "georgia": {
+              "x": 0.05,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 3.2,
+              "z": 7.1
             }
           },
           "actions": {
@@ -12201,72 +12197,63 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.2
-            },
             "caleb": {
               "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
+              "radiusX": 1.55,
+              "radiusZ": 1.9
             },
             "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
-            },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p3:our-dig": {
           "anchors": {
-            "harry": {
-              "x": -0.75,
-              "z": 2.8
-            },
             "caleb": {
-              "x": -2.5,
-              "z": 4.85
+              "x": -2.45,
+              "z": 4.75
             },
             "trent": {
               "x": 2.3,
-              "z": 1.2
-            },
-            "logan": {
-              "x": 3.05,
-              "z": 6.9
-            },
-            "georgia": {
-              "x": -0.78,
-              "z": 6.5
+              "z": 1.05
             },
             "jaz": {
-              "x": 2.55,
-              "z": 3.65
+              "x": 3.0,
+              "z": 3.2
+            },
+            "harry": {
+              "x": -0.5,
+              "z": 2.9
+            },
+            "georgia": {
+              "x": -0.72,
+              "z": 6.9
+            },
+            "logan": {
+              "x": 3.0,
+              "z": 6.85
             }
           },
           "actions": {
@@ -12296,29 +12283,29 @@
         },
         "p4:second-contact": {
           "anchors": {
-            "harry": {
-              "x": -0.65,
-              "z": 0.83
-            },
             "caleb": {
               "x": -3.9,
               "z": 3.03
             },
             "trent": {
-              "x": 0.72,
-              "z": 1.89
-            },
-            "logan": {
-              "x": 2.52,
-              "z": 5.14
-            },
-            "georgia": {
-              "x": -1.23,
-              "z": 4.89
+              "x": 0.1,
+              "z": 1.55
             },
             "jaz": {
-              "x": 2.68,
-              "z": 2.37
+              "x": 3.05,
+              "z": 2.22
+            },
+            "harry": {
+              "x": -0.7,
+              "z": 1.18
+            },
+            "georgia": {
+              "x": -1.25,
+              "z": 4.85
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 5.8
             }
           },
           "actions": {
@@ -12327,7 +12314,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -12348,29 +12335,29 @@
         },
         "p5:our-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.27,
-              "z": 2.21
-            },
             "caleb": {
               "x": -3.07,
               "z": 1.07
             },
             "trent": {
-              "x": 1.07,
-              "z": 0.95
-            },
-            "logan": {
-              "x": 3.1,
-              "z": 6.7
-            },
-            "georgia": {
-              "x": -1.36,
-              "z": 5.21
+              "x": 0.1,
+              "z": 1.02
             },
             "jaz": {
-              "x": 3.25,
-              "z": 1.25
+              "x": 3.2,
+              "z": 1.82
+            },
+            "harry": {
+              "x": -0.85,
+              "z": 2.05
+            },
+            "georgia": {
+              "x": -1.3,
+              "z": 5.15
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 6.0
             }
           },
           "actions": {
@@ -12400,37 +12387,37 @@
         },
         "p6:defend-again": {
           "anchors": {
-            "harry": {
-              "x": -0.56,
-              "z": 2.93
-            },
             "caleb": {
-              "x": -2.81,
-              "z": 1.59
+              "x": -3.0,
+              "z": 2.45
             },
             "trent": {
-              "x": -0.11,
-              "z": 1.18
-            },
-            "logan": {
-              "x": 1.68,
-              "z": 5.36
-            },
-            "georgia": {
-              "x": -1.56,
-              "z": 5.74
+              "x": 1.1,
+              "z": 0.95
             },
             "jaz": {
-              "x": 2.89,
-              "z": 2.97
+              "x": 3.1,
+              "z": 2.45
+            },
+            "harry": {
+              "x": -0.5,
+              "z": 2.9
+            },
+            "georgia": {
+              "x": -1.25,
+              "z": 5.8
+            },
+            "logan": {
+              "x": 2.65,
+              "z": 6.25
             }
           },
           "actions": {
             "harry": "cover",
             "caleb": "recover",
             "trent": "recover",
-            "logan": "recover",
-            "georgia": "cover",
+            "logan": "cover",
+            "georgia": "recover",
             "jaz": "cover"
           },
           "preservePath": {
@@ -12452,34 +12439,34 @@
         },
         "p6:defend-again:t1025": {
           "anchors": {
-            "harry": {
-              "x": -0.42,
-              "z": 2.77
-            },
             "caleb": {
-              "x": -3.08,
-              "z": 3.5
+              "x": -2.7,
+              "z": 4.25
             },
             "trent": {
-              "x": 1.55,
-              "z": 0.85
-            },
-            "logan": {
-              "x": 1.7,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -1.12,
-              "z": 6.1
+              "x": 2.2,
+              "z": 0.8
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.6
+              "x": 3.05,
+              "z": 3.15
+            },
+            "harry": {
+              "x": -0.3,
+              "z": 3.0
+            },
+            "georgia": {
+              "x": -0.45,
+              "z": 6.2
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.55
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
@@ -12504,29 +12491,29 @@
         },
         "p7:their-next-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.78,
-              "z": 2.48
-            },
             "caleb": {
-              "x": -2.95,
-              "z": 5.25
+              "x": -2.05,
+              "z": 5.65
             },
             "trent": {
-              "x": 2.55,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.65
+              "x": 2.72,
+              "z": 0.68
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.7
+              "x": 3.02,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -0.2,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": 0.05,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.7
             }
           },
           "actions": {
@@ -12554,72 +12541,63 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.2
-            },
             "caleb": {
               "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
+              "radiusX": 1.55,
+              "radiusZ": 1.9
             },
             "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
-            },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p7:their-next-attack:t1117": {
           "anchors": {
-            "harry": {
-              "x": -0.78,
-              "z": 2.48
-            },
             "caleb": {
-              "x": -2.95,
-              "z": 5.25
+              "x": -2.0,
+              "z": 5.8
             },
             "trent": {
-              "x": 2.55,
-              "z": 0.65
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.65
+              "x": 2.72,
+              "z": 0.68
             },
             "jaz": {
-              "x": 2.75,
-              "z": 3.7
+              "x": 3.02,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -0.2,
+              "z": 3.18
+            },
+            "georgia": {
+              "x": 0.05,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.7
             }
           },
           "actions": {
@@ -12647,72 +12625,63 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.2
-            },
             "caleb": {
               "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
+              "radiusX": 1.55,
+              "radiusZ": 1.9
             },
             "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
-            },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p8:next-dig": {
           "anchors": {
-            "harry": {
-              "x": -0.71,
-              "z": 1.32
-            },
             "caleb": {
-              "x": -2.15,
-              "z": 5.25
+              "x": -1.08,
+              "z": 6.9
             },
             "trent": {
-              "x": 1.65,
-              "z": 1.6
-            },
-            "logan": {
-              "x": 2.8,
-              "z": 6.3
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.55
+              "x": 1.2,
+              "z": 1.45
             },
             "jaz": {
-              "x": 3.13,
-              "z": 2.9
+              "x": 3.0,
+              "z": 2.75
+            },
+            "harry": {
+              "x": -0.95,
+              "z": 2.65
+            },
+            "georgia": {
+              "x": 0.05,
+              "z": 6.55
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.6
             }
           },
           "actions": {
@@ -12742,29 +12711,29 @@
         },
         "p9:next-set-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -2.7,
+              "z": 3.4
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -0.15,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
@@ -12773,7 +12742,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -12794,29 +12763,29 @@
         },
         "p9:next-set-ready:t1507": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -2.7,
+              "z": 3.4
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -0.15,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
@@ -12825,7 +12794,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -12896,7 +12865,8 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          }
+          },
+          "routes": {}
         },
         "p1:serve-hit": {
           "anchors": {
@@ -12940,42 +12910,43 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          }
+          },
+          "routes": {}
         },
         "p1:serve-hit:t255": {
           "anchors": {
-            "harry": {
-              "x": -1.35,
-              "z": 4.35
-            },
             "caleb": {
-              "x": -2.87,
-              "z": 3.78
+              "x": -3.05,
+              "z": 2.4
             },
             "trent": {
-              "x": 2.35,
-              "z": 2.3
-            },
-            "logan": {
-              "x": 3.24,
-              "z": 8.43
-            },
-            "georgia": {
-              "x": 0.12,
-              "z": 5.95
+              "x": 0.85,
+              "z": 2.5
             },
             "jaz": {
-              "x": 1.2,
-              "z": 3.95
+              "x": 2.5,
+              "z": 3.45
+            },
+            "harry": {
+              "x": -1.45,
+              "z": 3.65
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 6.05
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 8.45
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "recover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -12996,34 +12967,34 @@
         },
         "p1:serve-hit:t328": {
           "anchors": {
-            "harry": {
-              "x": -1.15,
-              "z": 3.95
-            },
             "caleb": {
-              "x": -2.73,
-              "z": 4.15
+              "x": -2.95,
+              "z": 3.4
             },
             "trent": {
-              "x": 2.55,
-              "z": 1.6
-            },
-            "logan": {
-              "x": 3.21,
-              "z": 7.78
-            },
-            "georgia": {
-              "x": -0.1,
-              "z": 6.2
+              "x": 1.9,
+              "z": 1.3
             },
             "jaz": {
-              "x": 1.65,
-              "z": 3.85
+              "x": 2.9,
+              "z": 3.2
+            },
+            "harry": {
+              "x": -0.55,
+              "z": 3.2
+            },
+            "georgia": {
+              "x": -0.2,
+              "z": 6.2
+            },
+            "logan": {
+              "x": 3.25,
+              "z": 7.75
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "cover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "recover",
             "georgia": "cover",
@@ -13048,35 +13019,35 @@
         },
         "p1:serve-hit:t395": {
           "anchors": {
-            "harry": {
-              "x": -0.95,
-              "z": 3.58
-            },
             "caleb": {
-              "x": -2.63,
-              "z": 4.55
+              "x": -2.5,
+              "z": 4.4
             },
             "trent": {
-              "x": 2.65,
-              "z": 1.1
-            },
-            "logan": {
-              "x": 3.17,
-              "z": 7.18
-            },
-            "georgia": {
-              "x": -0.32,
-              "z": 6.45
+              "x": 2.7,
+              "z": 0.65
             },
             "jaz": {
-              "x": 2.15,
-              "z": 3.75
+              "x": 3.0,
+              "z": 3.4
+            },
+            "harry": {
+              "x": -0.15,
+              "z": 3.15
+            },
+            "georgia": {
+              "x": -0.8,
+              "z": 5.7
+            },
+            "logan": {
+              "x": 3.2,
+              "z": 7.1
             }
           },
           "actions": {
             "harry": "cover",
             "caleb": "cover",
-            "trent": "ready",
+            "trent": "block",
             "logan": "recover",
             "georgia": "cover",
             "jaz": "cover"
@@ -13096,33 +13067,65 @@
             "logan": [],
             "georgia": [],
             "jaz": []
+          },
+          "coverage": {
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.55,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.8,
+              "radiusZ": 0.6
+            },
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
+            }
           }
         },
         "p2:defence-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.85,
-              "z": 3.45
-            },
             "caleb": {
-              "x": -2.55,
-              "z": 4.85
+              "x": -2.5,
+              "z": 4.4
             },
             "trent": {
               "x": 2.7,
-              "z": 0.85
-            },
-            "logan": {
-              "x": 3.16,
-              "z": 6.98
-            },
-            "georgia": {
-              "x": -0.5,
-              "z": 6.55
+              "z": 0.65
             },
             "jaz": {
-              "x": 2.5,
-              "z": 3.7
+              "x": 3.0,
+              "z": 3.4
+            },
+            "harry": {
+              "x": -0.15,
+              "z": 3.15
+            },
+            "georgia": {
+              "x": -0.8,
+              "z": 5.7
+            },
+            "logan": {
+              "x": 3.2,
+              "z": 7.1
             }
           },
           "actions": {
@@ -13150,72 +13153,63 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.2
-            },
             "caleb": {
               "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
+              "radiusX": 1.55,
+              "radiusZ": 1.9
             },
             "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
-            },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p3:our-dig": {
           "anchors": {
-            "harry": {
-              "x": -1.05,
-              "z": 3.1
-            },
             "caleb": {
-              "x": -2.5,
-              "z": 4.85
+              "x": -2.45,
+              "z": 4.75
             },
             "trent": {
               "x": 2.3,
-              "z": 1.2
-            },
-            "logan": {
-              "x": 3.05,
-              "z": 6.9
-            },
-            "georgia": {
-              "x": -0.25,
-              "z": 3.95
+              "z": 1.05
             },
             "jaz": {
-              "x": 2.55,
-              "z": 3.65
+              "x": 3.0,
+              "z": 3.2
+            },
+            "harry": {
+              "x": -0.8,
+              "z": 3.05
+            },
+            "georgia": {
+              "x": -0.8,
+              "z": 4.0
+            },
+            "logan": {
+              "x": 3.0,
+              "z": 6.85
             }
           },
           "actions": {
@@ -13245,29 +13239,29 @@
         },
         "p4:second-contact": {
           "anchors": {
-            "harry": {
-              "x": -1.35,
-              "z": 3.15
-            },
             "caleb": {
               "x": -3.9,
               "z": 3.03
             },
             "trent": {
-              "x": 0.72,
-              "z": 1.89
-            },
-            "logan": {
-              "x": 2.52,
-              "z": 5.14
-            },
-            "georgia": {
-              "x": -0.65,
-              "z": 0.83
+              "x": 0.1,
+              "z": 1.55
             },
             "jaz": {
-              "x": 2.68,
-              "z": 2.37
+              "x": 3.05,
+              "z": 2.22
+            },
+            "harry": {
+              "x": -1.9,
+              "z": 3.1
+            },
+            "georgia": {
+              "x": -0.7,
+              "z": 1.18
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 5.8
             }
           },
           "actions": {
@@ -13276,7 +13270,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "set",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -13297,29 +13291,29 @@
         },
         "p5:our-attack": {
           "anchors": {
-            "harry": {
-              "x": -1.15,
-              "z": 3.2
-            },
             "caleb": {
               "x": -3.07,
               "z": 1.07
             },
             "trent": {
-              "x": 1.07,
-              "z": 0.95
-            },
-            "logan": {
-              "x": 3.1,
-              "z": 6.7
-            },
-            "georgia": {
-              "x": -0.45,
-              "z": 1.92
+              "x": 0.1,
+              "z": 1.02
             },
             "jaz": {
-              "x": 3.25,
-              "z": 1.25
+              "x": 3.2,
+              "z": 1.82
+            },
+            "harry": {
+              "x": -1.95,
+              "z": 3.03
+            },
+            "georgia": {
+              "x": -0.85,
+              "z": 2.45
+            },
+            "logan": {
+              "x": 2.6,
+              "z": 6.0
             }
           },
           "actions": {
@@ -13349,36 +13343,36 @@
         },
         "p6:defend-again": {
           "anchors": {
-            "harry": {
-              "x": -1.1,
-              "z": 3.13
-            },
             "caleb": {
-              "x": -2.81,
-              "z": 1.59
+              "x": -3.0,
+              "z": 2.45
             },
             "trent": {
-              "x": -0.11,
-              "z": 1.18
-            },
-            "logan": {
-              "x": 1.68,
-              "z": 5.36
-            },
-            "georgia": {
-              "x": -0.65,
-              "z": 2.83
+              "x": 1.1,
+              "z": 0.95
             },
             "jaz": {
-              "x": 2.89,
-              "z": 2.97
+              "x": 3.1,
+              "z": 2.45
+            },
+            "harry": {
+              "x": -1.3,
+              "z": 3.1
+            },
+            "georgia": {
+              "x": -0.7,
+              "z": 3.4
+            },
+            "logan": {
+              "x": 2.65,
+              "z": 6.25
             }
           },
           "actions": {
             "harry": "cover",
             "caleb": "recover",
             "trent": "recover",
-            "logan": "recover",
+            "logan": "cover",
             "georgia": "recover",
             "jaz": "cover"
           },
@@ -13401,34 +13395,34 @@
         },
         "p6:defend-again:t1025": {
           "anchors": {
-            "harry": {
-              "x": -0.8,
-              "z": 2.75
-            },
             "caleb": {
-              "x": -3.08,
-              "z": 3.5
+              "x": -2.7,
+              "z": 4.25
             },
             "trent": {
-              "x": 1.55,
-              "z": 0.85
+              "x": 2.2,
+              "z": 0.8
             },
-            "logan": {
-              "x": 1.7,
-              "z": 6.5
+            "jaz": {
+              "x": 3.05,
+              "z": 3.15
+            },
+            "harry": {
+              "x": -1.05,
+              "z": 3.2
             },
             "georgia": {
               "x": -0.85,
-              "z": 4.35
+              "z": 4.4
             },
-            "jaz": {
-              "x": 2.75,
-              "z": 3.6
+            "logan": {
+              "x": 2.55,
+              "z": 6.55
             }
           },
           "actions": {
             "harry": "cover",
-            "caleb": "recover",
+            "caleb": "ready",
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
@@ -13453,29 +13447,29 @@
         },
         "p7:their-next-attack": {
           "anchors": {
-            "harry": {
-              "x": -0.85,
-              "z": 2.6
-            },
             "caleb": {
-              "x": -2.95,
-              "z": 5.25
+              "x": -2.05,
+              "z": 5.65
             },
             "trent": {
-              "x": 2.55,
-              "z": 0.65
+              "x": 2.72,
+              "z": 0.68
             },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
+            "jaz": {
+              "x": 3.02,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -0.55,
+              "z": 3.18
             },
             "georgia": {
               "x": -0.85,
               "z": 5.45
             },
-            "jaz": {
-              "x": 2.75,
-              "z": 3.7
+            "logan": {
+              "x": 2.55,
+              "z": 6.7
             }
           },
           "actions": {
@@ -13503,72 +13497,63 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.2
-            },
             "caleb": {
               "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
+              "radiusX": 1.55,
+              "radiusZ": 1.9
             },
             "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
-            },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p7:their-next-attack:t1117": {
           "anchors": {
-            "harry": {
-              "x": -0.85,
-              "z": 2.6
-            },
             "caleb": {
-              "x": -2.95,
-              "z": 5.25
+              "x": -2.0,
+              "z": 5.8
             },
             "trent": {
-              "x": 2.55,
-              "z": 0.65
+              "x": 2.72,
+              "z": 0.68
             },
-            "logan": {
-              "x": 2.25,
-              "z": 6.5
+            "jaz": {
+              "x": 3.02,
+              "z": 3.35
+            },
+            "harry": {
+              "x": -0.55,
+              "z": 3.18
             },
             "georgia": {
               "x": -0.85,
-              "z": 5.45
+              "z": 5.75
             },
-            "jaz": {
-              "x": 2.75,
-              "z": 3.7
+            "logan": {
+              "x": 2.55,
+              "z": 6.7
             }
           },
           "actions": {
@@ -13596,72 +13581,63 @@
             "jaz": []
           },
           "coverage": {
-            "harry": {
-              "role": "tip",
-              "radiusX": 1.4,
-              "radiusZ": 1.75,
-              "offsetX": -0.2
-            },
             "caleb": {
               "role": "deep",
-              "radiusX": 1.7,
-              "radiusZ": 2.3,
-              "offsetX": -0.15,
-              "offsetZ": 0.35
+              "radiusX": 1.55,
+              "radiusZ": 1.9
             },
             "trent": {
               "role": "block",
-              "radiusX": 0.85,
+              "radiusX": 0.8,
               "radiusZ": 0.6
             },
-            "logan": {
-              "role": "deep",
-              "radiusX": 1.35,
-              "radiusZ": 2.15,
-              "offsetX": 0.15,
-              "offsetZ": 0.15
-            },
-            "georgia": {
-              "role": "deep",
-              "radiusX": 1.85,
-              "radiusZ": 2.1,
-              "offsetX": -0.25,
-              "offsetZ": 0.25
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
             },
             "jaz": {
               "role": "tip",
-              "radiusX": 1.3,
-              "radiusZ": 1.75,
-              "offsetX": 0.1,
-              "offsetZ": -0.1
+              "radiusX": 1.1,
+              "radiusZ": 1.3
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.6,
+              "radiusZ": 1.85
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.25,
+              "radiusZ": 1.7
             }
           }
         },
         "p8:next-dig": {
           "anchors": {
-            "harry": {
-              "x": -0.71,
-              "z": 1.32
-            },
             "caleb": {
-              "x": -2.15,
-              "z": 5.25
+              "x": -1.08,
+              "z": 6.9
             },
             "trent": {
-              "x": 1.65,
-              "z": 1.6
-            },
-            "logan": {
-              "x": 2.8,
-              "z": 6.3
-            },
-            "georgia": {
-              "x": -0.85,
-              "z": 6.55
+              "x": 1.2,
+              "z": 1.45
             },
             "jaz": {
-              "x": 3.13,
-              "z": 2.9
+              "x": 3.0,
+              "z": 2.75
+            },
+            "harry": {
+              "x": -0.95,
+              "z": 2.65
+            },
+            "georgia": {
+              "x": -0.55,
+              "z": 6.0
+            },
+            "logan": {
+              "x": 2.55,
+              "z": 6.6
             }
           },
           "actions": {
@@ -13691,29 +13667,29 @@
         },
         "p9:next-set-ready": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -2.7,
+              "z": 3.4
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -0.15,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
@@ -13722,7 +13698,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -13743,29 +13719,29 @@
         },
         "p9:next-set-ready:t1507": {
           "anchors": {
-            "harry": {
-              "x": -0.81,
-              "z": 0.57
-            },
             "caleb": {
-              "x": -3.85,
-              "z": 2.65
+              "x": -2.7,
+              "z": 3.4
             },
             "trent": {
-              "x": 0.75,
-              "z": 1.45
-            },
-            "logan": {
-              "x": 2.25,
-              "z": 5.45
-            },
-            "georgia": {
-              "x": -1.2,
-              "z": 5.25
+              "x": 0.0,
+              "z": 1.6
             },
             "jaz": {
-              "x": 3.35,
-              "z": 2.3
+              "x": 3.2,
+              "z": 2.25
+            },
+            "harry": {
+              "x": -0.75,
+              "z": 1.2
+            },
+            "georgia": {
+              "x": -0.15,
+              "z": 6.25
+            },
+            "logan": {
+              "x": 2.5,
+              "z": 6.2
             }
           },
           "actions": {
@@ -13774,7 +13750,7 @@
             "trent": "ready",
             "logan": "cover",
             "georgia": "cover",
-            "jaz": "cover"
+            "jaz": "ready"
           },
           "preservePath": {
             "harry": true,
@@ -13814,18 +13790,18 @@
         "Attack": "Left Logan and middle Trent are first options, Georgia right when she did not set. All others cover; recover into useful next defence, never to the serve-contact positions."
       },
       "3/they": {
-        "Start": "Hold R3 legal service-contact positions: Caleb P4 left, Jaz P3 middle, Trent P2 right; Harry P5 back-left, Georgia P6 deep middle, Logan P1 deep right. No release before serve contact.",
-        "Receive": "Georgia takes the example deep-centre serve; Caleb takes larger left/deep seams; Logan owns narrow deep-right, Jaz short-right, Trent short-right/front. Harry is NOT a routine passer; he only receives an unavoidable short/net-roll ball.",
-        "Set": "After any non-Harry first touch, Harry runs directly to the playable set around (-0.65,0.83), NOT back to P5. If Harry has first contact, Georgia moves to that same target for the second, Caleb is emergency if closest.",
-        "Attack": "Caleb hits the illustrated left-side attack; Trent stays a right/mid alternative and Jaz a controlled right-side option. Harry and the remaining three cover blocked rebounds and short/deep returns.",
-        "Defend": "From the previous attack, Trent pre-shifts for a reachable single block on our left OR right. Caleb covers left/deep; Harry short-centre/left and prepares to set; Jaz short right; Georgia deep centre; Logan deep right. On a QUICK far-left set Trent cannot reach, Caleb may block if already close, while left floor coverage shifts; no magical rapid double."
+        "Start": "R3 legal service stack: Caleb P4 left, Jaz P3 middle BY ROTATION ONLY, Trent P2 right; Harry P5, Georgia P6, Logan P1. After serve contact, TRENT TAKES MIDDLE; JAZ RELEASES RIGHT OUTSIDE.",
+        "Receive": "Georgia normally calls deep centre, Caleb covers left/deep seams and Logan narrow right. Harry avoids routine first receive. As the serve crosses, Trent settles centre and Jaz moves right outside. Harry releases directly for a high second contact.",
+        "Set": "Harry sets from a reachable left-centre window after another player passes; never zigzag or reset. On unavoidable Harry-first short serve, Georgia takes the actual second set, with Caleb only if genuinely nearer.",
+        "Attack": "Caleb is sample LEFT hitter; Trent is MIDDLE hitter/option, and Jaz is genuine RIGHT OUTSIDE hitter for a high, safe set, not a middle quick or blocker. The backcourt and nonhitter cover rebounds and return lanes.",
+        "Defend": "Opponent OUR LEFT: Caleb SOLO BLOCKS left, Trent DROPS into short-middle floor, Harry COVERS behind Caleb, Jaz covers short right, Georgia deep left (next dig), Logan deep right. Opponent OUR RIGHT: Trent solo BLOCKS right, Caleb deep-left (next dig), Harry short-middle cover, Jaz short right, Georgia deep centre, Logan deep right. Harry sets the next second contact."
       },
       "3/us": {
-        "Start": "Logan P1 actually serves behind z=9, with all others in R3 legal service order. Everyone holds until service contact; nobody runs ahead.",
-        "Receive": "After our serve, first team contact is a dig of their return. Georgia owns the normal deep-centre dig; Harry covers reachable left-short balls and is only first if the ball comes into his area. Logan returns to compact right-back.",
-        "Set": "After Georgia or anyone else digs, Harry sets via the short left-centre lane around (-0.65,0.83). Harry-first dig: Georgia takes the second contact with Caleb emergency if nearer.",
-        "Attack": "Caleb is the standard left hitter; Trent right/mid and Jaz controlled right alternative as timing allows. Others cover blocked hits; no forced reset to official starting places.",
-        "Defend": "Trent pre-shifts during opponent three-touch play and singles a reachable side; Caleb deep-left, Harry short-left/centre and setter release, Jaz short-right, Georgia deep middle, Logan right-back. Very fast attacks may need the nearest local blocker or no block; do not demand Trent cover both antennas instantly. After second dig Caleb, Harry sets again."
+        "Start": "Logan serves from P1 beyond baseline. Other five hold legal R3 stack through service hit. Immediately afterwards Trent shifts from P2 to MIDDLE; Jaz from official P3 to RIGHT OUTSIDE.",
+        "Receive": "After our serve the first team ball is an opponent-return DIG. On OUR LEFT: Caleb blocks near left antenna, Trent drops to short-centre floor, Harry covers behind Caleb; Georgia digs the sample deep return. On OUR RIGHT: Trent blocks, Caleb stays floor. Logan re-enters right-back with realistic time.",
+        "Set": "Harry takes second after Georgia (or whoever actually digs), moving directly from his cover spot. If Harry has the necessary first dig/tip, Georgia sets, and Caleb is the reachable emergency alternative.",
+        "Attack": "Caleb hits the sample from left; Trent is a genuine middle alternative, Jaz is genuine RIGHT OUTSIDE on a safe high set. Do not force Jaz to stay in middle or Trent to stay at outside.",
+        "Defend": "On second opponent attack do not reset to serve positions. OUR LEFT: Caleb left SOLO BLOCK; Trent short-middle floor, Harry behind block, Jaz short-right, Georgia deep-left (next dig), Logan deep-right. OUR RIGHT: Trent right block, Caleb deep-left (next dig), Harry centre cover, Jaz short-right, Georgia deep-centre, Logan deep-right. Harry next SET."
       }
     },
     "players": {
@@ -13945,15 +13921,15 @@
       "3/they": {
         "Start": {
           "harry": {
-            "primary": "P5 back-left in the legal receiving stack, protected from ordinary passing; move only after the serve and release directly towards the left-of-centre set.",
+            "primary": "P5 back left, NOT ordinary first receiver. Maintain legal overlap until serve struck; move directly to setting lane only when first ball demands it.",
             "ifDifferent": "If the serve drops at you, receive safely and call Georgia to set."
           },
           "caleb": {
-            "primary": "P4 front-left: take reachable left/deep serve seam and be ready as the strongest front-left hitter.",
+            "primary": "Front P4 left. Hold legal position until serve contact; after hit, become left outside hitter and strongest left floor defender as appropriate.",
             "ifDifferent": "When you pass first, defer the fast approach; Trent is a safer next hitter."
           },
           "trent": {
-            "primary": "P2 front-right: take local short-right ball, stay ready to hit right and read their setter.",
+            "primary": "Official P2 at contact. AFTER serve hit, exchange into central MIDDLE hitting and read position. Do not remain right outside.",
             "ifDifferent": "Avoid a needless diagonal chase through Jaz."
           },
           "logan": {
@@ -13965,21 +13941,21 @@
             "ifDifferent": "If Harry took first contact, move for the second set rather than another dig."
           },
           "jaz": {
-            "primary": "P3 short middle: shallow centre and tips. Only cover what you can reach.",
+            "primary": "Official P3 middle ONLY to satisfy legal rotational order; after contact move to RIGHT OUTSIDE hitting/short-right responsibility.",
             "ifDifferent": "Don't play as a middle blocker or chase deep-right."
           }
         },
         "Receive": {
           "harry": {
-            "primary": "Avoid the normal first pass; only handle an unavoidable short/net-roll ball in your own lane. Release directly for second if a teammate passes.",
+            "primary": "Shelter from normal first touch and read ball; move directly toward a reachable second set, or handle a necessary short-left ball then call Georgia.",
             "ifDifferent": "If you passed, hold short-left cover; Georgia sets."
           },
           "caleb": {
-            "primary": "Own deep-left and middle-left when the flight favours you; call MINE clearly.",
+            "primary": "Cover large but realistic left/seam balls when opponents serve, or left/deep defences after OUR serve; do not steal every ball.",
             "ifDifferent": "Georgia takes clear central/deep sample balls."
           },
           "trent": {
-            "primary": "Help in short-right, keep the right hitter option open after a clean pass."
+            "primary": "Move into the middle lane after serve contact; take only short/local first ball if it is really yours, otherwise keep middle attack readiness."
           },
           "logan": {
             "primary": "Compact deep-right and line. Call help early on faster seam balls."
@@ -13989,20 +13965,20 @@
             "ifDifferent": "Harry first: release to set high at centre-left."
           },
           "jaz": {
-            "primary": "Manageable short-centre receive/tip, then defend without wide sprinting."
+            "primary": "Move right outside after the serve. Take only manageable nearby short-right or seam first balls; do not hold central quick-block space."
           }
         },
         "Set": {
           "harry": {
-            "primary": "Second contact after any teammate first contact, from the reachable left-of-centre window. If YOU took the first ball, cover short and let Georgia set.",
+            "primary": "After a non-Harry first contact, take SECOND from left-centre without circles, unnecessary resets or crossing Trent/Jaz. If you took first, Georgia takes second.",
             "ifDifferent": "When you received first, Georgia takes second and Caleb can help if nearer."
           },
           "caleb": {
-            "primary": "Open left attacking route on a clean high pass; main sample hitter.",
+            "primary": "Stay a genuine left attacker after Harry/Georgia second contact, not default setter unless Harry took first and Georgia cannot reach.",
             "ifDifferent": "If you were first passer, call for a slower high ball."
           },
           "trent": {
-            "primary": "Front-right real hitting alternative, not default setter.",
+            "primary": "Prepare a central attacking option for Harry or emergency setter, not a setter detour or an outside-hitter run.",
             "ifDifferent": "If Georgia cannot get to Harry's dig, Caleb is a stronger emergency setter."
           },
           "logan": {
@@ -14013,18 +13989,18 @@
             "ifDifferent": "Harry-first: YOU set safely, then recover; don't simultaneously claim an attack."
           },
           "jaz": {
-            "primary": "Shallow centre attack cover or controlled safe ball, not a middle quick."
+            "primary": "Remain AVAILABLE as right-side outside hitter on a high safe set, not a central blocker or default middle hit."
           }
         },
         "Attack": {
           "harry": {
-            "primary": "Cover the hitter briefly after the set, then defend short centre/left; NEVER return to an initial P5 spot just to reset."
+            "primary": "Cover short behind own hit and prepare defensive support; do not return to a stale start position."
           },
           "caleb": {
-            "primary": "Attack from left in the example; land and prepare deep-left defence, not a return to P4 start."
+            "primary": "Sample left-side hitter; prepare controlled recovery without resetting to service-contact position."
           },
           "trent": {
-            "primary": "Right-side alternative hitter and future single blocker."
+            "primary": "Middle hitter/short rebound cover. On our hit, stay central and read the next opposing set."
           },
           "logan": {
             "primary": "Protect right deep and hard line when our hit comes back."
@@ -14033,44 +14009,44 @@
             "primary": "Deep-middle rebound and cross-court insurance; if you just set, recover first."
           },
           "jaz": {
-            "primary": "Cover short-centre rebound or soft tip; short movement only."
+            "primary": "Right OUTSIDE hitting option with a high set comfortably off the net. If Caleb hits left, own short-right rebound cover."
           }
         },
         "Defend": {
           "harry": {
-            "primary": "Short left/centre defence, protected from ordinary deep digs; once Caleb or another player digs, release directly to set the next ball.",
+            "primary": "OPPONENT LEFT: explicit SHORT-LEFT COVER BEHIND CALEB BLOCK, ready to take tips/deflections and then set Georgia dig. OPPONENT RIGHT: shade short-middle behind Trent, still reachable for second contact.",
             "ifDifferent": "If you actually dig, Georgia or Caleb takes second."
           },
           "caleb": {
-            "primary": "Take the strongest left/deep and left-centre digs. If Trent cannot reach a quick far-left set, consider a local front-row block, but tell Georgia and Harry to shift floor lanes.",
+            "primary": "OPPONENT LEFT: front-row LEFT SOLO BLOCK at net, not deep dig. Georgia takes illustrated left-deep dig. OPPONENT RIGHT: leave Trent at right block, cover left/deep and illustrated next dig yourself.",
             "ifDifferent": "For a quick left set that Trent cannot close, block locally only if truly reachable."
           },
           "trent": {
-            "primary": "Read their attack: single-block the reachable left or right side after an early shift; on a quick far-side set take the shorter viable role and call the nearest blocker, rather than sprint across the whole net.",
+            "primary": "For opponent LEFT, drop from middle into COMPACT short-centre floor defence while Caleb alone blocks left. For opponent RIGHT, close to a feasible right-side solo block. Do not chase a far-left block.",
             "ifDifferent": "Too-fast far-left set: call NO BLOCK/Caleb early, don't teleport across court."
           },
           "logan": {
-            "primary": "P1 back-right deep line and cross; limited but real passing area.",
+            "primary": "Back-right narrow deep/line lane; after YOUR service enter quickly but realistically. R3 back-row: NEVER block.",
             "ifDifferent": "Never jump to block when back-row."
           },
           "georgia": {
-            "primary": "Deep-middle and left-centre seam, ready for a safe first dig."
+            "primary": "Opponent LEFT: own reachable deep-left/middle lane and the example next dig because Caleb is BLOCKING. Opponent RIGHT: deep-middle seam, supporting Caleb floor dig; if Harry digs first, be ready to set."
           },
           "jaz": {
-            "primary": "Own manageable short-right tips/cuts, not a middle block or an impossible deep chase."
+            "primary": "Short-right tip, cut and line responsibility while remaining near right outside. Never an effective centre blocker or deep-left chaser."
           }
         }
       },
       "3/us": {
         "Start": {
           "harry": {
-            "primary": "Remain P5 back-left until Logan actually serves, then defend shallow left while preserving a direct setting lane."
+            "primary": "P5 back left, NOT ordinary first receiver. Maintain legal overlap until serve struck; move directly to setting lane only when first ball demands it."
           },
           "caleb": {
-            "primary": "P4 front-left: after serve, protect the left/deep and remain a later hitting option."
+            "primary": "Front P4 left. Hold legal position until serve contact; after hit, become left outside hitter and strongest left floor defender as appropriate."
           },
           "trent": {
-            "primary": "P2 front-right: read their set; you are the primary viable blocker."
+            "primary": "Official P2 at contact. AFTER serve hit, exchange into central MIDDLE hitting and read position. Do not remain right outside."
           },
           "logan": {
             "primary": "P1 outside baseline: SERVE first, then recover into deep-right defence.",
@@ -14080,19 +14056,19 @@
             "primary": "P6 middle back: read deep-centre and prepare a realistic dig."
           },
           "jaz": {
-            "primary": "P3 front-middle: shallow-centre soft ball and tip coverage, no normal block."
+            "primary": "Official P3 middle ONLY to satisfy legal rotational order; after contact move to RIGHT OUTSIDE hitting/short-right responsibility."
           }
         },
         "Receive": {
           "harry": {
-            "primary": "Defend shallow left as their attack arrives. If someone else digs, set; if your own dig is necessary, call Georgia for second.",
+            "primary": "Shelter from normal first touch and read ball; move directly toward a reachable second set, or handle a necessary short-left ball then call Georgia.",
             "ifDifferent": "If the incoming ball is yours, dig and call Georgia for second."
           },
           "caleb": {
-            "primary": "Help on left/deep and preserve the middle seam while Georgia digs."
+            "primary": "Cover large but realistic left/seam balls when opponents serve, or left/deep defences after OUR serve; do not steal every ball."
           },
           "trent": {
-            "primary": "Recover out of the block and set up a safe right-side attack option."
+            "primary": "Move into the middle lane after serve contact; take only short/local first ball if it is really yours, otherwise keep middle attack readiness."
           },
           "logan": {
             "primary": "Back-right line coverage after serving; avoid leaving the corner exposed."
@@ -14102,20 +14078,20 @@
             "ifDifferent": "If Harry takes first, YOU set the second, Caleb backs you up."
           },
           "jaz": {
-            "primary": "Short-centre tip and easy ball; don't chase deep crosscourt."
+            "primary": "Move right outside after the serve. Take only manageable nearby short-right or seam first balls; do not hold central quick-block space."
           }
         },
         "Set": {
           "harry": {
-            "primary": "Second contact after any teammate first contact, from the reachable left-of-centre window. If YOU took the first ball, cover short and let Georgia set.",
+            "primary": "After a non-Harry first contact, take SECOND from left-centre without circles, unnecessary resets or crossing Trent/Jaz. If you took first, Georgia takes second.",
             "ifDifferent": "Harry first: Georgia sets and you protect short-left."
           },
           "caleb": {
-            "primary": "Approach from front-left when you did not take the dig.",
+            "primary": "Stay a genuine left attacker after Harry/Georgia second contact, not default setter unless Harry took first and Georgia cannot reach.",
             "ifDifferent": "If emergency second contact falls to you, Trent becomes the main hitter."
           },
           "trent": {
-            "primary": "Real right hitter with a high safe pass, NOT the routine second setter."
+            "primary": "Prepare a central attacking option for Harry or emergency setter, not a setter detour or an outside-hitter run."
           },
           "logan": {
             "primary": "Stay in deep-right defence; no fake front-row attack."
@@ -14125,18 +14101,18 @@
             "ifDifferent": "Harry-first: move into second set, then recover naturally."
           },
           "jaz": {
-            "primary": "Hold short central attack cover and give a calm safe option."
+            "primary": "Remain AVAILABLE as right-side outside hitter on a high safe set, not a central blocker or default middle hit."
           }
         },
         "Attack": {
           "harry": {
-            "primary": "Cover the hitter briefly after the set, then defend short centre/left; NEVER return to an initial P5 spot just to reset."
+            "primary": "Cover short behind own hit and prepare defensive support; do not return to a stale start position."
           },
           "caleb": {
-            "primary": "Main left hitter, then return to deep-left responsibility for their next attack."
+            "primary": "Sample left-side hitter; prepare controlled recovery without resetting to service-contact position."
           },
           "trent": {
-            "primary": "Right hitter alternative and single-block defender on next read."
+            "primary": "Middle hitter/short rebound cover. On our hit, stay central and read the next opposing set."
           },
           "logan": {
             "primary": "Cover the right/deep line, especially on their fast counterattack."
@@ -14145,30 +14121,30 @@
             "primary": "Cover deep centre and cross seam; no unnecessary chase to the net."
           },
           "jaz": {
-            "primary": "Own short centre/tips and protect the hitter's rebound."
+            "primary": "Right OUTSIDE hitting option with a high set comfortably off the net. If Caleb hits left, own short-right rebound cover."
           }
         },
         "Defend": {
           "harry": {
-            "primary": "Short left/centre defence, protected from ordinary deep digs; once Caleb or another player digs, release directly to set the next ball.",
+            "primary": "OPPONENT LEFT: explicit SHORT-LEFT COVER BEHIND CALEB BLOCK, ready to take tips/deflections and then set Georgia dig. OPPONENT RIGHT: shade short-middle behind Trent, still reachable for second contact.",
             "ifDifferent": "If you dig, Georgia or Caleb becomes setter."
           },
           "caleb": {
-            "primary": "Take the strongest left/deep and left-centre digs. If Trent cannot reach a quick far-left set, consider a local front-row block, but tell Georgia and Harry to shift floor lanes.",
+            "primary": "OPPONENT LEFT: front-row LEFT SOLO BLOCK at net, not deep dig. Georgia takes illustrated left-deep dig. OPPONENT RIGHT: leave Trent at right block, cover left/deep and illustrated next dig yourself.",
             "ifDifferent": "Quick left shot: you can be the nearer emergency blocker if Trent cannot reach."
           },
           "trent": {
-            "primary": "Read their attack: single-block the reachable left or right side after an early shift; on a quick far-side set take the shorter viable role and call the nearest blocker, rather than sprint across the whole net.",
+            "primary": "For opponent LEFT, drop from middle into COMPACT short-centre floor defence while Caleb alone blocks left. For opponent RIGHT, close to a feasible right-side solo block. Do not chase a far-left block.",
             "ifDifferent": "Don't insist on a slow cross-court block that opens the floor."
           },
           "logan": {
-            "primary": "Recover after serving to narrow deep-right/line support."
+            "primary": "Back-right narrow deep/line lane; after YOUR service enter quickly but realistically. R3 back-row: NEVER block."
           },
           "georgia": {
-            "primary": "Middle/deep helper, cover seam while Caleb owns the next dig."
+            "primary": "Opponent LEFT: own reachable deep-left/middle lane and the example next dig because Caleb is BLOCKING. Opponent RIGHT: deep-middle seam, supporting Caleb floor dig; if Harry digs first, be ready to set."
           },
           "jaz": {
-            "primary": "Own manageable short-right tips/cuts, not a middle block or an impossible deep chase."
+            "primary": "Short-right tip, cut and line responsibility while remaining near right outside. Never an effective centre blocker or deep-left chaser."
           }
         }
       }
