@@ -29,6 +29,9 @@ export function CourtStrategyPanel({onStudio,review,onExitReview,onImportReview}
         studio.previewImport(json,s.published??undefined)
         const applied=useStrategies.getState()
         if(applied.error||applied.working?.id!==TEAM_PRESET_ID)throw new Error(applied.error||'Published team strategy is invalid.')
+        const authored=[...new Set(Object.keys(applied.working.caseOverrides??{}).map(k=>Number(k.split('/')[0])))].sort((a,b)=>a-b)
+        if(!authored.includes(s.rotation))s.choose(authored[0]??1,s.serve)
+        s.seek(0)
         setMessage('Published R1 proposal loaded. Your saved strategies are unchanged. Save a local copy if you want to edit it.')
       }catch(e){setMessage(e instanceof Error?e.message:'Could not load the published team strategy.')}
     } else {
