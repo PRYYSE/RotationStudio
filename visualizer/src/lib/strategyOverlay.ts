@@ -198,6 +198,20 @@ export function applyStrategyOverlay(base: Bundle, draft: StrategyDraft): { bund
     if (contacts?.secondSetter) s.secondContact.player = contacts.secondSetter
     if (s.tactics && contacts?.nextSetter) s.tactics.nextSetter = contacts.nextSetter
     if (s.tactics && contacts?.fallbackSetter) s.tactics.fallbackSetter = contacts.fallbackSetter
+    if (contacts) {
+      const personName = (id: string) => bundle.team.players.find(p => p.id === id)?.name ?? id
+      const cue = (label: string, value: string) => {
+        const phase = s.phases.find(p => p.label === label)
+        if (phase) phase.cue = value
+      }
+      if (contacts.secondSetter) {
+        const name = personName(contacts.secondSetter)
+        cue('Second contact', `${name} takes the actual second ball. Hitter and floor coverers keep their own reachable assignments.`)
+        if (s.tactics && s.tactics.firstTouch === 'harry') s.tactics.coachNote = `Harry took first contact: ${name} sets second. Caleb is the emergency setter if closer.`
+      }
+      if (contacts.nextReceiver) cue('Next dig', `${personName(contacts.nextReceiver)} takes the illustrated next dig. Everyone else covers a defined floor lane; Harry releases to set.`)
+      if (contacts.nextSetter) cue('Next set ready', `${personName(contacts.nextSetter)} sets the next ball from the actual defence position, without resetting to the service start.`)
+    }
     // Record endpoint owners from immutable authored geometry BEFORE edits.
     const owners = s.ball.map(b => (['from', 'to'] as const).map(side => {
       const time = side === 'from' ? b.start : b.end
