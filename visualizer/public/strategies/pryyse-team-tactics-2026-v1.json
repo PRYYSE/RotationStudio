@@ -2,7 +2,7 @@
   "kind": "rotation-studio-strategy",
   "schemaVersion": 2,
   "id": "pryyse-team-tactics-2026-v1",
-  "name": "PRYYSE Team · R1 both serve states",
+  "name": "PRYYSE Team · R1 + R3 both serves",
   "author": "PRYYSE · coached proposal",
   "baseRevision": "8c0fb5d",
   "overrides": {},
@@ -6591,6 +6591,6762 @@
             "logan": true,
             "georgia": true,
             "jaz": true
+          }
+        }
+      }
+    },
+    "3/they/left/normal": {
+      "contacts": {
+        "secondSetter": "harry",
+        "nextReceiver": "caleb",
+        "nextSetter": "harry",
+        "fallbackSetter": "georgia"
+      },
+      "eventOverrides": {
+        "p0:legal-start": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 6.9
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "coverage": {
+            "harry": {
+              "role": "setter-support",
+              "radiusX": 0.8,
+              "radiusZ": 1
+            },
+            "caleb": {
+              "role": "receive",
+              "radiusX": 1.75,
+              "radiusZ": 1.95,
+              "offsetZ": 0.4
+            },
+            "trent": {
+              "role": "receive",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
+            },
+            "logan": {
+              "role": "receive",
+              "radiusX": 0.8,
+              "radiusZ": 1.2
+            },
+            "georgia": {
+              "role": "receive",
+              "radiusX": 1.85,
+              "radiusZ": 1.95
+            },
+            "jaz": {
+              "role": "receive",
+              "radiusX": 1,
+              "radiusZ": 1.35
+            }
+          }
+        },
+        "p1:serve-hit": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 6.9
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p2:first-pass": {
+          "anchors": {
+            "harry": {
+              "x": -0.75,
+              "z": 3.25
+            },
+            "caleb": {
+              "x": -2.45,
+              "z": 4.18
+            },
+            "trent": {
+              "x": 1.8,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.7
+            },
+            "georgia": {
+              "x": -0.4,
+              "z": 6.55
+            },
+            "jaz": {
+              "x": -0.08,
+              "z": 3.4
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "cover",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "receive",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p3:second-contact": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 2.92
+            },
+            "trent": {
+              "x": 2.02,
+              "z": 2.15
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.65
+            },
+            "georgia": {
+              "x": -0.45,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p4:our-attack": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.55
+            },
+            "caleb": {
+              "x": -2.8,
+              "z": 2.15
+            },
+            "trent": {
+              "x": 1.48,
+              "z": 1.82
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.7
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 5.72
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.35
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "attack",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:defend-now": {
+          "anchors": {
+            "harry": {
+              "x": -0.75,
+              "z": 3.35
+            },
+            "caleb": {
+              "x": -2.6,
+              "z": 3.47
+            },
+            "trent": {
+              "x": 0.92,
+              "z": 1.5
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.75
+            },
+            "georgia": {
+              "x": -0.28,
+              "z": 5.96
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:defend-now:t730": {
+          "anchors": {
+            "harry": {
+              "x": -0.964,
+              "z": 3.7
+            },
+            "caleb": {
+              "x": -2.537,
+              "z": 4.301
+            },
+            "trent": {
+              "x": -0.267,
+              "z": 1.16
+            },
+            "logan": {
+              "x": 3.092,
+              "z": 6.734
+            },
+            "georgia": {
+              "x": -0.29,
+              "z": 6.164
+            },
+            "jaz": {
+              "x": -0.162,
+              "z": 3.161
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:their-attack": {
+          "anchors": {
+            "harry": {
+              "x": -1.16,
+              "z": 4.02
+            },
+            "caleb": {
+              "x": -2.48,
+              "z": 5.06
+            },
+            "trent": {
+              "x": -1.35,
+              "z": 0.85
+            },
+            "logan": {
+              "x": 3.13,
+              "z": 6.72
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 6.35
+            },
+            "jaz": {
+              "x": -0.2,
+              "z": 3.08
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p7:defence-ready": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.15
+            },
+            "caleb": {
+              "x": -2.4,
+              "z": 5.2
+            },
+            "trent": {
+              "x": -1.38,
+              "z": 0.85
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.75
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 6.42
+            },
+            "jaz": {
+              "x": -0.15,
+              "z": 3.12
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p8:next-dig": {
+          "anchors": {
+            "harry": {
+              "x": -0.89,
+              "z": 3.55
+            },
+            "caleb": {
+              "x": -1.08,
+              "z": 6.9
+            },
+            "trent": {
+              "x": -1.2,
+              "z": 1.48
+            },
+            "logan": {
+              "x": 3.12,
+              "z": 6.82
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 6.35
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.26
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "receive",
+            "trent": "recover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1182": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1220": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        }
+      }
+    },
+    "3/they/left/harry": {
+      "contacts": {
+        "secondSetter": "georgia",
+        "nextReceiver": "caleb",
+        "nextSetter": "harry",
+        "fallbackSetter": "caleb"
+      },
+      "eventOverrides": {
+        "p0:legal-start": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 6.9
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "coverage": {
+            "harry": {
+              "role": "setter-support",
+              "radiusX": 0.8,
+              "radiusZ": 1
+            },
+            "caleb": {
+              "role": "receive",
+              "radiusX": 1.75,
+              "radiusZ": 1.95,
+              "offsetZ": 0.4
+            },
+            "trent": {
+              "role": "receive",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
+            },
+            "logan": {
+              "role": "receive",
+              "radiusX": 0.8,
+              "radiusZ": 1.2
+            },
+            "georgia": {
+              "role": "receive",
+              "radiusX": 1.85,
+              "radiusZ": 1.95
+            },
+            "jaz": {
+              "role": "receive",
+              "radiusX": 1,
+              "radiusZ": 1.35
+            }
+          }
+        },
+        "p1:serve-hit": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 6.9
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p2:first-pass": {
+          "anchors": {
+            "harry": {
+              "x": -1.25,
+              "z": 3.25
+            },
+            "caleb": {
+              "x": -2.45,
+              "z": 4.18
+            },
+            "trent": {
+              "x": 1.8,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.7
+            },
+            "georgia": {
+              "x": 0.12,
+              "z": 5.15
+            },
+            "jaz": {
+              "x": -0.08,
+              "z": 3.4
+            }
+          },
+          "actions": {
+            "harry": "receive",
+            "caleb": "cover",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "ready",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p3:second-contact": {
+          "anchors": {
+            "harry": {
+              "x": -0.88,
+              "z": 3.42
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 2.92
+            },
+            "trent": {
+              "x": 2.02,
+              "z": 2.15
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.65
+            },
+            "georgia": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "set",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p4:our-attack": {
+          "anchors": {
+            "harry": {
+              "x": -0.86,
+              "z": 3.4
+            },
+            "caleb": {
+              "x": -2.8,
+              "z": 2.15
+            },
+            "trent": {
+              "x": 1.48,
+              "z": 1.82
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.7
+            },
+            "georgia": {
+              "x": 0.65,
+              "z": 2.55
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.35
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "attack",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:defend-now": {
+          "anchors": {
+            "harry": {
+              "x": -0.75,
+              "z": 3.35
+            },
+            "caleb": {
+              "x": -2.6,
+              "z": 3.47
+            },
+            "trent": {
+              "x": 0.92,
+              "z": 1.5
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.75
+            },
+            "georgia": {
+              "x": 0.55,
+              "z": 3.78
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:defend-now:t730": {
+          "anchors": {
+            "harry": {
+              "x": -0.964,
+              "z": 3.7
+            },
+            "caleb": {
+              "x": -2.537,
+              "z": 4.301
+            },
+            "trent": {
+              "x": -0.267,
+              "z": 1.16
+            },
+            "logan": {
+              "x": 3.092,
+              "z": 6.734
+            },
+            "georgia": {
+              "x": 0.315,
+              "z": 4.794
+            },
+            "jaz": {
+              "x": -0.162,
+              "z": 3.161
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:their-attack": {
+          "anchors": {
+            "harry": {
+              "x": -1.16,
+              "z": 4.02
+            },
+            "caleb": {
+              "x": -2.48,
+              "z": 5.06
+            },
+            "trent": {
+              "x": -1.35,
+              "z": 0.85
+            },
+            "logan": {
+              "x": 3.13,
+              "z": 6.72
+            },
+            "georgia": {
+              "x": 0.1,
+              "z": 5.72
+            },
+            "jaz": {
+              "x": -0.2,
+              "z": 3.08
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p7:defence-ready": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.15
+            },
+            "caleb": {
+              "x": -2.4,
+              "z": 5.2
+            },
+            "trent": {
+              "x": -1.38,
+              "z": 0.85
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.75
+            },
+            "georgia": {
+              "x": 0.08,
+              "z": 5.83
+            },
+            "jaz": {
+              "x": -0.15,
+              "z": 3.12
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p8:next-dig": {
+          "anchors": {
+            "harry": {
+              "x": -0.89,
+              "z": 3.55
+            },
+            "caleb": {
+              "x": -1.08,
+              "z": 6.9
+            },
+            "trent": {
+              "x": -1.2,
+              "z": 1.48
+            },
+            "logan": {
+              "x": 3.12,
+              "z": 6.82
+            },
+            "georgia": {
+              "x": 0.06,
+              "z": 6
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.26
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "receive",
+            "trent": "recover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1182": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1220": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        }
+      }
+    },
+    "3/they/right/normal": {
+      "contacts": {
+        "secondSetter": "harry",
+        "nextReceiver": "caleb",
+        "nextSetter": "harry",
+        "fallbackSetter": "georgia"
+      },
+      "eventOverrides": {
+        "p0:legal-start": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 6.9
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "coverage": {
+            "harry": {
+              "role": "setter-support",
+              "radiusX": 0.8,
+              "radiusZ": 1
+            },
+            "caleb": {
+              "role": "receive",
+              "radiusX": 1.75,
+              "radiusZ": 1.95,
+              "offsetZ": 0.4
+            },
+            "trent": {
+              "role": "receive",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
+            },
+            "logan": {
+              "role": "receive",
+              "radiusX": 0.8,
+              "radiusZ": 1.2
+            },
+            "georgia": {
+              "role": "receive",
+              "radiusX": 1.85,
+              "radiusZ": 1.95
+            },
+            "jaz": {
+              "role": "receive",
+              "radiusX": 1,
+              "radiusZ": 1.35
+            }
+          }
+        },
+        "p1:serve-hit": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 6.9
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p2:first-pass": {
+          "anchors": {
+            "harry": {
+              "x": -0.75,
+              "z": 3.25
+            },
+            "caleb": {
+              "x": -2.45,
+              "z": 4.18
+            },
+            "trent": {
+              "x": 1.8,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.7
+            },
+            "georgia": {
+              "x": -0.4,
+              "z": 6.55
+            },
+            "jaz": {
+              "x": -0.08,
+              "z": 3.4
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "cover",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "receive",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p3:second-contact": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 2.92
+            },
+            "trent": {
+              "x": 2.02,
+              "z": 2.15
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.65
+            },
+            "georgia": {
+              "x": -0.45,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p4:our-attack": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.55
+            },
+            "caleb": {
+              "x": -2.8,
+              "z": 2.15
+            },
+            "trent": {
+              "x": 1.48,
+              "z": 1.82
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.7
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 5.72
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.35
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "attack",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:defend-now": {
+          "anchors": {
+            "harry": {
+              "x": -0.75,
+              "z": 3.35
+            },
+            "caleb": {
+              "x": -2.6,
+              "z": 3.47
+            },
+            "trent": {
+              "x": 0.92,
+              "z": 1.5
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.75
+            },
+            "georgia": {
+              "x": -0.28,
+              "z": 5.96
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:defend-now:t730": {
+          "anchors": {
+            "harry": {
+              "x": -0.964,
+              "z": 3.7
+            },
+            "caleb": {
+              "x": -2.391,
+              "z": 4.301
+            },
+            "trent": {
+              "x": 1.715,
+              "z": 1.16
+            },
+            "logan": {
+              "x": 2.998,
+              "z": 6.734
+            },
+            "georgia": {
+              "x": -0.29,
+              "z": 6.164
+            },
+            "jaz": {
+              "x": -0.031,
+              "z": 3.161
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:their-attack": {
+          "anchors": {
+            "harry": {
+              "x": -1.16,
+              "z": 4.02
+            },
+            "caleb": {
+              "x": -2.2,
+              "z": 5.06
+            },
+            "trent": {
+              "x": 2.44,
+              "z": 0.85
+            },
+            "logan": {
+              "x": 2.95,
+              "z": 6.72
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 6.35
+            },
+            "jaz": {
+              "x": 0.05,
+              "z": 3.08
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p7:defence-ready": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.15
+            },
+            "caleb": {
+              "x": -2.17,
+              "z": 5.2
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 0.85
+            },
+            "logan": {
+              "x": 2.92,
+              "z": 6.75
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 6.42
+            },
+            "jaz": {
+              "x": 0.08,
+              "z": 3.12
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p8:next-dig": {
+          "anchors": {
+            "harry": {
+              "x": -0.89,
+              "z": 3.55
+            },
+            "caleb": {
+              "x": -0.72,
+              "z": 6.9
+            },
+            "trent": {
+              "x": 2.27,
+              "z": 1.48
+            },
+            "logan": {
+              "x": 3.12,
+              "z": 6.82
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 6.35
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.26
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "receive",
+            "trent": "recover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1182": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1220": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        }
+      }
+    },
+    "3/they/right/harry": {
+      "contacts": {
+        "secondSetter": "georgia",
+        "nextReceiver": "caleb",
+        "nextSetter": "harry",
+        "fallbackSetter": "caleb"
+      },
+      "eventOverrides": {
+        "p0:legal-start": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 6.9
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "coverage": {
+            "harry": {
+              "role": "setter-support",
+              "radiusX": 0.8,
+              "radiusZ": 1
+            },
+            "caleb": {
+              "role": "receive",
+              "radiusX": 1.75,
+              "radiusZ": 1.95,
+              "offsetZ": 0.4
+            },
+            "trent": {
+              "role": "receive",
+              "radiusX": 1.25,
+              "radiusZ": 1.4
+            },
+            "logan": {
+              "role": "receive",
+              "radiusX": 0.8,
+              "radiusZ": 1.2
+            },
+            "georgia": {
+              "role": "receive",
+              "radiusX": 1.85,
+              "radiusZ": 1.95
+            },
+            "jaz": {
+              "role": "receive",
+              "radiusX": 1,
+              "radiusZ": 1.35
+            }
+          }
+        },
+        "p1:serve-hit": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 6.9
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p2:first-pass": {
+          "anchors": {
+            "harry": {
+              "x": -1.25,
+              "z": 3.25
+            },
+            "caleb": {
+              "x": -2.45,
+              "z": 4.18
+            },
+            "trent": {
+              "x": 1.8,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.7
+            },
+            "georgia": {
+              "x": 0.12,
+              "z": 5.15
+            },
+            "jaz": {
+              "x": -0.08,
+              "z": 3.4
+            }
+          },
+          "actions": {
+            "harry": "receive",
+            "caleb": "cover",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "ready",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p3:second-contact": {
+          "anchors": {
+            "harry": {
+              "x": -0.88,
+              "z": 3.42
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 2.92
+            },
+            "trent": {
+              "x": 2.02,
+              "z": 2.15
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.65
+            },
+            "georgia": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "set",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p4:our-attack": {
+          "anchors": {
+            "harry": {
+              "x": -0.86,
+              "z": 3.4
+            },
+            "caleb": {
+              "x": -2.8,
+              "z": 2.15
+            },
+            "trent": {
+              "x": 1.48,
+              "z": 1.82
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.7
+            },
+            "georgia": {
+              "x": 0.65,
+              "z": 2.55
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.35
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "attack",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:defend-now": {
+          "anchors": {
+            "harry": {
+              "x": -0.75,
+              "z": 3.35
+            },
+            "caleb": {
+              "x": -2.6,
+              "z": 3.47
+            },
+            "trent": {
+              "x": 0.92,
+              "z": 1.5
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.75
+            },
+            "georgia": {
+              "x": 0.55,
+              "z": 3.78
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:defend-now:t730": {
+          "anchors": {
+            "harry": {
+              "x": -0.964,
+              "z": 3.7
+            },
+            "caleb": {
+              "x": -2.391,
+              "z": 4.301
+            },
+            "trent": {
+              "x": 1.715,
+              "z": 1.16
+            },
+            "logan": {
+              "x": 2.998,
+              "z": 6.734
+            },
+            "georgia": {
+              "x": 0.315,
+              "z": 4.794
+            },
+            "jaz": {
+              "x": -0.031,
+              "z": 3.161
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:their-attack": {
+          "anchors": {
+            "harry": {
+              "x": -1.16,
+              "z": 4.02
+            },
+            "caleb": {
+              "x": -2.2,
+              "z": 5.06
+            },
+            "trent": {
+              "x": 2.44,
+              "z": 0.85
+            },
+            "logan": {
+              "x": 2.95,
+              "z": 6.72
+            },
+            "georgia": {
+              "x": 0.1,
+              "z": 5.72
+            },
+            "jaz": {
+              "x": 0.05,
+              "z": 3.08
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p7:defence-ready": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.15
+            },
+            "caleb": {
+              "x": -2.17,
+              "z": 5.2
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 0.85
+            },
+            "logan": {
+              "x": 2.92,
+              "z": 6.75
+            },
+            "georgia": {
+              "x": 0.08,
+              "z": 5.83
+            },
+            "jaz": {
+              "x": 0.08,
+              "z": 3.12
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p8:next-dig": {
+          "anchors": {
+            "harry": {
+              "x": -0.89,
+              "z": 3.55
+            },
+            "caleb": {
+              "x": -0.72,
+              "z": 6.9
+            },
+            "trent": {
+              "x": 2.27,
+              "z": 1.48
+            },
+            "logan": {
+              "x": 3.12,
+              "z": 6.82
+            },
+            "georgia": {
+              "x": 0.06,
+              "z": 6
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.26
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "receive",
+            "trent": "recover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1182": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1220": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.38,
+              "z": 5.72
+            },
+            "trent": {
+              "x": 2.48,
+              "z": 2.22
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.32
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        }
+      }
+    },
+    "3/us/left/normal": {
+      "contacts": {
+        "secondSetter": "harry",
+        "nextReceiver": "caleb",
+        "nextSetter": "harry",
+        "fallbackSetter": "georgia"
+      },
+      "eventOverrides": {
+        "p0:legal-start": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 9.45
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p1:serve-hit": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 9.45
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p1:serve-hit:t255": {
+          "anchors": {
+            "harry": {
+              "x": -1.347,
+              "z": 4.385
+            },
+            "caleb": {
+              "x": -2.789,
+              "z": 3.782
+            },
+            "trent": {
+              "x": 0.45,
+              "z": 1.742
+            },
+            "logan": {
+              "x": 3.242,
+              "z": 8.428
+            },
+            "georgia": {
+              "x": -0.217,
+              "z": 6.16
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.171
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p1:serve-hit:t328": {
+          "anchors": {
+            "harry": {
+              "x": -1.281,
+              "z": 4.279
+            },
+            "caleb": {
+              "x": -2.624,
+              "z": 4.202
+            },
+            "trent": {
+              "x": -0.311,
+              "z": 1.356
+            },
+            "logan": {
+              "x": 3.205,
+              "z": 7.78
+            },
+            "georgia": {
+              "x": -0.514,
+              "z": 6.357
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.184
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p1:serve-hit:t395": {
+          "anchors": {
+            "harry": {
+              "x": -1.221,
+              "z": 4.183
+            },
+            "caleb": {
+              "x": -2.472,
+              "z": 4.588
+            },
+            "trent": {
+              "x": -1.01,
+              "z": 1.002
+            },
+            "logan": {
+              "x": 3.172,
+              "z": 7.184
+            },
+            "georgia": {
+              "x": -0.787,
+              "z": 6.538
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.196
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p2:defence-ready": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.15
+            },
+            "caleb": {
+              "x": -2.42,
+              "z": 4.72
+            },
+            "trent": {
+              "x": -1.25,
+              "z": 0.88
+            },
+            "logan": {
+              "x": 3.16,
+              "z": 6.98
+            },
+            "georgia": {
+              "x": -0.88,
+              "z": 6.6
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.2
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p3:our-dig": {
+          "anchors": {
+            "harry": {
+              "x": -0.7,
+              "z": 3.1
+            },
+            "caleb": {
+              "x": -2.38,
+              "z": 4.62
+            },
+            "trent": {
+              "x": -1.18,
+              "z": 1.15
+            },
+            "logan": {
+              "x": 3.08,
+              "z": 6.92
+            },
+            "georgia": {
+              "x": -1.08,
+              "z": 6.9
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.27
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "cover",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "receive",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p4:second-contact": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -2.9,
+              "z": 2.95
+            },
+            "trent": {
+              "x": 2.15,
+              "z": 2.25
+            },
+            "logan": {
+              "x": 3.06,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.45,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:our-attack": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.62
+            },
+            "caleb": {
+              "x": -2.8,
+              "z": 2.15
+            },
+            "trent": {
+              "x": 1.5,
+              "z": 1.8
+            },
+            "logan": {
+              "x": 3.09,
+              "z": 6.77
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.75
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.35
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "attack",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:defend-again": {
+          "anchors": {
+            "harry": {
+              "x": -0.75,
+              "z": 3.45
+            },
+            "caleb": {
+              "x": -2.58,
+              "z": 3.45
+            },
+            "trent": {
+              "x": 0.94,
+              "z": 1.48
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.77
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 6.1
+            },
+            "jaz": {
+              "x": -0.15,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:defend-again:t1025": {
+          "anchors": {
+            "harry": {
+              "x": -0.98,
+              "z": 3.756
+            },
+            "caleb": {
+              "x": -2.498,
+              "z": 4.277
+            },
+            "trent": {
+              "x": -0.223,
+              "z": 1.153
+            },
+            "logan": {
+              "x": 3.085,
+              "z": 6.796
+            },
+            "georgia": {
+              "x": -0.286,
+              "z": 6.228
+            },
+            "jaz": {
+              "x": -0.165,
+              "z": 3.173
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p7:their-next-attack": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.05
+            },
+            "caleb": {
+              "x": -2.42,
+              "z": 5.07
+            },
+            "trent": {
+              "x": -1.34,
+              "z": 0.84
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.82
+            },
+            "georgia": {
+              "x": -0.32,
+              "z": 6.35
+            },
+            "jaz": {
+              "x": -0.18,
+              "z": 3.1
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p7:their-next-attack:t1117": {
+          "anchors": {
+            "harry": {
+              "x": -1.155,
+              "z": 3.97
+            },
+            "caleb": {
+              "x": -2.217,
+              "z": 5.347
+            },
+            "trent": {
+              "x": -1.313,
+              "z": 0.929
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.822
+            },
+            "georgia": {
+              "x": -0.317,
+              "z": 6.353
+            },
+            "jaz": {
+              "x": -0.175,
+              "z": 3.115
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p8:next-dig": {
+          "anchors": {
+            "harry": {
+              "x": -0.9,
+              "z": 3.52
+            },
+            "caleb": {
+              "x": -1.08,
+              "z": 6.9
+            },
+            "trent": {
+              "x": -1.16,
+              "z": 1.43
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.83
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 6.37
+            },
+            "jaz": {
+              "x": -0.15,
+              "z": 3.2
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "receive",
+            "trent": "recover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.43,
+              "z": 5.75
+            },
+            "trent": {
+              "x": 2.5,
+              "z": 2.27
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.78
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 5.82
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1507": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.43,
+              "z": 5.75
+            },
+            "trent": {
+              "x": 2.5,
+              "z": 2.27
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.78
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 5.82
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        }
+      }
+    },
+    "3/us/left/harry": {
+      "contacts": {
+        "secondSetter": "georgia",
+        "nextReceiver": "caleb",
+        "nextSetter": "harry",
+        "fallbackSetter": "caleb"
+      },
+      "eventOverrides": {
+        "p0:legal-start": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 9.45
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p1:serve-hit": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 9.45
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p1:serve-hit:t255": {
+          "anchors": {
+            "harry": {
+              "x": -1.347,
+              "z": 4.385
+            },
+            "caleb": {
+              "x": -2.789,
+              "z": 3.782
+            },
+            "trent": {
+              "x": 0.45,
+              "z": 1.742
+            },
+            "logan": {
+              "x": 3.242,
+              "z": 8.428
+            },
+            "georgia": {
+              "x": 0.204,
+              "z": 5.643
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.171
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p1:serve-hit:t328": {
+          "anchors": {
+            "harry": {
+              "x": -1.281,
+              "z": 4.279
+            },
+            "caleb": {
+              "x": -2.624,
+              "z": 4.202
+            },
+            "trent": {
+              "x": -0.311,
+              "z": 1.356
+            },
+            "logan": {
+              "x": 3.205,
+              "z": 7.78
+            },
+            "georgia": {
+              "x": 0.176,
+              "z": 5.512
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.184
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p1:serve-hit:t395": {
+          "anchors": {
+            "harry": {
+              "x": -1.221,
+              "z": 4.183
+            },
+            "caleb": {
+              "x": -2.472,
+              "z": 4.588
+            },
+            "trent": {
+              "x": -1.01,
+              "z": 1.002
+            },
+            "logan": {
+              "x": 3.172,
+              "z": 7.184
+            },
+            "georgia": {
+              "x": 0.149,
+              "z": 5.391
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.196
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p2:defence-ready": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.15
+            },
+            "caleb": {
+              "x": -2.42,
+              "z": 4.72
+            },
+            "trent": {
+              "x": -1.25,
+              "z": 0.88
+            },
+            "logan": {
+              "x": 3.16,
+              "z": 6.98
+            },
+            "georgia": {
+              "x": 0.14,
+              "z": 5.35
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.2
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p3:our-dig": {
+          "anchors": {
+            "harry": {
+              "x": -1,
+              "z": 4.25
+            },
+            "caleb": {
+              "x": -2.38,
+              "z": 4.62
+            },
+            "trent": {
+              "x": -1.18,
+              "z": 1.15
+            },
+            "logan": {
+              "x": 3.08,
+              "z": 6.92
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 4.7
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.27
+            }
+          },
+          "actions": {
+            "harry": "receive",
+            "caleb": "cover",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "ready",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p4:second-contact": {
+          "anchors": {
+            "harry": {
+              "x": -0.9,
+              "z": 3.68
+            },
+            "caleb": {
+              "x": -2.9,
+              "z": 2.95
+            },
+            "trent": {
+              "x": 2.15,
+              "z": 2.25
+            },
+            "logan": {
+              "x": 3.06,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "set",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:our-attack": {
+          "anchors": {
+            "harry": {
+              "x": -0.85,
+              "z": 3.35
+            },
+            "caleb": {
+              "x": -2.8,
+              "z": 2.15
+            },
+            "trent": {
+              "x": 1.5,
+              "z": 1.8
+            },
+            "logan": {
+              "x": 3.09,
+              "z": 6.77
+            },
+            "georgia": {
+              "x": 0.65,
+              "z": 2.55
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.35
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "attack",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:defend-again": {
+          "anchors": {
+            "harry": {
+              "x": -0.75,
+              "z": 3.45
+            },
+            "caleb": {
+              "x": -2.58,
+              "z": 3.45
+            },
+            "trent": {
+              "x": 0.94,
+              "z": 1.48
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.77
+            },
+            "georgia": {
+              "x": 0.55,
+              "z": 3.67
+            },
+            "jaz": {
+              "x": -0.15,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:defend-again:t1025": {
+          "anchors": {
+            "harry": {
+              "x": -0.98,
+              "z": 3.756
+            },
+            "caleb": {
+              "x": -2.498,
+              "z": 4.277
+            },
+            "trent": {
+              "x": -0.223,
+              "z": 1.153
+            },
+            "logan": {
+              "x": 3.085,
+              "z": 6.796
+            },
+            "georgia": {
+              "x": 0.32,
+              "z": 4.696
+            },
+            "jaz": {
+              "x": -0.165,
+              "z": 3.173
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p7:their-next-attack": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.05
+            },
+            "caleb": {
+              "x": -2.42,
+              "z": 5.07
+            },
+            "trent": {
+              "x": -1.34,
+              "z": 0.84
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.82
+            },
+            "georgia": {
+              "x": 0.1,
+              "z": 5.68
+            },
+            "jaz": {
+              "x": -0.18,
+              "z": 3.1
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p7:their-next-attack:t1117": {
+          "anchors": {
+            "harry": {
+              "x": -1.155,
+              "z": 3.97
+            },
+            "caleb": {
+              "x": -2.217,
+              "z": 5.347
+            },
+            "trent": {
+              "x": -1.313,
+              "z": 0.929
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.822
+            },
+            "georgia": {
+              "x": 0.097,
+              "z": 5.721
+            },
+            "jaz": {
+              "x": -0.175,
+              "z": 3.115
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p8:next-dig": {
+          "anchors": {
+            "harry": {
+              "x": -0.9,
+              "z": 3.52
+            },
+            "caleb": {
+              "x": -1.08,
+              "z": 6.9
+            },
+            "trent": {
+              "x": -1.16,
+              "z": 1.43
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.83
+            },
+            "georgia": {
+              "x": 0.08,
+              "z": 5.95
+            },
+            "jaz": {
+              "x": -0.15,
+              "z": 3.2
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "receive",
+            "trent": "recover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.43,
+              "z": 5.75
+            },
+            "trent": {
+              "x": 2.5,
+              "z": 2.27
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.78
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 5.82
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1507": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.43,
+              "z": 5.75
+            },
+            "trent": {
+              "x": 2.5,
+              "z": 2.27
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.78
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 5.82
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        }
+      }
+    },
+    "3/us/right/normal": {
+      "contacts": {
+        "secondSetter": "harry",
+        "nextReceiver": "caleb",
+        "nextSetter": "harry",
+        "fallbackSetter": "georgia"
+      },
+      "eventOverrides": {
+        "p0:legal-start": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 9.45
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p1:serve-hit": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 9.45
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p1:serve-hit:t255": {
+          "anchors": {
+            "harry": {
+              "x": -1.347,
+              "z": 4.385
+            },
+            "caleb": {
+              "x": -2.789,
+              "z": 3.782
+            },
+            "trent": {
+              "x": 1.96,
+              "z": 1.742
+            },
+            "logan": {
+              "x": 3.242,
+              "z": 8.428
+            },
+            "georgia": {
+              "x": -0.217,
+              "z": 6.16
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.171
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p1:serve-hit:t328": {
+          "anchors": {
+            "harry": {
+              "x": -1.281,
+              "z": 4.279
+            },
+            "caleb": {
+              "x": -2.624,
+              "z": 4.202
+            },
+            "trent": {
+              "x": 2.157,
+              "z": 1.356
+            },
+            "logan": {
+              "x": 3.205,
+              "z": 7.78
+            },
+            "georgia": {
+              "x": -0.514,
+              "z": 6.357
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.184
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p1:serve-hit:t395": {
+          "anchors": {
+            "harry": {
+              "x": -1.221,
+              "z": 4.183
+            },
+            "caleb": {
+              "x": -2.472,
+              "z": 4.588
+            },
+            "trent": {
+              "x": 2.338,
+              "z": 1.002
+            },
+            "logan": {
+              "x": 3.172,
+              "z": 7.184
+            },
+            "georgia": {
+              "x": -0.787,
+              "z": 6.538
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.196
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p2:defence-ready": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.15
+            },
+            "caleb": {
+              "x": -2.42,
+              "z": 4.72
+            },
+            "trent": {
+              "x": 2.4,
+              "z": 0.88
+            },
+            "logan": {
+              "x": 3.16,
+              "z": 6.98
+            },
+            "georgia": {
+              "x": -0.88,
+              "z": 6.6
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.2
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p3:our-dig": {
+          "anchors": {
+            "harry": {
+              "x": -0.7,
+              "z": 3.1
+            },
+            "caleb": {
+              "x": -2.38,
+              "z": 4.62
+            },
+            "trent": {
+              "x": 2.35,
+              "z": 1.15
+            },
+            "logan": {
+              "x": 3.08,
+              "z": 6.92
+            },
+            "georgia": {
+              "x": -0.72,
+              "z": 6.9
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.27
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "cover",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "receive",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p4:second-contact": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -2.9,
+              "z": 2.95
+            },
+            "trent": {
+              "x": 2.15,
+              "z": 2.25
+            },
+            "logan": {
+              "x": 3.06,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": -0.45,
+              "z": 5.8
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:our-attack": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.62
+            },
+            "caleb": {
+              "x": -2.8,
+              "z": 2.15
+            },
+            "trent": {
+              "x": 1.5,
+              "z": 1.8
+            },
+            "logan": {
+              "x": 3.09,
+              "z": 6.77
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 5.75
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.35
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "attack",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:defend-again": {
+          "anchors": {
+            "harry": {
+              "x": -0.75,
+              "z": 3.45
+            },
+            "caleb": {
+              "x": -2.58,
+              "z": 3.45
+            },
+            "trent": {
+              "x": 0.94,
+              "z": 1.48
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.77
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 6.1
+            },
+            "jaz": {
+              "x": -0.15,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:defend-again:t1025": {
+          "anchors": {
+            "harry": {
+              "x": -0.98,
+              "z": 3.756
+            },
+            "caleb": {
+              "x": -2.386,
+              "z": 4.277
+            },
+            "trent": {
+              "x": 1.71,
+              "z": 1.153
+            },
+            "logan": {
+              "x": 3.085,
+              "z": 6.796
+            },
+            "georgia": {
+              "x": -0.286,
+              "z": 6.228
+            },
+            "jaz": {
+              "x": -0.033,
+              "z": 3.173
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p7:their-next-attack": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.05
+            },
+            "caleb": {
+              "x": -2.2,
+              "z": 5.07
+            },
+            "trent": {
+              "x": 2.45,
+              "z": 0.84
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.82
+            },
+            "georgia": {
+              "x": -0.32,
+              "z": 6.35
+            },
+            "jaz": {
+              "x": 0.08,
+              "z": 3.1
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p7:their-next-attack:t1117": {
+          "anchors": {
+            "harry": {
+              "x": -1.155,
+              "z": 3.97
+            },
+            "caleb": {
+              "x": -1.976,
+              "z": 5.347
+            },
+            "trent": {
+              "x": 2.43,
+              "z": 0.929
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.822
+            },
+            "georgia": {
+              "x": -0.317,
+              "z": 6.353
+            },
+            "jaz": {
+              "x": 0.045,
+              "z": 3.115
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p8:next-dig": {
+          "anchors": {
+            "harry": {
+              "x": -0.9,
+              "z": 3.52
+            },
+            "caleb": {
+              "x": -0.72,
+              "z": 6.9
+            },
+            "trent": {
+              "x": 2.32,
+              "z": 1.43
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.83
+            },
+            "georgia": {
+              "x": -0.3,
+              "z": 6.37
+            },
+            "jaz": {
+              "x": -0.15,
+              "z": 3.2
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "receive",
+            "trent": "recover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.43,
+              "z": 5.75
+            },
+            "trent": {
+              "x": 2.5,
+              "z": 2.27
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.78
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 5.82
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1507": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.43,
+              "z": 5.75
+            },
+            "trent": {
+              "x": 2.5,
+              "z": 2.27
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.78
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 5.82
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        }
+      }
+    },
+    "3/us/right/harry": {
+      "contacts": {
+        "secondSetter": "georgia",
+        "nextReceiver": "caleb",
+        "nextSetter": "harry",
+        "fallbackSetter": "caleb"
+      },
+      "eventOverrides": {
+        "p0:legal-start": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 9.45
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "ready",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p1:serve-hit": {
+          "anchors": {
+            "harry": {
+              "x": -1.45,
+              "z": 4.55
+            },
+            "caleb": {
+              "x": -3.05,
+              "z": 3.12
+            },
+            "trent": {
+              "x": 1.65,
+              "z": 2.35
+            },
+            "logan": {
+              "x": 3.3,
+              "z": 9.45
+            },
+            "georgia": {
+              "x": 0.25,
+              "z": 5.85
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.15
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          }
+        },
+        "p1:serve-hit:t255": {
+          "anchors": {
+            "harry": {
+              "x": -1.347,
+              "z": 4.385
+            },
+            "caleb": {
+              "x": -2.789,
+              "z": 3.782
+            },
+            "trent": {
+              "x": 1.96,
+              "z": 1.742
+            },
+            "logan": {
+              "x": 3.242,
+              "z": 8.428
+            },
+            "georgia": {
+              "x": 0.204,
+              "z": 5.643
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.171
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p1:serve-hit:t328": {
+          "anchors": {
+            "harry": {
+              "x": -1.281,
+              "z": 4.279
+            },
+            "caleb": {
+              "x": -2.624,
+              "z": 4.202
+            },
+            "trent": {
+              "x": 2.157,
+              "z": 1.356
+            },
+            "logan": {
+              "x": 3.205,
+              "z": 7.78
+            },
+            "georgia": {
+              "x": 0.176,
+              "z": 5.512
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.184
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p1:serve-hit:t395": {
+          "anchors": {
+            "harry": {
+              "x": -1.221,
+              "z": 4.183
+            },
+            "caleb": {
+              "x": -2.472,
+              "z": 4.588
+            },
+            "trent": {
+              "x": 2.338,
+              "z": 1.002
+            },
+            "logan": {
+              "x": 3.172,
+              "z": 7.184
+            },
+            "georgia": {
+              "x": 0.149,
+              "z": 5.391
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.196
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "serve",
+            "georgia": "ready",
+            "jaz": "ready"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p2:defence-ready": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.15
+            },
+            "caleb": {
+              "x": -2.42,
+              "z": 4.72
+            },
+            "trent": {
+              "x": 2.4,
+              "z": 0.88
+            },
+            "logan": {
+              "x": 3.16,
+              "z": 6.98
+            },
+            "georgia": {
+              "x": 0.14,
+              "z": 5.35
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.2
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p3:our-dig": {
+          "anchors": {
+            "harry": {
+              "x": -1,
+              "z": 4.25
+            },
+            "caleb": {
+              "x": -2.38,
+              "z": 4.62
+            },
+            "trent": {
+              "x": 2.35,
+              "z": 1.15
+            },
+            "logan": {
+              "x": 3.08,
+              "z": 6.92
+            },
+            "georgia": {
+              "x": -0.35,
+              "z": 4.7
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.27
+            }
+          },
+          "actions": {
+            "harry": "receive",
+            "caleb": "cover",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "ready",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p4:second-contact": {
+          "anchors": {
+            "harry": {
+              "x": -0.9,
+              "z": 3.68
+            },
+            "caleb": {
+              "x": -2.9,
+              "z": 2.95
+            },
+            "trent": {
+              "x": 2.15,
+              "z": 2.25
+            },
+            "logan": {
+              "x": 3.06,
+              "z": 6.8
+            },
+            "georgia": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "ready",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "set",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p5:our-attack": {
+          "anchors": {
+            "harry": {
+              "x": -0.85,
+              "z": 3.35
+            },
+            "caleb": {
+              "x": -2.8,
+              "z": 2.15
+            },
+            "trent": {
+              "x": 1.5,
+              "z": 1.8
+            },
+            "logan": {
+              "x": 3.09,
+              "z": 6.77
+            },
+            "georgia": {
+              "x": 0.65,
+              "z": 2.55
+            },
+            "jaz": {
+              "x": -0.12,
+              "z": 3.35
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "attack",
+            "trent": "cover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:defend-again": {
+          "anchors": {
+            "harry": {
+              "x": -0.75,
+              "z": 3.45
+            },
+            "caleb": {
+              "x": -2.58,
+              "z": 3.45
+            },
+            "trent": {
+              "x": 0.94,
+              "z": 1.48
+            },
+            "logan": {
+              "x": 3.1,
+              "z": 6.77
+            },
+            "georgia": {
+              "x": 0.55,
+              "z": 3.67
+            },
+            "jaz": {
+              "x": -0.15,
+              "z": 3.25
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p6:defend-again:t1025": {
+          "anchors": {
+            "harry": {
+              "x": -0.98,
+              "z": 3.756
+            },
+            "caleb": {
+              "x": -2.386,
+              "z": 4.277
+            },
+            "trent": {
+              "x": 1.71,
+              "z": 1.153
+            },
+            "logan": {
+              "x": 3.085,
+              "z": 6.796
+            },
+            "georgia": {
+              "x": 0.32,
+              "z": 4.696
+            },
+            "jaz": {
+              "x": -0.033,
+              "z": 3.173
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "recover",
+            "trent": "recover",
+            "logan": "recover",
+            "georgia": "recover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p7:their-next-attack": {
+          "anchors": {
+            "harry": {
+              "x": -1.2,
+              "z": 4.05
+            },
+            "caleb": {
+              "x": -2.2,
+              "z": 5.07
+            },
+            "trent": {
+              "x": 2.45,
+              "z": 0.84
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.82
+            },
+            "georgia": {
+              "x": 0.1,
+              "z": 5.68
+            },
+            "jaz": {
+              "x": 0.08,
+              "z": 3.1
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p7:their-next-attack:t1117": {
+          "anchors": {
+            "harry": {
+              "x": -1.155,
+              "z": 3.97
+            },
+            "caleb": {
+              "x": -1.976,
+              "z": 5.347
+            },
+            "trent": {
+              "x": 2.43,
+              "z": 0.929
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.822
+            },
+            "georgia": {
+              "x": 0.097,
+              "z": 5.721
+            },
+            "jaz": {
+              "x": 0.045,
+              "z": 3.115
+            }
+          },
+          "actions": {
+            "harry": "cover",
+            "caleb": "cover",
+            "trent": "block",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          },
+          "coverage": {
+            "harry": {
+              "role": "tip",
+              "radiusX": 1.35,
+              "radiusZ": 1.55
+            },
+            "caleb": {
+              "role": "deep",
+              "radiusX": 1.9,
+              "radiusZ": 1.9
+            },
+            "trent": {
+              "role": "block",
+              "radiusX": 0.7,
+              "radiusZ": 0.5
+            },
+            "logan": {
+              "role": "deep",
+              "radiusX": 1.1,
+              "radiusZ": 1.65
+            },
+            "georgia": {
+              "role": "deep",
+              "radiusX": 1.65,
+              "radiusZ": 1.8
+            },
+            "jaz": {
+              "role": "tip",
+              "radiusX": 1.05,
+              "radiusZ": 1.4
+            }
+          }
+        },
+        "p8:next-dig": {
+          "anchors": {
+            "harry": {
+              "x": -0.9,
+              "z": 3.52
+            },
+            "caleb": {
+              "x": -0.72,
+              "z": 6.9
+            },
+            "trent": {
+              "x": 2.32,
+              "z": 1.43
+            },
+            "logan": {
+              "x": 3.07,
+              "z": 6.83
+            },
+            "georgia": {
+              "x": 0.08,
+              "z": 5.95
+            },
+            "jaz": {
+              "x": -0.15,
+              "z": 3.2
+            }
+          },
+          "actions": {
+            "harry": "ready",
+            "caleb": "receive",
+            "trent": "recover",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.43,
+              "z": 5.75
+            },
+            "trent": {
+              "x": 2.5,
+              "z": 2.27
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.78
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 5.82
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
+          }
+        },
+        "p9:next-set-ready:t1507": {
+          "anchors": {
+            "harry": {
+              "x": 0.2,
+              "z": 1.45
+            },
+            "caleb": {
+              "x": -1.43,
+              "z": 5.75
+            },
+            "trent": {
+              "x": 2.5,
+              "z": 2.27
+            },
+            "logan": {
+              "x": 3.05,
+              "z": 6.78
+            },
+            "georgia": {
+              "x": -0.25,
+              "z": 5.82
+            },
+            "jaz": {
+              "x": -0.1,
+              "z": 3.3
+            }
+          },
+          "actions": {
+            "harry": "set",
+            "caleb": "recover",
+            "trent": "ready",
+            "logan": "cover",
+            "georgia": "cover",
+            "jaz": "cover"
+          },
+          "preservePath": {
+            "harry": true,
+            "caleb": true,
+            "trent": true,
+            "logan": true,
+            "georgia": true,
+            "jaz": true
+          },
+          "routes": {
+            "harry": [],
+            "caleb": [],
+            "trent": [],
+            "logan": [],
+            "georgia": [],
+            "jaz": []
           }
         }
       }
