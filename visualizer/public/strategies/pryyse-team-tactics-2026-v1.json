@@ -13368,6 +13368,20 @@
         "Receive": "Actual digger takes the ball. Caleb owns deep middle and difficult seams; Jaz owns reachable left deep. Harry fields only a near/reachable ball and never sets his own dig.",
         "Set": "Harry normally moves to the ball to set after another player digs. Georgia sets if Harry took first and is close enough; Caleb is the alternative.",
         "Attack": "Left Logan and middle Trent are first options, Georgia right when she did not set. All others cover; recover into useful next defence, never to the serve-contact positions."
+      },
+      "3/they": {
+        "Start": "R3 THEY SERVE: legal P4 Caleb/P3 Jaz/P2 Trent front, P5 Harry/P6 Georgia/P1 Logan back. Harry begins shallow back-left behind Caleb, ready for a short direct set release only after the serve.",
+        "Receive": "Georgia owns the shown deep-centre pass; Caleb takes left/deep and seams when reachable. Jaz short centre, Trent short right, Logan a narrow right lane. Harry is protected from normal first contact, not an unavoidable short ball.",
+        "Set": "Harry takes second after somebody else receives; if he receives, Georgia sets the high pass, with Caleb a reachability backup. Do not give Trent an automatic set merely because he is near the net.",
+        "Attack": "Caleb is the sample left attacker, Trent the right-side alternative. Jaz contributes short/tip/controlled side options; she is not a middle blocker. All other players cover for a rebound.",
+        "Defend": "R3: Trent is the normal SINGLE blocker toward the readable attack side, Caleb stays available for large left/deep defence, Jaz takes short-centre/tips, Harry shallow left, Georgia deep centre, Logan deep right. On a very fast far-left set Trent may not arrive: Caleb can make the nearest block if actually reachable."
+      },
+      "3/us": {
+        "Start": "R3 WE SERVE: Logan P1 serves from beyond our baseline. Harry is officially P5 back row; all five on-court players hold correct TTGVA overlap until Logan makes service contact.",
+        "Receive": "After our serve, first contact is a DIG, not a serve receive. Georgia takes the illustrated left-centre driven ball; Harry only takes a truly reachable one and then cannot take second.",
+        "Set": "Harry moves from a useful back-left defence into a short centre-left set after a teammate digs. If Harry made first contact, Georgia sets (Caleb backup). Trent remains blocker/right attacker, not default emergency setter.",
+        "Attack": "Caleb takes the sample left hit; Trent is the genuine right option; Jaz covers the front short ball and Logan helps from deep right. Transition without resetting to serve positions.",
+        "Defend": "Trent normally SINGLE blocks the side he can reach, with Caleb left/deep floor, Jaz centre tips, Harry short-left, Georgia centre deep and Logan right deep after serving. The NEXT opponent attack is a fresh read and Caleb takes the illustrated next dig before Harry's next set."
       }
     },
     "players": {
@@ -13481,6 +13495,236 @@
           },
           "trent": {
             "primary": "Prepare a middle ball on a good pass; don't cross Harry's corridor."
+          }
+        }
+      },
+      "3/they": {
+        "Start": {
+          "harry": {
+            "primary": "P5 back-left: legally behind Caleb, begin shallow enough for a direct setting release after service hit.",
+            "ifDifferent": "If the serve drops at you, receive safely and call Georgia to set."
+          },
+          "caleb": {
+            "primary": "P4 front-left: take reachable left/deep serve seam and be ready as the strongest front-left hitter.",
+            "ifDifferent": "When you pass first, defer the fast approach; Trent is a safer next hitter."
+          },
+          "trent": {
+            "primary": "P2 front-right: take local short-right ball, stay ready to hit right and read their setter.",
+            "ifDifferent": "Avoid a needless diagonal chase through Jaz."
+          },
+          "logan": {
+            "primary": "P1 deep-right compact lane: support the line but don't steal centre serves.",
+            "ifDifferent": "Back row here, so never block."
+          },
+          "georgia": {
+            "primary": "P6 deep centre: take the illustrated first pass and call the centre seam.",
+            "ifDifferent": "If Harry took first contact, move for the second set rather than another dig."
+          },
+          "jaz": {
+            "primary": "P3 short middle: shallow centre and tips. Only cover what you can reach.",
+            "ifDifferent": "Don't play as a middle blocker or chase deep-right."
+          }
+        },
+        "Receive": {
+          "harry": {
+            "primary": "Release along the short left-centre route for second contact; no run around Georgia.",
+            "ifDifferent": "If you passed, hold short-left cover; Georgia sets."
+          },
+          "caleb": {
+            "primary": "Own deep-left and middle-left when the flight favours you; call MINE clearly.",
+            "ifDifferent": "Georgia takes clear central/deep sample balls."
+          },
+          "trent": {
+            "primary": "Help in short-right, keep the right hitter option open after a clean pass."
+          },
+          "logan": {
+            "primary": "Compact deep-right and line. Call help early on faster seam balls."
+          },
+          "georgia": {
+            "primary": "Normal example: pass deep centre high and controllably.",
+            "ifDifferent": "Harry first: release to set high at centre-left."
+          },
+          "jaz": {
+            "primary": "Manageable short-centre receive/tip, then defend without wide sprinting."
+          }
+        },
+        "Set": {
+          "harry": {
+            "primary": "Second is yours after Georgia or another teammate receives.",
+            "ifDifferent": "When you received first, Georgia takes second and Caleb can help if nearer."
+          },
+          "caleb": {
+            "primary": "Open left attacking route on a clean high pass; main sample hitter.",
+            "ifDifferent": "If you were first passer, call for a slower high ball."
+          },
+          "trent": {
+            "primary": "Front-right real hitting alternative, not default setter.",
+            "ifDifferent": "If Georgia cannot get to Harry's dig, Caleb is a stronger emergency setter."
+          },
+          "logan": {
+            "primary": "Hold deep-right floor and line support, not a front hitting/block position."
+          },
+          "georgia": {
+            "primary": "Return to centre/deep after normal pass.",
+            "ifDifferent": "Harry-first: YOU set safely, then recover; don't simultaneously claim an attack."
+          },
+          "jaz": {
+            "primary": "Shallow centre attack cover or controlled safe ball, not a middle quick."
+          }
+        },
+        "Attack": {
+          "harry": {
+            "primary": "Cover short after setting, then shift only as far as next left-short defence needs."
+          },
+          "caleb": {
+            "primary": "Attack from left in the example; land and prepare deep-left defence, not a return to P4 start."
+          },
+          "trent": {
+            "primary": "Right-side alternative hitter and future single blocker."
+          },
+          "logan": {
+            "primary": "Protect right deep and hard line when our hit comes back."
+          },
+          "georgia": {
+            "primary": "Deep-middle rebound and cross-court insurance; if you just set, recover first."
+          },
+          "jaz": {
+            "primary": "Cover short-centre rebound or soft tip; short movement only."
+          }
+        },
+        "Defend": {
+          "harry": {
+            "primary": "Back-row short-left defender, then setter after teammate's next dig.",
+            "ifDifferent": "If you actually dig, Georgia or Caleb takes second."
+          },
+          "caleb": {
+            "primary": "Largest left/deep and central seam floor area; your dig triggers Harry's next set.",
+            "ifDifferent": "For a quick left set that Trent cannot close, block locally only if truly reachable."
+          },
+          "trent": {
+            "primary": "Read and form a SINGLE block on their left or right attack.",
+            "ifDifferent": "Too-fast far-left set: call NO BLOCK/Caleb early, don't teleport across court."
+          },
+          "logan": {
+            "primary": "P1 back-right deep line and cross; limited but real passing area.",
+            "ifDifferent": "Never jump to block when back-row."
+          },
+          "georgia": {
+            "primary": "Deep-middle and left-centre seam, ready for a safe first dig."
+          },
+          "jaz": {
+            "primary": "Short-centre and soft tip behind the block, not a conventional blocker."
+          }
+        }
+      },
+      "3/us": {
+        "Start": {
+          "harry": {
+            "primary": "P5 back-left: stay behind Caleb through Logan's service contact; read the return from short left."
+          },
+          "caleb": {
+            "primary": "P4 front-left: after serve, protect the left/deep and remain a later hitting option."
+          },
+          "trent": {
+            "primary": "P2 front-right: read their set; you are the primary viable blocker."
+          },
+          "logan": {
+            "primary": "P1 outside baseline: SERVE first, then recover into deep-right defence.",
+            "ifDifferent": "A fast return can arrive before you reach your ideal defensive spot."
+          },
+          "georgia": {
+            "primary": "P6 middle back: read deep-centre and prepare a realistic dig."
+          },
+          "jaz": {
+            "primary": "P3 front-middle: shallow-centre soft ball and tip coverage, no normal block."
+          }
+        },
+        "Receive": {
+          "harry": {
+            "primary": "Stay free for second if Georgia or another player takes the defensive dig.",
+            "ifDifferent": "If the incoming ball is yours, dig and call Georgia for second."
+          },
+          "caleb": {
+            "primary": "Help on left/deep and preserve the middle seam while Georgia digs."
+          },
+          "trent": {
+            "primary": "Recover out of the block and set up a safe right-side attack option."
+          },
+          "logan": {
+            "primary": "Back-right line coverage after serving; avoid leaving the corner exposed."
+          },
+          "georgia": {
+            "primary": "Take the sample driven dig from left-centre and pass high to Harry.",
+            "ifDifferent": "If Harry takes first, YOU set the second, Caleb backs you up."
+          },
+          "jaz": {
+            "primary": "Short-centre tip and easy ball; don't chase deep crosscourt."
+          }
+        },
+        "Set": {
+          "harry": {
+            "primary": "Set the incoming dig near centre-left; stay back-row eligible, not a blocker.",
+            "ifDifferent": "Harry first: Georgia sets and you protect short-left."
+          },
+          "caleb": {
+            "primary": "Approach from front-left when you did not take the dig.",
+            "ifDifferent": "If emergency second contact falls to you, Trent becomes the main hitter."
+          },
+          "trent": {
+            "primary": "Real right hitter with a high safe pass, NOT the routine second setter."
+          },
+          "logan": {
+            "primary": "Stay in deep-right defence; no fake front-row attack."
+          },
+          "georgia": {
+            "primary": "Normal dig: recover from pass to deep middle.",
+            "ifDifferent": "Harry-first: move into second set, then recover naturally."
+          },
+          "jaz": {
+            "primary": "Hold short central attack cover and give a calm safe option."
+          }
+        },
+        "Attack": {
+          "harry": {
+            "primary": "Cover after the set; avoid returning to your initial P5 coordinate."
+          },
+          "caleb": {
+            "primary": "Main left hitter, then return to deep-left responsibility for their next attack."
+          },
+          "trent": {
+            "primary": "Right hitter alternative and single-block defender on next read."
+          },
+          "logan": {
+            "primary": "Cover the right/deep line, especially on their fast counterattack."
+          },
+          "georgia": {
+            "primary": "Cover deep centre and cross seam; no unnecessary chase to the net."
+          },
+          "jaz": {
+            "primary": "Own short centre/tips and protect the hitter's rebound."
+          }
+        },
+        "Defend": {
+          "harry": {
+            "primary": "Read from back-left short and remain free to set the next dig.",
+            "ifDifferent": "If you dig, Georgia or Caleb becomes setter."
+          },
+          "caleb": {
+            "primary": "Strongest floor defender covers left/deep, then receives the illustrated NEXT dig.",
+            "ifDifferent": "Quick left shot: you can be the nearer emergency blocker if Trent cannot reach."
+          },
+          "trent": {
+            "primary": "Single front-row block, right straightforward and left only when you can close.",
+            "ifDifferent": "Don't insist on a slow cross-court block that opens the floor."
+          },
+          "logan": {
+            "primary": "Recover after serving to narrow deep-right/line support."
+          },
+          "georgia": {
+            "primary": "Middle/deep helper, cover seam while Caleb owns the next dig."
+          },
+          "jaz": {
+            "primary": "Centre front short/tips, hands low, not a middle block."
           }
         }
       }
