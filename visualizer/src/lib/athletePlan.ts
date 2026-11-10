@@ -6,7 +6,7 @@ import { splitTrack } from './trackSplit.ts'
 import { EXAMPLE_SCREEN } from './receiveExample.ts'
 
 export const ACTION_LABELS: Record<AthleteAction, string> = {
-  ready: 'Ready', receive: 'Receive/Dig', set: 'Set', attack: 'Attack', block: 'Block', cover: 'Cover', recover: 'Recover',
+  ready: 'Ready', serve: 'Serve', receive: 'Receive/Dig', set: 'Set', attack: 'Attack', block: 'Block', cover: 'Cover', recover: 'Recover',
 }
 export function actionAt(changes: StrategyRotation | undefined, source: Scenario, time: number, player: string): AthleteAction | undefined {
   const event = sourceEvents(source).filter(e => e.time <= time + 1e-7).at(-1)
