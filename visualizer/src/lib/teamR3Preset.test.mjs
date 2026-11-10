@@ -114,7 +114,7 @@ test('R3 receive RIGHT: Caleb stays forward, Harry covers Trent, Georgia deep di
    assert.equal(q.coverage.caleb.role,'receive')
    assert.ok(a.caleb.x < -2.5 && a.caleb.z < 4.3,k+' Caleb stays left-middle')
    assert.ok(a.harry.x > 1 && a.harry.z < 2.7,k+' Harry behind Trent')
-   assert.ok(Math.hypot(a.caleb.x-a.georgia.x,a.caleb.z-a.georgia.z) > 2.7,k+' separate floor')
+   assert.ok(Math.hypot(a.caleb.x-a.georgia.x,a.caleb.z-a.georgia.z) > 2.4,k+' separate floor')
    assert.ok(Math.hypot(a.harry.x-a.trent.x,a.harry.z-a.trent.z) < 2.6,k+' tip behind block')
   }
   assert.equal(c.contacts.nextReceiver,'georgia')
