@@ -24,13 +24,15 @@ export type LaterDefend = {
   actions?: Partial<Record<PlayerId, AthleteAction | null>>
   preservePath?: Partial<Record<PlayerId, true>>
 }
-export const ATHLETE_ACTIONS = ['ready', 'receive', 'set', 'attack', 'block', 'cover', 'recover'] as const
+export const ATHLETE_ACTIONS = ['ready', 'serve', 'receive', 'set', 'attack', 'block', 'cover', 'recover'] as const
 export type AthleteAction = typeof ATHLETE_ACTIONS[number]
 export type StrategyRotation = {
   readyOptions?: boolean // Set formation: prepare eligible front hitters, retaining the active setter.
   anchors?: Partial<Record<StrategyStage, Partial<Record<PlayerId, Spot>>>>
   routes?: Partial<Record<StrategyStage, Partial<Record<PlayerId, Spot[]>>>>
   setterTarget?: Spot
+  /** Explicit tactical contact ownership; unlike display actions, these change ball actors. */
+  contacts?: { secondSetter?: PlayerId; nextReceiver?: PlayerId; nextSetter?: PlayerId; fallbackSetter?: PlayerId }
   laterDefend?: LaterDefend
   coverage?: Partial<Record<StrategyStage, Partial<Record<PlayerId, CoverageZone>>>>
   eventOverrides?: Record<string, LaterDefend>
@@ -127,9 +129,15 @@ function checkRotations(overrides: unknown, version: number, cases = false, coac
   if (!record(overrides) || Object.keys(overrides).length > (cases ? 48 : 12)) throw new Error('Expected bounded rotation/serve overrides.')
   for (const [key, value] of Object.entries(overrides)) {
     if (!(cases ? isCaseKey(key) : /^[1-6]\/(they|us)$/.test(key)) || !record(value)) throw new Error('Invalid rotation/serve or case override.')
-    allowed(value, ['anchors', 'routes', 'setterTarget', 'readyOptions', ...(version === 2 ? ['laterDefend', 'coverage', 'eventOverrides'] : [])])
+    allowed(value, ['anchors', 'routes', 'setterTarget', 'readyOptions', ...(version === 2 ? ['laterDefend', 'coverage', 'eventOverrides', 'contacts'] : [])])
     if (value.readyOptions !== undefined && typeof value.readyOptions !== 'boolean') throw new Error('readyOptions must be boolean.')
     if (value.setterTarget !== undefined) checkSpot(value.setterTarget, true)
+    if (value.contacts !== undefined) {
+      if (version !== 2 || !record(value.contacts)) throw new Error('Contact ownership requires a V2 strategy.')
+      allowed(value.contacts, ['secondSetter', 'nextReceiver', 'nextSetter', 'fallbackSetter'])
+      for (const owner of Object.values(value.contacts)) if (!PLAYER_IDS.includes(owner as PlayerId)) throw new Error('Unknown contact owner.')
+    }
+
     for (const field of ['anchors', 'routes', ...(version === 2 ? ['coverage'] : [])]) {
       const stages = value[field]
       if (stages === undefined) continue
