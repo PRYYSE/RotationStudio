@@ -6646,14 +6646,6 @@
             "georgia": true,
             "jaz": true
           },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
-          },
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -6730,14 +6722,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           },
           "coverage": {
             "harry": {
@@ -7513,14 +7497,6 @@
             "georgia": true,
             "jaz": true
           },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
-          },
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -7597,14 +7573,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           },
           "coverage": {
             "harry": {
@@ -8380,14 +8348,6 @@
             "georgia": true,
             "jaz": true
           },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
-          },
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -8464,14 +8424,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           },
           "coverage": {
             "harry": {
@@ -9247,14 +9199,6 @@
             "georgia": true,
             "jaz": true
           },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
-          },
           "coverage": {
             "harry": {
               "role": "setter-support",
@@ -9331,14 +9275,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           },
           "coverage": {
             "harry": {
@@ -10113,14 +10049,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           }
         },
         "p1:serve-hit": {
@@ -10165,14 +10093,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           }
         },
         "p1:serve-hit:t255": {
@@ -11078,14 +10998,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           }
         },
         "p1:serve-hit": {
@@ -11130,14 +11042,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           }
         },
         "p1:serve-hit:t255": {
@@ -12043,14 +11947,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           }
         },
         "p1:serve-hit": {
@@ -12095,14 +11991,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           }
         },
         "p1:serve-hit:t255": {
@@ -13008,14 +12896,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           }
         },
         "p1:serve-hit": {
@@ -13060,14 +12940,6 @@
             "logan": true,
             "georgia": true,
             "jaz": true
-          },
-          "routes": {
-            "harry": [],
-            "caleb": [],
-            "trent": [],
-            "logan": [],
-            "georgia": [],
-            "jaz": []
           }
         },
         "p1:serve-hit:t255": {
