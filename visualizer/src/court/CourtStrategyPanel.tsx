@@ -32,7 +32,7 @@ export function CourtStrategyPanel({onStudio,review,onExitReview,onImportReview}
         const authored=[...new Set(Object.keys(applied.working.caseOverrides??{}).map(k=>Number(k.split('/')[0])))].sort((a,b)=>a-b)
         if(!authored.includes(s.rotation))s.choose(authored[0]??1,s.serve)
         s.seek(0)
-        setMessage('Published R1 + R3 corrected roles loaded for review. Your saved strategies are unchanged. Save a local copy if you want to edit it.')
+        setMessage('Published R1 + R3 right-cover v4 loaded for review. Your saved strategies are unchanged. Save a local copy if you want to edit it.')
       }catch(e){setMessage(e instanceof Error?e.message:'Could not load the published team strategy.')}
     } else {
       studio.select(id||null)
@@ -47,12 +47,12 @@ export function CourtStrategyPanel({onStudio,review,onExitReview,onImportReview}
     {review?<div className="cm-provenance"><strong>For review · {review.version}</strong><p>{review.name}</p><p>This exact source is read-only. Your local strategy and drafts are retained.</p><button onClick={onExitReview}>Return to my strategy</button></div>:<>
       <label className="cm-field">Active strategy<select aria-label="Choose actual strategy" value={working?.id??''} onChange={e=>{void choose(e.target.value)}}>
         <option value="">Team V3 · published example</option>
-        <option value={TEAM_PRESET_ID}>PRYYSE Team · R1 + R3 corrected roles (FOR REVIEW)</option>
+        <option value={TEAM_PRESET_ID}>PRYYSE Team · R1 + R3 right cover v4 (FOR REVIEW)</option>
         {working&&!studio.library.some(d=>d.id===working.id)&&working.id!==TEAM_PRESET_ID&&<option value={working.id}>{working.name} · {studio.preview?'import preview':'unsaved'}</option>}
         {studio.library.map(d=><option key={d.id} value={d.id}>{d.name} · {d.author}</option>)}
       </select></label>
-      <p className="cm-muted">{working?.id===TEAM_PRESET_ID&&studio.preview?'Published R1 + R3 corrected roles · for review · R2, R4–R6 not yet authored':working?`${working.author} · ${studio.preview?'Imported preview':studio.saved?'Saved locally':'Unsaved draft'} · Needs review`:'Published DRAFT examples · not match-approved'}</p>
-      {working?.id===TEAM_PRESET_ID&&studio.preview&&<p className="cm-muted"><a href={import.meta.env.BASE_URL+'strategies/r1-tactical-rationale-v1.md'} target="_blank" rel="noreferrer">R1 tactical rationale</a> · <a href={import.meta.env.BASE_URL+'strategies/r3-tactical-rationale-v3.md'} target="_blank" rel="noreferrer">R3 tactical rationale</a></p>}
+      <p className="cm-muted">{working?.id===TEAM_PRESET_ID&&studio.preview?'Published R1 + R3 right cover v4 · for review · R2, R4–R6 not yet authored':working?`${working.author} · ${studio.preview?'Imported preview':studio.saved?'Saved locally':'Unsaved draft'} · Needs review`:'Published DRAFT examples · not match-approved'}</p>
+      {working?.id===TEAM_PRESET_ID&&studio.preview&&<p className="cm-muted"><a href={import.meta.env.BASE_URL+'strategies/r1-tactical-rationale-v1.md'} target="_blank" rel="noreferrer">R1 tactical rationale</a> · <a href={import.meta.env.BASE_URL+'strategies/r3-tactical-rationale-v4.md'} target="_blank" rel="noreferrer">R3 tactical rationale</a></p>}
       <div className="cm-actions"><button onClick={()=>file.current?.click()}>Open strategy / review</button>{working&&<button onClick={()=>{studio.save();setMessage(useStrategies.getState().saved?'Saved a local copy.':useStrategies.getState().error)}}>{studio.preview?'Save a local copy':'Save strategy'}</button>}</div>
       <div className="cm-actions"><button onClick={()=>{
         downloadCourtFile(working?exportStrategy(working):exportBundle(bundle),working?'strategy.json':'rotation-plan.json');setExported(true)

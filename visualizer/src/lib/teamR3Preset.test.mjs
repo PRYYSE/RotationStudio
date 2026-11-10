@@ -33,7 +33,7 @@ test('R3 puts Trent in middle and Jaz right outside; left block belongs to Caleb
     const side = s.tactics.opponentAttack
     const firstIsHarry = s.tactics.firstTouch === 'harry'
     const original = all(base).find(src => key(src) === caseKey)
-    const expectedNext = side === 'left' ? 'georgia' : 'caleb'
+    const expectedNext = side === 'left' || (s.serve === 'they' && side === 'right') ? 'georgia' : 'caleb'
     const attackerPhase = s.serve === 'they' ? 'p6:their-attack' : 'p7:their-next-attack'
     const postServe = s.serve === 'they' ? 'p2:first-pass' : 'p1:serve-hit:t255'
     const ourAttack = s.serve === 'they' ? 'p4:our-attack' : 'p5:our-attack'
@@ -102,4 +102,31 @@ test('R3 Harry-first cannot incorrectly make Harry both first and second regular
   const invalid = structuredClone(draft)
   invalid.caseOverrides['3/they/left/harry'].contacts.secondSetter = 'harry'
   assert.throws(() => applyStrategy(base, invalid), /first and second regular contacts/)
+})
+test('R3 receive RIGHT: Caleb stays forward, Harry covers Trent, Georgia deep digs', () => {
+ const bundle=applyStrategy(base,draft).bundle
+ for(const touch of ['normal','harry']){
+  const k='3/they/right/'+touch, c=draft.caseOverrides[k], e=c.eventOverrides
+  for(const phase of ['p6:their-attack','p7:defence-ready']){
+   const q=e[phase],a=q.anchors
+   assert.equal(q.actions.trent,'block')
+   assert.equal(q.coverage.harry.role,'tip')
+   assert.equal(q.coverage.caleb.role,'receive')
+   assert.ok(a.caleb.x < -2.5 && a.caleb.z < 4.3,k+' Caleb stays left-middle')
+   assert.ok(a.harry.x > 1 && a.harry.z < 2.7,k+' Harry behind Trent')
+   assert.ok(Math.hypot(a.caleb.x-a.georgia.x,a.caleb.z-a.georgia.z) > 2.7,k+' separate floor')
+   assert.ok(Math.hypot(a.harry.x-a.trent.x,a.harry.z-a.trent.z) < 2.6,k+' tip behind block')
+  }
+  assert.equal(c.contacts.nextReceiver,'georgia')
+  assert.equal(e['p8:next-dig'].actions.georgia,'receive')
+  assert.notEqual(e['p8:next-dig'].actions.caleb,'receive')
+  assert.ok(e['p8:next-dig'].anchors.caleb.z < 4.4)
+  const n=e['p9:next-set-ready'].anchors
+  assert.ok(n.harry.x>.6 && Math.hypot(n.harry.x-n.trent.x,n.harry.z-n.trent.z)>.8)
+  const scenario=all(bundle).find(s=>key(s)===k)
+  assert.deepEqual(serviceDiagnostics(bundle.team,scenario),[])
+  const pass=scenario.ball.find(b=>b.kind==='pass' && b.start>scenario.secondContact.time)
+  assert.ok(pass && near(pass.from,sampleTrack(scenario.tracks.georgia,pass.start)))
+  assert.ok(near(pass.to,sampleTrack(scenario.tracks.harry,pass.end)))
+ }
 })
