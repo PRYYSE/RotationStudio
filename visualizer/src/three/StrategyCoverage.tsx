@@ -83,7 +83,7 @@ export function StrategyCoverage() {
   const desktop = useDesktopWorkbench()
   const s = useRotations(), studio = useStrategies(), scenario = activeScenario(s), bundle = activeBundle(s)
   if (!scenario || !bundle) return null
-  const changes = studio.working && !s.reviewBundle ? resolveStrategyRotation(studio.working, scenario) : undefined
+  const changes = studio.working ? resolveStrategyRotation(studio.working, scenario) : undefined
   const enabled = (s.receiveAreas || (desktop && s.strategyMode)) && (!s.strategyMode || studio.coverageDisplay !== 'off')
   const areas = coverageAreas(bundle.team, scenario, s.time, enabled, changes)
     .filter(a => !s.strategyMode || (!studio.coverageHidden.includes(a.player as PlayerId) && (studio.coverageDisplay !== 'selected' || a.player === s.selected)))

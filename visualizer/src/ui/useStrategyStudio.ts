@@ -27,7 +27,7 @@ export function useStrategyStudio() {
     if (!applied && !ownsOverlay.current) return
     useRotations.getState().stopShuffle()
     ownsOverlay.current = !!applied
-    useRotations.setState({ publishedOnly:false, draft: applied?.bundle ?? null, example: null, exampleResult: null, exampleScenario: null, playing: false, transitionTarget: null })
+    useRotations.setState({ draft: applied?.bundle ?? null, example: null, exampleResult: null, exampleScenario: null, playing: false, transitionTarget: null })
   }, [applied])
   useEffect(() => {
     if (!studio.editing) { useRotations.setState({ strategyMode: false, strategyEdit: null }); return }

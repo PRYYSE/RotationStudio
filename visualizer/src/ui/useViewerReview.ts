@@ -15,9 +15,9 @@ export function useViewerReview(stage: StrategyStage, laterDefend = false) {
   // No 48-case validation when playback, focus, stage or rotation changes.
   const model = useMemo(() => {
     if (!s.published) return null
-    try { return createReviewModel(s.reviewBundle ?? s.published, s.reviewBundle ? null : working) }
-    catch { return createReviewModel(s.reviewBundle ?? s.published, null) }
-  }, [s.published, s.reviewBundle, working])
+    try { return createReviewModel(s.published, working) }
+    catch { return createReviewModel(s.published, null) }
+  }, [s.published, working])
   const playerId = PLAYER_IDS.includes(s.selected as PlayerId) ? s.selected as PlayerId : null
   return useMemo(() => {
     if (!model) return null

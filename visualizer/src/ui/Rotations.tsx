@@ -1,6 +1,3 @@
-import { CourtMode } from './CourtMode'
-import { useCourt } from '../state/courtStore'
-import { courtLink, useCourtRoute } from './useCourtRoute'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { RotationScene } from '../three/RotationScene'
 import { activeBundle, activeScenario, useRotations } from '../state/rotationStore'
@@ -26,9 +23,7 @@ import { DesktopEventRail } from './DesktopEventRail'
 import { selectDesktopEvent } from '../state/desktopNavigation'
 import { InspectorResizeHandle } from './InspectorResizeHandle'
 
-export function Rotations({onSets}:{onSets:()=>void}) {
-  const court=useCourt()
-  useCourtRoute()
+export function Rotations() {
   const desktop = useDesktopWorkbench()
   const s = useRotations(), bundle = activeBundle(s), scenario = activeScenario(s)
   const { studio, warnings } = useStrategyStudio()
@@ -69,11 +64,9 @@ export function Rotations({onSets}:{onSets:()=>void}) {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
-  if (court.reviewId && (court.reviewLoading || court.reviewError || !s.reviewBundle)) return <main className="court-review-state" aria-label="Review status"><h1>{court.reviewError ? 'Review not available' : s.error ? 'Review not available' : 'Loading exact review…'}</h1><p role="alert">{court.reviewError||s.error}</p><p>No older positions have been substituted.</p>{court.reviewError && <button onClick={()=>location.reload()}>Retry review</button>}<button onClick={()=>{const url=new URL(location.href);url.searchParams.delete('review');history.pushState(null,'',url);useCourt.setState({reviewId:null});useRotations.setState({reviewBundle:null,reviewScope:null,publishedOnly:true})}}>Open published example</button></main>
   if (!bundle || !scenario) return <div className="rotation-loading" role="status">
     {s.loading ? 'Loading rotations…' : <><p role="alert">{s.error}</p><button onClick={load}>Retry plans</button></>}
   </div>
-  if (court.workspace === 'court') return <CourtMode onSets={onSets} review={court.reviewId ? null : review}/>
   const phase = phaseAt(scenario, s.time)
   const status = bundle.plans.status
   const demo = status === 'TRAINING DEMO / UNAPPROVED'
@@ -88,8 +81,6 @@ export function Rotations({onSets}:{onSets:()=>void}) {
   const events = source?.tactics ? sourceEvents(source) : []
   const currentEvent = [...events].reverse().find(e => e.time <= s.time)
   const openEditor = () => {
-    if (court.reviewId) return
-    useRotations.setState({publishedOnly:false})
     s.stopShuffle()
     if (!studio.working) studio.newStrategy(false, s.published ?? undefined)
     const root = s.published?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
@@ -137,15 +128,15 @@ export function Rotations({onSets}:{onSets:()=>void}) {
     <div className="rotation-top">
       <nav className="rotation-row glass" aria-label="Strategy mode">
         <button aria-pressed={!studio.editing && !libraryOpen} onClick={() => { leaveEditor(); setLibraryOpen(false) }}>View</button>
-        <button disabled={!!court.reviewId} title={court.reviewId ? 'Return to published data to edit' : undefined} aria-pressed={studio.editing} onClick={openEditor}>Edit strategy</button>
+        <button aria-pressed={studio.editing} onClick={openEditor}>Edit strategy</button>
         <button aria-pressed={libraryOpen && !studio.editing} aria-expanded={libraryOpen && !studio.editing} onClick={() => { s.stopShuffle(); if (studio.editing) leaveEditor(); setLibraryOpen(!libraryOpen) }}>Strategies</button>
       </nav>
       <div className="rotation-selectors glass">
         <nav className="rotation-row rotation-numbers" aria-label="Rotation">
-          {[1, 2, 3, 4, 5, 6].map((r) => <button key={r} disabled={!!court.reviewId && r!==court.reviewEntry?.rotation} aria-pressed={r === s.rotation} onClick={() => s.choose(r, s.serve)}>R{r}</button>)}
+          {[1, 2, 3, 4, 5, 6].map((r) => <button key={r} aria-pressed={r === s.rotation} onClick={() => s.choose(r, s.serve)}>R{r}</button>)}
         </nav>
         <div className="rotation-row serve-row" role="group" aria-label="Serve ownership">
-          <button disabled={!!court.reviewId && !court.reviewServes.includes('they')} aria-pressed={s.serve === 'they'} onClick={() => s.choose(s.rotation, 'they')}>They serve</button><button disabled={!!court.reviewId && !court.reviewServes.includes('us')} aria-pressed={s.serve === 'us'} onClick={() => s.choose(s.rotation, 'us')}>Us serve</button>
+          <button aria-pressed={s.serve === 'they'} onClick={() => s.choose(s.rotation, 'they')}>They serve</button><button aria-pressed={s.serve === 'us'} onClick={() => s.choose(s.rotation, 'us')}>Us serve</button>
           <span className="demo-tag">{demo ? 'DEMO ONLY' : status}</span>
         </div>
       </div>
@@ -209,7 +200,7 @@ export function Rotations({onSets}:{onSets:()=>void}) {
         <RotationPlayback />
         <div className="rotation-footer">{!repeatDraft && <span>{s.example ? 'TEACHING SAMPLE · UNAPPROVED' : s.draft ? 'LOCAL DRAFT · not shared' : status}</span>}<div>
           <button onClick={async () => {
-            const url = court.reviewId ? courtLink() : rotationLink(window.location.href, s.rotation, s.serve, s.time, s.opponentAttack, s.firstTouch, s.example)
+            const url = rotationLink(window.location.href, s.rotation, s.serve, s.time, s.opponentAttack, s.firstTouch, s.example)
             try { await navigator.clipboard.writeText(url); setShare('Published view link copied. Draft edits are excluded.') }
             catch { setShare(url) }
           }}>Share view</button>{!desktop && <button disabled={panel} aria-expanded={settings} onClick={() => setSettings(!settings)}>Settings</button>}

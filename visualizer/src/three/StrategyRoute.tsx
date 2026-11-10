@@ -41,7 +41,6 @@ function Bend({ point, index }: { point: { x: number; z: number }; index: number
 export function StrategyRoute() {
   const desktop = useDesktopWorkbench()
   const s = useRotations(), studio = useStrategies(), scenario = activeScenario(s), bundle = activeBundle(s)
-  if (s.reviewBundle) return null
   if (desktop && studio.event) return <DesktopStrategyRoute />
   if (!s.strategyMode || !studio.routeVisible || !scenario || !bundle) return null
   const order = stageOrder(s.serve), times = stageTimes(scenario), previous = order[order.indexOf(studio.stage) - 1]

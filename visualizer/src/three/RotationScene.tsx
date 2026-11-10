@@ -1,5 +1,3 @@
-import { CourtInteractions } from './CourtInteractions'
-import { CourtMarks } from './CourtMarks'
 import { memo, useEffect, useRef, useState, type RefObject } from 'react'
 import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber'
 import { ContactShadows, Html, Line } from '@react-three/drei'
@@ -66,7 +64,6 @@ function Players({ secondary }: { secondary: boolean }) {
   const bundle = useRotations(activeBundle)!
   const scenario = useRotations(activeScenario)!
   const trails = useRotations((s) => s.trails)
-  const selected = useRotations((s) => s.selected)
   const editor = useRotations((s) => s.editor)
   const flight = useRotations((s) => s.ballFlight)
   const target = useRotations((s) => s.setterTargetVisible)
@@ -76,7 +73,7 @@ function Players({ secondary }: { secondary: boolean }) {
     {trails && !editor && bundle.team.players.map((p) => {
       const points = Array.from({ length: 100 }, (_, i) => { const v = sampleTrack(scenario.tracks[p.id], i / 99 * scenario.duration); return new THREE.Vector3(v.x, 0.08, v.z) })
       return <group key={p.id}>
-        <Line points={points} color={p.color} lineWidth={1} transparent opacity={selected ? selected===p.id ? .9 : .1 : p.setter ? .65 : .3} />
+        <Line points={points} color={p.color} lineWidth={1} transparent opacity={p.setter ? 0.65 : 0.2} />
         {p.setter && scenario.tracks[p.id].slice(1).filter((k, i) => Math.hypot(k.x - scenario.tracks[p.id][i].x, k.z - scenario.tracks[p.id][i].z) > 0.4).map((k, i) => {
           const before = sampleTrack(scenario.tracks[p.id], k.time - 0.1)
           return <mesh key={i} position={[k.x, 0.12, k.z]} rotation={[Math.PI / 2, 0, -Math.atan2(k.x - before.x, k.z - before.z)]}>
@@ -98,7 +95,7 @@ function Players({ secondary }: { secondary: boolean }) {
     <MovingBall secondary={secondary} />
   </>
 }
-export const RotationScene = memo(function RotationScene({ labelHost, lowMotion = false, court = false }: { labelHost: RefObject<HTMLDivElement | null>; lowMotion?: boolean; court?:boolean }) {
+export const RotationScene = memo(function RotationScene({ labelHost, lowMotion = false }: { labelHost: RefObject<HTMLDivElement | null>; lowMotion?: boolean }) {
   const desktop = useDesktopWorkbench()
   const netHeight = useRotations((s) => activeBundle(s)!.plans.netHeight)
   const scenarioKey = useRotations((s) => `${s.rotation}/${s.serve}/${s.opponentAttack}/${s.firstTouch}`)
@@ -111,15 +108,15 @@ export const RotationScene = memo(function RotationScene({ labelHost, lowMotion 
   }, [])
   const budget = motionBudget(lowMotion, reducedMotion)
   return <Canvas shadows={budget.shadows} dpr={budget.dpr} camera={{ position: [12, 30, 25], fov: 42, near: 0.1, far: 150 }} gl={{ antialias: true }}>
-    <color attach="background" args={[court || desktop ? '#101b23' : BRAND.bg]} />
+    <color attach="background" args={[desktop ? '#101b23' : BRAND.bg]} />
     <fog attach="fog" args={[BRAND.bg, 45, 100]} />
     <ambientLight intensity={0.75} />
     <hemisphereLight args={['#b8d8ff', '#090a12', 0.8]} />
     <directionalLight position={[7, 13, 9]} intensity={1.8} castShadow={!desktop && budget.shadows} shadow-mapSize={[1024, 1024]} shadow-camera-left={-12} shadow-camera-right={12} shadow-camera-top={12} shadow-camera-bottom={-12} />
-    <StageBox /><Court courtFormat={FORMATS.indoor6s} courtline={court || desktop} /><Net courtFormat={{ ...FORMATS.indoor6s, netHeight }} />
+    <StageBox /><Court courtFormat={FORMATS.indoor6s} courtline={desktop} /><Net courtFormat={{ ...FORMATS.indoor6s, netHeight }} />
     <Players key={scenarioKey} secondary={budget.secondary} />
     {budget.shadows && <ContactShadows position={[0, 0.02, 0]} scale={28} resolution={512} blur={desktop ? 1.8 : 2.4} opacity={desktop ? 0.22 : 0.35} far={desktop ? 1.6 : 5} />}
-    {court ? <><CourtInteractions /><CourtMarks /></> : <RotationCameraRig />}
+    <RotationCameraRig />
     <RotationLabels host={labelHost} />
   </Canvas>
 })
