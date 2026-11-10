@@ -3,10 +3,9 @@ import { useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import type { OrbitControls as Controls } from 'three-stdlib'
 import * as THREE from 'three'
-import { activeScenario, useRotations } from '../state/rotationStore'
+import { useRotations } from '../state/rotationStore'
 import { useStrategies } from '../state/strategyStore'
 import { EDITOR_TARGET, EDITOR_MIN_DISTANCE, EDITOR_MAX_DISTANCE, editorZoomDistance } from '../lib/editorZoom'
-import { useDesktopWorkbench } from '../ui/useDesktopWorkbench'
 
 // Same aspect-fitted target/direction approach as the original CameraRig.
 const framings = {
@@ -16,7 +15,7 @@ const framings = {
   top: { target: [0, 0, 0.5], dir: [0, 1, 0.001], halfW: 5.8, halfH: 11 },
 } as const
 export function RotationCameraRig() {
-  const desktop = useDesktopWorkbench()
+  const desktop = true
   const controls = useRef<Controls>(null)
   const { camera, size } = useThree()
   const view = useRotations((s) => s.view)
@@ -25,9 +24,6 @@ export function RotationCameraRig() {
   const command = useStrategies(s => s.cameraCommand)
   const fitDistance = useRef(30)
   const previousDesktopPreset = useRef<string | null>(null)
-  // Phone retains the original service-contact focus change. Desktop camera
-  // position belongs to the coach: timeline/playback must never reframe it.
-  const ourHalf = useRotations(s => s.strategyMode || s.serve === 'us' || s.time >= (activeScenario(s)?.firstContact.time ?? Infinity))
   const target = useRef(new THREE.Vector3())
   const destination = useRef(new THREE.Vector3())
   useEffect(() => {
@@ -37,28 +33,19 @@ export function RotationCameraRig() {
     if (desktop && previousDesktopPreset.current === preset) return
     previousDesktopPreset.current = preset
     const original = framings[view]
-    const focus = !desktop && ourHalf
     const f = view === 'top' ? { target: EDITOR_TARGET, dir: [0, 1, .001] as const, halfW: desktop ? 5.2 : 5.8, halfH: desktop ? 5.6 : 6.8 }
-      : focus ? { ...original, target: [0, .5, 4.5] as const, halfW: view === 'side' ? 6.8 : 6, halfH: 6.8 }
       : desktop && view === 'orbit' ? { ...original, target: [0, .5, useRotations.getState().serve === 'us' ? 2 : .6] as const, halfH: 9.3 }
       : original
     target.current.set(f.target[0], f.target[1], f.target[2])
     const aspect = size.width / size.height
     const tan = Math.tan(42 * Math.PI / 360)
-    // Reserve chrome space, especially the lower timeline on portrait phones.
-    const portrait = size.width < 600
-    const halfW = !focus && portrait && (view === 'orbit' || view === 'front') ? 6.2 : f.halfW
-    const halfH = !focus && portrait && (view === 'orbit' || view === 'front') ? 9.5 : f.halfH
-    if (!editing && !focus && portrait && view === 'orbit') target.current.set(0, 0.6, 2.5)
-    const distance = Math.max(halfH / tan, halfW / (tan * aspect)) * 1.05
-    destination.current.copy(target.current).addScaledVector((portrait && view === 'orbit' ? new THREE.Vector3(0, 1.25, 1) : new THREE.Vector3(...f.dir)).normalize(), distance)
+    const distance = Math.max(f.halfH / tan, f.halfW / (tan * aspect)) * 1.05
+    destination.current.copy(target.current).addScaledVector(new THREE.Vector3(...f.dir).normalize(), distance)
     fitDistance.current = distance
     camera.position.copy(destination.current)
     controls.current?.target.copy(target.current)
     controls.current?.update()
-    // On mobile, stage labels may shift the canvas top by a few pixels without
-    // changing its width/height. Do not discard the coach's zoom for that move.
-  }, [view, size.width, size.height, editing, ourHalf, desktop])
+  }, [view, size.width, size.height, editing, desktop])
   useEffect(() => {
     const c = controls.current
     if (!editing || !command || !c) return

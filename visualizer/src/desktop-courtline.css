@@ -1,6 +1,6 @@
-/* Courtline Studio, Slice A. Existing phone and Set arcs rules stay upstream. */
+/* Full Studio workbench. Court Mode owns its independent responsive UI. */
 .desktop-only { display: none; }
-@media (min-width: 900px) {
+@media (min-width: 0px) {
   .studio-app:has(.rotations) {
     --ink: #10171d;
     --panel: #1c252d;

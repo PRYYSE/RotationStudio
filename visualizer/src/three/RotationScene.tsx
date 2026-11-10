@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState, type RefObject } from 'react'
+import { memo, useEffect, useRef, useState, type ReactNode, type RefObject } from 'react'
 import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber'
 import { ContactShadows, Html, Line } from '@react-three/drei'
 import * as THREE from 'three'
@@ -17,7 +17,6 @@ import { StrategyRoute } from './StrategyRoute'
 import { RotationLabels } from './RotationLabels'
 import { motionBudget } from '../lib/rotationPose'
 import { RotationGuides } from './RotationGuides'
-import { useDesktopWorkbench } from '../ui/useDesktopWorkbench'
 
 function Target({ x, z }: { x: number; z: number }) {
   const dragging = useRef(false)
@@ -60,7 +59,7 @@ function MovingBall({ secondary }: { secondary: boolean }) {
   }, -1) // Advance the source clock before avatars/labels read this frame.
   return <mesh ref={mesh} castShadow><sphereGeometry args={[0.16, 20, 16]} /><meshStandardMaterial color="#ffdb70" emissive="#ffbd36" emissiveIntensity={0.35} roughness={0.5} /></mesh>
 }
-function Players({ secondary }: { secondary: boolean }) {
+function Players({ secondary, courtMode }: { secondary: boolean; courtMode: boolean }) {
   const bundle = useRotations(activeBundle)!
   const scenario = useRotations(activeScenario)!
   const trails = useRotations((s) => s.trails)
@@ -90,13 +89,13 @@ function Players({ secondary }: { secondary: boolean }) {
     {scenario.serve === 'they' && <group position={[scenario.ball[0].from.x, 0, scenario.ball[0].from.z]}>
       <mesh position={[0, 0.8, 0]}><capsuleGeometry args={[0.2, 0.9, 6, 10]} /><meshStandardMaterial color="#536581" /></mesh>
       <mesh position={[0, 1.6, 0]}><sphereGeometry args={[0.18, 12, 10]} /><meshStandardMaterial color="#b7c9e4" /></mesh>
-      <Html zIndexRange={[1, 0]} center position={[0, 2.3, 0]} style={{ pointerEvents: 'none' }}><span className="server-cue">Their server</span></Html>
+      <Html zIndexRange={[1, 0]} center position={[0, 2.3, 0]} style={{ pointerEvents: 'none' }}><span className={courtMode ? "cm-server" : "server-cue"}>Their server</span></Html>
     </group>}
     <MovingBall secondary={secondary} />
   </>
 }
-export const RotationScene = memo(function RotationScene({ labelHost, lowMotion = false }: { labelHost: RefObject<HTMLDivElement | null>; lowMotion?: boolean }) {
-  const desktop = useDesktopWorkbench()
+export const RotationScene = memo(function RotationScene({ labelHost, lowMotion = false, courtMode = false, children }: { labelHost?: RefObject<HTMLDivElement | null>; lowMotion?: boolean; courtMode?: boolean; children?: ReactNode }) {
+  const desktop = !courtMode
   const netHeight = useRotations((s) => activeBundle(s)!.plans.netHeight)
   const scenarioKey = useRotations((s) => `${s.rotation}/${s.serve}/${s.opponentAttack}/${s.firstTouch}`)
   const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
@@ -108,15 +107,16 @@ export const RotationScene = memo(function RotationScene({ labelHost, lowMotion 
   }, [])
   const budget = motionBudget(lowMotion, reducedMotion)
   return <Canvas shadows={budget.shadows} dpr={budget.dpr} camera={{ position: [12, 30, 25], fov: 42, near: 0.1, far: 150 }} gl={{ antialias: true }}>
-    <color attach="background" args={[desktop ? '#101b23' : BRAND.bg]} />
-    <fog attach="fog" args={[BRAND.bg, 45, 100]} />
+    <color attach="background" args={[courtMode ? '#202522' : '#101b23']} />
+    <fog attach="fog" args={[courtMode ? '#202522' : BRAND.bg, 45, 100]} />
     <ambientLight intensity={0.75} />
     <hemisphereLight args={['#b8d8ff', '#090a12', 0.8]} />
     <directionalLight position={[7, 13, 9]} intensity={1.8} castShadow={!desktop && budget.shadows} shadow-mapSize={[1024, 1024]} shadow-camera-left={-12} shadow-camera-right={12} shadow-camera-top={12} shadow-camera-bottom={-12} />
-    <StageBox /><Court courtFormat={FORMATS.indoor6s} courtline={desktop} /><Net courtFormat={{ ...FORMATS.indoor6s, netHeight }} />
-    <Players key={scenarioKey} secondary={budget.secondary} />
+    <StageBox floorColor={courtMode ? "#303a33" : undefined} /><Court courtFormat={FORMATS.indoor6s} courtline floorColor={courtMode ? "#526c60" : undefined} attackColor={courtMode ? "#638370" : undefined} /><Net courtFormat={{ ...FORMATS.indoor6s, netHeight }} />
+    <Players key={scenarioKey} secondary={budget.secondary} courtMode={courtMode} />
     {budget.shadows && <ContactShadows position={[0, 0.02, 0]} scale={28} resolution={512} blur={desktop ? 1.8 : 2.4} opacity={desktop ? 0.22 : 0.35} far={desktop ? 1.6 : 5} />}
-    <RotationCameraRig />
-    <RotationLabels host={labelHost} />
+    {!courtMode && <RotationCameraRig />}
+    {labelHost && <RotationLabels host={labelHost} />}
+    {children}
   </Canvas>
 })

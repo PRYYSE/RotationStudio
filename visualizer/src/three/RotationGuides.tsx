@@ -1,11 +1,10 @@
 import { Line } from '@react-three/drei'
 import { activeScenario, useRotations } from '../state/rotationStore'
 import { sampleTrack, selectScenario } from '../lib/rotationModel'
-import { useDesktopWorkbench } from '../ui/useDesktopWorkbench'
 
 /** Read-only floor guides; never participate in pointer editing or validation. */
 export function RotationGuides() {
-  const desktop = useDesktopWorkbench()
+  const desktop = true
   const s = useRotations(), scenario = activeScenario(s)
   const root = s.published?.plans.scenarios.find(p => p.rotation === s.rotation && p.serve === s.serve)
   if (!scenario || !root) return null

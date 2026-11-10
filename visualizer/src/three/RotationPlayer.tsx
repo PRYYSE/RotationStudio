@@ -15,7 +15,8 @@ type Player = Team['players'][number]
 const floor = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
 export function RotationPlayer({ player, scenario, team, reducedMotion = false }: { player: Player; scenario: Scenario; team: Team; reducedMotion?: boolean }) {
   const track = scenario.tracks[player.id]
-  const published = useRotations(s => s.published), working = useStrategies(s => s.working)
+  const review = useRotations(s => s.review), stored = useStrategies(s => s.working)
+  const published = useRotations(s => s.review?.bundle ?? s.published), working = review ? review.strategy : stored
   const actions = useMemo(() => {
     const root = published?.plans.scenarios.find(s => s.rotation === scenario.rotation && s.serve === scenario.serve)
     if (!root || !working || scenario.teachingOnly) return []

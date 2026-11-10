@@ -7,7 +7,7 @@ import { useStore } from '../state/store'
 // visible: boundary, attack lines on both sides, and the center line under
 // the net. The camera stage and the surrounding StageBox are constant; the
 // court scales within them.
-export function Court({ courtFormat, courtline = false }: { courtFormat?: Format; courtline?: boolean } = {}) {
+export function Court({ courtFormat, courtline = false, floorColor, attackColor }: { courtFormat?: Format; courtline?: boolean; floorColor?: string; attackColor?: string } = {}) {
   const storedFormat = useStore((s) => FORMATS[s.format])
   const format = courtFormat ?? storedFormat
   const xMax = format.courtWidth / 2
@@ -24,10 +24,10 @@ export function Court({ courtFormat, courtline = false }: { courtFormat?: Format
     <group>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
         <planeGeometry args={[format.courtWidth, format.halfDepth * 2]} />
-        <meshStandardMaterial color={courtline ? '#126879' : BRAND.court} roughness={0.95} metalness={0} />
+        <meshStandardMaterial color={floorColor ?? (courtline ? '#126879' : BRAND.court)} roughness={0.95} metalness={0} />
       </mesh>
       {courtline && [-1, 1].map(side => <mesh key={side} rotation={[-Math.PI / 2, 0, 0]} position={[0, .003, side * 1.5]} receiveShadow>
-        <planeGeometry args={[format.courtWidth, 3]} /><meshStandardMaterial color="#1c8190" roughness={.95} />
+        <planeGeometry args={[format.courtWidth, 3]} /><meshStandardMaterial color={attackColor ?? "#1c8190"} roughness={.95} />
       </mesh>)}
       <Line points={rect} color={lineColor} lineWidth={2} />
       {/* center line under the net */}

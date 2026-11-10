@@ -18,13 +18,12 @@ import { useViewerReview } from './useViewerReview'
 import { RotationPlayback, ViewerEvents, useRotationPlayback } from './RotationPlayback'
 import { CourtTools } from './CourtTools'
 import { ShuffleControls } from './ShuffleControls'
-import { useDesktopWorkbench } from './useDesktopWorkbench'
 import { DesktopEventRail } from './DesktopEventRail'
 import { selectDesktopEvent } from '../state/desktopNavigation'
 import { InspectorResizeHandle } from './InspectorResizeHandle'
 
 export function Rotations() {
-  const desktop = useDesktopWorkbench()
+  const desktop = true
   const s = useRotations(), bundle = activeBundle(s), scenario = activeScenario(s)
   const { studio, warnings } = useStrategyStudio()
   useRotationPlayback()
@@ -102,7 +101,7 @@ export function Rotations() {
       <label><input type="checkbox" checked={s.labels} onChange={(e) => useRotations.setState({ labels: e.target.checked })} /> Names</label>
       <label><input type="checkbox" checked={s.trails} onChange={(e) => useRotations.setState({ trails: e.target.checked })} /> Paths</label>
       <label><input type="checkbox" checked={s.receiveAreas} onChange={(e) => useRotations.setState({ receiveAreas: e.target.checked })} /> Coverage areas</label>
-      <label><input type="checkbox" checked={lowMotion} onChange={(e) => setLowMotion(e.target.checked)} /> Low motion / phone performance</label>
+      <label><input type="checkbox" checked={lowMotion} onChange={(e) => setLowMotion(e.target.checked)} /> Reduce secondary motion</label>
       {!studio.editing && !studio.working && <label><input type="checkbox" checked={s.editor} onChange={(e) => s.setEditor(e.target.checked)} /> Advanced V3 Coach draft</label>}
     </div>
     {s.receiveAreas && <p className="coverage-note">Colour areas follow athletes at every stage. Approximate responsibilities, not measured reach: compact block/tip lanes, broader backcourt cover. On their serve, original receive proportions apply. Call MINE on overlaps.</p>}
@@ -112,8 +111,7 @@ export function Rotations() {
     <div className="rotation-canvas" aria-label="Interactive volleyball court">
       <RotationScene labelHost={labelHost} lowMotion={lowMotion} />
       {desktop && <CourtTools />}
-      {desktop ? <div className="court-workbench-caption desktop-only"><strong>R{s.rotation} <span>· {s.serve === 'us' ? 'Our serve' : 'Their serve'}</span></strong>{studio.editing && <small>Editing strategy</small>}</div>
-        : <div className="court-workbench-caption desktop-only"><span>PRYYSE / COURTLINE STUDIO</span><strong>R{s.rotation} <span>/{s.serve === 'us' ? ' Our serve' : ' Their serve'}</span></strong><small>{studio.editing ? 'Position editor · 9 × 9 m' : 'Rotation study · 9 × 18 m'}</small></div>}
+      <div className="court-workbench-caption desktop-only"><strong>R{s.rotation} <span>· {s.serve === 'us' ? 'Our serve' : 'Their serve'}</span></strong>{studio.editing && <small>Editing strategy</small>}</div>
       {studio.editing && <div className="editor-zoom glass" role="group" aria-label="Edit court zoom">
         <button aria-label="Zoom in" onClick={() => studio.zoomCamera('in')}>+</button>
         <button aria-label="Zoom out" onClick={() => studio.zoomCamera('out')}>−</button>
@@ -152,16 +150,12 @@ export function Rotations() {
     {!panel && <aside ref={viewerPanel} className="viewer-panel glass" aria-label="Court context">
       <div className="viewer-heading"><strong>{settings ? 'Scenario Explorer' : 'Player Focus'}</strong>
         <button aria-expanded={settings} onClick={() => setSettings(!settings)}>{settings ? 'Player Focus' : 'Scenario Explorer'}</button>
-        {!settings && review && <p className="viewer-mobile-role-call" aria-label="Quick player instruction">
-          <strong>{bundle.team.players.find(p => p.id === s.selected)?.name ?? 'Team'} · {review.eventLabel}:</strong> {review.explanation.player || review.explanation.team || review.explanation.core || 'Needs coaching note'}
-        </p>}</div>
-      {!desktop && <ShuffleControls />}
-      {(!desktop || !settings) && <PlayerFocus review={review} />}
-      {(!desktop || !settings) && <ViewerEvents />}
+      </div>
+      {!settings && <PlayerFocus review={review} />}
+      {!settings && <ViewerEvents />}
       {desktop && unavailable && <p className="example-notice" role="status">No feasible authored example. {s.exampleResult?.ok === false && s.exampleResult.message} Showing {s.exampleScenario ? 'previous valid teaching example' : 'authored example'}; playback paused.</p>}
       {desktop && s.exampleNotice && <p className="example-notice" role="status">{s.exampleNotice}</p>}
       {(desktop || settings) && <section className="rotation-settings" aria-label="Rotation settings" hidden={!settings}>
-        {!desktop && <div className="settings-heading"><strong>Scenario Explorer & settings</strong><button aria-label="Close settings" onClick={() => setSettings(false)}>Close</button></div>}
           {hasAlternates && <>
             <div className="rotation-row tactics-row" role="group" aria-label="Their attack"><span>Their attack:</span>
               <button aria-pressed={s.opponentAttack === 'left'} onClick={() => s.chooseTactics('left', s.firstTouch)}>Our left</button>
@@ -172,23 +166,15 @@ export function Rotations() {
               <button aria-pressed={s.firstTouch === 'harry'} onClick={() => s.chooseTactics(s.opponentAttack, 'harry')}>Harry first</button>
             </div>
           </>}
-          {desktop ? <>
-            <details className="practice-tools"><summary>Practice / first-ball</summary>
-              <ShuffleControls />
-              {hasAlternates && <FirstBallExamples review={review} />}
-            </details>
-            <details className="scenario-display-options"><summary>Display & advanced settings</summary>{displayOptions}</details>
-          </> : <>
+          <details className="practice-tools"><summary>Practice / first-ball</summary>
+            <ShuffleControls />
             {hasAlternates && <FirstBallExamples review={review} />}
-            {s.exampleNotice && <p className="example-notice" role="status">{s.exampleNotice}</p>}
-            <nav className="rotation-row" aria-label="Camera view">{(['front', 'side', 'orbit', 'top'] as RotationView[]).map((view) => <button key={view} aria-pressed={s.view === view} onClick={() => useRotations.setState({ view })}>{view[0].toUpperCase() + view.slice(1)}</button>)}</nav>
-            {displayOptions}
-          </>}
+          </details>
+          <details className="scenario-display-options"><summary>Display & advanced settings</summary>{displayOptions}</details>
       </section>}
     </aside>}
     <div className="rotation-bottom">
-      <div className="rotation-cue" aria-live="off"><strong>{selected} · {bundle.team.players.find(p => p.id === s.selected)?.name ?? 'Whole team'} · {unavailable ? 'Sample unavailable · playback paused' : phase.label === 'Legal start' ? (desktop ? 'Before serve contact' : 'At serve contact') : phase.label}</strong></div>
-      {!desktop && <CourtTools />}
+      <div className="rotation-cue" aria-live="off"><strong>{selected} · {bundle.team.players.find(p => p.id === s.selected)?.name ?? 'Whole team'} · {unavailable ? 'Sample unavailable · playback paused' : phase.label === 'Legal start' ? 'Before serve contact' : phase.label}</strong></div>
       <div className="rotation-timeline glass">
         {desktop && studio.editing && source && <DesktopEventRail events={events} selectedId={currentEvent?.id} disabled={!!studio.gesture} onSelect={id => selectDesktopEvent(source, id)} />}
         <div className="rotation-markers" aria-label="Timeline markers">{stageOrder(s.serve).map(stage => <button key={stage} aria-label={`Seek ${stage}`} aria-pressed={selected === stage} onClick={() => {
@@ -203,7 +189,7 @@ export function Rotations() {
             const url = rotationLink(window.location.href, s.rotation, s.serve, s.time, s.opponentAttack, s.firstTouch, s.example)
             try { await navigator.clipboard.writeText(url); setShare('Published view link copied. Draft edits are excluded.') }
             catch { setShare(url) }
-          }}>Share view</button>{!desktop && <button disabled={panel} aria-expanded={settings} onClick={() => setSettings(!settings)}>Settings</button>}
+          }}>Share view</button>
         </div></div>
         {share && <div className="share-feedback" role="status">{share}<button aria-label="Dismiss share message" onClick={() => setShare('')}>×</button></div>}
       </div>

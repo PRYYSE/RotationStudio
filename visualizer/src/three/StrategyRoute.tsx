@@ -9,7 +9,6 @@ import { laterDefendTime, stageOrder, stageTimes } from '../lib/strategyDraft'
 import { resolveStrategyRotation } from '../lib/strategyOverlay'
 import type { PlayerId, RotationKey } from '../lib/strategyDraft'
 import { eventRouteInterval, sourceEvents } from '../lib/strategyEvents'
-import { useDesktopWorkbench } from '../ui/useDesktopWorkbench'
 import { DesktopStrategyRoute } from './DesktopStrategyRoute'
 
 const floor = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
@@ -39,7 +38,7 @@ function Bend({ point, index }: { point: { x: number; z: number }; index: number
   </mesh>
 }
 export function StrategyRoute() {
-  const desktop = useDesktopWorkbench()
+  const desktop = true
   const s = useRotations(), studio = useStrategies(), scenario = activeScenario(s), bundle = activeBundle(s)
   if (desktop && studio.event) return <DesktopStrategyRoute />
   if (!s.strategyMode || !studio.routeVisible || !scenario || !bundle) return null

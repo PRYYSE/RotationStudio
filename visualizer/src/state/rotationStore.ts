@@ -10,6 +10,8 @@ const link = readRotationLink(window.location.search)
 // several boundaries. No synthetic player or ball positions are authored here.
 export const timelineTimes = (s: Scenario) => [...new Set([0, s.duration, ...s.phases.map(p => p.time), ...s.ball.flatMap(b => [b.start, b.end]), ...Object.values(s.tracks).flatMap(t => t.map(k => k.time))])].sort((a, b) => a - b)
 type State = {
+  strategyWarnings: string[];
+  review: { bundle: Bundle; applied: Bundle; strategy: import("../lib/strategyDraft.ts").StrategyDraftV2 | null } | null;
   shuffleEnabled: boolean; shuffleRunning: boolean; shuffleSeed: number
   shuffleHistory: ShuffleCase[]; shuffleCursor: number; shuffleNotice: string
   setShuffle: (enabled: boolean) => void; stopShuffle: () => void; setShuffleSeed: (seed: number) => void
@@ -30,7 +32,7 @@ type State = {
   seek: (time: number) => void; toggle: () => void; tick: (dt: number) => void
   edit: (spot: Spot) => void; importDraft: (bundle: Bundle) => void; resetDraft: () => void
 }
-export const activeBundle = (s: State) => s.draft ?? s.published
+export const activeBundle = (s: State) => s.review?.applied ?? s.draft ?? s.published
 export const authoredScenario = (s: State) => {
   const base = activeBundle(s)?.plans.scenarios.find((p) => p.rotation === s.rotation && p.serve === s.serve)
   return base && selectScenario(base, s.opponentAttack, s.firstTouch)
@@ -94,7 +96,7 @@ export const useRotations = create<State>((set, get) => ({
     set({ example: null, exampleResult: null, exampleScenario: null, exampleNotice: '', time: 0, editTime: 0,
       shuffleEnabled: true, shuffleRunning: false, shuffleHistory: history, shuffleCursor: cursor, shuffleNotice: notice })
   },
-  strategyMode: false, strategyEdit: null,
+  strategyWarnings: [], review: null, strategyMode: false, strategyEdit: null,
   example: null, exampleResult: null, exampleScenario: null, exampleNotice: '',
   published: null, draft: null, error: '', loading: true,
   ...link, playing: false, transitionTarget: null, reducedMotion: false, rate: 1, view: 'orbit', labels: true, trails: false, receiveAreas: true,
