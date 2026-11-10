@@ -7367,7 +7367,7 @@
         "secondSetter": "georgia",
         "nextReceiver": "caleb",
         "nextSetter": "harry",
-        "fallbackSetter": "caleb"
+        "fallbackSetter": "georgia"
       },
       "eventOverrides": {
         "p0:legal-start": {
@@ -8901,7 +8901,7 @@
         "secondSetter": "georgia",
         "nextReceiver": "caleb",
         "nextSetter": "harry",
-        "fallbackSetter": "caleb"
+        "fallbackSetter": "georgia"
       },
       "eventOverrides": {
         "p0:legal-start": {
@@ -9787,12 +9787,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
@@ -9839,12 +9839,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
@@ -9891,12 +9891,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
@@ -10590,7 +10590,7 @@
         "secondSetter": "georgia",
         "nextReceiver": "caleb",
         "nextSetter": "harry",
-        "fallbackSetter": "caleb"
+        "fallbackSetter": "georgia"
       },
       "eventOverrides": {
         "p0:legal-start": {
@@ -10709,12 +10709,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
@@ -10761,12 +10761,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
@@ -10813,12 +10813,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
@@ -11631,12 +11631,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
@@ -11683,12 +11683,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
@@ -11735,12 +11735,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
@@ -12434,7 +12434,7 @@
         "secondSetter": "georgia",
         "nextReceiver": "caleb",
         "nextSetter": "harry",
-        "fallbackSetter": "caleb"
+        "fallbackSetter": "georgia"
       },
       "eventOverrides": {
         "p0:legal-start": {
@@ -12553,12 +12553,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
@@ -12605,12 +12605,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
@@ -12657,12 +12657,12 @@
             }
           },
           "actions": {
-            "harry": "ready",
-            "caleb": "ready",
+            "harry": "cover",
+            "caleb": "cover",
             "trent": "ready",
-            "logan": "serve",
-            "georgia": "ready",
-            "jaz": "ready"
+            "logan": "recover",
+            "georgia": "cover",
+            "jaz": "cover"
           },
           "preservePath": {
             "harry": true,
