@@ -1,135 +1,43 @@
-# AGENTS.md
+# RotationStudio agent instructions
 
-## 10 November 2026 — LATEST: CODEX fresh Court Mode rebuild, independent UI assets
+## Current authority: 25 November 2026
 
-**Current executable Codex brief:** [visualizer/docs/COURT_MODE_CODEX_FRESH_REBUILD_2026-11-10.md](visualizer/docs/COURT_MODE_CODEX_FRESH_REBUILD_2026-11-10.md). This supersedes the older reset note **for implementation specifics**, while preserving its historical failure analysis. The owner has changed implementation surface from ChatGPT Work to **Codex**. In one deliberate run, physically retire legacy mobile-only UI paths and build a **new application-grade Court Mode** with an **independent UI component set, navigation, iconography, design tokens, styling and visual hierarchy**, not borrowing Full Studio UI components/assets, and **never copying the archived failed Court Mode**. Share only the appropriate modern desktop **volleyball engine, real animations/poses, court/player/ball/net objects, camera utilities, strategies and playback/state**. Modestly enhance shared court/player visuals if beneficial without degrading desktop fidelity or performance. **Full actual strategy selection** and visible authentic player animations are hard requirements, not nice-to-haves. Keep Full Studio and Set arcs intact, local drafts safe, perform a meaningful brief visual product critique, and publish complete changes to existing live app with focused verification. Earlier Work prompts are retired. The old mobile UI is **still present in shared source** and needs safe physical removal as the first Codex implementation task; do NOT claim that cleanup was already completed.
+Read [docs/FINISH_PLAN.md](docs/FINISH_PLAN.md) and [docs/FINISH_STATUS.md](docs/FINISH_STATUS.md) before software work. The owner's current goal is a finished, deliberately designed application delivered in four substantial cloud slices, with one substantial independent review per slice. The previous local workflow engine, Windows browser/authentication gates and numerous small handoffs are superseded.
 
+The application is `PRYYSE/RotationStudio`, under `visualizer/`. Private requirements, team facts and protected owner tactical exports belong to `PRYYSE/Volleyball`. Do not publish private player assessments or conversation exports in this public repository.
 
-## 10 November 2026 — CURRENT RotationStudio mobile/Court Mode reset
+Court Mode already shipped in `6b9a556` and is part of the reconciled `main@785f762`. Do not replay the old fresh-rebuild prompt, restore the rejected archive, or chase an already-shipped interrupted task. Fetch current main before mutation; these hashes describe the reconciliation, not a permanent checkout pin.
 
-The owner's first permanent mobile Court Mode implementation (commit `d19099ce`) failed real visual/product acceptance. It was archived at `archive/failed-court-mode-2026-11-10` and cleanly reverted on main at `8e974798` to preserve the last correct desktop Studio, polygon coverage editor, source tactics and Set arcs. **Do not reuse or extend the failed Court Mode UI.** The older responsive phone Full Studio layout is also explicitly REJECTED as a mobile/tablet UI reference; it remains intertwined with shared `visualizer/src/ui/Rotations.tsx` and `visualizer/src/rotations.css` for now, so it must be extracted/retired during the next clean-slate mobile implementation without deleting common model/data/playback/modern desktop animation code. Do not assert the legacy mobile source is already physically deleted. Never wipe localStorage or user strategies.
+## Product boundaries
 
-**Authoritative next-chat note:** [Volleyball clean-slate reset](https://github.com/PRYYSE/Volleyball/blob/main/docs/work-handoffs/COURT_MODE_FAILED_BUILD_RESET_2026-11-10.md). Previous `ROTATIONSTUDIO_PRACTICE_VIEW_WORK_*.md` prompts are **RETIRED**. New mobile/tablet coaching workspace must be separately conceived with native-app-grade touch-first composition and complete strategy selection, sharing the **newer desktop rendering/pose/animation and domain/strategy engine**, not the historical responsive mobile UX. Preserve full desktop Studio. Do not author or approve the team's 12 separate tactical slices in this UI task. Practical visual product quality matters as much as a working build; use a focused real viewport review rather than extended UAT.
+- Full Studio owns coach authoring; Court Mode owns a distinct practice/review experience. Keep separate presentation, shared domain/simulation/3D state and modern actor motion.
+- Visual/interaction quality is OPEN. A previous UI milestone or green tests do not establish owner acceptance. Inspect actual candidate pixels and perform complete tasks.
+- Default editing is stage → player → drag → automatic path. Edit only the selected player's incoming previous-to-current route; choose the next moment for the next segment. Optional bends, no mandatory professional keyframe workstation.
+- Manual moment selection is instant; Play alone animates. Keep first and later contacts distinct, deliberate camera framing stable, case-local editing default and one Undo step per gesture.
+- Preserve named strategy selection, true contact/ball ownership, local plans, safe import/export, exact review isolation, scoped notes/ink and original Set arcs. Invalid review data fails visibly rather than showing a different plan.
+- Phones/tablets default Court Mode; desktops/laptops default Studio. Explicit mode choice persists; resize/folding does not switch mode.
+- UI actions/positions do not silently rewrite contacts or tactics. Software readiness is separate from team/match approval. Current R1 is usable per owner; R3 v4 is still for review; personalised remaining rotations are unfinished.
 
+## Preserve data and work
 
-Conventions for any agent (Claude Code, Cursor, Codex, Aider, autonomous
-or interactive) working inside this repository. Harness-agnostic.
+- Keep authentic SetOptics history, licence/attribution, original source generator and all 48 Team V3 DRAFT cases. Preserve existing published strategy assets and owner originals.
+- No clearing personal localStorage, overwriting original drafts, personal browser-profile testing or destructive migrations. Preserve V1/V2 compatibility and existing bounded 1 MB strategy support.
+- Verify repository, branch, remote and dirty state, fetch and reconcile safely. Never reset/clean/force-pull or silently stash to make a checkout look clean. Use one writer per worktree and preserve unrelated changes.
+- Commit and push recoverable work before interruption/usage limits. Do not leave important work solely in a cloud task filesystem.
 
-## What this repo is
+## Execution
 
-Open-source rally-detection pipelines for volleyball video. Library +
-scripts, no service layer. The detection modes are:
-`signal`, `videomae`, `ensemble`, `llm` (Gemini).
+- **Cloud Work/Codex is the default.** No local controller, browser relay, cron/scheduled task, daemon, paid API or idle worker. Windows is not part of this workflow. Fedora is only an explicitly chosen fallback; preserve all existing files/cache and unrelated processes.
+- Use the slice's [model policy](docs/MODEL_POLICY.md). Fast is a speed setting, not a reasoning setting. Confirm actual picker settings; do not claim a prompt changed the model.
+- Use Node 22 and the existing lockfile. From `visualizer/`: `npm ci`, `npm test`, `npm run build -- --base=/RotationStudio/`.
+- The root Python/video tools are a separate upstream workstream. Do not run root `setup.sh`, install its ML dependencies or request API keys for visualizer work. Read root README and relevant upstream docs only when actually changing that workstream.
+- Candidate PR validation provides tests/build and Chromium software-WebGL screenshots. Capture is not independent visual acceptance. Review the exact candidate, not public main in its place.
+- Use Chrome/Chromium/Thorium for visual checks. Stop owned preview/test processes at completion. Do not start a personal computer to compensate for missing cloud tooling without an active need.
+- Make focused changes and focused failure regressions. Run the appropriate final suite/build once per meaningful candidate; repeat only after a relevant change. No speculative frameworks, repeated broad UAT or unrelated refactors.
+- One fresh independent reviewer checks the full slice and provides a consolidated list. The builder fixes it in the same context; recheck changed risks. Routine repairs do not require a new owner planning round.
+- Keep the final requested Unslop audit and pre-polish backup in S4. It must inspect the real application and preserve functionality and source truth.
+- Update `docs/FINISH_STATUS.md` once at a meaningful checkpoint. Include candidate, actual tests/rendered evidence, review verdict, open limitations and release result. Report publication only after actual deployment verification.
 
-## Where the code lives
+## Historical guidance
 
-- `setoptics/` is the importable Python package (ball tracker, Gemini
-  pipeline, prompts, base classes).
-- `scripts/` holds standalone CLI entry points. They are research-grade
-  but functional. Each one is its own `__main__` and uses `argparse`.
-- `tools/annotation/` holds the ground-truth labeling pipeline. It is
-  importable and runnable.
-- `tools/shared/eval/temporal.py` is the canonical evaluation framework.
-  Use it for any new rally/segment metric work; do not write parallel
-  metric code.
-
-## Working rules for agents
-
-1. **Read `README.md` first.** It is the source of truth for what each mode
-   does and how to invoke it.
-2. **Use the canonical entry points.** Detection runs through
-   `scripts/*_rally_detector.py`. Annotation runs through
-   `tools/annotation/annotate_sliding_window.py` (high quality) or
-   `annotate_fast.py` (fast iteration). Do not invent new wrappers.
-3. **Activate the venv before running Python.** All scripts assume the
-   project venv is active (`source .venv/bin/activate`).
-4. **Do not commit user data.** `data/` and any `*_annotations*.json` files
-   are gitignored. Do not stage them.
-5. **One file = one purpose.** Hard cap of 500 lines per code file. If a
-   change pushes over this, split.
-6. **No new directories without reason.** The layout is fixed; new modules
-   go in `setoptics/`, new CLIs in `scripts/`, new annotation tools in
-   `tools/annotation/`.
-7. **Apache 2.0.** All new files inherit the repo license. Do not add
-   conflicting license headers.
-
-## Common tasks
-
-### Run rally detection on a video
-
-```bash
-python scripts/signal_rally_detector.py --video FOOTAGE.mp4 --output OUT.json
-python scripts/ensemble_rally_detector.py --video FOOTAGE.mp4 --output OUT.json --mode fast
-python tools/annotation/annotate_sliding_window.py FOOTAGE.mp4   # LLM path
-```
-
-### Export a rallies-only video
-
-Detection writes JSON segments. To produce an MP4 that contains only the
-rallies (breaks cut out), pipe the JSON through `export_rallies.py`:
-
-```bash
-python scripts/export_rallies.py \
-    --segments OUT.json --video FOOTAGE.mp4 \
-    --output FOOTAGE_rallies.mp4
-```
-
-Default mode (`--mode accurate`) re-encodes for exact rally boundaries.
-Use `--mode fast` for ~10x speed via stream copy (boundaries snap to the
-nearest keyframe, can drift up to ~2s). Add `--pad 0.5` to include a
-half-second of context before/after each rally. Requires `ffmpeg` on PATH
-(already a setup.sh requirement).
-
-### Evaluate a detector against ground truth
-
-```bash
-python scripts/signal_rally_evaluate.py --predictions OUT.json --ground-truth GT.json
-python scripts/ensemble_rally_evaluate.py --predictions OUT.json --ground-truth GT.json
-python tools/annotation/eval_sliding_window.py FOOTAGE.mp4
-```
-
-The ground truth format and IoU/F1 conventions are documented in
-`tools/shared/eval/temporal.py`. Read it before adding a new metric.
-
-### Make a raw annotation file, or help someone with the annotation UI
-
-Read `tools/annotation-ui/README.md`. "Making a raw draft" lists every way
-to produce a file the UI will pick up, and where it must live.
-"Troubleshooting" maps each error the UI shows to its cause.
-
-### Add a new detector
-
-1. Implement the detector as a module under `setoptics/` if it is reusable,
-   or under `scripts/` if it is a one-shot CLI.
-2. Subclass `setoptics.rally_detector_base.RallyDetectorBase` if you want
-   the existing evaluation harness to pick it up automatically.
-3. Add an `_evaluate.py` companion under `scripts/` that uses
-   `tools/shared/eval/temporal.py`. Do not duplicate metric code.
-
-### Train your own ball detector
-
-See `docs/training.md`. The YOLO trainer is `scripts/train_volleyball_yolo.py`.
-
-## Environment
-
-- Python 3.11 (use `pyenv` or system).
-- `ffmpeg` on path.
-- A `.env` at the repo root with `GEMINI_API_KEY=...` for any LLM path.
-- `GOOGLE_API_KEY` still works as a fallback for the annotation tools.
-- The repo never ships secrets. Never write a key into source.
-
-## What is NOT here
-
-- No FastAPI server, Cloud Run, GCS wiring, Stripe, Clerk, or web UI. Those
-  belong to the hosted SetOptics product and are intentionally excluded.
-- No training datasets. Bring your own.
-
-## When in doubt
-
-Prefer:
-- editing an existing file over creating a new one,
-- using `tools/shared/eval/temporal.py` over writing new metric code,
-- adding a CLI flag over creating a new script.
-
-If a task seems to require violating any of the above, stop and surface the
-trade-off in your PR description.
+Earlier product/execution notes remain in Git history and linked documents. The pre-reconciliation instructions are available at [AGENTS at 785f762](https://github.com/PRYYSE/RotationStudio/blob/785f762101f63b217b9ddb0ecd198313235701a8/AGENTS.md). Their obsolete mobile-rebuild and delivery directives are historical. Preserve applicable upstream licensing, source/data safety and module conventions when working on upstream Python/video tooling.

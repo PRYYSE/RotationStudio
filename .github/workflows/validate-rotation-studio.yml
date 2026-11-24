@@ -1,0 +1,77 @@
+name: RotationStudio Candidate Validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'visualizer/**'
+      - '.github/workflows/validate-rotation-studio.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rotation-candidate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-build-browser:
+    name: Candidate unit, build, rendered browser evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      REVIEW_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out the candidate head, not the synthetic PR merge
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Node 22 with npm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: visualizer/package-lock.json
+      - name: Install app dependencies
+        working-directory: visualizer
+        run: npm ci
+      - name: Run existing unit and rotation tests
+        working-directory: visualizer
+        run: npm test
+      - name: Build the GitHub Pages base
+        working-directory: visualizer
+        run: npm run build -- --base=/RotationStudio/
+      - name: Install temporary pinned Chromium test tooling
+        working-directory: visualizer
+        run: |
+          npm install --no-save --package-lock=false playwright@1.64.1
+          npx playwright install --with-deps chromium
+      - name: Capture candidate browser evidence
+        working-directory: visualizer
+        shell: bash
+        run: |
+          node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 4173 --strictPort --base=/RotationStudio/ > review-preview.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true; wait "$preview_pid" 2>/dev/null || true' EXIT
+          ready=false
+          for attempt in $(seq 1 35); do
+            if curl -fsS -o /dev/null http://127.0.0.1:4173/RotationStudio/; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" != true ]; then cat review-preview.log; exit 1; fi
+          node scripts/capture-review-evidence.mjs
+      - name: Upload screenshots and candidate manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rotation-review-evidence-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            visualizer/review-evidence/
+            visualizer/review-preview.log
+          retention-days: 14
+          if-no-files-found: warn
