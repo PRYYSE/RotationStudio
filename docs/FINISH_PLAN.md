@@ -56,7 +56,7 @@ The application remains hosted and browser-based. An app-like result comes from 
 | Interaction | Clear hover/pressed/disabled/keyboard-focus states; usable touch targets; feedback near the action. Manual moment selection is instant; Play alone animates the rally. |
 | Failure states | If WebGL cannot initialise, present a useful recovery/help state instead of an apparently functioning interface around a blank court. Storage, import and review failures preserve existing work. |
 
-The current live-shell audit found competing context strips, repeated generic coaching text, developer-oriented terminology and overloaded strategy sheets. It did not prove a current court-rendering defect: that audit browser had WebGL disabled. The build must use actual 3D-capable candidate evidence before judging framing, labels or motion.
+The initial live-shell audit found competing context strips, repeated generic coaching text, developer-oriented terminology and overloaded strategy sheets. Its browser had WebGL disabled. Subsequent [hosted candidate evidence](https://github.com/PRYYSE/RotationStudio/actions/runs/45506394806) rendered the real court and Set arcs successfully. Actual images also confirmed a material phone layout bug: loading the longer R1/R3 plan makes the app wider than a 390px viewport and crops controls/players. They also show weak label-to-player association and small-screen framing. These are explicit S1 priorities; technical capture success is not visual acceptance. Use actual 3D-capable candidate evidence for design decisions and motion review.
 
 ## 3. Global constraints
 
@@ -91,7 +91,7 @@ Use Fast while the owner's displayed account offer applies; check the picker rat
 
 - [ ] Implement the design direction and complete normal, empty, unsaved, selected and error states. Simplify information placement and actual control anatomy, not just colour/spacing.
 - [ ] Make selecting a plan, changing scenario, identifying a player, entering Edit and returning to Court understandable without explanatory paragraphs. Keep every existing useful operation reachable.
-- [ ] Keep the court and six identities usable at 1440×900, a representative ultrawide, 390×844 phone, 844×390 landscape and 1024×768 tablet. Use real content and one dense sheet/editor state.
+- [ ] Keep the court and six identities usable at 1440×900, a representative ultrawide, 390×844 phone, 844×390 landscape and 1024×768 tablet. Use real content, the longer R1/R3 plan title and one dense sheet/editor state. Fix the confirmed named-plan whole-app horizontal overflow and verify controls remain reachable after plan/scenario changes.
 - [ ] Inspect matching before/after candidate screenshots and perform the two core journeys. Correct obvious visual failures before review. Reuse existing automated checks; add tests only for new behaviour/failure handling.
 
 **Acceptance:** The independent reviewer can select a real plan, find rotation/serve, find an athlete's immediate job and discover stage-first editing without reading a developer guide. Screens are consistently composed and no longer rely on repetitive plain-text scaffolding. No functional/data regressions. One consolidated review includes all touched screens, not a separate review per component.
