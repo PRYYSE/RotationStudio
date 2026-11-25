@@ -1,218 +1,227 @@
-# RotationStudio finish plan
+# RotationStudio 1.0: product and delivery plan
 
-**Current software delivery authority: 25 November 2026 (Adelaide).**
+**Revision 2, 25 November 2026 (Adelaide). Current delivery authority.**
 
-**Goal:** Finish a polished volleyball coaching application that is easy to learn, pleasant to operate and trustworthy with people's plans. Preserve the functioning simulation and editor while completing the experience around them.
+**Goal:** Finish a capable, straightforward volleyball coaching tool for desktop, tablet and phone, with a substantially improved editor, reusable players and teams, AI-editable plans and an integrated conversational coach. This replaces the earlier four-slice polish plan with five substantial deliveries.
 
-**Architecture:** One existing GitHub Pages application with two deliberately designed workspaces: Full Studio for authoring, Court Mode for demonstrating and practising. They share strategy data, simulation, court, actors and playback; each owns its presentation. Continue the current React/TypeScript/Vite, React Three Fiber/Three.js and Zustand implementation.
+**Execution:** Cloud Work/Codex, one builder and one fresh consolidated review per delivery. The owner accepts manual task starts. No local controller, personal-computer worker, scheduled relay or mandatory Normal Chat handoff. [START_HERE.md](START_HERE.md) contains setup and model-specific prompts; [MODEL_POLICY.md](MODEL_POLICY.md) owns routing; [FINISH_STATUS.md](FINISH_STATUS.md) owns actual progress.
 
-**Delivery:** Four substantial software slices, each with a complete build pass and a fresh independent review. Work in cloud Work/Codex. The old Windows/Fedora orchestration controller is retired from the active delivery path. This document contains the product specification, implementation plan and working prompts; do not reconstruct a competing plan from historical briefs.
+**Architecture:** Continue the existing React/TypeScript/Vite and Three.js application where useful, with a versioned authoring domain, small private cloud API/storage and bounded AI proposal service. The current editor, component/state structure and fixed-roster assumptions may be replaced. Data, AI and credit controls are in [AI_COACH_SPEC.md](AI_COACH_SPEC.md).
 
-**Starting point:** Reconciled app `main@785f762101f63b217b9ddb0ecd198313235701a8`. Court Mode shipped in `6b9a556bb26ba9c84012b56a01cdf15a73ea5aa0`; the private interrupted-build warning was stale. Fresh cloud baseline: 199 tests pass and production build passes. These facts do not establish owner acceptance. Fetch current main at execution time rather than pinning future work to this old commit.
+## 1. Original intent and current corrections
 
-## 1. What the finished product is
+This revision retains the original [69-requirement register](https://github.com/PRYYSE/Volleyball/blob/26eeb7084a05a4e1db81ed71b404cb21c270814b/docs/ROTATIONSTUDIO_REQUIREMENTS_AND_REVIEW_REGISTER_2026-10-30.md), [amended roadmap](https://github.com/PRYYSE/Volleyball/blob/26eeb7084a05a4e1db81ed71b404cb21c270814b/docs/ROTATIONSTUDIO_LOCKED_DELIVERY_ROADMAP_2026-10-31.md), later Court requirements and owner corrections. Core outcomes remain: a deliberately designed application, stage-first editing, useful path/action/coverage control, realistic whole-rally movement, player-specific teaching and independent product review. The [software crosswalk](REQUIREMENT_COVERAGE.md) and private crosswalk retain traceability.
 
-### Full Studio: plan and edit
+The latest owner instruction supersedes fixed-roster, mobile-view-only, no-backend/API and minimal-change restrictions. The earlier plan is recoverable at [72b2f58](https://github.com/PRYYSE/RotationStudio/blob/72b2f5887c7d0be6e3e3937d4d3041e997e65b58/docs/FINISH_PLAN.md). Old completion labels do not establish visual acceptance.
 
-A coach selects a named plan, rotation and serving side, chooses a meaningful moment, selects an athlete and drags them into place. Connecting movement is automatic. Optional tools adjust that athlete's incoming route, action and responsibility area. One gesture is one Undo step. The coach can play the whole rally, compare with the source, save a separate plan, reopen it and share it safely.
+Court Mode already shipped. The unchanged baseline passed 199 tests, a Pages build and cloud WebGL capture. Actual images exposed phone overflow from a long plan title, unclear player labels, clutter and a weak plan workflow. Source inspection also found six-name player IDs, hardcoded `normal/harry` branches, source-bound moment identities and no complete mobile authoring. The new contracts must remove those restrictions before the interface is finished.
 
-The default remains **stage → athlete → move → automatic path**. Show only the selected athlete's incoming previous-to-current path; select the next moment to edit the next segment. Additional authentic moments remain available. A professional multitrack/keyframe workstation is outside the default product.
+## 2. Rewrite authority and protected outcomes
 
-### Court Mode: demonstrate and practise
+**Build the right product. Minimising the diff is not an acceptance criterion.** Workers may substantially redesign or replace the editor, controls, layout, components, state management and internal representation. Remove obsolete duplicate paths once the replacement works. Existing code and passing tests are not reasons to retain an awkward interaction.
 
-A teammate opens the actual named plan or exact review and immediately understands the rotation, serve and current moment. The real court dominates. They can play or jump through the complete rally, identify a player and read concise Now/Next/If guidance, change/reset the camera, enter focus view, and add recoverable drawings or notes.
+Protect authored data and useful behaviour:
 
-Phones and standalone tablets default to Court Mode. Desktop/laptops, including a convertible laptop, default to Full Studio. An explicit choice persists, deliberate deep links work, and resizing or folding does not switch workspaces. Both remain available on every device. The current Court implementation is a functioning foundation to improve, not a missing feature to rebuild.
+- Owner exports, browser drafts, annotations, published examples and all 48 original Team V3 DRAFT cases. Import new-format copies; do not silently rewrite originals.
+- Authentic SetOptics provenance/licensing and original Set arcs.
+- V1/V2 imports and existing exact reviews, including the existing 1 MB legacy import capability. Define appropriate bounded limits for new plans and whole-library backups instead of applying one old limit blindly to every new entity.
+- Instant manual moment selection, explicit Play, exact-case/occurrence scope by default, one Undo per completed gesture/proposal, and reliable save/reopen.
+- Truthful ball/contact ownership, consistent actor/ball paths, distinct later digs/sets, deliberate camera framing and a meaningful action/responsibility for every active player.
 
-### Plans and teaching material
+These contracts do not freeze UI anatomy, named enums, CSS, schema implementation, state stores or simulation plumbing. Keep the renderer where it helps; replace coupled parts when the outcome requires it. Legacy compatibility should be one import boundary, not a second active editor.
 
-Plan selection, creation, copying, editing and sharing form a coherent journey. Published examples, local drafts and versioned reviews are visibly different when that distinction matters. A same-named saved copy cannot masquerade as the latest published plan. A review opens its exact source, edits, moment and rationale; unavailable or invalid data shows a useful error. Sharing never silently replaces the recipient's work. Useful spatial references print on A4. Original Set arcs remains available and functional.
+Normal Git commits/branches provide routine recovery. Add an export/restore point for a real data migration and the requested final Unslop pass. Do not build speculative rollback machinery, reset to old releases during routine work or rehearse rollback for reversible UI changes. Routine reversible implementation choices do not need owner permission.
 
-The application remains hosted and browser-based. An app-like result comes from composition, direct manipulation, responsive feedback and complete interaction states. This work does not require native packaging, accounts, a new backend, automatic cloud sync or a new physics engine.
+## 3. The finished product
 
-### Definition of done
+### Players, teams and lineups
 
-- All three journeys work end to end on the accepted candidate, including unsaved, empty, loading, failure and recovery states.
-- Actual rendered screens and moving rallies meet the design and interaction criteria below. A build or screenshot-existence check cannot accept visual quality.
-- No known material defect remains in scope. Minor optional ideas are recorded separately and do not create endless polishing.
-- Existing source cases, user drafts/imports, annotations, Set arcs and attribution survive.
-- The independent reviewer records the exact reviewed commit and evidence. The existing Pages site is verified after release.
-- Software readiness and tactical/team approval are reported separately. The app is not declared aesthetically owner-accepted merely because an agent approves it.
+The private app begins with a clear create/import path. The original six people are an optional example or legacy import, not hardcoded identities.
 
-## 2. Design direction to implement
+A reusable Player can belong to multiple Teams. A roster may include reserves and fill-ins; a named Lineup chooses six active players, their initial order and team-specific roles. Alternate lineups and player replacements create explicit versions/copies. Old plans/reviews retain their original player and lineup references. A fill-in does not silently inherit a claim that the old tactics suit them.
 
-**A dedicated coaching instrument, with the court as the primary working surface.** This is the proposed art direction for the finish, not a claim that the owner has already accepted its pixels.
+Player creation must reveal depth progressively:
 
-| Area | Required design decision |
+| Layer | Simple owner-facing controls |
 |---|---|
-| Studio composition | One concise plan/scenario context bar, a stable court workspace, one contextual inspector and one compact playback/event rail. Consolidate repeated context and status. |
-| Court composition | Minimal strategy/scenario header, court-first stage, reachable playback, purposeful sheets. Deliberate portrait, landscape and tablet compositions. |
-| Plan library | A real plan-selection/management surface with a clear normal action. Replace the ad hoc special-plan button and equal-weight action pile. Preserve all useful operations. |
-| Type | A readable working sans and a small, consistent hierarchy for task, control and secondary metadata. Numerals align where helpful. Avoid tiny metadata and paragraph-heavy controls. |
-| Colour and surfaces | Restrained sports identity, clear working surfaces, strong current/selected/focus states, colour that distinguishes players and actions. Avoid generic glow, decorative gradients and repetitive bordered cards. The two workspaces retain separate presentation ownership. |
-| Copy | Use actual task language such as Team plan, Save a copy, Saved on this device and Import plan. Put hashes, schema/source diagnostics and implementation vocabulary in details. Preserve necessary review/local-data truth. |
-| Player information | Identity and the current coaching action lead. Now/Next/If is concise and grounded in the selected scenario. Do not replace missing tactics with invented instructions. |
-| Court and actors | Legible identities, sensible default framing including the server, useful layers and recognisable motion. Improve materials/lighting only when they improve clarity; retain performance and truthful geometry. |
-| Interaction | Clear hover/pressed/disabled/keyboard-focus states; usable touch targets; feedback near the action. Manual moment selection is instant; Play alone animates the rally. |
-| Failure states | If WebGL cannot initialise, present a useful recovery/help state instead of an apparently functioning interface around a blank court. Storage, import and review failures preserve existing work. |
+| Quick profile | Name, optional height in cm, optional gender, handedness, preferred roles and strength chips. |
+| Main abilities | Labelled five-step choices/sliders for receiving, setting, attacking, serving, blocking, defence and movement. Each has plain anchors and Unknown. |
+| Optional depth | Consistency, pressure, short/deep coverage, lateral movement, communication, rotation familiarity, attack-side preferences, known reach and practical limitations. |
+| Team context | Role/availability and coaching notes for this team or lineup, without changing the global person. |
 
-The initial live-shell audit found competing context strips, repeated generic coaching text, developer-oriented terminology and overloaded strategy sheets. Its browser had WebGL disabled. Subsequent [hosted candidate evidence](https://github.com/PRYYSE/RotationStudio/actions/runs/45506394806) rendered the real court and Set arcs successfully. Actual images also confirmed a material phone layout bug: loading the longer R1/R3 plan makes the app wider than a 390px viewport and crops controls/players. They also show weak label-to-player association and small-screen framing. These are explicit S1 priorities; technical capture success is not visual acceptance. Use actual 3D-capable candidate evidence for design decisions and motion review.
+Unknown is not zero or average. Distinguish measured facts from coach estimates, with confidence/source/date. Never infer ability from gender or height. Existing private profiles may seed a reviewable import; missing ratings are not invented. Detailed fields are in the AI specification.
 
-## 3. Global constraints
+### Full Studio: straightforward control
 
-1. Keep the real SetOptics-derived application, its licence/attribution, shared domain/3D foundations and original Set arcs. Do not run the unrelated Python/video setup for visualizer work.
-2. Preserve the Team V3 source generator and all 48 original authored DRAFT cases. Preserve published strategy files and owner-authored references. Software work does not silently redesign tactics.
-3. Never clear personal browser storage, reset/clean/stash away work, overwrite original drafts or test in a personal signed-in browser profile. Use isolated cloud test contexts and fixture copies.
-4. Preserve V1/V2 strategy compatibility, current 1 MB bounded strategy support, exact-case editing, occurrence-specific later contacts and safe recipient previews.
-5. A coaching pose/position change does not silently transfer real ball ownership. Any explicitly authored contact change must stay consistent with actors, endpoints and instructions.
-6. Keep Court presentation independent of Studio presentation; share simulation and technical utilities. Do not reinstate the archived failed Court UI or remove essential motion at phone widths.
-7. Use existing project commands and small focused regressions. No general refactoring, new controller, task daemon, polling loop, paid API integration or local autostart.
-8. Cloud is the execution default. Fedora is an optional explicitly chosen fallback; Windows remains outside this workflow. Stop owned preview/test processes when the task ends.
-9. Retain the requested final Unslop pass with a restorable backup in S4. It is bounded product work, not another orchestration system.
+The editor needs serious redesign, including replacement where appropriate. Its default journey is:
 
-## 4. Four implementation slices
+**Choose team/lineup and plan → choose rotation/serve/case → choose moment → select player → place them → preview → save.**
 
-These are delivery units, not limits on internal commits. Each builder completes the whole listed outcome before handing it over. Setup and fixes that the outcome requires stay in the same slice.
+Movement between moments connects automatically. Show the selected player's incoming previous-to-current route; select the next moment for the next segment. Refinement tools stay close to selection, without a mandatory multitrack/keyframe workstation.
 
-| Slice | Builder | Independent reviewer | Why this starting configuration |
+Required behaviour:
+
+- Direct selection/placement, plus tap-to-place or precise nudge/coordinate alternatives when a finger obscures a target.
+- Clear editing, camera and drawing modes; viewport width cannot change mutation semantics.
+- Incoming bends/straighten, ellipse/polygon coverage, teaching action/cue, explicit contact assignment and intentional additional moments/timing where needed.
+- Stable moment identity through renaming/reordering, including first and later digs/sets.
+- Contact changes update ball/actor dependencies coherently. A pose change alone never transfers possession.
+- One gesture, one Undo; cancellation commits nothing. Exact-case edits default; shared edits preview their affected cases.
+- Immediate feedback, stable camera, useful before/after comparison, reliable save/reload and conflict recovery.
+- Incomplete drafts can be saved. Missing scenarios are identified rather than silently replaced by a fallback and labelled complete.
+
+### Practice, review and handoff
+
+Court Mode remains an independently designed practice/review presentation sharing the same domain/simulation. It includes the full rally, meaningful moments, player-specific Now/Next/If, camera/focus, recoverable ink/notes and exact review data.
+
+Court may remain the phone/tablet default and Studio the desktop default, with a visible Edit action and persistent explicit choice. **Every supported device must support complete authoring.** Playback-only mobile or a required desktop handoff fails 1.0.
+
+Plans must reopen consistently across the owner's devices through private cloud storage. Import existing browser-local work into a new cloud copy explicitly. A4 references must be spatially useful. Public review exports include necessary display/tactical information and exclude private assessments, private notes and assistant conversations. Preserve independent friend editing: the public build supports explicit local import → edit → export of a redacted editable copy, without private cloud access, API credentials or signup. Exact review remains read-only until the recipient deliberately creates their own copy; it never overwrites their work.
+
+### External AI editing and integrated coaching
+
+Two entry points use the same validated proposal contract:
+
+1. **External AI:** export a documented editing/coaching pack with stable IDs, selected plan/context and schema. ChatGPT or another capable assistant returns a plan/patch that the app validates and previews. This requires neither API credits nor a new MCP service.
+2. **Integrated coach:** discuss a selected team/lineup or existing plan in the app. Ask material unanswered questions, create a coherent playbook, explain trade-offs, accept criticism and revise selected rotations/moments without blindly changing everything.
+
+The API receives explicit versioned knowledge. It does not automatically inherit this Project, past chats, skills or private repository. Distil the owner's methodology into a private reviewed coaching profile and approved examples.
+
+Generation must cover the requested rotations and both serve states with declared branches/completeness. Every authored moment assigns all six a meaningful job. The plan accounts for selected league rules, actual contact order, setter availability, legal attackers, paths, short/deep defence and plausible transitions. Optimisation means a strong explainable proposal under known constraints, not a guaranteed global optimum or referee approval.
+
+AI output is a proposal: validate → court/diff preview → Apply/reject → one Undo. No silent overwrite of accepted cases, profiles, source examples or saved preferences. Remembering a coaching preference is an explicit owner action scoped to the relevant team.
+
+The complete in-app coach is required for 1.0. Credentials can remain disabled while implementation/fixtures proceed. A stub, export button or disabled AI control does not satisfy the live feature.
+
+## 4. A tool-like visual and interaction system
+
+**A coaching workbench centred on the court**, including Players, Teams and Plans.
+
+- Compact application navigation and contextual authoring/practice controls.
+- One concise plan/scenario context, stable court, one inspector/sheet and useful moment/playback rail. Consolidate repeated strips and statuses.
+- Deliberate typography, control hierarchy, useful density, functional colour, consistent icons and accessible selected/focus/pressed/disabled states.
+- Direct manipulation and controls carry the task. Concise help appears at decisions; technical IDs/schema/source diagnostics stay in details or export.
+- Complete empty/loading/saving/offline/conflict/import/AI-exhaustion states. Failed WebGL must show useful recovery instead of blank court surrounded by apparently working controls.
+- Reliable label-to-athlete association and meaningful camera framing. Long titles never widen the entire app beyond the viewport.
+- Desktop workbench, reachable phone tools, deliberate landscape/tablet compositions and working software-keyboard states. A dense editor must work as well as the initial screen.
+
+The builder chooses and carries through a coherent design. Exploration is bounded and internal unless a consequential preference needs the owner. A colour/spacing-only pass fails the editor and application outcome.
+
+## 5. Efficient desktop/mobile sequence
+
+1. **S1:** shared data/commands and a real desktop AND phone edit, preview, Undo and save/reopen using a newly named team.
+2. **S2:** establish complete desktop authoring and application design; keep touch viability visible as tools are introduced.
+3. **S3:** complete all phone/tablet authoring and practice, plus motion/input across both. This is substantial product work, not a CSS port.
+4. **S4:** integrate the AI coach into both presentations together.
+5. **S5:** review and polish the complete product after its flows exist.
+
+This proves touch early, establishes the desktop interaction reference and completes mobile before final polish. It avoids two separate editing engines and a late discovery that desktop assumptions cannot work on a phone.
+
+Representative targets: 1440×900 desktop, the owner's 3440×1440 ultrawide, approximately 390×844 phone, 844×390 landscape and 1024×768 tablet. Pixel 9 Pro XL is the primary real phone. Use long names, the real named-plan overflow case, a selected player and a dense tool state. Report physical-device verification separately from CSS/touch emulation; do not maintain an exhaustive matrix without a concrete risk.
+
+## 6. Five implementation deliveries
+
+Starting reasoning is **High** with **Fast while the account promotion applies**. See model policy for evidence and older-model fallbacks. A slice can have multiple commits or continued sessions; it does not restart planning when a context ends.
+
+| Slice | Builder | Fresh reviewer | Complete outcome |
 |---|---|---|---|
-| **S1: Application experience** | **GPT-6.2 Astra, High, Fast** | **Astra, High, Fast** | The unresolved work is design judgement across an existing 3D application, not straightforward styling. |
-| **S2: Motion and spatial editing** | **GPT-6.2 Astra, High, Fast** | **Astra, High, Fast** | Camera/input/pose/event interactions require cross-component spatial reasoning. |
-| **S3: Plans and connected journeys** | **GPT-6.2 Sol, High, Fast** | **Astra, High, Fast** | Much of the behaviour is specified and already implemented; Sol is the efficient implementation default. High reflects the combined persistence/review scope. |
-| **S4: Integrated finish and release** | **GPT-6.2 Astra, High, Fast** | **Fresh Astra, High, Fast** | Whole-product judgement, remaining integration fixes and final rendered comparison. |
+| S1 | Sol 6.2 | Sol 6.2 | Reusable entities/contracts, private persistence, external AI editing and desktop/phone edit proof. |
+| S2 | Astra 6.2 | Astra 6.2 | Rebuilt desktop Studio/editor and complete player/team/plan workflows with coherent application design. |
+| S3 | Astra 6.2 | Sol 6.2 | Complete mobile/tablet authoring, Court practice, motion/input and teaching/share journeys. |
+| S4 | Sol 6.2 | Astra 6.2 | Grounded conversational AI generation/editing, safe proposal application and verified credit controls. |
+| S5 | Sol 6.2 | Astra 6.2 | Integrated acceptance, material repairs, backed-up final Unslop and verified release. |
 
-Use Fast while the owner's displayed account offer applies; check the picker rather than assuming API Priority or Ultrafast is included. Medium is sufficient for clearly bounded repairs. Extra High is an escalation for a named unresolved difficult problem, not the default for every task. Model evidence and limits are in [MODEL_POLICY.md](MODEL_POLICY.md).
+### S1. Reusable team and authoring foundation
 
-### S1. Complete the application experience
+**Outcome:** a new team and named fill-in lineup are real data, can save privately and can be edited through the same contract by UI or external AI.
 
-**Deliverable:** A coherent redesign across Studio View, Edit, Plans and Court Mode, including their primary panels, states and playback. Carry the design through the existing product in one substantial pass.
+**Starting seams:** `visualizer/src/lib/strategyDraft.ts`, `strategyEvents.ts`, `strategyOverlay.ts`, `rotationTypes.ts`, `rotationValidation.ts`, `strategyLibrary.ts`, `courtReview.ts`, `state/strategyStore.ts`, `useStrategySimulation.ts`; new small `src/domain/`, `visualizer/contracts/` and request-driven `visualizer/server/`. Paths are a starting map, not a restriction on better organisation.
 
-**Primary files:** `visualizer/src/StudioApp.tsx`, `ui/Rotations.tsx`, `ui/StrategyLibrary.tsx`, `ui/DesktopAthleteEditor.tsx`, `ui/DesktopEventRail.tsx`, `ui/RotationPlayback.tsx`, `ui/PlayerFocus.tsx`, `desktop-courtline.css`, `rotations.css`, `court/CourtMode.tsx`, `court/CourtSheet.tsx`, `court/CourtPlayback.tsx`, `court/CourtStrategyPanel.tsx`, `court/court.css`. Paths after the first are relative to `visualizer/src/`. Touch scene failure handling only as required by the explicit WebGL gap.
+- [ ] Implement versioned Player, Team, Lineup, Strategy, Case, Moment, Contact, Review and Proposal contracts from the AI specification. Stable tactical slot IDs resolve to reusable people; roles and names are data.
+- [ ] Import legacy plans into new copies with pinned sources/event maps. Original payloads/notes survive; unresolved mappings remain recoverable. A new team must not secretly become the old six IDs behind an adapter.
+- [ ] Implement shared validation, transactions, deterministic playback compilation, expected-revision conflicts, idempotent saves and atomic Undo.
+- [ ] Implement private cloud storage/API and owner authentication, with preview fixtures isolated from production. Complete fixture implementation before unavailable account steps; private-save acceptance still requires configured live hosting.
+- [ ] Supply AI editing schemas, concise guide, synthetic complete pack/proposal and a validation command. Import never auto-applies a patch.
+- [ ] Prove one non-zero placement, Undo and save/reopen on desktop and phone plus a named fill-in copy. A simple usable library entry is sufficient here; full editor/form refinement follows in S2.
 
-- [ ] Implement the design direction and complete normal, empty, unsaved, selected and error states. Simplify information placement and actual control anatomy, not just colour/spacing.
-- [ ] Make selecting a plan, changing scenario, identifying a player, entering Edit and returning to Court understandable without explanatory paragraphs. Keep every existing useful operation reachable.
-- [ ] Keep the court and six identities usable at 1440×900, a representative ultrawide, 390×844 phone, 844×390 landscape and 1024×768 tablet. Use real content, the longer R1/R3 plan title and one dense sheet/editor state. Fix the confirmed named-plan whole-app horizontal overflow and verify controls remain reachable after plan/scenario changes.
-- [ ] Inspect matching before/after candidate screenshots and perform the two core journeys. Correct obvious visual failures before review. Reuse existing automated checks; add tests only for new behaviour/failure handling.
+**Minimum evidence:** roster larger than six, two teams sharing a player, fill-in variant, renamed IDs remaining coherent, legacy import, stale-save preservation, unauthorised API denial and the non-zero edit/reload on both input presentations. Focused contract tests; no full-product UAT yet.
 
-**Acceptance:** The independent reviewer can select a real plan, find rotation/serve, find an athlete's immediate job and discover stage-first editing without reading a developer guide. Screens are consistently composed and no longer rely on repetitive plain-text scaffolding. No functional/data regressions. One consolidated review includes all touched screens, not a separate review per component.
+### S2. Rebuild Studio and the team workflows
 
-### S2. Complete motion, camera and simple editing
+**Outcome:** create a team/lineup, build and revise a plan, and understand each edit's effect without fighting the interface.
 
-**Deliverable:** Convincing, source-true teaching motion and reliable direct authoring throughout the complete rally.
+**Starting seams:** `StudioApp.tsx`, `ui/Rotations.tsx`, `StrategyLibrary.tsx`, `DesktopAthleteEditor.tsx`, `DesktopEventRail.tsx`, `StrategyEditor.tsx`, playback/focus panels, application styles and the S1 domain. Replace components when that is the better implementation.
 
-**Primary files:** `visualizer/src/three/RotationPlayer.tsx`, `RotationLabels.tsx`, `RotationCameraRig.tsx`, `DesktopStrategyRoute.tsx`, `StrategyCoverage.tsx`, `RotationScene.tsx`; `lib/rotationPose.ts`, `rotationModel.ts`, `strategyEvents.ts`, `strategyOverlay.ts`; `state/rotationStore.ts`, `strategyStore.ts`; `court/CourtCamera.tsx`, `CourtInk.tsx`, `useCourtLabelGestures.ts`; relevant current `.test.mjs` and browser tests. Use existing interfaces and event identities; avoid replacing the engine.
+- [ ] Carry the workbench direction through shell, Players, Teams, Lineups, Plans, View and Edit, including progressive profile forms and deliberate fill-in variants.
+- [ ] Complete placement, incoming-route bends, coverage, action/cue, supported contact/moment/timing, comparison, case scope and save feedback. Real controls take priority over paragraphs.
+- [ ] Make selection/navigation/Undo predictable. Correct underlying state/renderer coupling when required; do not preserve it for a small diff.
+- [ ] Use a new roster and a legacy plan. Fix long-title overflow and identity ambiguity; keep touch proof viable and command semantics consistent.
+- [ ] Inspect matching before/after screens and a full authoring journey. This is a useful point for one owner direction/taste check; worker/reviewer remain responsible for finding bugs.
 
-- [ ] Resolve actual block-turn/too-fast-pose defects and discontinuities in receive/set/attack/block/recovery. Show credible approach, contact and recovery cues without changing approved positions or inventing a different ball outcome.
-- [ ] Finish stage placement, incoming-route bends, actions and ellipse/polygon coverage as connected operations. Preview during drag, commit once, Undo once; edits remain scoped to the chosen event and case through save/reload.
-- [ ] Preserve deliberate camera framing through playback and panel/orientation changes; keep default server/athlete framing legible. Check Top/Front/Side/Orbit reset, pinch/pan, label-start gestures and drawing/navigation separation.
-- [ ] Check first and later digs/sets, both serve orders, normal/Harry-first and left/right cases. Ball actors, endpoints, visible poses and coaching instructions must agree. Existing contact-edit semantics must remain explicit; do not imply arbitrary alternate rally simulation.
-- [ ] Add focused regressions for corrected failures and watch representative full-rally playback. Software-renderer results are not a hardware FPS or Surface Pen claim.
+**Minimum evidence:** create player/team/six-slot lineup, create plan, edit a later moment and route/zone/action/contact, preview, Undo, save/reopen and create a fill-in version. Inspect desktop/ultrawide and phone interaction proof. Required control must remain discoverable; developer-text scaffolding and resistant manipulation fail acceptance.
 
-**Acceptance:** One real edit-to-replay-to-save journey preserves another case and later moment; one-gesture Undo works. Full rallies have no known material animation/camera/input defect. The reviewer watches motion and performs interactions, rather than accepting static frames alone.
+### S3. Complete mobile, practice and motion
 
-### S3. Complete safe plans, reviews and teaching handoff
+**Outcome:** phone/tablet users author the same plans and use them at practice, with reliable motion/input across both workspaces.
 
-**Deliverable:** A coach can create/edit/back up/share a plan and a teammate can open the intended version, understand it, annotate it and use a readable reference.
+**Starting seams:** responsive editor; `court/*`; `three/RotationPlayer.tsx`, `RotationLabels.tsx`, `RotationCameraRig.tsx`, route/coverage/scene components; motion/strategy libraries; `TeamReference`, share, notes and review boundaries.
 
-**Primary files:** `visualizer/src/ui/StrategyLibrary.tsx`, `ShareButton.tsx`, `TeamReference.tsx`, `PlayerFocus.tsx`; `lib/strategyDraft.ts`, `strategyLibrary.ts`, `strategyShare.ts`, `courtReview.ts`, `playerFocusStory.ts`, `teamReference.ts`; `state/strategyStore.ts`, `useStrategySimulation.ts`; `court/CourtStrategyPanel.tsx`, `CourtSharePanel.tsx`, `CourtPlayerPanel.tsx`, `CourtNotesPanel.tsx`, `courtNotes.ts`, `useCourtReview.ts`; existing strategy/review/reference tests.
+- [ ] Finish phone/tablet player/team/lineup forms, every case/moment, accurate placement, routes/coverage/actions/cues/contacts/timing, Undo, preview, save/reopen and import/export. No desktop-only required operation.
+- [ ] Resolve finger occlusion, keyboard resizing, pointer cancellation, camera/edit/draw conflicts, orientation, long names and short viewports. Explicit workspace choice survives resizing/folding.
+- [ ] Finish block/turn/approach/recovery timing, full-rally continuity, labels, camera framing and persistence. Ball actors/endpoints, poses and coaching instructions agree.
+- [ ] Complete Court playback/focus, scoped ink/notes, exact reviews, Now/Next/If, recipient-safe share/backup and actual A4 spatial reference. Preserve public local import/edit/export for a friend's independent copy, without exposing private profiles or AI access. Only modelled variations are offered as animated scenarios.
+- [ ] Pause unnecessary rendering/work when hidden and stop owned QA processes at completion. No local background worker or service-worker background sync.
 
-- [ ] Complete create/copy/rename/save/delete and plan-switching states, including unsaved edits, same-named local versus published plans, invalid imports and unavailable storage. Preserve the original on failure.
-- [ ] Round-trip representative V1, V2 and larger current plans, event coverage and explicit contacts. Open shared/review data in an isolated recipient context without replacing that context's saved plan.
-- [ ] Exact reviews bind the intended data, time and rationale; invalid/missing assets fail clearly. Provide the existing file route when a reliable share link is too large. Do not promise live cross-device sync.
-- [ ] Complete note/ink source-and-event scope, reload, import/export and workspace switching. Source changes cannot attach an old note to an unrelated tactic.
-- [ ] Refine grounded Now/Next/If and existing A4 spatial reference. Check the actual print output and an unfamiliar-user teaching journey. Do not reimplement the already shipped G4 features from stale October notes.
+**Minimum evidence:** full phone authoring journey; portrait/landscape/tablet states; real moving rallies spanning serve orders and repeated contacts; camera/drawing separation; save/notes reload; isolated-recipient review followed by deliberate independent copy/edit/export; and actual print. Sol reviewer watches motion and can escalate one substantiated unresolved spatial question to Astra, rather than rerunning the whole review automatically.
 
-**Acceptance:** One complete creator-to-recipient journey succeeds, plus one deliberate invalid-review/import/storage failure without data loss. The recipient can tell what plan/version they are viewing and which player action is relevant. Printed reference is spatially useful and legible. Unsupported tactical variations remain visibly unavailable.
+### S4. Integrated conversational volleyball coach
 
-### S4. Integrated finish, final visual audit and release
+**Outcome:** select team/lineup, answer a few relevant questions, receive a coherent playable proposal, discuss criticism and apply only intended revisions.
 
-**Deliverable:** The whole product is independently reviewed, material findings are resolved, and the accepted candidate is deployed on the existing site.
+**Starting seams:** S1 domain/contracts/server, `visualizer/server/assistant/`, curated knowledge/rules, private coaching preferences, assistant UI and proposal preview. Follow the AI specification; no general autonomous-agent platform.
 
-- [ ] A fresh reviewer runs the complete coach and teammate journeys against the exact candidate, covering both workspaces, dense/sparse states, meaningful keyboard/touch operation, save/share/notes/print and Set arcs. Use the public [software requirement coverage](REQUIREMENT_COVERAGE.md) for self-contained software review, not a separate test script per ID. The private [full crosswalk](https://github.com/PRYYSE/Volleyball/blob/main/docs/ROTATIONSTUDIO_REQUIREMENTS_CROSSWALK_2026-11-25.md) additionally preserves team/tactical requirements; private access is not required to finish the software slice.
-- [ ] Resolve one consolidated prioritised findings list. Further review is limited to changed areas and genuinely affected integration paths. Escalate a continuing root-cause failure; do not bounce small questions to the owner.
-- [ ] Before the previously requested `$unslop` pass, create a pushed restorable pre-polish commit/tag or recovery branch and matching screenshots. Install/use the official `heydamir/unslop` project-local skill in the cloud. Apply its audit to every actual user-facing mode; allow light/no change where appropriate. Preserve the chosen design, useful controls and source truth. No paid image generation or story video.
-- [ ] The same independent reviewer inspects final matching renders and affected journeys after polish and signs the exact final post-polish commit before release. If that reviewer is unavailable, use a fresh reviewer for those changes; never release an unreviewed polish commit. Existing data tests cover all 48 baseline cases; visually sample full rallies/known difficult cases instead of screenshotting every permutation repeatedly.
-- [ ] Run the final relevant suite and Pages-base build on the accepted source. Merge normally, verify the existing Pages deployment and actual served application, retain rollback and a concise release record. Stop owned temporary processes.
+- [ ] Assemble explicit versioned context and distil existing private coaching methodology into a reviewable profile. Never claim automatic memory of earlier ChatGPT conversations.
+- [ ] Complete initial questions, generation, declared coverage, trade-offs, selected-case revision, source-linked uncertainty and explicit remembered preferences.
+- [ ] Compile compact authored intent into playback. Bound whole-playbook chunks, repair calls and cost within one owner-started foreground task; no exhaustive frame-by-frame LLM output or agent swarm.
+- [ ] Apply structural/rule checks and separate advisory plausibility checks. Complete exact-base court preview/Apply/reject/Undo; never silently rewrite source, contacts, profiles or approved cases.
+- [ ] Implement and test credit-only activation, reservations, expiry and failure handling. Provider credentials follow fixture implementation and actual owner/grant/funding verification.
+- [ ] Exercise a small representative coaching set: new team, fill-in, setter-first, unclear instruction, league conflict, invalid/stale proposal and exhausted credits. Compare models only for a named quality uncertainty.
 
-**Acceptance:** No material unresolved in-scope software or visual defect. Exact candidate, checks, reviewed images/journeys, deployment and limitations are recorded. Owner taste feedback and physical device/real-court validation are named honestly if still outstanding; never relabel them as passed.
+**Minimum evidence:** a bounded live request after verified activation generates the complete requested proposal; conversational criticism produces a scoped actual change; preview, validation and one Undo agree. Exhaustion/unknown accounting preserves manual operation. A missing owner activation step blocks live acceptance, not unrelated implementation.
 
-## 5. Tactical work remains visible
+### S5. Integrated finish and release
 
-The software plan does not erase the team's unfinished playbook. Current personalised preset contains R1 and R3. R1 was called usable; R3 v4 still needs owner review. Its last change affected two receiving-right cases, not every R3 branch. R2/R4–R6 remain unfinished personalised tactics.
+**Outcome:** complete desktop/mobile journeys pass independent review and the final candidate is deployed.
 
-The latest recorded tactical sequence is **R3 review → R2 both serves → R4–R6 together when directed**, preserving accepted R1 and the owner's original R1/R3 source exports. The earlier twelve-individual-check-in timetable was superseded. Team-specific facts and rationale stay in the private `PRYYSE/Volleyball` repository. Do not infer tactical approval from this software plan or publish private player assessments in the public app repo.
+- [ ] Fresh whole-product review of creator → AI discussion/edit → practice → share/print → reopen on another device, plus a legacy import and Set arcs. Use the crosswalk for coverage, not one script per row.
+- [ ] Repair one prioritised material-findings list. Continue the reviewer through fixes; recheck changed paths and affected neighbours. Neither hide a defect to meet a one-round target nor start repeated unrelated audits.
+- [ ] Create one pushed pre-polish restore point and matching renders. Retrieve the complete upstream [Unslop skill folder pinned at 620163e](https://github.com/heydamir/unslop/tree/620163eedb3529d9cd23a3994ed8d287d06f760d/skills/unslop) into `.agents/skills/unslop/`, retaining its references/scripts, attribution and CC-BY-4.0 licence. Read the full skill before applying it across actual user-facing modes. It is **not installed by this planning revision**. Sol implements known fixes; use Astra only for a named unresolved redesign if needed.
+- [ ] Reviewer inspects post-Unslop renders/affected journeys and approves the exact final commit. Never release an unreviewed polish commit.
+- [ ] Run the relevant final suite/build/deployment checks. Verify the served private app and maintained public example/review/local-edit entry; record release, restoration reference and limitations.
+- [ ] Provide the finished app and concise usage guide for final human review, with tactical decisions separated from software readiness.
 
-App completion can proceed while this decision is outstanding. A final report must distinguish **software finished** from **the entire personalised team playbook accepted**. If the latter is requested, finish the tactical sequence and integrated branches rather than checking off T01–T24 from software tests.
+**Acceptance:** no known material in-scope software, data, billing-boundary or visual defect; real journeys on both devices; live AI acceptance evidenced; original work recoverable; served release matches reviewed source. If an owner-only activation remains, identify that acceptance blocker rather than calling the entire 1.0 complete.
 
-## 6. Simple cloud workflow
+## 7. Proportionate work and review
 
-### One-time environment
+One writer per branch/worktree. Read active documents first; consult history for a named gap. Push recoverable progress before limits/interruption. Continue the same coherent slice after a context break without another planning exercise.
 
-Choose **Work in → Cloud** in Codex (or an equivalent cloud Work task), using `PRYYSE/RotationStudio`. A reusable environment is convenient, not a new project prerequisite. The public app repo contains everything required for software slices. Add private `PRYYSE/Volleyball` only for authorised coordination/tactical work; never copy its private context wholesale into this repo.
+Use a feature branch and candidate PR for each substantial unit. The original roadmap's standing merge/publish authority continues: after the assigned independent reviewer approves the exact candidate and relevant required checks pass, merge the reviewed work and verify the resulting deployment without another routine permission loop. Respect existing branch protections and the guide's owner-only hosting/API activation boundaries. An unreviewed candidate or failed activation gate is not authority to publish private data. Merely marking S1 Ready does not start it; the owner starts each unit with the guide's prompt.
 
-Use Node 22 and `npm ci` in `visualizer`. Install Chromium/Playwright and dependencies only when needed for repeatable browser evidence; the provided GitHub candidate workflow is an off-device fallback when the task browser cannot render WebGL. No API key, personal browser profile, local bridge or controller is needed. Do not use root `setup.sh` for this app.
+Use focused tests while iterating. Existing engine/data tests remain useful; replace obsolete UI tests when their interaction is deliberately redesigned. Test count is not a target. Label/spacing fixes need visual inspection; schema migration, authorisation, stale-save and credit-reservation boundaries need meaningful failure checks.
 
-```bash
-cd visualizer
-npm ci
-npm test
-npm run build -- --base=/RotationStudio/
-```
+Run appropriate final checks on a meaningful candidate. Repeat a passed check only after a relevant change or unresolved risk. Extend the existing cloud browser evidence to real edits and motion. Screenshots existing is not approval. Stop once criteria are evidenced and material findings resolved. Avoid speculative performance programmes, frameworks, logging, rollback drills and review swarms.
 
-The actual cloud environment must be selected/published through the account UI if it is not already available. Repository configuration is not proof that an account-level environment was published. Start a preview only while working; terminate it afterwards. Cloud compute may continue during an intentionally running task even while the owner's computers are asleep.
+Normal Chat is useful for an actual conversational product/tactical choice. Repository research, implementation, code review and testing can stay in cloud Work/Codex. Do not require planner/reviewer relays or owner forwarding of individual fixes. The guide's model-specific prompts explicitly override stale minimal-change and over-testing instructions.
 
-### Per slice
+## 8. Tactical continuity and limits
 
-1. **Builder:** reconcile current branch/remote, read this plan and `docs/FINISH_STATUS.md`, complete the full slice on one branch, run focused checks while iterating, produce one candidate with evidence. Commit/push recoverable progress before a limit/interruption.
-2. **Independent review:** a fresh reviewer uses the exact candidate, the slice criteria and rendered product. Review code, tasks, data preservation and design together. One prioritised findings list includes reproduction and expected result. Do not review public main in place of a newer feature candidate.
-3. **Repair and close:** the builder handles the consolidated list in the same task/context. The reviewer rechecks the corrected paths. No replanning chat for routine fixes and no reviewer per button. After accepted review, merge/deploy the coherent slice under the existing publication authority and update the status once.
+Preserve the original team's nuanced methodology privately. R1 was usable per owner; R3 v4 still needs review; personalised R2/R4–R6 remain unfinished. Latest sequence is R3 review, R2 both serves, then R4–R6 together when directed. That is not a twelve-software-slice schedule and does not constrain another team's workflow.
 
-Use a fresh reviewer subagent inside the cloud task when supported, so the owner can start one task per slice. If that surface cannot provide independent review, use one separate review task with the short prompt below. Do not build software to relay prompts between chats. The planned budget is four main deliveries with one substantial review apiece; a genuinely blocked review is not hidden to meet a numerical target.
+The coach respects explicitly locked cases and distinguishes proposals from approved tactics. It may challenge a preference with reasons and an alternative, but not silently apply the criticism. Demonstrate complete six-rotation generation capability; actual acceptance of Caleb's remaining team playbook remains an owner decision.
 
-### Evidence and stopping rule
+1.0 includes saved alternate/fill-in lineups, not live match scoring/substitution tracking. It does not require native packaging, real-time multiuser editing, video analysis, voice, vector databases, fine-tuning, public SaaS signup or paid background research. Add such scope only for a concrete accepted need; these limits do not protect poor existing implementations.
 
-The ordinary final evidence is existing tests/build, a small representative image set, real task/motion observations and source preservation checks for touched boundaries. Hosted screenshot capture is evidence collection; someone must inspect it. Stop when acceptance is evidenced. Re-run a passed check only after a relevant change. Do not claim remaining quota or completed background work without actual evidence.
+## 9. Setup boundary
 
-Record one row per slice in `docs/FINISH_STATUS.md`: candidate, model/effort/speed, elapsed time if available, usage if exposed, material findings, repair rounds, acceptance and release. This is enough to improve model choices using real project data; no duplicate implementations solely to benchmark models.
-
-## 7. Copyable task prompts
-
-### Build a slice
-
-```text
-Work only in the cloud on PRYYSE/RotationStudio. Read AGENTS.md,
-docs/FINISH_PLAN.md and docs/FINISH_STATUS.md. Complete S1 in one
-substantial pass from current main, preserving the protected source/data.
-Use GPT-6.2 Astra, High reasoning, Fast while my displayed offer applies.
-Build the full working experience, inspect actual candidate renders and
-fix your own findings. Use one fresh Astra High independent reviewer
-for the whole slice, then resolve its consolidated material findings.
-If independent subagents are unavailable, stop at a pushed candidate
-with the exact review prompt and evidence. Do not claim self-review is
-independent. Keep changes recoverable in GitHub, follow the plan's
-acceptance/release rules, and stop temporary processes when finished.
-No local controller, personal computer work, paid API or tactical rewrite.
-```
-
-For S2–S4 change the slice ID and use that row's model. The task must verify whether the picker actually allows the requested setting; a prompt is not evidence that the model changed.
-
-### Separate reviewer, only when needed
-
-```text
-Independently review S1 in PRYYSE/RotationStudio at the candidate
-commit recorded in docs/FINISH_STATUS.md. Use the exact candidate,
-docs/FINISH_PLAN.md and the linked evidence. Inspect the actual app,
-including its rendered 3D court, and perform the complete slice journeys.
-Assess design, interaction, correctness and preservation in one review.
-Return one prioritised list with reproduction and expected behaviour,
-or PASS with exact evidence and honest limitations. Do not accept the
-builder's summary as proof, redesign unrelated scope, or approve tactics.
-```
-
-## 8. Authority and supporting records
-
-This plan supersedes the old local automation blueprint, Windows transport/login gates, mobile deferment and stale interrupted-Court recovery task. It consolidates the earlier G1–G6 engineering delivery order; it does not delete original requirements, source evidence or tactical approval boundaries.
-
-The private reconciliation maps all **69 original user requirements, 26 separate reviewer findings and nine grouped later Court Mode requirements** to these slices. Conditional ideas such as arbitrary intermediate keyframes remain conditional; they are not converted to compulsory features. Current product evidence and owner corrections outrank historical completion labels.
-
-Useful current code references: [Court implementation](../visualizer/docs/COURT_MODE_IMPLEMENTATION_2026-11-10.md), [desktop change history](../visualizer/docs/DESKTOP_REWORK_CHANGELOG.md), [model policy](MODEL_POLICY.md), [current finish status](FINISH_STATUS.md).
+The GitHub candidate workflow is already verified. This revision changes the plan/instructions, not S1–S5 product code. It does not provision private hosting, claim credits or spend them. Actual account prerequisites are in [START_HERE.md](START_HERE.md). No Windows/Fedora task is required; Fedora cleanup remains a deferred note.

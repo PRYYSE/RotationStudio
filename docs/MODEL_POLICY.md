@@ -1,30 +1,70 @@
-# Model and effort policy for finishing RotationStudio
+# Model and effort policy
 
-Evidence reviewed **25 November 2026**. These are evidence-informed starting choices, not measured optimum settings for this project. Use the current account picker as authority for availability and actual selection.
+**Evidence checked 25 November 2026.** These are starting assignments informed by current primary sources and the actual work, not measured optimum settings for this repository. The account picker and tool metadata establish availability and actual selection.
 
-## Evidence and limits
+## 1. Use two primary models deliberately
 
-| Primary evidence | What it supports | What it does not establish |
-|---|---|---|
-| [GPT-6.2 launch research](https://openai.com/index/introducing-gpt-6-2-astra-sol/): Sol within 0.5 points of Astra on FrontierCode 2.0 at about one-fifth cost, both at Max. | Sol is a credible efficient default for specified implementation. | Equality at Medium/High, identical UI judgement, or a fivefold subscription saving. |
-| Same launch: AA-3D blinded preference result, Astra 1,318 Elo and Sol 1,259. | A relevant prior for Astra on this unresolved 3D/product-design task. | Proof of this app's visual quality, user acceptance or physical simulation correctness. |
-| [Official model selection](https://learn.chatgpt.com/docs/model-selection): Sol Medium for bugs/features; Astra Medium for complex projects; higher effort for harder multistep/open-ended work. | Match model and reasoning to task uncertainty and scope. | A benchmark proving one exact effort level is always optimal. |
-| [Subagent configuration](https://learn.chatgpt.com/docs/agent-configuration/subagents): High for complex reasoning, checking assumptions and edge cases, including reviewers. | High is a reasonable starting point for the substantial independent review. | More reviewers or maximal reasoning on every minor fix. |
-| [Speed guide](https://learn.chatgpt.com/docs/agent-configuration/speed): Fast generates faster on the same model, separately from reasoning; Astra approximately 1.5× token speed. | Use Fast where the account offer makes it attractive. | 1.5× whole-task speed, free API Priority/Ultrafast, or unlimited usage. |
-| [Cloud environments](https://learn.chatgpt.com/docs/environments/cloud-environments): hosted task workspaces, reusable repository/dependency setup, optional browser tools. | Keep implementation, review and CI off personal computers. | Proof that this account already has a published environment or a working WebGL browser. |
+Use **GPT-6.2 Sol** for substantial implementation with defined contracts and most independent correctness reviews. Use **GPT-6.2 Astra** when unresolved interaction, product or spatial judgement is the difficult part. Keep a coherent outcome with its builder; do not create serial model handoffs just to reduce apparent token cost.
 
-## Starting assignments
+Official guidance starts most Work/Codex tasks with Sol, recommends Astra for complex projects, and shows Medium as useful for existing-code features and complex planning. The assignments below reflect this project's combined scope and uncertainty. [Model selection](https://learn.chatgpt.com/docs/model-selection)
 
-S1 application experience and S2 spatial/motion work: **Astra High**. S3 specified strategy/data/handoff completion: **Sol High**. S4 integrated finish/release and independent product reviews: **Astra High**. Use **Medium** for a bounded mechanical repair. High reflects the combined scope and uncertainty; it is our engineering judgement, not a vendor benchmark threshold.
+| Unit | Lead builder | Fresh independent reviewer | Reason |
+|---|---|---|---|
+| **S1: Players, teams, versioned lineups, editable contracts, private save/auth and one desktop/phone edit proof** | **Sol 6.2 High** | **Sol 6.2 High** | Implement specified identity, versioning, patch, compatibility and access contracts end to end. Resolve genuinely unspecified architecture before treating implementation as settled. |
+| **S2: Desktop Studio/editor rebuild, player/team forms and whole-app art direction** | **Astra 6.2 High** | **Astra 6.2 High** | Interaction and visual judgement dominate. Check touch viability throughout; the existing editor may be substantially replaced. |
+| **S3: Complete phone/tablet authoring, Court practice, motion/camera, advanced editing and connected handoff** | **Astra 6.2 High** | **Sol 6.2 High** | The builder handles spatial and responsive design. The reviewer operates gestures, watches complete rallies and verifies save/reload/Undo against concrete contracts. |
+| **S4: Conversational AI coach, proposals, Preview/Apply/Undo and credit-only integration** | **Sol 6.2 High** | **Astra 6.2 High** | Specified implementation plus independent judgement about grounding, missing information, revision behaviour and useful coaching interaction. |
+| **S5: Integrated acceptance, known fixes, final Unslop and release** | **Sol 6.2 High** | **Astra 6.2 High** | Sol handles integration and known repairs; Astra assesses the finished product. Use an Astra builder only for identified unresolved redesign. |
 
-Do not default to Max/Ultra. Escalate to Extra High for an identified root-cause/architecture/spatial problem that remains unresolved after a coherent attempt. Fix missing access, data or unclear product decisions directly; more reasoning cannot supply them.
+Fresh evidence-based review is independent even with the same model as the builder. Do not claim self-review is independent. If the environment cannot supply a fresh reviewer, use the single separate-review fallback in [START_HERE.md](START_HERE.md).
 
-The owner supplied an account-specific Fast promotion through 31 December. Use Fast while the picker confirms that offer. Public standard rate documentation can differ from an account promotion; do not equate “no extra cost” with unlimited allowance or extend the offer to API usage. No new paid API integration is part of this plan.
+## 2. What the performance evidence establishes
 
-## Learn from real slices
+OpenAI reports Sol 6.2 within **0.5 points** of Astra 6.2 on FrontierCode 2.0 at roughly **one-fifth cost**, both at **Max**. Reported AA-3D blinded preference results are Astra **1,318 Elo** and Sol **1,259**. These support Sol as a credible efficient coder and Astra as a useful prior for unresolved interactive/3D design. They do not establish equivalence at Medium/High, independent-review performance, volleyball correctness, or a fivefold subscription saving. [GPT-6.2 research](https://openai.com/index/introducing-gpt-6-2-astra-sol/)
 
-Use one status row per accepted slice: model, effort, speed, active elapsed time where measurable, usage if exposed (otherwise unknown), material review findings, repair rounds and accepted result. Optimise time and usage to accepted work. Do not run duplicate builds just to compare models. Keep Sol where it delivers with few material corrections; promote a specific difficult task to Astra when the evidence warrants it.
+Default Codex context is documented as 272,000 tokens for Astra 6.2 and 500,000 for Sol 6.2. This removes an obvious capacity objection to Sol for large reviews; it is not permission to flood a task with historical logs or a guarantee of a particular environment's limit. [Models](https://learn.chatgpt.com/docs/models)
 
-## Current product guidance
+Optimise **time and allowance to an accepted result**, including repair and review. A quick partial result or an attractive but awkward editor is not efficient. Neither is speculative checking after acceptance is evidenced.
 
-The current reusable setup is documented at [Cloud environments](https://learn.chatgpt.com/docs/environments/cloud-environments), reached through **Work in → Cloud**. The older `/codex/cloud/environments` path redirects to a legacy product guide. Work and Codex can both do cloud work; Codex provides convenient code/diff/PR tools. Use whichever exposes the necessary repository and rendered browser tools without adding a relay/controller.
+## 3. Effort and speed are separate
+
+- **Medium:** a bounded repair or investigation with clear behaviour and limited uncertainty.
+- **High:** the assigned substantial units, cross-component causes, assumptions and edge cases.
+- **Extra High:** a named difficult problem with interacting causes, unresolved after a coherent investigation.
+- **Max/Ultra:** no default use. Larger scope alone does not establish a benefit.
+
+These distinctions follow the [6.2 prompting guide](https://learn.chatgpt.com/guides/prompting-gpt-6-2-astra) and [review/subagent guidance](https://learn.chatgpt.com/docs/agent-configuration/subagents). Missing credentials, sources or owner-only facts require access or information, not more reasoning.
+
+Use **Fast** while the owner's displayed promotion through 31 December applies. Verify actual settings; naming a model in a prompt does not switch it. Fast changes generation speed on the same model. The approximate 1.5× Astra figure concerns tokens, not total task time. Do not substitute Ultrafast or API authentication. [Speed modes](https://learn.chatgpt.com/docs/agent-configuration/speed)
+
+Work and Codex share usage limits. Allowance depends on model, context, reasoning, tools and caching; API prices do not estimate included tasks. Free Fast does not establish unlimited usage or free API Fast. [Usage and pricing](https://learn.chatgpt.com/docs/pricing)
+
+## 4. Older models when justified
+
+| Model | Use here |
+|---|---|
+| **6.1 Sol / 6 Sol** | Availability fallback for specified implementation, or when actual accepted-task evidence favours it. Older does not automatically mean cheaper overall. |
+| **6 Astra** | Fallback for difficult product/spatial work if 6.2 Astra is unavailable. No current evidence gives it the default role here. |
+| **6.1 Terra Medium** | Optional bounded visual/browser inspection that removes a real bottleneck. The main reviewer integrates its evidence. |
+| **6 Luna High** | Optional batch of directly checkable extraction, inventory or mechanical transformation. Avoid a full handoff for a trivial edit. |
+| **5.5 / 5.6** | No planned critical-path role. An explicitly available runtime and measured benefit would be needed. |
+
+GPT-5.5 retired from Codex with ChatGPT sign-in on **14 October 2026**; API-key sessions are unaffected. A legacy identifier in a tool does not establish future subscription-picker access. [Retirement](https://learn.chatgpt.com/docs/models#gpt-55-retirement)
+
+Terra/Luna roles follow the [model guidance](https://learn.chatgpt.com/docs/model-selection). Delegation adds token use and coordination; introduce a helper only when its independent contribution saves time or improves the result. [Subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents)
+
+## 5. Prompt and review discipline
+
+Use the short start prompt and model-specific clauses in [START_HERE.md](START_HERE.md). They allow substantial rework while protecting authored data and valid behaviours. A small diff is not an acceptance criterion. Routine reversible decisions, repairs and necessary restructuring do not require another owner planning round.
+
+The current guide recommends clear completion criteria, real-size visual inspection and lean instructions. Older Astra guidance identifies clarification pauses, sensitivity to stale instructions and overly broad verification as behaviours to manage. Apply concise autonomy and proportional-testing instructions; do not assume every older tendency is measured on 6.2. [6.2 prompting](https://learn.chatgpt.com/guides/prompting-gpt-6-2-astra), [GPT-6 family guidance](https://developers.openai.com/api/docs/guides/latest-model/gpt-6-astra.md#prompting-best-practices)
+
+Keep one lead builder and one substantial fresh review per unit. Resolve consolidated findings in the builder's context. Recheck corrected paths and affected neighbours. Do not add a reviewer per component, repeat the full audit after every fix, or hide material defects to meet an artificial round limit. Escalate unresolved questions specifically.
+
+Record actual model/effort/speed, elapsed time if known, usage if exposed, material findings, repair rounds and accepted SHA in status. Unknown usage remains unknown. Do not duplicate implementations just to benchmark models.
+
+## 6. Choose the surface for the task
+
+Cloud Work/Codex can research, plan, implement and review. Codex's developer views help with diffs and PRs. Normal Chat is useful for actual back-and-forth, such as editor-feel feedback or a personalised tactic; it is not a required relay between workers. Record resulting decisions in active project documents. [Product surfaces](https://learn.chatgpt.com/docs/use-chatgpt)
+
+This policy selects development workers. The app's inference models, credit reserve and activation boundary belong in [AI_COACH_SPEC.md](AI_COACH_SPEC.md).
