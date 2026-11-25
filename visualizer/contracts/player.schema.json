@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100000
+    },
+    "name": {
+      "$ref": "#/$defs/__schema0"
+    },
+    "number": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 99
+    },
+    "appearance": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "heightCm": {
+      "type": "number",
+      "minimum": 60,
+      "maximum": 280
+    },
+    "reachCm": {
+      "type": "number",
+      "minimum": 60,
+      "maximum": 380
+    },
+    "gender": {
+      "$ref": "#/$defs/__schema0"
+    },
+    "handedness": {
+      "type": "string",
+      "enum": [
+        "left",
+        "right",
+        "either",
+        "unknown"
+      ]
+    },
+    "assessments": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "enum": [
+          "receive",
+          "setting",
+          "attack",
+          "serving",
+          "block",
+          "defence",
+          "movement",
+          "communication"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source": {
+            "$ref": "#/$defs/__schema1"
+          },
+          "observedOn": {
+            "type": "string",
+            "format": "date",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        },
+        "required": [
+          "rating"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "strengths": {
+      "maxItems": 16,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema0"
+      }
+    },
+    "preferences": {
+      "maxItems": 16,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema0"
+      }
+    },
+    "limitations": {
+      "$ref": "#/$defs/__schema1"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "revision",
+    "name",
+    "assessments"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "__schema1": {
+      "type": "string",
+      "maxLength": 600
+    }
+  }
+}

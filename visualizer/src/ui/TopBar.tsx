@@ -6,6 +6,7 @@ export function TopBar({ mode, onModeChange, onCourt }: { mode: StudioMode; onMo
     <nav className="studio-modes glass" aria-label="Studio mode">
       <button aria-pressed={mode === 'rotations'} onClick={() => onModeChange('rotations')}>Rotations</button>
       <button onClick={onCourt}>Court Mode</button>
+      <a href="?workspace=plans">Team plans</a>
       <button aria-pressed={mode === 'sets'} onClick={() => onModeChange('sets')}>Set arcs</button>
     </nav>
   </header>

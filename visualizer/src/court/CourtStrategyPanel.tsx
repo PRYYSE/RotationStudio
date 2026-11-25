@@ -57,6 +57,7 @@ export function CourtStrategyPanel({onStudio,review,onExitReview,onImportReview}
       <div className="cm-actions"><button onClick={()=>{
         downloadCourtFile(working?exportStrategy(working):exportBundle(bundle),working?'strategy.json':'rotation-plan.json');setExported(true)
       }}>Export current plan</button><button onClick={onStudio}>Edit in Full Studio</button></div>
+      <a className="cm-team-plans" href="?workspace=plans" onClick={event=>{if(!protect())event.preventDefault()}}>Open team plans</a>
       <p className="cm-muted">Local strategies stay in this browser. Import a JSON file on another device; there is no cross-device sync.</p>
     </>}
     <h3>Rotation &amp; serve</h3>

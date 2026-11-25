@@ -1,0 +1,386 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/__schema0"
+    },
+    "name": {
+      "$ref": "#/$defs/__schema1"
+    },
+    "rotation": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 6
+    },
+    "serve": {
+      "type": "string",
+      "enum": [
+        "us",
+        "they"
+      ]
+    },
+    "conditions": {
+      "type": "object",
+      "properties": {
+        "attackSide": {
+          "type": "string",
+          "enum": [
+            "left",
+            "right"
+          ]
+        },
+        "firstContactSlot": {
+          "$ref": "#/$defs/__schema0"
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved"
+      ]
+    },
+    "moments": {
+      "minItems": 1,
+      "maxItems": 100,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema2"
+      }
+    },
+    "contacts": {
+      "maxItems": 60,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema6"
+      }
+    },
+    "flights": {
+      "maxItems": 60,
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/__schema8"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "rotation",
+    "serve",
+    "conditions",
+    "status",
+    "moments",
+    "contacts",
+    "flights"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+    },
+    "__schema1": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "__schema2": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "name": {
+          "$ref": "#/$defs/__schema1"
+        },
+        "ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120000
+        },
+        "athletes": {
+          "minItems": 6,
+          "maxItems": 6,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema3"
+          }
+        },
+        "cue": {
+          "$ref": "#/$defs/__schema5"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "ms",
+        "athletes"
+      ],
+      "additionalProperties": false
+    },
+    "__schema3": {
+      "type": "object",
+      "properties": {
+        "slot": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "position": {
+          "$ref": "#/$defs/__schema4"
+        },
+        "duty": {
+          "type": "string",
+          "enum": [
+            "ready",
+            "serve",
+            "receive",
+            "set",
+            "attack",
+            "block",
+            "cover",
+            "recover",
+            "defend"
+          ]
+        },
+        "cue": {
+          "$ref": "#/$defs/__schema5"
+        },
+        "route": {
+          "maxItems": 8,
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema4"
+          }
+        },
+        "coverage": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "ellipse"
+                },
+                "center": {
+                  "$ref": "#/$defs/__schema4"
+                },
+                "radiusX": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 9
+                },
+                "radiusZ": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 12
+                }
+              },
+              "required": [
+                "kind",
+                "center",
+                "radiusX",
+                "radiusZ"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "polygon"
+                },
+                "vertices": {
+                  "minItems": 3,
+                  "maxItems": 12,
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/__schema4"
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "vertices"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "slot",
+        "position",
+        "duty"
+      ],
+      "additionalProperties": false
+    },
+    "__schema4": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "minimum": -4.5,
+          "maximum": 4.5
+        },
+        "z": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 12
+        }
+      },
+      "required": [
+        "x",
+        "z"
+      ],
+      "additionalProperties": false
+    },
+    "__schema5": {
+      "type": "string",
+      "maxLength": 600
+    },
+    "__schema6": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "moment": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "serve",
+            "pass",
+            "set",
+            "attack",
+            "dig",
+            "block",
+            "land",
+            "unresolved"
+          ]
+        },
+        "actor": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "slot"
+                },
+                "slot": {
+                  "$ref": "#/$defs/__schema0"
+                },
+                "y": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 5
+                }
+              },
+              "required": [
+                "kind",
+                "slot",
+                "y"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "opponent"
+                },
+                "point": {
+                  "$ref": "#/$defs/__schema7"
+                }
+              },
+              "required": [
+                "kind",
+                "point"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "court"
+                },
+                "point": {
+                  "$ref": "#/$defs/__schema7"
+                }
+              },
+              "required": [
+                "kind",
+                "point"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "moment",
+        "kind",
+        "actor"
+      ],
+      "additionalProperties": false
+    },
+    "__schema7": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "minimum": -15,
+          "maximum": 15
+        },
+        "z": {
+          "type": "number",
+          "minimum": -20,
+          "maximum": 20
+        },
+        "y": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 15
+        }
+      },
+      "required": [
+        "x",
+        "z",
+        "y"
+      ],
+      "additionalProperties": false
+    },
+    "__schema8": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "to": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "apex": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 15
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "apex"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
