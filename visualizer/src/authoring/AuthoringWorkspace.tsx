@@ -220,7 +220,9 @@ export function AuthoringWorkspace() {
         const checked = previewProposal(library, p)
         const first = p.scope[0]
         const operation = p.operations[0]
-        if (first) setSlot(first.slotId ?? '')
+        if (first || operation.type !== 'useLineup') setSlot(
+          'slotId' in operation ? operation.slotId :
+            operation.type === 'contact' && operation.actor.kind === 'slot' ? operation.actor.slot : first?.slotId ?? '')
         if (operation.type !== 'useLineup') {
           setCase(operation.type === 'copyCase' ? operation.copyId : operation.caseId)
           setMoment(operation.type === 'addMoment' ? operation.moment.id : 'momentId' in operation ? operation.momentId : '')
@@ -320,7 +322,7 @@ export function AuthoringWorkspace() {
                 {compiled?.moments.map(m => <option key={m.id} value={m.id}>{m.name} · {m.ms / 1000}s</option>)}</select></label>
             </div>
             <AuthoringCourt key={scenario.id + '/' + moment.id} players={players} positions={view.positions} slot={athlete?.slot ?? ''}
-              route={playing ? [] : route} coverage={playing ? undefined : athlete?.coverage} ball={view.ball} exhibit={readOnly} onSelect={setSlot} onMove={move} />
+              route={playing ? [] : route} coverage={playing ? undefined : athlete?.coverage} ball={view.ball} exhibit={readOnly} selectable={!!preview && !playing} onSelect={setSlot} onMove={move} />
             <div className="s1-row s1-transport">
               <button disabled={!compiled?.duration || busy} onClick={() => {
                 if (!playing) {
@@ -337,6 +339,9 @@ export function AuthoringWorkspace() {
         <aside className="s1-sidepanel" aria-label="Plan controls">
           {preview ? <section className="s1-card s1-form">
             <h2>Proposal preview</h2><p>{preview.proposal.rationale}</p>
+            {players.length > 0 && <label>Compare player<select aria-label="Compare player" value={slotId || players[0].slot}
+              disabled={busy || playing} onChange={e => setSlot(e.target.value)}>
+              {players.map(p => <option key={p.slot} value={p.slot}>{p.name}</option>)}</select></label>}
             <ul>{preview.diff.map((line, i) => <li key={i}>{line}</li>)}</ul>
             {!!preview.proposal.assumptions.length && <p>Assumptions · {preview.proposal.assumptions.join(' · ')}</p>}
             {!!preview.proposal.questions.length && <p>Open questions · {preview.proposal.questions.join(' · ')}</p>}

@@ -4,12 +4,12 @@ import type { Moment, Spot } from '../domain/contracts'
 export type Marker = { slot: string; name: string; appearance?: string }
 type Props = {
   players: Marker[]; positions: Record<string, Spot>; slot: string; route: Spot[];
-  ball?: Spot; coverage?: Moment['athletes'][number]['coverage']; exhibit?: boolean; onSelect(slot: string): void; onMove(slot: string, position: Spot): void;
+  ball?: Spot; coverage?: Moment['athletes'][number]['coverage']; exhibit?: boolean; selectable?: boolean; onSelect(slot: string): void; onMove(slot: string, position: Spot): void;
 }
 const metres = (value: number) => Math.round(value * 100) / 100
 const clamp = (n: number, low: number, high: number) => Math.min(high, Math.max(low, n))
 
-export function AuthoringCourt({ players, positions, slot, route, ball, coverage, exhibit, onSelect, onMove }: Props) {
+export function AuthoringCourt({ players, positions, slot, route, ball, coverage, exhibit, selectable, onSelect, onMove }: Props) {
   const court = useRef<SVGSVGElement>(null)
   const gesture = useRef<{ pointer: number; slot: string; downX: number; downY: number; marker: boolean } | null>(null)
   const [drag, setDrag] = useState<{ slot: string; position: Spot }>()
@@ -20,10 +20,10 @@ export function AuthoringCourt({ players, positions, slot, route, ball, coverage
     return { x: metres(clamp(point.x, -4.5, 4.5)), z: metres(clamp(point.y, 0, 12)) }
   }
   const start = (event: PointerEvent<SVGSVGElement>) => {
-    if (exhibit || !event.isPrimary || event.button !== 0) return
+    if (!event.isPrimary || event.button !== 0) return
     const marker = (event.target as Element).closest('[data-slot]')?.getAttribute('data-slot')
-    if (!marker && !slot) return
-    if (marker) onSelect(marker)
+    if (marker && (!exhibit || selectable)) onSelect(marker)
+    if (exhibit || (!marker && !slot)) return
     gesture.current = { pointer: event.pointerId, slot: marker || slot, downX: event.clientX, downY: event.clientY, marker: !!marker }
     event.currentTarget.setPointerCapture(event.pointerId)
   }

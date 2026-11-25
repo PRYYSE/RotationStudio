@@ -60,6 +60,20 @@ try {
     assert.equal(await page.locator('[data-slot=aurora-slot-1]').getAttribute('data-x'), '1.4')
     await page.getByRole('button', { name: 'Reject', exact: true }).click()
     assert.equal(await placement(page), original)
+    const coverage = { ...JSON.parse(sample), proposalId: 'browser-coverage', operationId: 'browser-coverage',
+      scope: [{ caseId: 'r1-they' }], operations: [{ type: 'coverage', caseId: 'r1-they', momentId: 'receive', slotId: 'aurora-slot-2',
+        area: { kind: 'ellipse', center: { x: 2.5, z: 3 }, radiusX: .8, radiusZ: 1.1 } }] }
+    await page.getByLabel('Import AI proposal').setInputFiles({ name: 'coverage.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(coverage)) })
+    await page.getByRole('heading', { name: 'Proposal preview' }).waitFor()
+    assert.equal(await page.getByLabel('Compare player').inputValue(), 'aurora-slot-2')
+    assert.equal(await page.locator('ellipse.s1-coverage').getAttribute('cx'), '2.5')
+    await page.getByLabel('Compare player').selectOption('aurora-slot-1')
+    assert.equal(await page.locator('ellipse.s1-coverage').count(), 0)
+    await page.locator('[data-slot=aurora-slot-2] circle').click()
+    assert.equal(await page.getByLabel('Compare player').inputValue(), 'aurora-slot-2')
+    await page.getByRole('button', { name: 'Show original placement' }).click()
+    assert.equal(await page.locator('ellipse.s1-coverage').count(), 0)
+    await page.getByRole('button', { name: 'Reject', exact: true }).click()
     const pack = JSON.parse(await readFile(new URL('../contracts/synthetic-pack.json', import.meta.url), 'utf8'))
     const newMoment = { ...pack.plan.cases[0].moments.find(m => m.id === 'receive'), id: 'browser-new', name: 'New arrival', ms: 2200 }
     const added = { ...JSON.parse(sample), proposalId: 'browser-proposal', operationId: 'browser-add-moment',
