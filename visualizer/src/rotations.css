@@ -3,8 +3,8 @@
 .studio-brand { font-size: 14px; font-weight: 600; letter-spacing: -.03em; display: inline-flex; align-items: baseline; gap: 6px; }
 .studio-version { color: #9db3ca; font-size: 10px; font-weight: 500; letter-spacing: 0; }
 .studio-modes { display: flex; padding: 3px; pointer-events: auto; }
-.studio-modes button, .rotations button { min-height: 44px; border-radius: 30px; padding: 6px 13px; font-size: 12px; font-weight: 500; color: #c7d6eb; white-space: nowrap; transition: background-color .15s, color .15s; }
-.studio-modes button:hover, .rotations button:hover { color: #fff; background: #29384e; }
+.studio-modes button, .studio-modes a, .rotations button { min-height: 44px; border-radius: 30px; padding: 6px 13px; font-size: 12px; font-weight: 500; color: #c7d6eb; white-space: nowrap; transition: background-color .15s, color .15s; }
+.studio-modes button:hover, .studio-modes a:hover, .rotations button:hover { color: #fff; background: #29384e; }
 .studio-modes button[aria-pressed=true], .rotations button[aria-pressed=true] { color: #eaf5ff; background: #214e7c; }
 .rotations { position: relative; height: 100%; }
 .rotation-canvas { position: absolute; inset: 0; touch-action: none; }
@@ -311,3 +311,6 @@
 .coverage-corner-row label { display: flex; flex-direction: column; min-width: 0; gap: 3px; font-size: 11px; color: #c7d7e6; }
 .coverage-corner-row input { width: 100%; min-width: 0; min-height: 44px; padding: 7px; border: 1px solid #526985; border-radius: 7px; color: #f0f6ff; background: #101c2e; font-variant-numeric: tabular-nums; }
 .coverage-corner-row button, .court-first .desktop-athlete-editor .coverage-corner-row button { min-height: 44px; padding: 6px 9px; }
+
+.studio-modes a { display: inline-flex; align-items: center; }
+@media (max-width: 540px) { .studio-modes { flex-wrap: wrap; justify-content: end; } }

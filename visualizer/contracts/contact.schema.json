@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/__schema0"
+    },
+    "moment": {
+      "$ref": "#/$defs/__schema0"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "serve",
+        "pass",
+        "set",
+        "attack",
+        "dig",
+        "block",
+        "land",
+        "unresolved"
+      ]
+    },
+    "actor": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "slot"
+            },
+            "slot": {
+              "$ref": "#/$defs/__schema0"
+            },
+            "y": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 5
+            }
+          },
+          "required": [
+            "kind",
+            "slot",
+            "y"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "opponent"
+            },
+            "point": {
+              "$ref": "#/$defs/__schema1"
+            }
+          },
+          "required": [
+            "kind",
+            "point"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "court"
+            },
+            "point": {
+              "$ref": "#/$defs/__schema1"
+            }
+          },
+          "required": [
+            "kind",
+            "point"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "moment",
+    "kind",
+    "actor"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "__schema0": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,95}$"
+    },
+    "__schema1": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "minimum": -15,
+          "maximum": 15
+        },
+        "z": {
+          "type": "number",
+          "minimum": -20,
+          "maximum": 20
+        },
+        "y": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 15
+        }
+      },
+      "required": [
+        "x",
+        "z",
+        "y"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

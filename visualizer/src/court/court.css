@@ -43,3 +43,5 @@
 .cm-source{font-size:12px;color:var(--cm-muted);overflow-wrap:anywhere}.cm-source p{margin:8px 0}
 
 .cm-court:not([data-tool=navigate]) .cm-identities button{pointer-events:none}
+
+.cm-team-plans { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; }

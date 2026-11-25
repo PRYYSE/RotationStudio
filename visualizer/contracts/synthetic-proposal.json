@@ -1,0 +1,70 @@
+{
+  "kind": "rotation-proposal",
+  "schemaVersion": 1,
+  "proposalId": "sample-proposal",
+  "operationId": "sample-move-1",
+  "plan": {
+    "id": "sample-aurora-plan",
+    "revision": 1
+  },
+  "lineup": {
+    "id": "sample-six",
+    "revision": 1
+  },
+  "league": {
+    "id": "unverified-rules",
+    "revision": 1
+  },
+  "assessments": [
+    {
+      "id": "sample-person-1",
+      "revision": 1
+    },
+    {
+      "id": "sample-person-2",
+      "revision": 1
+    },
+    {
+      "id": "sample-person-3",
+      "revision": 1
+    },
+    {
+      "id": "sample-person-4",
+      "revision": 1
+    },
+    {
+      "id": "sample-person-5",
+      "revision": 1
+    },
+    {
+      "id": "sample-person-6",
+      "revision": 1
+    }
+  ],
+  "scope": [
+    {
+      "caseId": "r1-they",
+      "momentId": "receive",
+      "slotId": "aurora-slot-1"
+    }
+  ],
+  "operations": [
+    {
+      "type": "move",
+      "caseId": "r1-they",
+      "momentId": "receive",
+      "slotId": "aurora-slot-1",
+      "position": {
+        "x": 1.4,
+        "z": 4.9
+      }
+    }
+  ],
+  "rationale": "Show an exact-case transition adjustment for the selected slot.",
+  "assumptions": [
+    "Synthetic teaching scenario."
+  ],
+  "questions": [],
+  "sources": [],
+  "completeness": "all-base-cases"
+}

@@ -65,6 +65,20 @@ jobs:
           done
           if [ "$ready" != true ]; then cat review-preview.log; exit 1; fi
           node scripts/capture-review-evidence.mjs
+      - name: Validate S1 authoring and private save in Chromium
+        working-directory: visualizer
+        shell: bash
+        run: |
+          npm run validate:proposal
+          node --experimental-strip-types server/fixture.mjs > review-fixture.log 2>&1 &
+          fixture_pid=$!
+          trap 'kill "$fixture_pid" 2>/dev/null || true; wait "$fixture_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 25); do
+            if [ "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:31460/RotationStudio/)" = 401 ]; then break; fi
+            if ! kill -0 "$fixture_pid" 2>/dev/null; then cat review-fixture.log; exit 1; fi
+            sleep 1
+          done
+          node scripts/smoke-authoring.mjs
       - name: Upload screenshots and candidate manifest
         if: always()
         uses: actions/upload-artifact@v4
@@ -73,5 +87,6 @@ jobs:
           path: |
             visualizer/review-evidence/
             visualizer/review-preview.log
+            visualizer/review-fixture.log
           retention-days: 14
           if-no-files-found: warn

@@ -5,6 +5,7 @@ import { useStrategySimulation } from './state/useStrategySimulation'
 import { useStrategies } from './state/strategyStore'
 const CourtMode = lazy(() => import('./court/CourtMode').then(m => ({ default: m.CourtMode })))
 const StudioApp = lazy(() => import('./StudioApp').then(m => ({ default: m.StudioApp })))
+const AuthoringWorkspace = lazy(() => import('./authoring/AuthoringWorkspace').then(m => ({ default: m.AuthoringWorkspace })))
 export function App() {
   useStrategySimulation()
   const [workspace, setWorkspace] = useState<Workspace>(() => {
@@ -24,6 +25,7 @@ export function App() {
     history.replaceState(null, '', url); setWorkspace(next)
   }
   return <Suspense fallback={<div role="status" style={{padding:32}}>Opening RotationStudio…</div>}>
-    {workspace === 'court' ? <CourtMode onStudio={() => switchTo('studio')} /> : <StudioApp onCourt={() => switchTo('court')} />}
+    {!location.hash.startsWith('#court-review=') && new URLSearchParams(location.search).get('workspace') === 'plans'
+      ? <AuthoringWorkspace /> : workspace === 'court' ? <CourtMode onStudio={() => switchTo('studio')} /> : <StudioApp onCourt={() => switchTo('court')} />}
   </Suspense>
 }
