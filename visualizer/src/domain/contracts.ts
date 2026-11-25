@@ -81,7 +81,9 @@ export const operation = z.discriminatedUnion('type', [
   z.strictObject({ type: z.literal('route'), ...athleteTarget, bends: z.array(spot).max(8) }),
   z.strictObject({ type: z.literal('coverage'), ...athleteTarget, area: coverage.nullable() }),
   z.strictObject({ type: z.literal('teach'), ...athleteTarget, duty: z.enum(duties), cue: note.optional() }),
-  z.strictObject({ type: z.literal('contact'), ...momentTarget, contactId: id, actor }),
+  z.strictObject({ type: z.literal('contact'), ...momentTarget, contactId: id, actor, kind: contact.shape.kind.optional() }),
+  z.strictObject({ type: z.literal('addContact'), ...momentTarget, contact }),
+  z.strictObject({ type: z.literal('connectFlight'), ...caseTarget, flight }),
   z.strictObject({ type: z.literal('addMoment'), ...caseTarget, moment }),
   z.strictObject({ type: z.literal('renameMoment'), ...momentTarget, name: label }),
   z.strictObject({ type: z.literal('timing'), ...momentTarget, ms }),
@@ -97,9 +99,6 @@ export const proposal = z.strictObject({
   sources: z.array(note).max(20), completeness: z.enum(['partial', 'all-base-cases']),
 })
 const display = z.strictObject({ slot: id, name: label, role: z.enum(roles), number: z.int().min(0).max(99).optional(), appearance: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional() })
-export const review = z.strictObject({
-  kind: z.literal('rotation-review'), schemaVersion: z.literal(1), strategy: ref, caseId: id, momentId: id,
-})
 export const pack = z.strictObject({
   kind: z.literal('rotation-edit-pack'), schemaVersion: z.literal(1), plan: strategy,
   league, lineup: ref, slots: z.array(display).length(6), assessments: z.array(ref).length(6),
@@ -110,12 +109,16 @@ export const editableShare = z.strictObject({
   kind: z.literal('rotation-editable-copy'), schemaVersion: z.literal(1), name: label,
   league, slots: z.array(display).length(6), cases: z.array(playCase).max(72),
 })
+export const review = z.strictObject({
+  kind: z.literal('rotation-review'), schemaVersion: z.literal(1), strategy: ref, caseId: id, momentId: id,
+  digest: z.hash('sha256'), snapshot: editableShare,
+})
 const source = z.strictObject({
   id, sha256: z.hash('sha256'), baseSha256: z.hash('sha256'), raw: z.string().max(1_000_000),
   eventMap: z.array(z.strictObject({ caseId: id, old: id, moment: id })).max(4800),
   issues: z.array(note).max(100),
 })
-const receipt = z.strictObject({ operationId: id, fingerprint: z.string().max(64), result: ref, previous: ref })
+const receipt = z.strictObject({ operationId: id, fingerprint: z.string().max(64), result: ref, previous: ref, restoredFrom: ref.optional() })
 export const library = z.strictObject({
   kind: z.literal('rotation-library'), schemaVersion: z.literal(1),
   players: z.array(player).max(240), teams: z.array(team).max(100), leagues: z.array(league).max(40),
@@ -136,6 +139,7 @@ export type Proposal = z.infer<typeof proposal>
 export type Operation = z.infer<typeof operation>
 export type Scope = z.infer<typeof scope>
 export type Library = z.infer<typeof library>
+export type Review = z.infer<typeof review>
 export type Pack = z.infer<typeof pack>
 export const MAX_LIBRARY_BYTES = 1_750_000
 export const MAX_PROPOSAL_BYTES = 150_000

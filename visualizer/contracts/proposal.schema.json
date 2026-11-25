@@ -300,6 +300,9 @@
             },
             "actor": {
               "$ref": "#/$defs/__schema7"
+            },
+            "kind": {
+              "$ref": "#/$defs/__schema9"
             }
           },
           "required": [
@@ -316,13 +319,59 @@
           "properties": {
             "type": {
               "type": "string",
+              "const": "addContact"
+            },
+            "caseId": {
+              "$ref": "#/$defs/__schema0"
+            },
+            "momentId": {
+              "$ref": "#/$defs/__schema0"
+            },
+            "contact": {
+              "$ref": "#/$defs/__schema10"
+            }
+          },
+          "required": [
+            "type",
+            "caseId",
+            "momentId",
+            "contact"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "connectFlight"
+            },
+            "caseId": {
+              "$ref": "#/$defs/__schema0"
+            },
+            "flight": {
+              "$ref": "#/$defs/__schema11"
+            }
+          },
+          "required": [
+            "type",
+            "caseId",
+            "flight"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
               "const": "addMoment"
             },
             "caseId": {
               "$ref": "#/$defs/__schema0"
             },
             "moment": {
-              "$ref": "#/$defs/__schema9"
+              "$ref": "#/$defs/__schema12"
             }
           },
           "required": [
@@ -346,7 +395,7 @@
               "$ref": "#/$defs/__schema0"
             },
             "name": {
-              "$ref": "#/$defs/__schema10"
+              "$ref": "#/$defs/__schema13"
             }
           },
           "required": [
@@ -371,7 +420,7 @@
               "$ref": "#/$defs/__schema0"
             },
             "ms": {
-              "$ref": "#/$defs/__schema11"
+              "$ref": "#/$defs/__schema14"
             }
           },
           "required": [
@@ -396,10 +445,10 @@
               "$ref": "#/$defs/__schema0"
             },
             "name": {
-              "$ref": "#/$defs/__schema10"
+              "$ref": "#/$defs/__schema13"
             },
             "conditions": {
-              "$ref": "#/$defs/__schema13"
+              "$ref": "#/$defs/__schema16"
             }
           },
           "required": [
@@ -428,7 +477,7 @@
                   "$ref": "#/$defs/__schema0"
                 },
                 "name": {
-                  "$ref": "#/$defs/__schema10"
+                  "$ref": "#/$defs/__schema13"
                 },
                 "rotation": {
                   "type": "integer",
@@ -443,7 +492,7 @@
                   ]
                 },
                 "conditions": {
-                  "$ref": "#/$defs/__schema13"
+                  "$ref": "#/$defs/__schema16"
                 },
                 "status": {
                   "type": "string",
@@ -457,21 +506,21 @@
                   "maxItems": 100,
                   "type": "array",
                   "items": {
-                    "$ref": "#/$defs/__schema9"
+                    "$ref": "#/$defs/__schema12"
                   }
                 },
                 "contacts": {
                   "maxItems": 60,
                   "type": "array",
                   "items": {
-                    "$ref": "#/$defs/__schema14"
+                    "$ref": "#/$defs/__schema10"
                   }
                 },
                 "flights": {
                   "maxItems": 60,
                   "type": "array",
                   "items": {
-                    "$ref": "#/$defs/__schema15"
+                    "$ref": "#/$defs/__schema11"
                   }
                 }
               },
@@ -682,23 +731,82 @@
       "additionalProperties": false
     },
     "__schema9": {
+      "type": "string",
+      "enum": [
+        "serve",
+        "pass",
+        "set",
+        "attack",
+        "dig",
+        "block",
+        "land",
+        "unresolved"
+      ]
+    },
+    "__schema10": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "moment": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "kind": {
+          "$ref": "#/$defs/__schema9"
+        },
+        "actor": {
+          "$ref": "#/$defs/__schema7"
+        }
+      },
+      "required": [
+        "id",
+        "moment",
+        "kind",
+        "actor"
+      ],
+      "additionalProperties": false
+    },
+    "__schema11": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "to": {
+          "$ref": "#/$defs/__schema0"
+        },
+        "apex": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 15
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "apex"
+      ],
+      "additionalProperties": false
+    },
+    "__schema12": {
       "type": "object",
       "properties": {
         "id": {
           "$ref": "#/$defs/__schema0"
         },
         "name": {
-          "$ref": "#/$defs/__schema10"
+          "$ref": "#/$defs/__schema13"
         },
         "ms": {
-          "$ref": "#/$defs/__schema11"
+          "$ref": "#/$defs/__schema14"
         },
         "athletes": {
           "minItems": 6,
           "maxItems": 6,
           "type": "array",
           "items": {
-            "$ref": "#/$defs/__schema12"
+            "$ref": "#/$defs/__schema15"
           }
         },
         "cue": {
@@ -713,17 +821,17 @@
       ],
       "additionalProperties": false
     },
-    "__schema10": {
+    "__schema13": {
       "type": "string",
       "minLength": 1,
       "maxLength": 100
     },
-    "__schema11": {
+    "__schema14": {
       "type": "integer",
       "minimum": 0,
       "maximum": 120000
     },
-    "__schema12": {
+    "__schema15": {
       "type": "object",
       "properties": {
         "slot": {
@@ -767,7 +875,7 @@
       ],
       "additionalProperties": false
     },
-    "__schema13": {
+    "__schema16": {
       "type": "object",
       "properties": {
         "attackSide": {
@@ -781,62 +889,6 @@
           "$ref": "#/$defs/__schema0"
         }
       },
-      "additionalProperties": false
-    },
-    "__schema14": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "$ref": "#/$defs/__schema0"
-        },
-        "moment": {
-          "$ref": "#/$defs/__schema0"
-        },
-        "kind": {
-          "type": "string",
-          "enum": [
-            "serve",
-            "pass",
-            "set",
-            "attack",
-            "dig",
-            "block",
-            "land",
-            "unresolved"
-          ]
-        },
-        "actor": {
-          "$ref": "#/$defs/__schema7"
-        }
-      },
-      "required": [
-        "id",
-        "moment",
-        "kind",
-        "actor"
-      ],
-      "additionalProperties": false
-    },
-    "__schema15": {
-      "type": "object",
-      "properties": {
-        "from": {
-          "$ref": "#/$defs/__schema0"
-        },
-        "to": {
-          "$ref": "#/$defs/__schema0"
-        },
-        "apex": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 15
-        }
-      },
-      "required": [
-        "from",
-        "to",
-        "apex"
-      ],
       "additionalProperties": false
     }
   }

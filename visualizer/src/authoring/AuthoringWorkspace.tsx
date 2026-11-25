@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from 'react'
 import { AuthoringCourt } from './AuthoringCourt'
+import { ExactPlanReview } from './ExactPlanReview'
 import { TeamSetup } from './TeamSetup'
 import { clearCloudRecovery, download, getCloudRecovery, privateSession, readCloud, readLocal, saveCloud, saveLocal, stageCloudSave, type CloudPending } from './persistence'
 import {
-  addFillIn, addSharedCopy, applyProposal, currentPlan, emptyLibrary, exportPack, makeProposal, newId, planIssues,
-  previewProposal, reference, requireRef, sharePlan, undo, validateAppend, validateLibrary,
+  addFillIn, addSharedCopy, applyProposal, currentPlan, emptyLibrary, exportPack, leagueIssues, makeProposal, makeReview, newId, openReview, planIssues,
+  previewProposal, reference, requireRef, sharePlan, undo, undoTarget, validateAppend, validateLibrary,
 } from '../domain/authoring'
 import { fixture } from '../domain/fixture'
 import { importLegacy } from '../domain/legacy'
 import { compile, playbackAt } from '../domain/playback'
-import { MAX_LIBRARY_BYTES, MAX_PROPOSAL_BYTES, MAX_SHARE_BYTES, parseJSON, proposal, type Library, type Proposal, type Spot, type Strategy } from '../domain/contracts'
+import { MAX_LIBRARY_BYTES, MAX_PROPOSAL_BYTES, MAX_SHARE_BYTES, duties, parseJSON, proposal, type Library, type Moment, type Operation, type Scope, type Proposal, type Review, type Spot, type Strategy } from '../domain/contracts'
 import { loadBundle } from '../lib/rotationValidation'
 import { MAX_STRATEGY_BYTES } from '../lib/strategyDraft'
 import './authoring.css'
@@ -39,6 +40,7 @@ export function AuthoringWorkspace() {
   const [recovery, setRecovery] = useState(getCloudRecovery)
   const [pending, setPending] = useState<CloudPending>()
   const [preview, setPreview] = useState<ReturnType<typeof previewProposal> & { proposal: Proposal }>()
+  const [review, setReview] = useState<Review>()
   const [before, setBefore] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [playhead, setPlayhead] = useState(0)
@@ -56,17 +58,17 @@ export function AuthoringWorkspace() {
   const plan = preview && !before ? preview.plan : authoringPlan
   const lineup = plan && requireRef(library.lineups, plan.lineup, 'lineup')
   const team = lineup && requireRef(library.teams, lineup.team, 'team')
-  const scenario = plan?.cases.find(c => c.id === caseId) ?? plan?.cases[0]
+  const scenario = plan?.cases.find(c => c.id === caseId) ?? (before && preview && caseId ? undefined : plan?.cases[0])
   const compiled = useMemo(() => scenario && compile(scenario), [scenario])
   const moment = compiled?.moments.find(m => m.id === momentId) ?? compiled?.moments[0]
   const athlete = moment?.athletes.find(a => a.slot === slotId) ?? moment?.athletes[0]
-  const issues = useMemo(() => plan ? planIssues(plan) : [], [plan])
+  const issues = useMemo(() => plan ? [...planIssues(plan), ...leagueIssues(library, plan)] : [], [library, plan])
   const players = lineup?.slots.map(s => {
     const p = requireRef(library.players, s.player, 'player')
     return { slot: s.id, name: p.name, appearance: p.appearance }
   }) ?? []
   const resumes = !!recovery && cloudAvailable && cloudRevision === undefined
-  const canUndo = !!authoringPlan && library.receipts.some(r => r.result.id === authoringPlan.id && r.result.revision === authoringPlan.revision)
+  const canUndo = !!authoringPlan && !!undoTarget(library, authoringPlan)
   const readOnly = busy || playing || !!preview || plan?.status === 'approved' || scenario?.status === 'approved'
   const reserves = team?.roster.filter(p => !lineup?.slots.some(s => s.player.id === p.id)) ?? []
   const notices = [status, dirty && 'Unsaved changes'].filter(Boolean).join(' · ')
@@ -143,6 +145,27 @@ export function AuthoringWorkspace() {
       setSlot(slot); setStatus('Placement updated')
     })
   }
+  function editMoment(event: FormEvent<HTMLFormElement>, action: 'add' | 'teach') {
+    event.preventDefault()
+    if (readOnly || !plan || !scenario || !moment || !athlete) return
+    const fields = new FormData(event.currentTarget), caseId = scenario.id
+    const scope: Scope = action === 'add' ? { caseId } : { caseId, momentId: moment.id, slotId: athlete.slot }
+    let op: Operation
+    if (action === 'add') {
+      const extra: Moment = { id: newId(), name: String(fields.get('name')), ms: Math.round(Number(fields.get('seconds')) * 1000),
+        athletes: moment.athletes.map(a => ({ ...a, route: undefined })) }
+      op = { type: 'addMoment', caseId, moment: extra }
+    } else {
+      const duty = duties.find(d => d === fields.get('duty'))
+      if (!duty) return
+      op = { type: 'teach', caseId, momentId: moment.id, slotId: athlete.slot, duty, cue: String(fields.get('cue')) }
+    }
+    void perform(async () => {
+      change(await applyProposal(library, makeProposal(library, plan, [op], [scope], 'Edit the selected case.')))
+      if (op.type === 'addMoment') setMoment(op.moment.id)
+      setStatus(op.type === 'addMoment' ? 'Moment added to this case' : 'Teaching instruction updated')
+    })
+  }
   function fillIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!lineup || !plan) return
@@ -159,7 +182,7 @@ export function AuthoringWorkspace() {
       setStatus('Fill-in draft created. Adapt the tactics for this lineup.')
     })
   }
-  async function loadFile(event: ChangeEvent<HTMLInputElement>, format: 'proposal' | 'plan' | 'backup') {
+  async function loadFile(event: ChangeEvent<HTMLInputElement>, format: 'proposal' | 'plan' | 'backup' | 'review') {
     const input = event.currentTarget, file = input.files?.[0]
     input.value = ''
     if (!file) return
@@ -167,7 +190,9 @@ export function AuthoringWorkspace() {
       const limit = format === 'proposal' ? MAX_PROPOSAL_BYTES : format === 'backup' ? MAX_LIBRARY_BYTES : Math.max(MAX_STRATEGY_BYTES, MAX_SHARE_BYTES)
       if (file.size > limit) throw new Error('File exceeds the size limit.')
       const raw = await file.text(), value = parseJSON(raw, limit)
-      if (format === 'proposal') {
+      if (format === 'review') {
+        setReview(await openReview(value)); setPlaying(false)
+      } else if (format === 'proposal') {
         const p = proposal.parse(value)
         if (p.plan.id !== planId) throw new Error('Open the exact plan for this proposal first.')
         const checked = previewProposal(library, p)
@@ -194,18 +219,18 @@ export function AuthoringWorkspace() {
   const view = compiled && moment && playbackAt(compiled, playing ? playhead : moment.ms / 1000)
   const route = from && athlete ? [from, ...(athlete.route ?? [])] : []
   const mode = cloudRevision !== undefined ? 'Private cloud' : 'This browser'
-  const caseLocked = !!preview || busy || playing
+  const caseLocked = !!review || !!preview || busy || playing
   return <main className="s1-workspace" aria-label="Team plans">
     <header className="s1-header">
       <div><a href={import.meta.env.BASE_URL}>RotationStudio</a><h1>Team plans</h1></div>
       <div className="s1-row"><span className="s1-chip">{mode}</span>
-        <button className="s1-primary" disabled={!dirty || busy || !!preview} onClick={() => void save()}>Save library</button>
+        <button className="s1-primary" disabled={!dirty || busy || !!preview || !!review} onClick={() => void save()}>Save library</button>
       </div>
     </header>
     <div className="s1-body">
       {(notices || error) && <div className="s1-status">{notices && <p role="status">{notices}</p>}{error && <p role="alert">{error}</p>}</div>}
       <section className="s1-library" aria-label="Plan library">
-        {!!titles.length && <label>Plan<select value={planId} disabled={caseLocked} onChange={e => { setPlan(e.target.value); setCase(''); setMoment(''); setSlot('') }}>
+        {!!titles.length && <label>Plan<select aria-label="Plan" value={planId} disabled={caseLocked} onChange={e => { setPlan(e.target.value); setCase(''); setMoment(''); setSlot('') }}>
           {titles.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
         </select></label>}
         <div className="s1-row">
@@ -217,14 +242,18 @@ export function AuthoringWorkspace() {
               leagues: [...library.leagues, ...sample.leagues.filter(s => !library.leagues.some(x => x.id === s.id))], plans: sample.plans })
             change(next, next.plans[0]); setStatus('Synthetic sample opened')
           })}>Open sample</button>}
-          {cloudAvailable && cloudRevision === undefined && <button disabled={caseLocked} onClick={() => void openCloud(false)}>Open private library</button>}
-          {resumes && <button disabled={caseLocked} onClick={() => void openCloud(true)}>Recover cloud edits</button>}
+          {cloudAvailable && cloudRevision === undefined && <button disabled={caseLocked || dirty} onClick={() => void openCloud(false)}>Open private library</button>}
+          {resumes && <button disabled={caseLocked || dirty} onClick={() => void openCloud(true)}>Recover cloud edits</button>}
         </div>
       </section>
       {creating && <TeamSetup library={library} onCancel={() => setCreating(false)} onCreate={(next, created) => {
         change(next, created); setCreating(false); setStatus('Team and draft created')
       }} />}
-      {plan && lineup && team && <div className="s1-grid">
+      {review && <ExactPlanReview review={review} onClose={() => setReview(undefined)} onCopy={() => void perform(() => {
+        const result = addSharedCopy(library, review.snapshot)
+        change(result.library, result.plan); setReview(undefined); setStatus('Made an independent draft copy')
+      })} />}
+      {!review && plan && lineup && team && <div className="s1-grid">
         <section className="s1-card s1-court-card" aria-label="Court editor">
           <div className="s1-card-heading">
             <div><p className="s1-context">{team.name} / {lineup.name}</p><h2>{plan.name}</h2></div>
@@ -233,9 +262,9 @@ export function AuthoringWorkspace() {
           {lineup.adaptation === 'needs-review' && <p className="s1-adaptation">Fill-in lineup · tactics need review</p>}
           {scenario && moment && view ? <>
             <div className="s1-jump">
-              <label>Case<select value={scenario.id} disabled={busy || playing} onChange={e => { setCase(e.target.value); setMoment('') }}>
+              <label>Case<select aria-label="Case" value={scenario.id} disabled={busy || playing} onChange={e => { setCase(e.target.value); setMoment('') }}>
                 {plan.cases.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
-              <label>Moment<select value={moment.id} disabled={busy || playing} onChange={e => setMoment(e.target.value)}>
+              <label>Moment<select aria-label="Moment" value={moment.id} disabled={busy || playing} onChange={e => setMoment(e.target.value)}>
                 {compiled?.moments.map(m => <option key={m.id} value={m.id}>{m.name} · {m.ms / 1000}s</option>)}</select></label>
             </div>
             <AuthoringCourt key={scenario.id + '/' + moment.id} players={players} positions={view.positions} slot={athlete?.slot ?? ''}
@@ -251,7 +280,7 @@ export function AuthoringWorkspace() {
               <span>{(playing ? playhead : moment.ms / 1000).toFixed(2)} s</span>
             </div>
             {moment.cue && <p>{moment.cue}</p>}
-          </> : <p>This plan has no authored cases.</p>}
+          </> : <p>{before && preview ? 'The selected case did not exist before the proposal.' : 'This plan has no authored cases.'}</p>}
         </section>
         <aside className="s1-sidepanel" aria-label="Plan controls">
           {preview ? <section className="s1-card s1-form">
@@ -268,7 +297,7 @@ export function AuthoringWorkspace() {
             </div>
           </section> : <section className="s1-card s1-form">
             <h2>Place a player</h2>
-            <label>Player<select value={athlete?.slot ?? ''} disabled={readOnly} onChange={e => setSlot(e.target.value)}>
+            <label>Player<select aria-label="Player" value={athlete?.slot ?? ''} disabled={readOnly} onChange={e => setSlot(e.target.value)}>
               {players.map(p => <option key={p.slot} value={p.slot}>{p.name}</option>)}</select></label>
             {athlete && <>
               <output aria-label="Placement">X {athlete.position.x.toFixed(2)} m · Z {athlete.position.z.toFixed(2)} m</output>
@@ -286,6 +315,19 @@ export function AuthoringWorkspace() {
               change(await undo(library, authoringPlan.id, authoringPlan.revision, newId())); setStatus('Last edit restored')
             })}>Undo edit</button>
           </section>}
+          {!preview && moment && athlete && <details className="s1-card">
+            <summary>Edit timeline</summary>
+            <form key={moment.id} className="s1-form" onSubmit={event => editMoment(event, 'add')}>
+              <label>New moment name<input name="name" required maxLength={100} /></label>
+              <label>Time in seconds<input name="seconds" type="number" min=".001" max="120" step=".001" required defaultValue={Math.min(120, moment.ms / 1000 + 1)} /></label>
+              <button disabled={readOnly}>Add moment from this formation</button>
+            </form>
+            <form key={moment.id + athlete.slot} className="s1-form s1-instruction" onSubmit={event => editMoment(event, 'teach')}>
+              <label>Player responsibility<select name="duty" defaultValue={athlete.duty}>{duties.map(duty => <option key={duty}>{duty}</option>)}</select></label>
+              <label>Teaching cue<input name="cue" defaultValue={athlete.cue} maxLength={600} /></label>
+              <button disabled={readOnly}>Update instruction</button>
+            </form>
+          </details>}
           {!preview && reserves.length > 0 && <details className="s1-card">
             <summary>Make a fill-in copy</summary>
             <form className="s1-form" onSubmit={fillIn}>
@@ -306,13 +348,16 @@ export function AuthoringWorkspace() {
         <summary>Import and export</summary>
         <div className="s1-form">
           <label>Import editable or legacy plan<input disabled={caseLocked} type="file" accept=".json,application/json" onChange={e => void loadFile(e, 'plan')} /></label>
+          <label>Open exact plan review<input disabled={caseLocked} type="file" accept=".json,application/json" onChange={e => void loadFile(e, 'review')} /></label>
           <label>Open library backup<input disabled={caseLocked} type="file" accept=".json,application/json" onChange={e => void loadFile(e, 'backup')} /></label>
-          {plan && scenario && moment && !preview && <>
+          {plan && scenario && moment && !preview && !review && <>
             <label className="s1-inline"><input type="checkbox" checked={includeSkills} onChange={e => setIncludeSkills(e.target.checked)} />Include active players’ skill ratings in AI pack</label>
             <div className="s1-row">
               <button disabled={busy || playing} onClick={() => void perform(() => download('rotation-edit-pack.json',
                 exportPack(library, plan, { caseId: scenario.id, momentId: moment.id, slotId: athlete?.slot }, includeSkills)))}>Export AI editing pack</button>
               <button disabled={busy || playing} onClick={() => void perform(() => download('rotation-editable-copy.json', sharePlan(library, plan)))}>Export redacted editable copy</button>
+              <button disabled={busy || playing} onClick={() => void perform(async () => download('rotation-exact-review.json',
+                await makeReview(library, plan, scenario.id, moment.id)))}>Export exact plan review</button>
             </div>
             <label>Import AI proposal<input disabled={busy || playing} type="file" accept=".json,application/json" onChange={e => void loadFile(e, 'proposal')} /></label>
           </>}

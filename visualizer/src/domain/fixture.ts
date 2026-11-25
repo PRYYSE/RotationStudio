@@ -37,7 +37,7 @@ function authoredCase(c: Case, lineup: Lineup): Case {
   const hitter = start.athletes.find(a => a.slot !== setter && a.position.z < 3)!.slot
   const stage = (id: string, name: string, ms: number, slot: string, position: Spot, duty: Moment['athletes'][number]['duty']): Moment => ({
     id, name, ms, athletes: start.athletes.map((a, index) => ({
-      slot: a.slot, position: a.slot === slot ? position : { x: a.position.x * .86, z: 2.2 + (index % 3) * 2.1 },
+      slot: a.slot, position: a.slot === slot ? position : { x: +(a.position.x * .86).toFixed(2), z: +(a.position.z > 5 ? 7.2 + index * .11 : 2.15 + index * .17).toFixed(2) },
       duty: a.slot === slot ? duty : duty === 'attack' ? 'cover' : 'defend',
     })),
   })

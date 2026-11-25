@@ -1,7 +1,8 @@
 import {
-  library, proposal as proposalSchema, pack as packSchema, editableShare, MAX_LIBRARY_BYTES, bytes,
+  library, proposal as proposalSchema, pack as packSchema, editableShare, review as reviewSchema, MAX_LIBRARY_BYTES, bytes,
   type Library, type Ref, type Strategy, type Proposal, type Case, type Operation, type Scope, type Lineup,
 } from './contracts.ts'
+import { rotationOrder } from '../lib/rotationModel.ts'
 import { coveragePolygonError } from '../lib/coveragePolygon.ts'
 
 export const reference = (v: Ref): Ref => ({ id: v.id, revision: v.revision })
@@ -78,6 +79,25 @@ export function planIssues(plan: Strategy): string[] {
   return missing
 }
 
+export function leagueIssues(l: Library, plan: Strategy): string[] {
+  if (plan.league.id !== 'ttgva-c-2025-03' || plan.league.revision !== 1) return []
+  const lineup = requireRef(l.lineups, plan.lineup, 'lineup')
+  const issues: string[] = []
+  if (lineup.slots.some(slot => slot.role === 'libero')) issues.push('TTGVA 3.4.6: C Grade has no libero.')
+  for (const c of plan.cases) {
+    const serve = c.contacts.find(contact => contact.kind === 'serve')
+    const at = c.moments.find(moment => moment.id === serve?.moment)
+    if (!at) continue
+    const order = rotationOrder(lineup.slots.map(s => s.id), c.rotation - 1)
+    const slot = (position: number) => at.athletes.find(a => a.slot === order[position - 1])!.position
+    const xOrder = ([4, 3, 2].every((n, i, row) => !i || slot(row[i - 1]).x < slot(n).x)) &&
+      ([5, 6, 1].every((n, i, row) => !i || slot(row[i - 1]).x < slot(n).x))
+    const zOrder = [[5, 4], [6, 3], [1, 2]].every(([back, front]) => slot(back).z > slot(front).z)
+    if (!xOrder || !zOrder) issues.push(c.name + ': TTGVA 3.4.7 service order needs review (avatar centres).')
+  }
+  return issues
+}
+
 export function validateLibrary(input: unknown): Library {
   const l = library.parse(input)
   if (bytes(JSON.stringify(l)) > MAX_LIBRARY_BYTES) throw new Error('Library exceeds the save limit. Keep a separate backup.')
@@ -128,6 +148,12 @@ export function validateLibrary(input: unknown): Library {
     requireRef(l.plans, r.result, 'operation result')
     requireRef(l.plans, r.previous, 'operation base')
     if (r.result.id !== r.previous.id || r.result.revision !== r.previous.revision + 1) throw new Error('Invalid operation receipt.')
+    if (r.restoredFrom) {
+      const target = requireRef(l.plans, r.restoredFrom, 'restored revision')
+      const restored = requireRef(l.plans, r.result, 'Undo result')
+      if (target.id !== r.result.id || target.revision >= r.previous.revision ||
+        stableJson({ ...target, revision: restored.revision }) !== stableJson(restored)) throw new Error('Invalid Undo receipt.')
+    }
   }
   return l
 }
@@ -178,22 +204,33 @@ function edit(plan: Strategy, op: Operation, l: Library): string {
     scenario.moments.push(op.moment)
     return scenario.name + ' · add ' + op.moment.name
   }
+  if (op.type === 'connectFlight') {
+    scenario.flights.push(op.flight)
+    return scenario.name + ' · connect ' + op.flight.from + ' → ' + op.flight.to
+  }
   const moment = scenario.moments.find(m => m.id === op.momentId)
   if (!moment) throw new Error('Moment is unavailable.')
   const where = scenario.name + ' · ' + moment.name
   if (op.type === 'timing') { const from = moment.ms; moment.ms = op.ms; return where + ': ' + from + ' → ' + op.ms + ' ms' }
   if (op.type === 'renameMoment') { moment.name = op.name; return where + ' → ' + op.name }
+  if (op.type === 'addContact') {
+    if (op.contact.moment !== moment.id) throw new Error('Contact must belong to the scoped moment.')
+    scenario.contacts.push(op.contact)
+    return where + ' · add ' + op.contact.kind + ' contact'
+  }
   if (op.type === 'contact') {
     const target = scenario.contacts.find(c => c.id === op.contactId && c.moment === moment.id)
     if (!target) throw new Error('Contact does not belong to the selected moment.')
     const original = target.actor.kind === 'slot' ? target.actor.slot : target.actor.kind
     target.actor = op.actor
-    if (target.kind === 'unresolved' && op.actor.kind === 'slot') target.kind = 'dig'
+    if (op.kind) target.kind = op.kind
+    if (target.kind === 'unresolved' && op.actor.kind !== 'court') throw new Error('Set the resolved contact kind explicitly.')
     return where + ' · ' + target.kind + ': ' + original + ' → ' + (op.actor.kind === 'slot' ? op.actor.slot : op.actor.kind) + '. Recheck connected cues and tactics.'
   }
   const a = moment.athletes.find(a => a.slot === op.slotId)
   if (!a) throw new Error('Player slot is unavailable.')
-  const name = where + ' · ' + a.slot
+  const slot = requireRef(l.lineups, plan.lineup, 'lineup').slots.find(s => s.id === a.slot)!
+  const name = where + ' · ' + requireRef(l.players, slot.player, 'player').name
   switch (op.type) {
     case 'move': {
       const before = a.position
@@ -239,11 +276,10 @@ export function previewProposal(l: Library, input: unknown) {
   const validated = validateLibrary({ ...l, plans: [...l.plans, plan] }).plans.at(-1)!
   const issues = planIssues(validated)
   if (proposal.completeness === 'all-base-cases' && issues.length) throw new Error('Proposal claims completeness with unfinished cases.')
-  return { plan: validated, diff, issues }
+  return { plan: validated, diff, issues: [...issues, ...leagueIssues(l, validated)] }
 }
 
-// Full canonical request bytes are compared by the storage API. In the browser
-// use a bounded canonical text key for operation deduplication across reloads.
+// Bind the operation ID to the canonical request across reloads and retries.
 export async function applyProposal(l: Library, input: unknown): Promise<Library> {
   const p = proposalSchema.parse(input)
   const fingerprint = await sha256(stableJson(p))
@@ -258,6 +294,15 @@ export async function applyProposal(l: Library, input: unknown): Promise<Library
   }] })
 }
 
+export function undoTarget(l: Library, current: Ref) {
+  let receipt = l.receipts.find(r => sameRef(r.result, current))
+  while (receipt?.restoredFrom) {
+    const target = receipt.restoredFrom
+    receipt = l.receipts.find(r => sameRef(r.result, target))
+  }
+  return receipt?.previous
+}
+
 export async function undo(l: Library, id: string, revision: number, operationId: string): Promise<Library> {
   const fingerprint = await sha256(stableJson({ type: 'undo', id, revision }))
   const repeated = l.receipts.find(r => r.operationId === operationId)
@@ -267,12 +312,12 @@ export async function undo(l: Library, id: string, revision: number, operationId
   }
   const active = currentPlan(l, id)
   if (active.revision !== revision) throw new Error('Undo requires the current revision.')
-  const latest = l.receipts.find(r => sameRef(r.result, active))
-  if (!latest) throw new Error('This revision has no edit to undo.')
-  const target = requireRef(l.plans, latest.previous, 'Undo base')
+  const targetRef = undoTarget(l, active)
+  if (!targetRef) throw new Error('This revision has no edit to undo.')
+  const target = requireRef(l.plans, targetRef, 'Undo base')
   const restored = { ...structuredClone(target), revision: revision + 1 }
   return validateLibrary({ ...l, plans: [...l.plans, restored], receipts: [...l.receipts, {
-    fingerprint, operationId, result: reference(restored), previous: reference(active),
+    fingerprint, operationId, result: reference(restored), previous: reference(active), restoredFrom: targetRef,
   }] })
 }
 
@@ -294,12 +339,12 @@ export function exportPack(l: Library, plan: Strategy, scope: Scope, includeSkil
   const { source: _source, ...copy } = plan
   return packSchema.parse({ kind: 'rotation-edit-pack', schemaVersion: 1, plan: { ...copy, cases: [scenario] },
     league: requireRef(l.leagues, plan.league, 'league'), lineup: plan.lineup, slots: display(l, lineup),
-    assessments: lineup.slots.map(s => s.player), selectedAssessments, scope, issues: planIssues(plan) })
+    assessments: lineup.slots.map(s => s.player), selectedAssessments, scope, issues: [...planIssues(plan), ...leagueIssues(l, plan)].slice(0, 100) })
 }
 
 export function sharePlan(l: Library, plan: Strategy) {
   const lineup = requireRef(l.lineups, plan.lineup, 'lineup')
-  const cases = plan.cases.map(c => ({ ...c, status: 'draft' as const, cue: undefined,
+  const cases = plan.cases.map(c => ({ ...c, status: 'draft' as const,
     moments: c.moments.map(m => ({ ...m, cue: undefined, athletes: m.athletes.map(a => ({ ...a, cue: undefined })) })) }))
   return editableShare.parse({ kind: 'rotation-editable-copy', schemaVersion: 1, name: plan.name,
     slots: display(l, lineup), league: requireRef(l.leagues, plan.league, 'league'), cases })
@@ -323,4 +368,23 @@ export function addFillIn(l: Library, parent: Lineup, slotId: string, player: Re
   const variant = { ...parent, id: newId(), revision: 1, name, parent: reference(parent), adaptation: 'needs-review' as const,
     slots: parent.slots.map(s => s.id === slotId ? { ...s, player } : s) }
   return { library: validateLibrary({ ...l, lineups: [...l.lineups, variant] }), variant }
+}
+
+export async function makeReview(l: Library, plan: Strategy, caseId: string, momentId: string) {
+  const editable = sharePlan(l, plan)
+  const scenario = editable.cases.find(c => c.id === caseId)
+  if (!scenario?.moments.some(m => m.id === momentId)) throw new Error('Review requires an exact case and moment.')
+  const body = { kind: 'rotation-review' as const, schemaVersion: 1 as const, strategy: reference(plan), caseId, momentId,
+    snapshot: { ...editable, cases: [scenario] } }
+  return reviewSchema.parse({ ...body, digest: await sha256(stableJson(body)) })
+}
+
+export async function openReview(input: unknown) {
+  const { digest, ...body } = reviewSchema.parse(input)
+  if (digest !== await sha256(stableJson(body))) throw new Error('Review digest does not match its snapshot.')
+  const source = body.snapshot.cases[0]
+  if (body.snapshot.cases.length !== 1 || source.id !== body.caseId ||
+    !source.moments.some(m => m.id === body.momentId)) throw new Error('Exact reviewed case or moment is missing.')
+  addSharedCopy(emptyLibrary(), body.snapshot)
+  return { ...body, digest }
 }

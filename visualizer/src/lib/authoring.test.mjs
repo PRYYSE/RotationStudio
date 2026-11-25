@@ -59,3 +59,50 @@ test('legacy imports create a separate pinned copy and preserve raw notes and ev
   assert.notEqual(result.plan.id, 'fixture-v2')
   assert(result.plan.cases[0].moments.some(m => m.cue?.includes('Preserved note')))
 })
+
+test('read-only review pins a redacted case and rejects altered bytes', async () => {
+  const { makeReview, openReview } = await import('../domain/authoring.ts')
+  const l = fixture(), plan = l.plans[0], scenario = plan.cases[0]
+  scenario.moments[0].cue = 'Private coaching note'
+  const copy = await makeReview(l, plan, scenario.id, 'receive')
+  const opened = await openReview(copy)
+  assert.equal(opened.caseId, scenario.id)
+  assert(!JSON.stringify(copy).includes('Private coaching note'))
+  assert(!JSON.stringify(copy).includes('assessments'))
+  const altered = structuredClone(copy)
+  altered.snapshot.cases[0].moments[0].athletes[0].position.x = 2.4
+  await assert.rejects(() => openReview(altered), /digest/)
+})
+
+test('player renames are versioned and old lineups keep their exact original name', () => {
+  const l = fixture()
+  l.players.push({ ...l.players[0], revision: 2, name: 'Ari revised' })
+  const checked = validateLibrary(l)
+  const ref = checked.lineups[0].slots[0].player
+  assert.equal(checked.players.find(p => p.id === ref.id && p.revision === ref.revision).name, 'Ari')
+  assert.equal(checked.players.at(-1).name, 'Ari revised')
+  assert.equal(checked.players.at(-1).assessments.receive.rating, null)
+})
+
+test('TTGVA service order is checked on either serve without assigning its rules to an unknown league', async () => {
+  const { leagueIssues } = await import('../domain/authoring.ts')
+  const l = fixture(), base = l.plans[0]
+  const plan = { ...base, league: { id: 'ttgva-c-2025-03', revision: 1 } }
+  const receive = plan.cases[0], serving = plan.cases[1]
+  for (const c of [receive, serving]) {
+    const at = c.moments[0]
+    at.athletes[0].position.x = -4
+  }
+  const found = leagueIssues(l, plan)
+  assert(found.some(s => s.includes(receive.name)))
+  assert(found.some(s => s.includes(serving.name)))
+  assert.deepEqual(leagueIssues(l, base), [])
+})
+
+test('after undo, another undo goes back through applied edits instead of redoing the undone proposal', async () => {
+  let l = fixture()
+  const p = sampleProposal(l)
+  l = await applyProposal(l, p)
+  l = await undo(l, p.plan.id, 2, 'undo-only-edit')
+  await assert.rejects(() => undo(l, p.plan.id, 3, 'unexpected-redo'), /no edit/)
+})

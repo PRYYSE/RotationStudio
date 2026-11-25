@@ -932,6 +932,9 @@
         },
         "previous": {
           "$ref": "#/$defs/__schema7"
+        },
+        "restoredFrom": {
+          "$ref": "#/$defs/__schema7"
         }
       },
       "required": [
