@@ -77,3 +77,5 @@
 }
 
 .s1-instruction { border-top: 1px solid var(--s1-stroke); margin-top: 12px; padding-top: 12px; }
+
+.s1-coverage { fill: #ffd58742; stroke: #ffdfa5; stroke-width: .06; pointer-events: none; }

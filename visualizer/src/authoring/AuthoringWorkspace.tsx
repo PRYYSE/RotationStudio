@@ -2,15 +2,16 @@ import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent 
 import { AuthoringCourt } from './AuthoringCourt'
 import { ExactPlanReview } from './ExactPlanReview'
 import { TeamSetup } from './TeamSetup'
-import { clearCloudRecovery, download, getCloudRecovery, privateSession, readCloud, readLocal, saveCloud, saveLocal, stageCloudSave, type CloudPending } from './persistence'
+import { clearCloudRecovery, download, getCloudRecoveries, privateSession, readCloud, readLocal, saveCloud, saveLocal, stageCloudSave, type CloudPending } from './persistence'
 import {
-  addFillIn, addSharedCopy, applyProposal, currentPlan, emptyLibrary, exportPack, leagueIssues, makeProposal, makeReview, newId, openReview, planIssues,
+  addFillIn, addSharedCopy, applyProposal, contactIssues, currentPlan, emptyLibrary, exportPack, leagueIssues, makeProposal, makeReview, newId, openReview, planIssues,
   previewProposal, reference, requireRef, sharePlan, undo, undoTarget, validateAppend, validateLibrary,
 } from '../domain/authoring'
 import { fixture } from '../domain/fixture'
 import { importLegacy } from '../domain/legacy'
+import { recoverPlan } from '../domain/recovery'
 import { compile, playbackAt } from '../domain/playback'
-import { MAX_LIBRARY_BYTES, MAX_PROPOSAL_BYTES, MAX_SHARE_BYTES, duties, parseJSON, proposal, type Library, type Moment, type Operation, type Scope, type Proposal, type Review, type Spot, type Strategy } from '../domain/contracts'
+import { MAX_LIBRARY_BYTES, MAX_PROPOSAL_BYTES, MAX_SHARE_BYTES, duties, encodeLibrary, parseJSON, proposal, type Library, type Moment, type Operation, type Scope, type Proposal, type Review, type Spot, type Strategy } from '../domain/contracts'
 import { loadBundle } from '../lib/rotationValidation'
 import { MAX_STRATEGY_BYTES } from '../lib/strategyDraft'
 import './authoring.css'
@@ -37,7 +38,11 @@ export function AuthoringWorkspace() {
   const [creating, setCreating] = useState(false)
   const [cloudAvailable, setAvailable] = useState(false)
   const [cloudRevision, setCloudRevision] = useState<number>()
-  const [recovery, setRecovery] = useState(getCloudRecovery)
+  const [recoveries, setRecoveries] = useState(getCloudRecoveries)
+  const [recoveryId, setRecoveryId] = useState('')
+  const [backup, setBackup] = useState<Library>()
+  const [backupPlan, setBackupPlan] = useState('')
+  const [saveFailed, setSaveFailed] = useState(false)
   const [pending, setPending] = useState<CloudPending>()
   const [preview, setPreview] = useState<ReturnType<typeof previewProposal> & { proposal: Proposal }>()
   const [review, setReview] = useState<Review>()
@@ -47,6 +52,11 @@ export function AuthoringWorkspace() {
   const [includeSkills, setIncludeSkills] = useState(false)
 
   useEffect(() => { let active = true; void privateSession().then(value => { if (active) setAvailable(value) }); return () => { active = false } }, [])
+  useEffect(() => {
+    const refresh = () => setRecoveries(getCloudRecoveries())
+    addEventListener('storage', refresh)
+    return () => removeEventListener('storage', refresh)
+  }, [])
   useEffect(() => {
     if (!dirty) return
     const warn = (e: BeforeUnloadEvent) => e.preventDefault()
@@ -60,14 +70,16 @@ export function AuthoringWorkspace() {
   const team = lineup && requireRef(library.teams, lineup.team, 'team')
   const scenario = plan?.cases.find(c => c.id === caseId) ?? (before && preview && caseId ? undefined : plan?.cases[0])
   const compiled = useMemo(() => scenario && compile(scenario), [scenario])
-  const moment = compiled?.moments.find(m => m.id === momentId) ?? compiled?.moments[0]
+  const moment = compiled?.moments.find(m => m.id === momentId) ?? (before && preview && momentId ? undefined : compiled?.moments[0])
   const athlete = moment?.athletes.find(a => a.slot === slotId) ?? moment?.athletes[0]
-  const issues = useMemo(() => plan ? [...planIssues(plan), ...leagueIssues(library, plan)] : [], [library, plan])
+  const issues = useMemo(() => plan ? [...planIssues(plan), ...contactIssues(library, plan), ...leagueIssues(library, plan)] : [], [library, plan])
   const players = lineup?.slots.map(s => {
     const p = requireRef(library.players, s.player, 'player')
     return { slot: s.id, name: p.name, appearance: p.appearance }
   }) ?? []
+  const recovery = recoveries.find(r => r.requestId === recoveryId) ?? recoveries[0]
   const resumes = !!recovery && cloudAvailable && cloudRevision === undefined
+  const refreshRecovery = () => setRecoveries(getCloudRecoveries())
   const canUndo = !!authoringPlan && !!undoTarget(library, authoringPlan)
   const readOnly = busy || playing || !!preview || plan?.status === 'approved' || scenario?.status === 'approved'
   const reserves = team?.roster.filter(p => !lineup?.slots.some(s => s.player.id === p.id)) ?? []
@@ -94,6 +106,7 @@ export function AuthoringWorkspace() {
     setLibrary(next); setDirty(true); setPending(undefined)
     if (focus && focus.id !== planId) { setPlan(focus.id); setCase(''); setMoment(''); setSlot('') }
   }
+  const focusPlan = (l: Library, id?: string) => l.plans.some(p => p.id === id) ? id! : l.plans.at(-1)?.id ?? ''
   async function perform(work: () => void | Promise<void>) {
     if (lock.current) return
     lock.current = true
@@ -107,11 +120,15 @@ export function AuthoringWorkspace() {
         setLocalBase(await saveLocal(library, localBase))
         setStatus('Saved on this browser')
       } else {
-        const retry = pending?.document === library ? pending : stageCloudSave(library, cloudRevision)
-        setPending(retry); setRecovery(retry)
-        setCloudRevision(await saveCloud(retry))
+        const retry = pending?.document === library ? pending : stageCloudSave(library, cloudRevision, planId)
+        setPending(retry); setRecoveryId(retry.requestId); refreshRecovery()
+        try { setCloudRevision(await saveCloud(retry)) } catch (e) {
+          setSaveFailed(true)
+          if (!retry.durable) throw new Error(errorText(e) + ' Device storage is full or inaccessible. Download this private backup before leaving.')
+          throw e
+        }
         clearCloudRecovery(retry.requestId)
-        setPending(undefined); setRecovery(undefined)
+        setPending(undefined); refreshRecovery(); setSaveFailed(false)
         setStatus('Saved privately in cloud storage')
       }
       setDirty(false)
@@ -120,11 +137,16 @@ export function AuthoringWorkspace() {
   function openCloud(restore: boolean) {
     return perform(async () => {
       if (restore && recovery) {
-        setLibrary(recovery.document); setPlan(recovery.document.plans.at(-1)?.id ?? '')
-        setCloudRevision(recovery.expectedRevision); setPending(recovery); setDirty(true); setStatus('Recovered unsent cloud edits')
+        setLibrary(recovery.document); setPlan(focusPlan(recovery.document, recovery.planId))
+        setCloudRevision(recovery.expectedRevision); setPending(recovery); setDirty(true); setSaveFailed(true); setStatus('Recovered unsent cloud edits')
       } else {
+        if (dirty && cloudRevision !== undefined) {
+          const saved = pending?.document === library ? pending : stageCloudSave(library, cloudRevision, planId)
+          if (!saved.durable) throw new Error('Device storage cannot keep this branch. Download your private backup before switching.')
+          setRecoveryId(saved.requestId); refreshRecovery()
+        }
         const opened = await readCloud()
-        setCloudRevision(opened.revision)
+        setCloudRevision(opened.revision); setSaveFailed(false)
         if (opened.revision === 0) {
           setDirty(library.plans.length > 0); setStatus('Private library is empty. Save to make an explicit cloud copy.')
         } else {
@@ -197,13 +219,24 @@ export function AuthoringWorkspace() {
         if (p.plan.id !== planId) throw new Error('Open the exact plan for this proposal first.')
         const checked = previewProposal(library, p)
         const first = p.scope[0]
-        if (first) { setCase(first.caseId); setMoment(first.momentId ?? ''); setSlot(first.slotId ?? '') }
+        const operation = p.operations[0]
+        if (first) setSlot(first.slotId ?? '')
+        if (operation.type !== 'useLineup') {
+          setCase(operation.type === 'copyCase' ? operation.copyId : operation.caseId)
+          setMoment(operation.type === 'addMoment' ? operation.moment.id : 'momentId' in operation ? operation.momentId : '')
+        }
         setPlaying(false); setBefore(false); setPreview({ ...checked, proposal: p }); setStatus('Preview ready')
       } else if (format === 'backup') {
         const next = validateLibrary(value)
-        validateAppend(library, next)
-        change(next, next.plans.at(-1))
-        setStatus('Library backup opened')
+        try {
+          await validateAppend(library, next)
+          change(next, next.plans.at(-1))
+          setStatus('Library backup opened')
+        } catch (e) {
+          if (!next.plans.length) throw e
+          setBackup(next); setBackupPlan(focusPlan(next))
+          setStatus('Backup contains a separate history. Choose a plan to recover as a new draft.')
+        }
       } else if (typeof value === 'object' && value && 'kind' in value && value.kind === 'rotation-studio-strategy') {
         const result = await importLegacy(library, await loadBundle(import.meta.env.BASE_URL), raw)
         change(result.library, result.plan)
@@ -244,8 +277,27 @@ export function AuthoringWorkspace() {
           })}>Open sample</button>}
           {cloudAvailable && cloudRevision === undefined && <button disabled={caseLocked || dirty} onClick={() => void openCloud(false)}>Open private library</button>}
           {resumes && <button disabled={caseLocked || dirty} onClick={() => void openCloud(true)}>Recover cloud edits</button>}
+          {cloudRevision !== undefined && saveFailed && <button disabled={caseLocked} onClick={() => void openCloud(false)}>Keep draft and open latest</button>}
         </div>
+        {cloudAvailable && recoveries.length > 0 && <label>Unsaved cloud branch<select aria-label="Unsaved cloud branch"
+          value={recovery?.requestId} onChange={e => setRecoveryId(e.target.value)} disabled={caseLocked}>
+          {recoveries.map(r => <option key={r.requestId} value={r.requestId}>{r.document.plans.length ? currentPlan(r.document, focusPlan(r.document, r.planId)).name : 'Private library'} · {new Date(r.savedAt).toLocaleTimeString()} · {r.requestId.slice(0, 6)}</option>)}
+        </select></label>}
+        {!!recovery?.document.plans.length && cloudRevision !== undefined && !saveFailed && <button disabled={caseLocked} onClick={() => void perform(() => {
+          const result = recoverPlan(library, recovery.document, currentPlan(recovery.document, focusPlan(recovery.document, recovery.planId)))
+          change(result.library, result.plan); setStatus('Recovered a new private draft. Save when ready.')
+        })}>Recover branch as new draft</button>}
       </section>
+      {backup && <section className="s1-card s1-form" aria-label="Recover backup plan">
+        <h2>Recover a plan from this backup</h2>
+        <label>Backup plan<select value={backupPlan} onChange={e => setBackupPlan(e.target.value)}>
+          {[...new Map(backup.plans.map(p => [p.id, p])).values()].map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+        </select></label>
+        <div className="s1-row"><button disabled={caseLocked} onClick={() => void perform(() => {
+          const result = recoverPlan(library, backup, currentPlan(backup, backupPlan))
+          change(result.library, result.plan); setBackup(undefined); setStatus('Recovered a new draft from the backup')
+        })}>Recover as new draft</button><button onClick={() => setBackup(undefined)}>Close backup</button></div>
+      </section>}
       {creating && <TeamSetup library={library} onCancel={() => setCreating(false)} onCreate={(next, created) => {
         change(next, created); setCreating(false); setStatus('Team and draft created')
       }} />}
@@ -268,7 +320,7 @@ export function AuthoringWorkspace() {
                 {compiled?.moments.map(m => <option key={m.id} value={m.id}>{m.name} · {m.ms / 1000}s</option>)}</select></label>
             </div>
             <AuthoringCourt key={scenario.id + '/' + moment.id} players={players} positions={view.positions} slot={athlete?.slot ?? ''}
-              route={playing ? [] : route} ball={view.ball} exhibit={readOnly} onSelect={setSlot} onMove={move} />
+              route={playing ? [] : route} coverage={playing ? undefined : athlete?.coverage} ball={view.ball} exhibit={readOnly} onSelect={setSlot} onMove={move} />
             <div className="s1-row s1-transport">
               <button disabled={!compiled?.duration || busy} onClick={() => {
                 if (!playing) {
@@ -280,7 +332,7 @@ export function AuthoringWorkspace() {
               <span>{(playing ? playhead : moment.ms / 1000).toFixed(2)} s</span>
             </div>
             {moment.cue && <p>{moment.cue}</p>}
-          </> : <p>{before && preview ? 'The selected case did not exist before the proposal.' : 'This plan has no authored cases.'}</p>}
+          </> : <p role="status">{before && preview ? 'The selected case or moment did not exist before the proposal.' : 'This plan has no authored cases.'}</p>}
         </section>
         <aside className="s1-sidepanel" aria-label="Plan controls">
           {preview ? <section className="s1-card s1-form">
@@ -361,7 +413,7 @@ export function AuthoringWorkspace() {
             </div>
             <label>Import AI proposal<input disabled={busy || playing} type="file" accept=".json,application/json" onChange={e => void loadFile(e, 'proposal')} /></label>
           </>}
-          <button disabled={busy} onClick={() => download('rotation-library-private.json', library)}>Download private library backup</button>
+          <button disabled={busy} onClick={() => download('rotation-library-private.json', encodeLibrary(library))}>Download private library backup</button>
           {library.sources.map(s => <div key={s.id}><button onClick={() => download('legacy-' + s.sha256.slice(0, 10) + '.json', s.raw, true)}>Download original legacy file</button>
             {!!s.issues.length && <p>{s.issues[0]}</p>}</div>)}
         </div>

@@ -60,6 +60,18 @@ try {
     assert.equal(await page.locator('[data-slot=aurora-slot-1]').getAttribute('data-x'), '1.4')
     await page.getByRole('button', { name: 'Reject', exact: true }).click()
     assert.equal(await placement(page), original)
+    const pack = JSON.parse(await readFile(new URL('../contracts/synthetic-pack.json', import.meta.url), 'utf8'))
+    const newMoment = { ...pack.plan.cases[0].moments.find(m => m.id === 'receive'), id: 'browser-new', name: 'New arrival', ms: 2200 }
+    const added = { ...JSON.parse(sample), proposalId: 'browser-proposal', operationId: 'browser-add-moment',
+      scope: [{ caseId: pack.plan.cases[0].id }], operations: [{ type: 'addMoment', caseId: pack.plan.cases[0].id, moment: newMoment }] }
+    await page.getByLabel('Import AI proposal').setInputFiles({ name: 'new-moment.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(added)) })
+    await page.getByRole('heading', { name: 'Proposal preview' }).waitFor()
+    assert.equal(await page.getByLabel('Moment', { exact: true }).inputValue(), 'browser-new')
+    await page.getByRole('button', { name: 'Show original placement' }).click()
+    await note(page, 'did not exist before the proposal')
+    assert.equal(await page.getByLabel('Authoring court').count(), 0)
+    await page.getByRole('button', { name: 'Reject', exact: true }).click()
+    await page.getByLabel('Moment', { exact: true }).selectOption('receive')
     await page.getByLabel('Import AI proposal').setInputFiles({ name: 'sample.json', mimeType: 'application/json', buffer: sample })
     await page.getByRole('button', { name: 'Apply proposal' }).click()
     await note(page, 'Proposal applied as one edit')
@@ -126,9 +138,48 @@ try {
       await page.getByRole('button', { name: 'Recover cloud edits' }).tap()
       await page.getByLabel('Moment', { exact: true }).selectOption('receive')
       assert.equal(await placement(page), conflictPosition)
+      await page.getByRole('button', { name: 'Keep draft and open latest' }).tap()
+      await note(page, 'Opened saved cloud library')
+      await page.getByLabel('Moment', { exact: true }).selectOption('receive')
+      assert.equal(await placement(page), original)
+      await page.getByRole('button', { name: 'Recover branch as new draft' }).tap()
+      await note(page, 'Recovered a new private draft')
+      await page.getByLabel('Moment', { exact: true }).selectOption('receive')
+      assert.equal(await placement(page), conflictPosition)
+      await save(page)
     } finally { await otherDevice.close() }
     const current = await (await context.request.get(origin + '/api/v1/library')).json()
-    assert.equal(current.revision, 2)
+    assert.equal(current.revision, 3)
+  })
+  await run('recovery-tabs', { viewport: { width: 1100, height: 850 } }, async (page, context) => {
+    const second = await context.newPage()
+    try {
+      await second.goto(base + '?workspace=plans')
+      const pendingIds = [], expectedPositions = []
+      for (const [tab, direction] of [[page, 'Left'], [second, 'Right']]) {
+        await tab.getByRole('button', { name: 'Open private library' }).click()
+        await note(tab, 'Opened saved cloud library')
+        await tab.getByRole('button', { name: direction, exact: true }).click()
+        await note(tab, 'Placement updated')
+        expectedPositions.push(await placement(tab))
+        await tab.route(origin + '/api/v1/library', async route => {
+          if (route.request().method() !== 'PUT') return route.continue()
+          pendingIds.push(route.request().postDataJSON().requestId)
+          await route.fulfill({ status: 503, json: { error: 'Fixture temporarily offline' } })
+        })
+        await tab.getByRole('button', { name: 'Save library' }).click()
+        await tab.getByRole('alert').filter({ hasText: 'Private save failed' }).waitFor()
+      }
+      assert.equal(pendingIds.length, 2)
+      assert.notEqual(expectedPositions[0], expectedPositions[1])
+      for (const [i, id] of pendingIds.entries()) {
+        await page.reload()
+        await page.getByLabel('Unsaved cloud branch').selectOption(id)
+        await page.getByRole('button', { name: 'Recover cloud edits' }).click()
+        await note(page, 'Recovered unsent cloud edits')
+        assert.equal(await placement(page), expectedPositions[i])
+      }
+    } finally { await second.close() }
   })
   await writeFile(resolve(output, 'manifest.json'), JSON.stringify({ status: 'PASS', testedSha: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), samples }, null, 2) + '\n')
   console.log('S1 desktop and touch browser journeys passed.')

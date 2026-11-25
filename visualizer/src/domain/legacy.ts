@@ -2,7 +2,7 @@ import { BASE_REVISION, parseStrategy, stageTimes, type PlayerId, type StrategyS
 import { applyStrategyOverlay, resolveStrategyRotation } from '../lib/strategyOverlay.ts'
 import { sourceEndpointOwners, sourceEvents } from '../lib/strategyEvents.ts'
 import { sampleTrack } from '../lib/rotationModel.ts'
-import type { Bundle, Role, Scenario } from '../lib/rotationTypes.ts'
+import type { Bundle, Keyframe, Role, Scenario, Spot } from '../lib/rotationTypes.ts'
 import { newId, reference, sha256, stableJson, validateLibrary } from './authoring.ts'
 import type { Case, Contact, Library, Lineup, Moment, Strategy } from './contracts.ts'
 import { ttgva } from './fixture.ts'
@@ -16,6 +16,31 @@ const metres = (n: number) => +n.toFixed(4)
 const asMs = (n: number) => Math.round(n * 1000)
 const contactKind = { serve: 'serve', return: 'attack', pass: 'pass', set: 'set', attack: 'attack' } as const
 const scenarioList = (b: Bundle): Scenario[] => b.plans.scenarios.flatMap(s => [s, ...Object.values(s.alternates ?? {})])
+
+// All original track frames are included in the case's moment list. When
+// another athlete or a contact splits this interval, keep each waypoint in the
+// matching sub-interval of the original eased path.
+function incomingBends(track: Keyframe[], previous: number, time: number): Spot[] {
+  if (time <= previous || time <= track[0].time) return []
+  const to = track.findIndex(frame => asMs(frame.time) >= asMs(time))
+  if (to <= 0) return []
+  const a = track[to - 1], b = track[to]
+  if (!b.via?.length) return []
+  const path = [a, ...b.via, b]
+  const lengths = path.slice(1).map((p, i) => Math.hypot(p.x - path[i].x, p.z - path[i].z))
+  const total = lengths.reduce((sum, d) => sum + d, 0)
+  if (!total) return []
+  const distanceAt = (t: number) => {
+    const u = Math.max(0, Math.min(1, (t - a.time) / (b.time - a.time)))
+    return total * u * u * (3 - 2 * u)
+  }
+  const start = distanceAt(previous), end = distanceAt(time)
+  let distance = 0
+  return b.via.filter((_, i) => {
+    distance += lengths[i]
+    return distance > start + 1e-7 && distance < end - 1e-7
+  })
+}
 
 export async function importLegacy(l: Library, base: Bundle, raw: string) {
   const draft = parseStrategy(raw)
@@ -55,6 +80,11 @@ export async function importLegacy(l: Library, base: Bundle, raw: string) {
     const stages = stageTimes(scenario)
     const key = (scenario.rotation + '/' + scenario.serve) as keyof NonNullable<NonNullable<typeof draft.notes>['team']>
     const changes = resolveStrategyRotation(draft, scenario)
+    if (Object.values(scenario.tracks).some(track => track.some((frame, index) => frame.via?.length && index > 0 &&
+      times.some(time => time > asMs(track[index - 1].time) && time < asMs(frame.time))))) {
+      receipt.issues.push('R' + scenario.rotation + ' ' + scenario.serve + ', case ' + (index + 1) +
+        ': intermediate moments preserve route bends but retime easing. Review motion before use.')
+    }
     const moments: Moment[] = times.map((ms, i) => {
       const time = ms / 1000
       const phase = scenario.phases.find(p => asMs(p.time) === ms)
@@ -70,9 +100,7 @@ export async function importLegacy(l: Library, base: Bundle, raw: string) {
           const patch = oldEvent && changes.eventOverrides?.[oldEvent.id]
           const area = (patch || undefined)?.coverage?.[oldId] ?? (stage ? changes.coverage?.[stage]?.[oldId] : undefined)
           const action = (patch || undefined)?.actions?.[oldId]
-          const target = track.find(f => asMs(f.time) === ms)
-          const previous = target && track[track.indexOf(target) - 1]
-          const route = previous && asMs(previous.time) === times[i - 1] ? target.via : undefined
+          const route = i ? incomingBends(track, times[i - 1] / 1000, time) : []
           return { slot: ids.get(old)!, position: { x: metres(frame.x), z: metres(frame.z) },
             duty: action ?? duties[frame.role], ...(instruction ? { cue: instruction } : {}), ...(route?.length ? { route } : {}),
             ...(area ? { coverage: area.vertices ? { kind: 'polygon' as const, vertices: area.vertices } : {
@@ -92,7 +120,9 @@ export async function importLegacy(l: Library, base: Bundle, raw: string) {
         const point = f[side], owner = endpointOwners[i][side === 'from' ? 0 : 1], slot = owner && ids.get(owner)
         const following = scenario.ball[i + 1]
         const linked = side === 'to' && following?.start === f.end
-        const kind = linked ? contactKind[following.kind] : side === 'from' ? contactKind[f.kind] : 'land'
+        const outgoing = linked ? following : side === 'from' ? f : undefined
+        const kind = outgoing?.kind === 'pass' && (scenario.serve === 'us' || ms > asMs(scenario.firstContact.time))
+          ? 'dig' : outgoing ? contactKind[outgoing.kind] : f.kind === 'pass' && slot ? 'set' : 'land'
         const actor: Contact['actor'] = slot ? { kind: 'slot', slot, y: point.y }
           : { kind: point.z < 0 ? 'opponent' : 'court', point }
         const existing = contacts.get(ms)

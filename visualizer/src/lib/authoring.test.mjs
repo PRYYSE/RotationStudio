@@ -38,7 +38,7 @@ test('ball playback samples in flight-relative time and an explicit contact edit
   assert.notDeepEqual(playbackAt(before, (f.start + f.end) / 2).ball, f.to)
   const from = old.cases[0].contacts.find(c => c.id === 'ball-set')
   const slot = l.lineups[0].slots[1].id
-  const edited = previewProposal(l, { ...p, scope: [{ caseId: old.cases[0].id, momentId: 'set' }],
+  const edited = previewProposal(l, { ...p, completeness: 'partial', scope: [{ caseId: old.cases[0].id, momentId: 'set' }],
     operations: [{ type: 'contact', caseId: old.cases[0].id, momentId: 'set', contactId: from.id, actor: { kind: 'slot', slot, y: 2 } }] })
   const after = compile(edited.plan.cases[0])
   assert.deepEqual(after.ball[1].to, after.ball[2].from)
@@ -105,4 +105,74 @@ test('after undo, another undo goes back through applied edits instead of redoin
   l = await applyProposal(l, p)
   l = await undo(l, p.plan.id, 2, 'undo-only-edit')
   await assert.rejects(() => undo(l, p.plan.id, 3, 'unexpected-redo'), /no edit/)
+})
+
+test('legacy case history remains editable and recoverable within bounded backups', async () => {
+  const { readFile } = await import('node:fs/promises')
+  const { importLegacy } = await import('../domain/legacy.ts')
+  const { emptyLibrary, makeProposal, stableJson } = await import('../domain/authoring.ts')
+  const { encodeLibrary } = await import('../domain/contracts.ts')
+  async function read(path) { return readFile(new URL('../../public/' + path, import.meta.url), 'utf8') }
+  const raw = await read('strategies/pryyse-team-tactics-2026-v1.json')
+  const base = { team: JSON.parse(await read('plans/team.json')), plans: JSON.parse(await read('plans/rotations.json')) }
+  const imported = await importLegacy(emptyLibrary(), base, raw)
+  assert(imported.plan)
+  const planId = imported.plan.id
+  let l = imported.library
+  for (let i = 0; i < 5; i++) {
+    const plan = currentPlan(l, planId), c = plan.cases[0], m = c.moments[1]
+    const scope = { caseId: c.id, momentId: m.id, slotId: m.athletes[0].slot }
+    l = await applyProposal(l, makeProposal(l, plan, [{ type: 'move', ...scope, position: { x: i / 10, z: 4 } }], [scope], 'Test placement.'))
+  }
+  l = await undo(l, planId, 6, 'restore-on-import')
+  const saved = JSON.parse(JSON.stringify(encodeLibrary(l)))
+  const reopened = validateLibrary(saved)
+  assert(stableJson(currentPlan(reopened, planId)) === stableJson(currentPlan(l, planId)), 'Archived plan differs after reopen')
+  assert.equal(reopened.sources[0].raw, raw)
+  saved.plans[0].caseRefs[0] = saved.casePool.length
+  assert.throws(() => validateLibrary(saved), /case reference/)
+})
+
+test('legacy bends survive imported intermediate moments in their incoming route order', async () => {
+  const { readFile } = await import('node:fs/promises')
+  const { importLegacy } = await import('../domain/legacy.ts')
+  const team = JSON.parse(await readFile(new URL('../../public/plans/team.json', import.meta.url)))
+  const plans = JSON.parse(await readFile(new URL('../../public/plans/rotations.json', import.meta.url)))
+  const bends = [{ x: 4.1, z: 8.9 }, { x: -4.1, z: 8.9 }]
+  const raw = JSON.stringify({ kind: 'rotation-studio-strategy', schemaVersion: 2, id: 'bent-v2', name: 'Bent route',
+    author: 'Fixture', baseRevision: '8c0fb5d', overrides: { '1/they': { routes: { Defend: { harry: bends } } } } })
+  const imported = await importLegacy(fixture(), { team, plans }, raw)
+  assert(imported.plan)
+  const slot = imported.library.lineups.at(-1).slots[team.initialOrder.indexOf('harry')].id
+  const route = imported.plan.cases[0].moments.flatMap(m => m.athletes.find(a => a.slot === slot).route ?? [])
+  const retained = route.filter(p => bends.some(b => b.x === p.x && b.z === p.z))
+  assert.deepEqual(retained, bends)
+  assert(imported.issues.some(issue => issue.includes('retime easing')))
+})
+
+test('partial flights and mismatched first-contact conditions are visible and cannot claim completeness', async () => {
+  const { planIssues } = await import('../domain/authoring.ts')
+  const l = fixture(), p = sampleProposal(l), c = l.plans[0].cases[0]
+  c.flights = c.flights.slice(-1)
+  c.conditions.firstContactSlot = 'aurora-slot-1'
+  assert(planIssues(l.plans[0]).some(x => x.includes('connect service')))
+  assert(planIssues(l.plans[0]).some(x => x.includes('first-contact slot')))
+  assert.throws(() => previewProposal(l, p), /claims completeness/)
+})
+
+test('divergent recovery keeps private cues and the newest saved plan under separate IDs', async () => {
+  const { recoverPlan } = await import('../domain/recovery.ts')
+  const latest = fixture(), base = fixture()
+  const p = sampleProposal(base)
+  base.players[0].assessments.receive = { rating: 4, confidence: 'high', source: 'Observed at a private session' }
+  base.plans[0].cases[0].moments[0].cue = 'Private coaching cue'
+  const draft = await applyProposal(base, p)
+  const recovered = recoverPlan(latest, draft, currentPlan(draft, p.plan.id))
+  assert.notEqual(recovered.plan.id, p.plan.id)
+  assert.equal(recovered.plan.cases[0].moments[0].cue, 'Private coaching cue')
+  const lineup = recovered.library.lineups.find(x => x.id === recovered.plan.lineup.id)
+  const owner = recovered.library.players.find(x => x.id === lineup.slots[0].player.id)
+  assert.equal(owner.assessments.receive.source, 'Observed at a private session')
+  assert.equal(recovered.library.players[0].assessments.receive.rating, null)
+  assert.deepEqual(currentPlan(recovered.library, p.plan.id), latest.plans[0])
 })

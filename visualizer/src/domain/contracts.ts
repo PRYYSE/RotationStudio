@@ -118,13 +118,23 @@ const source = z.strictObject({
   eventMap: z.array(z.strictObject({ caseId: id, old: id, moment: id })).max(4800),
   issues: z.array(note).max(100),
 })
-const receipt = z.strictObject({ operationId: id, fingerprint: z.string().max(64), result: ref, previous: ref, restoredFrom: ref.optional() })
+const receipt = z.strictObject({ operationId: id, fingerprint: z.string().max(64), result: ref, previous: ref, restoredFrom: ref.optional(), proposal: proposal.optional() })
 export const library = z.strictObject({
   kind: z.literal('rotation-library'), schemaVersion: z.literal(1),
   players: z.array(player).max(240), teams: z.array(team).max(100), leagues: z.array(league).max(40),
   lineups: z.array(lineup).max(100), plans: z.array(strategy).max(150),
   sources: z.array(source).max(20), receipts: z.array(receipt).max(150),
 })
+// Revisions remain exact. Unchanged cases share one serialized record across
+// revisions, so movement history does not duplicate the entire legacy playbook.
+export const libraryArchive = library.omit({ kind: true, plans: true }).extend({
+  kind: z.literal('rotation-library-archive'),
+  plans: z.array(strategy.omit({ cases: true }).extend({
+    caseRefs: z.array(z.int().min(0).max(10_799)).max(72),
+  })).max(150),
+  casePool: z.array(playCase).max(10_800),
+})
+export const libraryBackup = z.union([libraryArchive, library])
 export type Ref = z.infer<typeof ref>
 export type Player = z.infer<typeof player>
 export type Team = z.infer<typeof team>
@@ -149,3 +159,35 @@ export function parseJSON(text: string, limit: number): unknown {
   if (bytes(text) > limit) throw new Error('File exceeds the size limit.')
   try { return JSON.parse(text) } catch { throw new Error('Invalid JSON file.') }
 }
+
+export function encodeLibrary(document: Library) {
+  const { plans, kind: _kind, ...catalogue } = document
+  const indices = new Map<string, number>()
+  const casePool: Case[] = []
+  const revisions = plans.map(({ cases, ...plan }) => ({
+    ...plan, caseRefs: cases.map(c => {
+      const key = JSON.stringify(c)
+      const known = indices.get(key)
+      if (known !== undefined) return known
+      const next = casePool.length
+      casePool.push(c); indices.set(key, next)
+      return next
+    }),
+  }))
+  return { ...catalogue, kind: 'rotation-library-archive' as const, plans: revisions, casePool }
+}
+
+export function decodeLibrary(input: unknown): Library {
+  if (!input || typeof input !== 'object' || !('kind' in input) || input.kind !== 'rotation-library-archive') {
+    return library.parse(input)
+  }
+  const { casePool, plans, kind: _kind, ...catalogue } = libraryArchive.parse(input)
+  return { ...catalogue, kind: 'rotation-library', plans: plans.map(({ caseRefs, ...plan }) => ({
+    ...plan, cases: caseRefs.map(i => {
+      if (!casePool[i]) throw new Error('Library archive contains an invalid case reference.')
+      return casePool[i]
+    }),
+  })) }
+}
+
+export function serializeLibrary(document: Library) { return JSON.stringify(encodeLibrary(document)) }

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { applyProposal, emptyLibrary, previewProposal, sha256, stableJson, undo, validateAppend, validateLibrary } from '../src/domain/authoring.ts'
-import { id, MAX_LIBRARY_BYTES, MAX_PROPOSAL_BYTES, proposal, type Library } from '../src/domain/contracts.ts'
+import { id, MAX_LIBRARY_BYTES, MAX_PROPOSAL_BYTES, encodeLibrary, proposal, serializeLibrary, type Library } from '../src/domain/contracts.ts'
 import { accessOwner, type AccessConfig } from './access.ts'
 import { insertRevision, latest, priorRequest, type Database } from './library-store.ts'
 
@@ -54,7 +54,7 @@ export function createWorker(fetchKeys: typeof fetch = fetch) {
       try {
         if (request.method === 'GET') {
           const row = await latest(db, owner)
-          return json({ revision: row?.revision ?? 0, document: row ? JSON.parse(row.document) : emptyLibrary() })
+          return json({ revision: row?.revision ?? 0, document: row ? JSON.parse(row.document) : encodeLibrary(emptyLibrary()) })
         }
         const isSave = path === '/api/v1/library'
         let body: z.infer<typeof save> | z.infer<typeof transaction>
@@ -90,7 +90,7 @@ export function createWorker(fetchKeys: typeof fetch = fetch) {
         try {
           if ('document' in body) {
             next = validateLibrary(body.document)
-            validateAppend(before, next)
+            await validateAppend(before, next)
           } else if (body.action === 'undo' && 'planId' in body) {
             next = await undo(before, body.planId, body.planRevision, body.operationId)
           } else if ('proposal' in body) {
@@ -98,7 +98,7 @@ export function createWorker(fetchKeys: typeof fetch = fetch) {
             next = await applyProposal(before, body.proposal)
           } else return error('Unknown action.', 400)
         } catch (e) { return error((e as Error).message.slice(0, 400), 422) }
-        if (await insertRevision(db, owner, revision, requestId, fingerprint, JSON.stringify(next))) return json({ revision: revision + 1 }, 201)
+        if (await insertRevision(db, owner, revision, requestId, fingerprint, serializeLibrary(next))) return json({ revision: revision + 1 }, 201)
         return await repeat() ?? error('Another save completed first. Your local edit is unchanged.', 409)
       } catch {
         return error('Private storage is unavailable. Keep your local copy and retry.', 503)

@@ -11,7 +11,7 @@ npm run build -- --base=/RotationStudio/
 npm run fixture:private
 ```
 
-The fixture binds loopback and uses ephemeral keys and SQLite data. Its fixture sign-in is test-only and lives outside the Worker entrypoint. To exercise it, run `node scripts/smoke-authoring.mjs` with Playwright and Chromium installed. The fixture also runs the real Worker authorization and D1 SQL through a SQLite adapter. Stop the fixture after the check.
+The fixture binds loopback and uses ephemeral keys and SQLite data. Its fixture sign-in is test-only and lives outside the Worker entrypoint. To exercise it, run `node scripts/smoke-authoring.mjs` with Playwright and Chromium installed. After a save conflict, keep the local draft, open the latest library, and recover the branch as a new draft. Failed saves keep distinct recovery entries on that browser when storage is available. The fixture also runs the real Worker authorization and D1 SQL through a SQLite adapter. Stop the fixture after the check.
 
 Build the private deployment bundle locally with `ROTATION_PRIVATE_BUILD=1 npx cf build`. Keep this build and the synthetic test server separate from production data.
 

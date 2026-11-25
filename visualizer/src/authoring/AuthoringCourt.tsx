@@ -1,15 +1,15 @@
 import { useRef, useState, type PointerEvent } from 'react'
-import type { Spot } from '../domain/contracts'
+import type { Moment, Spot } from '../domain/contracts'
 
 export type Marker = { slot: string; name: string; appearance?: string }
 type Props = {
   players: Marker[]; positions: Record<string, Spot>; slot: string; route: Spot[];
-  ball?: Spot; exhibit?: boolean; onSelect(slot: string): void; onMove(slot: string, position: Spot): void;
+  ball?: Spot; coverage?: Moment['athletes'][number]['coverage']; exhibit?: boolean; onSelect(slot: string): void; onMove(slot: string, position: Spot): void;
 }
 const metres = (value: number) => Math.round(value * 100) / 100
 const clamp = (n: number, low: number, high: number) => Math.min(high, Math.max(low, n))
 
-export function AuthoringCourt({ players, positions, slot, route, ball, exhibit, onSelect, onMove }: Props) {
+export function AuthoringCourt({ players, positions, slot, route, ball, coverage, exhibit, onSelect, onMove }: Props) {
   const court = useRef<SVGSVGElement>(null)
   const gesture = useRef<{ pointer: number; slot: string; downX: number; downY: number; marker: boolean } | null>(null)
   const [drag, setDrag] = useState<{ slot: string; position: Spot }>()
@@ -52,6 +52,9 @@ export function AuthoringCourt({ players, positions, slot, route, ball, exhibit,
     <path className="s1-net" d="M-5.1,0 H5.1" />
     <text className="s1-side" x="0" y="-7.6">OPPONENTS</text>
     <text className="s1-side" x="0" y="11.6">OUR END</text>
+    {coverage?.kind === 'ellipse' && <ellipse className="s1-coverage" cx={coverage.center.x} cy={coverage.center.z}
+      rx={coverage.radiusX} ry={coverage.radiusZ} />}
+    {coverage?.kind === 'polygon' && <polygon className="s1-coverage" points={coverage.vertices.map(p => p.x + ',' + p.z).join(' ')} />}
     {visibleRoute.length > 0 && <polyline className="s1-route" points={visibleRoute.map(p => p.x + ',' + p.z).join(' ')} />}
     {players.map(p => {
       const at = drag?.slot === p.slot ? drag.position : positions[p.slot]

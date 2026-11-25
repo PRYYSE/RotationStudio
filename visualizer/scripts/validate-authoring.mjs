@@ -15,7 +15,7 @@ try {
     const output = new URL('../contracts/', import.meta.url)
     const set = { player: schema.player, team: schema.team, lineup: schema.lineup, strategy: schema.strategy,
       case: schema.playCase, moment: schema.moment, contact: schema.contact, review: schema.review,
-      proposal: schema.proposal, pack: schema.pack, 'editable-copy': schema.editableShare, library: schema.library }
+      proposal: schema.proposal, pack: schema.pack, 'editable-copy': schema.editableShare, library: schema.libraryBackup }
     await mkdir(output, { recursive: true })
     await Promise.all(Object.entries(set).map(([key, value]) =>
       writeFile(new URL(key + '.schema.json', output), JSON.stringify(z.toJSONSchema(value, { reused: 'ref' }), null, 2) + '\n')))

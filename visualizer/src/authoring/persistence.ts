@@ -1,5 +1,5 @@
 import { emptyLibrary, newId, validateLibrary } from '../domain/authoring'
-import { MAX_LIBRARY_BYTES, parseJSON, type Library } from '../domain/contracts'
+import { MAX_LIBRARY_BYTES, encodeLibrary, parseJSON, serializeLibrary, type Library } from '../domain/contracts'
 
 const localKey = 'rotation-studio-authoring-v1'
 const cloudRecovery = 'rotation-studio-authoring-cloud-recovery-v1'
@@ -10,7 +10,7 @@ export function readLocal() {
 }
 
 export async function saveLocal(library: Library, expected: string | null) {
-  const raw = JSON.stringify(validateLibrary(library))
+  const raw = serializeLibrary(validateLibrary(library))
   const write = () => {
     if (localStorage.getItem(localKey) !== expected) throw new Error('Another tab saved first. Export your library to keep these edits before reloading.')
     localStorage.setItem(localKey, raw)
@@ -19,28 +19,36 @@ export async function saveLocal(library: Library, expected: string | null) {
   return navigator.locks ? navigator.locks.request(localKey, write) : write()
 }
 
-export type CloudPending = { requestId: string; expectedRevision: number; document: Library }
-export function stageCloudSave(document: Library, expectedRevision: number): CloudPending {
-  const payload = { requestId: newId(), expectedRevision, document }
-  try { localStorage.setItem(cloudRecovery, JSON.stringify(payload)) } catch { /* in-memory retry remains available */ }
+export type CloudPending = {
+  requestId: string; expectedRevision: number; document: Library; planId?: string; savedAt: number; durable: boolean
+}
+export function stageCloudSave(document: Library, expectedRevision: number, planId?: string): CloudPending {
+  const payload = { requestId: newId(), expectedRevision, document, planId, savedAt: Date.now(), durable: true }
+  try { localStorage.setItem(cloudRecovery + ':' + payload.requestId, JSON.stringify({ ...payload, document: encodeLibrary(document) })) }
+  catch { payload.durable = false }
   return payload
 }
-export function getCloudRecovery(): CloudPending | undefined {
+export function getCloudRecoveries(): CloudPending[] {
+  const recoveries = []
   try {
-    const raw = localStorage.getItem(cloudRecovery)
-    if (raw) {
-      const value = JSON.parse(raw) as CloudPending
-      if (typeof value.requestId === 'string' && Number.isSafeInteger(value.expectedRevision) && value.expectedRevision >= 0) {
-        return { ...value, document: validateLibrary(value.document) }
-      }
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i)
+      if (!key?.startsWith(cloudRecovery + ':')) continue
+      const raw = localStorage.getItem(key)
+      if (!raw || raw.length > MAX_LIBRARY_BYTES + 1024) continue
+      try {
+        const value = parseJSON(raw, MAX_LIBRARY_BYTES + 1024) as CloudPending
+        if (value?.requestId === key.slice(cloudRecovery.length + 1) && Number.isSafeInteger(value.expectedRevision) &&
+          value.expectedRevision >= 0 && Number.isFinite(value.savedAt)) {
+          recoveries.push({ ...value, document: validateLibrary(value.document), durable: true })
+        }
+      } catch { /* leave invalid data available for browser-level recovery */ }
     }
-  } catch { /* invalid local recovery remains untouched */ }
+  } catch { /* storage may be unavailable */ }
+  return recoveries.sort((a, b) => b.savedAt - a.savedAt)
 }
 export function clearCloudRecovery(requestId: string) {
-  try {
-    const raw = localStorage.getItem(cloudRecovery)
-    if (raw && (JSON.parse(raw) as CloudPending).requestId === requestId) localStorage.removeItem(cloudRecovery)
-  } catch { /* recovery remains available if device storage denies changes */ }
+  try { localStorage.removeItem(cloudRecovery + ':' + requestId) } catch { /* backup remains on the device */ }
 }
 export async function privateSession() {
   try {
@@ -57,8 +65,8 @@ export async function readCloud() {
 }
 export async function saveCloud(payload: CloudPending) {
   const r = await fetch('/api/v1/library', { method: 'PUT', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload), redirect: 'error' })
-  if (r.status === 409) throw new Error('Cloud revision conflict. Your edits are still here. Export a backup before opening the latest cloud version.')
+    body: JSON.stringify({ requestId: payload.requestId, expectedRevision: payload.expectedRevision, document: encodeLibrary(payload.document) }), redirect: 'error' })
+  if (r.status === 409) throw new Error('Cloud revision conflict. Your edits are still here. Keep this draft and open the latest version to recover it as a copy.')
   if (!r.ok) throw new Error('Private save failed. Your edits are still here. Retry or export a backup.')
   const saved = await r.json()
   if (!Number.isSafeInteger(saved.revision) || saved.revision !== payload.expectedRevision + 1) throw new Error('Unable to verify the cloud save.')

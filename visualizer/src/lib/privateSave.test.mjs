@@ -29,3 +29,27 @@ test('private Worker denies absent, wrong-owner and tampered Access JWT; retries
   assert.equal((await (await f.request('/api/v1/library')).json()).revision, 2)
   assert.equal((await transaction('apply', { proposal: { ...patch, operationId: 'stale-proposal' } })).status, 409)
 })
+
+test('the library endpoint rejects changing an approved case and rejects a forged transaction result', async () => {
+  const f = await createFixture(), l = fixture(), p = sampleProposal(l)
+  l.plans[0].cases[0].status = 'approved'
+  const send = (document, expectedRevision, requestId) => f.request('/api/v1/library', {
+    method: 'PUT', body: { document, expectedRevision, requestId },
+  })
+  assert.equal((await send(l, 0, 'initial')).status, 201)
+  const edited = structuredClone(l)
+  const revised = { ...structuredClone(edited.plans[0]), revision: 2 }
+  revised.cases[0].moments[0].athletes[0].position.x = 1
+  edited.plans.push(revised)
+  assert.equal((await send(edited, 1, 'approved-edited')).status, 422)
+
+  const different = await createFixture()
+  const unapproved = fixture()
+  await different.request('/api/v1/library', { method: 'PUT', body: { document: unapproved, expectedRevision: 0, requestId: 'initial' } })
+  const { applyProposal } = await import('../domain/authoring.ts')
+  const valid = await applyProposal(unapproved, p)
+  valid.plans.at(-1).cases[0].moments[0].athletes[0].position.x = 1
+  assert.equal((await different.request('/api/v1/library', {
+    method: 'PUT', body: { document: valid, expectedRevision: 1, requestId: 'mismatching' },
+  })).status, 422)
+})
